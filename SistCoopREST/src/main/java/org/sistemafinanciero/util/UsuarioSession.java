@@ -4,14 +4,10 @@ import java.security.Principal;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.inject.Named;
 
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 
-@Named
-@Stateless
 public class UsuarioSession {
 
 	@Resource
