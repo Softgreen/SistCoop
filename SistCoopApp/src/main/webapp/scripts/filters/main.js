@@ -1,6 +1,0 @@
-define([
-    'angular',
-    './nospace'
-], function () {
-
-});
