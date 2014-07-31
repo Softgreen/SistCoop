@@ -1,0 +1,162 @@
+package org.sistemafinanciero.rest;
+
+import java.math.BigInteger;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.CuentaBancaria;
+import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
+import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
+import org.sistemafinanciero.entity.type.TipoPersona;
+
+@Path("/cuentasBancarias")
+public interface CuentaBancariaREST {
+
+	@GET
+	@Produces({ "application/xml", "application/json" })
+	public Response findAll(
+			@QueryParam("filterText") String filterText,
+			@QueryParam("tipoCuenta") TipoCuentaBancaria[] tipoCuenta,
+			@QueryParam("tipoPersona") TipoPersona[] tipoPersona,
+			@QueryParam("tipoEstadoCuenta") EstadoCuentaBancaria[] tipoEstadoCuenta,
+			@QueryParam("offset") BigInteger offset,
+			@QueryParam("limit") BigInteger limit);
+
+	@GET
+	@Path("/count")
+	@Produces({ "application/xml", "application/json" })
+	public Response count();
+
+	@GET
+	@Path("/buscar")
+	@Produces({ "application/xml", "application/json" })
+	public Response buscarByNumeroCuenta(
+			@QueryParam("numeroCuenta") String numeroCuenta);
+
+	@GET
+	@Path("/{id}")
+	@Produces({ "application/xml", "application/json" })
+	public Response findById(@PathParam("id") BigInteger id);
+
+	@GET
+	@Path("/{id}/socio")
+	@Produces({ "application/xml", "application/json" })
+	public Response getSocio(@PathParam("id") BigInteger id);
+
+	@GET
+	@Path("{id}/certificado")
+	public Response getCertificado(@PathParam("id") BigInteger id);
+
+	@GET
+	@Path("/{id}/estadoCuenta")
+	@Produces({ "application/xml", "application/json" })
+	public Response getEstadoCuenta(@PathParam("id") BigInteger id,
+			@QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
+
+	@POST
+	@Path("/{id}/congelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response congelar(@PathParam("id") BigInteger id);
+
+	@POST
+	@Path("/{id}/descongelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response descongelar(@PathParam("id") BigInteger id);
+
+	@POST
+	@Path("/{id}/recalcular")
+	@Produces({ "application/xml", "application/json" })
+	public Response recalcular(@PathParam("id") BigInteger id);
+
+	@POST
+	@Path("/{id}/renovar")
+	@Produces({ "application/xml", "application/json" })
+	public Response renovar(@PathParam("id") BigInteger id);
+
+	@POST
+	@Path("/{id}/cancelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response cancelarCuentaBancaria(@PathParam("id") BigInteger id);
+
+	@POST
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response create();
+
+	@PUT
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response update(CuentaBancaria caja);
+
+	@GET
+	@Path("/{id}/titulares")
+	@Produces({ "application/xml", "application/json" })
+	public Response getTitulares(@PathParam("id") BigInteger id,
+			@QueryParam("state") Boolean estado);
+
+	@GET
+	@Path("/{id}/titulares/{idTitular}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getTitular(@PathParam("id") BigInteger id,
+			@PathParam("idTitular") BigInteger idTitular);
+
+	@POST
+	@Path("/{id}/titulares")
+	@Produces({ "application/xml", "application/json" })
+	public Response createTitular(@PathParam("id") BigInteger id);
+
+	@PUT
+	@Path("/{id}/titulares/{idTitular}")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response updateTitular(@PathParam("id") BigInteger id,
+			@PathParam("idTitular") BigInteger idTitular);
+
+	@DELETE
+	@Path("/{id}/beneficiarios/{idBeneficiario}")
+	@Produces({ "application/xml", "application/json" })
+	public Response deleteTitular(@PathParam("id") BigInteger id,
+			@PathParam("idBeneficiario") BigInteger idTitular);
+
+	@GET
+	@Path("/{id}/beneficiarios")
+	@Produces({ "application/xml", "application/json" })
+	public Response getBeneficiarios(@PathParam("id") BigInteger id);
+
+	@GET
+	@Path("/{id}/beneficiarios/{idBeneficiario}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getBeneficiario(@PathParam("id") BigInteger id,
+			@PathParam("idBeneficiario") BigInteger idBeneficiario);
+
+	@POST
+	@Path("/{id}/beneficiarios")
+	@Produces({ "application/xml", "application/json" })
+	public Response createBeneficiario(@PathParam("id") BigInteger id,
+			Beneficiario beneficiario);
+
+	@PUT
+	@Path("/{id}/beneficiarios/{idBeneficiario}")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response updateBeneficiario(@PathParam("id") BigInteger id,
+			@PathParam("idBeneficiario") BigInteger idBeneficiario,
+			Beneficiario beneficiario);
+
+	@DELETE
+	@Path("/{id}/beneficiarios/{idBeneficiario}")
+	@Produces({ "application/xml", "application/json" })
+	public Response deleteBeneficiario(@PathParam("id") BigInteger id,
+			@PathParam("idBeneficiario") BigInteger idBeneficiario);
+
+}

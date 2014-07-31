@@ -58,24 +58,21 @@ public class CajaRESTService implements CajaREST {
 	@Override
 	public Response findById(BigInteger id) {
 		Caja caja = cajaServiceNT.findById(id);
-		Response response = Response.status(Response.Status.OK).entity(caja)
-				.build();
+		Response response = Response.status(Response.Status.OK).entity(caja).build();
 		return response;
 	}
 
 	@Override
 	public Response getBovedas(BigInteger id) {
 		Set<Boveda> bovedas = cajaServiceNT.getBovedas(id);
-		Response response = Response.status(Response.Status.OK).entity(bovedas)
-				.build();
+		Response response = Response.status(Response.Status.OK).entity(bovedas).build();
 		return response;
 	}
 
 	@Override
 	public Response getMonedas(BigInteger id) {
 		Set<Moneda> bovedas = cajaServiceNT.getMonedas(id);
-		Response response = Response.status(Response.Status.OK).entity(bovedas)
-				.build();
+		Response response = Response.status(Response.Status.OK).entity(bovedas).build();
 		return response;
 	}
 
@@ -86,14 +83,12 @@ public class CajaRESTService implements CajaREST {
 			detalle = cajaServiceNT.getDetalleCaja(id);
 		else
 			detalle = cajaServiceNT.getDetalleCaja(id, idHistorial);
-		Response response = Response.status(Response.Status.OK).entity(detalle)
-				.build();
+		Response response = Response.status(Response.Status.OK).entity(detalle).build();
 		return response;
 	}
 
 	@Override
-	public Response getHistorialCajaBetweenDates(BigInteger id, Long desde,
-			Long hasta) {
+	public Response getHistorialCajaBetweenDates(BigInteger id, Long desde, Long hasta) {
 		Date dateDesde = (desde != null ? new Date(desde) : null);
 		Date dateHasta = (desde != null ? new Date(hasta) : null);
 
@@ -104,62 +99,51 @@ public class CajaRESTService implements CajaREST {
 
 	@Override
 	public Response getVoucherCierreCaja(BigInteger id, BigInteger idHistorial) {
-		Set<CajaCierreMoneda> list = cajaServiceNT
-				.getVoucherCierreCaja(idHistorial);
+		Set<CajaCierreMoneda> list = cajaServiceNT.getVoucherCierreCaja(idHistorial);
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
 	@Override
-	public Response getResumenCierreCaja(BigInteger idHistorialCaja,
-			BigInteger idHistorial) {
-		Set<CajaCierreMoneda> list = cajaServiceNT
-				.getVoucherCierreCaja(idHistorial);
+	public Response getResumenCierreCaja(BigInteger idHistorialCaja, BigInteger idHistorial) {
+		Set<CajaCierreMoneda> list = cajaServiceNT.getVoucherCierreCaja(idHistorial);
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
 	@Override
-	public Response getTransaccionesCajaCajaOfCajaEnviados(BigInteger id,
-			BigInteger idHistorial) {
+	public Response getTransaccionesCajaCajaOfCajaEnviados(BigInteger id, BigInteger idHistorial) {
 		Set<TransaccionCajaCaja> list;
 		if (idHistorial != null)
-			list = cajaServiceNT.getTransaccionesEnviadasCajaCaja(id,
-					idHistorial);
+			list = cajaServiceNT.getTransaccionesEnviadasCajaCaja(id, idHistorial);
 		else
 			list = cajaServiceNT.getTransaccionesEnviadasCajaCaja(id);
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
 	@Override
-	public Response getTransaccionesCajaCajaOfCajaRecibidos(BigInteger id,
-			BigInteger idHistorial) {
+	public Response getTransaccionesCajaCajaOfCajaRecibidos(BigInteger id, BigInteger idHistorial) {
 		Set<TransaccionCajaCaja> list;
 		if (idHistorial != null)
-			list = cajaServiceNT.getTransaccionesRecibidasCajaCaja(id,
-					idHistorial);
+			list = cajaServiceNT.getTransaccionesRecibidasCajaCaja(id, idHistorial);
 		else
 			list = cajaServiceNT.getTransaccionesEnviadasCajaCaja(id);
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
 	@Override
-	public Response getTransaccionesBovedaCajaEnviados(BigInteger id,
-			BigInteger idHistorial) {
+	public Response getTransaccionesBovedaCajaEnviados(BigInteger id, BigInteger idHistorial) {
 		List<TransaccionBovedaCajaView> list;
 		if (idHistorial != null)
-			list = cajaServiceNT.getTransaccionesEnviadasBovedaCaja(id,
-					idHistorial);
+			list = cajaServiceNT.getTransaccionesEnviadasBovedaCaja(id, idHistorial);
 		else
 			list = cajaServiceNT.getTransaccionesEnviadasBovedaCaja(id);
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
 	@Override
-	public Response getTransaccionesBovedaCajaOfCajaRecibidos(BigInteger id,
-			BigInteger idHistorial) {
+	public Response getTransaccionesBovedaCajaOfCajaRecibidos(BigInteger id, BigInteger idHistorial) {
 		List<TransaccionBovedaCajaView> list;
 		if (idHistorial != null)
-			list = cajaServiceNT.getTransaccionesRecibidasBovedaCaja(id,
-					idHistorial);
+			list = cajaServiceNT.getTransaccionesRecibidasBovedaCaja(id, idHistorial);
 		else
 			list = cajaServiceNT.getTransaccionesRecibidasBovedaCaja(id);
 		return Response.status(Response.Status.OK).entity(list).build();
@@ -181,8 +165,7 @@ public class CajaRESTService implements CajaREST {
 			cajaSessionServiceTS.cerrarCaja(null);
 			return Response.status(Response.Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -192,8 +175,7 @@ public class CajaRESTService implements CajaREST {
 			cajaServiceTS.desactivar(id);
 			return Response.status(Response.Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -205,8 +187,7 @@ public class CajaRESTService implements CajaREST {
 		} catch (PreexistingEntityException e) {
 			return Response.status(Response.Status.CONFLICT).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -220,48 +201,36 @@ public class CajaRESTService implements CajaREST {
 		} catch (PreexistingEntityException e) {
 			return Response.status(Response.Status.CONFLICT).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@Override
 	public Response getVoucherCuentaAporte(BigInteger idTransaccionCompraVenta) {
-		VoucherTransaccionCuentaAporte voucher = cajaServiceNT
-				.getVoucherCuentaAporte(idTransaccionCompraVenta);
-		return Response.status(Response.Status.NO_CONTENT).entity(voucher)
-				.build();
+		VoucherTransaccionCuentaAporte voucher = cajaServiceNT.getVoucherCuentaAporte(idTransaccionCompraVenta);
+		return Response.status(Response.Status.NO_CONTENT).entity(voucher).build();
 	}
 
 	@Override
 	public Response getVoucherCompraVenta(BigInteger idTransaccionCompraVenta) {
-		VoucherCompraVenta voucher = cajaServiceNT
-				.getVoucherCompraVenta(idTransaccionCompraVenta);
-		return Response.status(Response.Status.NO_CONTENT).entity(voucher)
-				.build();
+		VoucherCompraVenta voucher = cajaServiceNT.getVoucherCompraVenta(idTransaccionCompraVenta);
+		return Response.status(Response.Status.NO_CONTENT).entity(voucher).build();
 	}
 
 	@Override
-	public Response getVoucherTransaccionBancaria(
-			BigInteger idTransaccionTransaccionBancaria) {
-		VoucherTransaccionBancaria voucher = cajaServiceNT
-				.getVoucherTransaccionBancaria(idTransaccionTransaccionBancaria);
-		return Response.status(Response.Status.NO_CONTENT).entity(voucher)
-				.build();
+	public Response getVoucherTransaccionBancaria(BigInteger idTransaccionTransaccionBancaria) {
+		VoucherTransaccionBancaria voucher = cajaServiceNT.getVoucherTransaccionBancaria(idTransaccionTransaccionBancaria);
+		return Response.status(Response.Status.NO_CONTENT).entity(voucher).build();
 	}
 
 	@Override
-	public Response getVoucherTransferenciaBancaria(
-			BigInteger idTransferenciaBancaria) {
-		VoucherTransferenciaBancaria voucher = cajaServiceNT
-				.getVoucherTransferenciaBancaria(idTransferenciaBancaria);
-		return Response.status(Response.Status.NO_CONTENT).entity(voucher)
-				.build();
+	public Response getVoucherTransferenciaBancaria(BigInteger idTransferenciaBancaria) {
+		VoucherTransferenciaBancaria voucher = cajaServiceNT.getVoucherTransferenciaBancaria(idTransferenciaBancaria);
+		return Response.status(Response.Status.NO_CONTENT).entity(voucher).build();
 	}
 
 	@Override
-	public Response getHistorialTransaccionCaja(String filterText,
-			BigInteger idCaja, BigInteger idAgencia) {
+	public Response getHistorialTransaccionCaja(String filterText, BigInteger idCaja, BigInteger idAgencia) {
 		// TODO Auto-generated method stub
 		return null;
 	}

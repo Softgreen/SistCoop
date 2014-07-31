@@ -35,58 +35,44 @@ public interface CajaREST {
 	@GET
 	@Path("/{id}/detalle")
 	@Produces({ "application/xml", "application/json" })
-	public Response getDetalleCaja(@PathParam("id") BigInteger id,
-			@QueryParam("idHistorial") BigInteger idHistorial);
+	public Response getDetalleCaja(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
 
 	@GET
 	@Path("/{id}/historiales")
 	@Produces({ "application/xml", "application/json" })
-	public Response getHistorialCajaBetweenDates(
-			@PathParam("id") BigInteger id, @QueryParam("desde") Long desde,
-			@QueryParam("hasta") Long hasta);
+	public Response getHistorialCajaBetweenDates(@PathParam("id") BigInteger id, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
 
 	@GET
 	@Path("/{id}/historial/{idHistorial}/voucherCierreCaja")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getVoucherCierreCaja(@PathParam("id") BigInteger id,
-			@PathParam("idHistorial") BigInteger idHistorial);
+	public Response getVoucherCierreCaja(@PathParam("id") BigInteger id, @PathParam("idHistorial") BigInteger idHistorial);
 
 	@GET
 	@Path("/{id}/historial/{idHistorial}/resumenCierreCaja")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getResumenCierreCaja(
-			@PathParam("id") BigInteger idHistorialCaja,
-			@PathParam("idHistorial") BigInteger idHistorial);
+	public Response getResumenCierreCaja(@PathParam("id") BigInteger idHistorialCaja, @PathParam("idHistorial") BigInteger idHistorial);
 
 	@GET
 	@Path("{id}/transaccionCajaCaja/enviados")
 	@Produces({ "application/xml", "application/json" })
-	public Response getTransaccionesCajaCajaOfCajaEnviados(
-			@PathParam("id") BigInteger id,
-			@QueryParam("idHistorial") BigInteger idHistorial);
+	public Response getTransaccionesCajaCajaOfCajaEnviados(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
 
 	@GET
 	@Path("{id}/transaccionCajaCaja/recibidos")
 	@Produces({ "application/xml", "application/json" })
-	public Response getTransaccionesCajaCajaOfCajaRecibidos(
-			@PathParam("id") BigInteger id,
-			@QueryParam("idHistorial") BigInteger idHistorial);
+	public Response getTransaccionesCajaCajaOfCajaRecibidos(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
 
 	@GET
 	@Path("/{id}/transaccionBovedaCaja/enviados")
 	@Produces({ "application/xml", "application/json" })
-	public Response getTransaccionesBovedaCajaEnviados(
-			@PathParam("id") BigInteger id,
-			@QueryParam("idHistorial") BigInteger idHistorial);
+	public Response getTransaccionesBovedaCajaEnviados(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
 
 	@GET
 	@Path("/{id}/transaccionBovedaCaja/recibidos")
 	@Produces({ "application/xml", "application/json" })
-	public Response getTransaccionesBovedaCajaOfCajaRecibidos(
-			@PathParam("id") BigInteger id,
-			@QueryParam("idHistorial") BigInteger idHistorial);
+	public Response getTransaccionesBovedaCajaOfCajaRecibidos(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
 
 	@POST
 	@Path("/{id}/abrir")
@@ -121,36 +107,29 @@ public interface CajaREST {
 	@Path("/voucherCuentaAporte/{id}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getVoucherCuentaAporte(
-			@PathParam("id") BigInteger idTransaccionCuentaAporte);
+	public Response getVoucherCuentaAporte(@PathParam("id") BigInteger idTransaccionCuentaAporte);
 
 	@GET
 	@Path("/voucherCompraVenta/{id}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getVoucherCompraVenta(
-			@PathParam("id") BigInteger idTransaccionCompraVenta);
+	public Response getVoucherCompraVenta(@PathParam("id") BigInteger idTransaccionCompraVenta);
 
 	@GET
 	@Path("/voucherTransaccionBancaria/{id}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getVoucherTransaccionBancaria(
-			@PathParam("id") BigInteger idTransaccionTransaccionBancaria);
+	public Response getVoucherTransaccionBancaria(@PathParam("id") BigInteger idTransaccionTransaccionBancaria);
 
 	@GET
 	@Path("/voucherTransferenciaBancaria/{id}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getVoucherTransferenciaBancaria(
-			@PathParam("id") BigInteger idTransferenciaBancaria);
+	public Response getVoucherTransferenciaBancaria(@PathParam("id") BigInteger idTransferenciaBancaria);
 
 	@GET
 	@Path("/historialTransaccion")
 	@Produces({ "application/xml", "application/json" })
-	public Response getHistorialTransaccionCaja(
-			@QueryParam("filterText") String filterText,
-			@QueryParam("idCaja") BigInteger idCaja,
-			@QueryParam("idAgencia") BigInteger idAgencia);
+	public Response getHistorialTransaccionCaja(@QueryParam("filterText") String filterText, @QueryParam("idCaja") BigInteger idCaja, @QueryParam("idAgencia") BigInteger idAgencia);
 
 }
