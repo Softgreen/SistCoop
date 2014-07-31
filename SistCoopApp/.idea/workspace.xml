@@ -22,42 +22,7 @@
     <favorites_list name="SistCoopApp" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33442622" vertical-offset="0" max-vertical-offset="2108">
-              <caret line="12" column="46" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.caja.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/index.caja.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-23.923077" vertical-offset="75" max-vertical-offset="850">
-              <caret line="41" column="35" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -73,8 +38,8 @@
         <option value="$PROJECT_DIR$/src/main/bower.json" />
         <option value="$PROJECT_DIR$/src/main/Gruntfile.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/app.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/scripts/main.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.caja.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/main.js" />
       </list>
     </option>
   </component>
@@ -205,63 +170,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="styles" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SistCoopApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SistCoopApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="bower_components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SistCoopApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SistCoopApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bower_components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mousetrap" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -461,7 +370,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.caja.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.923077" vertical-offset="75" max-vertical-offset="850">
+        <state vertical-scroll-proportion="1.089317" vertical-offset="75" max-vertical-offset="850">
           <caret line="41" column="35" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
           <folding />
         </state>
@@ -469,8 +378,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="70" max-vertical-offset="680">
+          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -479,10 +388,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33442622" vertical-offset="0" max-vertical-offset="2108">
-          <caret line="12" column="46" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1479" max-vertical-offset="2108">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.31323284" vertical-offset="0" max-vertical-offset="12478">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+          <folding>
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1406847348408" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
