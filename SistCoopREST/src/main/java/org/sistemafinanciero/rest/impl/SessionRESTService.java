@@ -45,16 +45,14 @@ public class SessionRESTService implements SessionREST {
 	@Override
 	public Response getCajaOfSession() {
 		Caja caja = cajaSessionServiceNT.getCajaOfSession();
-		Response response = Response.status(Response.Status.OK).entity(caja)
-				.build();
+		Response response = Response.status(Response.Status.OK).entity(caja).build();
 		return response;
 	}
 
 	@Override
 	public Response getAgenciaOfSession() {
 		Agencia agencia = cajaSessionServiceNT.getAgenciaOfSession();
-		Response response = Response.status(Response.Status.OK).entity(agencia)
-				.build();
+		Response response = Response.status(Response.Status.OK).entity(agencia).build();
 		return response;
 	}
 
@@ -65,22 +63,18 @@ public class SessionRESTService implements SessionREST {
 
 	@Override
 	public Response getPersonaOfSession() {
-		PersonaNatural personaNatural = cajaSessionServiceNT
-				.getPersonaOfSession();
-		Response response = Response.status(Response.Status.OK)
-				.entity(personaNatural).build();
+		PersonaNatural personaNatural = cajaSessionServiceNT.getPersonaOfSession();
+		Response response = Response.status(Response.Status.OK).entity(personaNatural).build();
 		return response;
 	}
 
 	@Override
-	public Response crearPendiente(BigInteger idboveda, BigDecimal monto,
-			String observacion) {
+	public Response crearPendiente(BigInteger idboveda, BigDecimal monto, String observacion) {
 		try {
 			cajaSessionServiceTS.crearPendiente(idboveda, monto, observacion);
 			return Response.status(Response.Status.CREATED).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -90,20 +84,17 @@ public class SessionRESTService implements SessionREST {
 			cajaSessionServiceTS.crearAporte(null, null, 1, 10, null);
 			return Response.status(Response.Status.CREATED).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@Override
 	public Response crearTransaccionCompraVenta() {
 		try {
-			cajaSessionServiceTS.crearTransaccionCompraVenta(null, null, null, null, null,
-					null, null);
+			cajaSessionServiceTS.crearTransaccionCompraVenta(null, null, null, null, null, null, null);
 			return Response.status(Response.Status.CREATED).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -113,20 +104,17 @@ public class SessionRESTService implements SessionREST {
 			cajaSessionServiceTS.crearTransaccionBancaria(null, null, null);
 			return Response.status(Response.Status.CREATED).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@Override
 	public Response crearTransferencia() {
 		try {
-			cajaSessionServiceTS.crearTransferenciaBancaria(null, null, null,
-					null);
+			cajaSessionServiceTS.crearTransferenciaBancaria(null, null, null, null);
 			return Response.status(Response.Status.CREATED).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -136,20 +124,17 @@ public class SessionRESTService implements SessionREST {
 			cajaSessionServiceTS.cancelarCuentaBancariaConRetiro(id);
 			return Response.status(Response.Status.OK).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@Override
 	public Response createTransaccionCajaCaja() {
 		try {
-			cajaSessionServiceTS.crearTransaccionCajaCaja(null, null, null,
-					null);
+			cajaSessionServiceTS.crearTransaccionCajaCaja(null, null, null, null);
 			return Response.status(Status.CREATED).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -159,8 +144,7 @@ public class SessionRESTService implements SessionREST {
 			cajaSessionServiceTS.confirmarTransaccionCajaCaja(id);
 			return Response.status(Status.OK).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -170,20 +154,17 @@ public class SessionRESTService implements SessionREST {
 			cajaSessionServiceTS.cancelarTransaccionCajaCaja(id);
 			return Response.status(Status.OK).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@Override
-	public Response createTransaccionBovedaCaja(
-			Set<GenericDetalle> detalleTransaccion, BigInteger idboveda) {
+	public Response createTransaccionBovedaCaja(Set<GenericDetalle> detalleTransaccion, BigInteger idboveda) {
 		try {
 			cajaSessionServiceTS.crearTransaccionBovedaCaja(null, null);
 			return Response.status(Status.OK).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -193,8 +174,7 @@ public class SessionRESTService implements SessionREST {
 			cajaSessionServiceTS.confirmarTransaccionBovedaCaja(id);
 			return Response.status(Status.OK).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -204,8 +184,7 @@ public class SessionRESTService implements SessionREST {
 			cajaSessionServiceTS.cancelarTransaccionBovedaCaja(id);
 			return Response.status(Status.OK).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
