@@ -11,6 +11,6 @@ import org.sistemafinanciero.entity.Caja;
 @Remote
 public interface AgenciaServiceNT extends AbstractServiceNT<Agencia> {
 
-	public Set<Caja> getCajas(BigInteger idAgencia);
+	public Set<Caja> getCajasOfAgencia(BigInteger idAgencia);
 
 }

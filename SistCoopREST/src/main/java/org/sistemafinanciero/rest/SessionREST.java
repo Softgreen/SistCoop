@@ -19,7 +19,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 
 @Path("/session")
-public interface CajaSessionREST {
+public interface SessionREST {
 
 	@GET
 	@Path("/caja")

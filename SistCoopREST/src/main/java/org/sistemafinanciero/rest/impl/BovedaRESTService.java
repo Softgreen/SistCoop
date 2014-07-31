@@ -14,23 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sistemafinanciero.util;
+package org.sistemafinanciero.rest.impl;
 
-import java.util.logging.Logger;
+import org.sistemafinanciero.rest.BovedaREST;
 
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+public class BovedaRESTService implements BovedaREST {
 
-public class Resources {
-
-	@Produces
-	@PersistenceContext
-	private EntityManager em;
-
-	@Produces
-	public Logger produceLog(InjectionPoint injectionPoint) {
-		return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
-	}
 }

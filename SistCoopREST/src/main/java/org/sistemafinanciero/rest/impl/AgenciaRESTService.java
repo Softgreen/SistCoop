@@ -17,9 +17,8 @@ public class AgenciaRESTService implements AgenciaREST {
 
 	@Override
 	public Response getCajasOfAgencia(BigInteger id) {
-		Set<Caja> cajas = agenciaServiceNT.getCajas(id);
-		Response response = Response.status(Response.Status.OK).entity(cajas)
-				.build();
+		Set<Caja> cajas = agenciaServiceNT.getCajasOfAgencia(id);
+		Response response = Response.status(Response.Status.OK).entity(cajas).build();
 		return response;
 	}
 }

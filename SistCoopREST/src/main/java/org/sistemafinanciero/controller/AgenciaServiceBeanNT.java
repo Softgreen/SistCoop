@@ -45,7 +45,7 @@ public class AgenciaServiceBeanNT implements AgenciaServiceNT {
 	}
 
 	@Override
-	public Set<Caja> getCajas(BigInteger idAgencia) {
+	public Set<Caja> getCajasOfAgencia(BigInteger idAgencia) {
 		Agencia agencia = agenciaDAO.find(idAgencia);
 		if (agencia != null) {
 			Set<Caja> result = new HashSet<Caja>();
