@@ -2,7 +2,7 @@ define(['./app'], function(app) {
     'use strict';
     return app.config(function($stateProvider, $urlRouterProvider, RestangularProvider) {
 
-        RestangularProvider.setBaseUrl('http://localhost:8080/SistemaFinancieroVentura-web/services');
+        RestangularProvider.setBaseUrl('http://localhost:8080/SistCoopREST/rest');
 
         $urlRouterProvider.when('', '/app/home');
 
