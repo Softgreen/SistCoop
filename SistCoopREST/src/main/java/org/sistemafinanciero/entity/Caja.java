@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "CAJA", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "caja")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = Caja.findByUsername, query = "SELECT c FROM Caja c INNER JOIN c.trabajadorCajas tc INNER JOIN tc.trabajador t WHERE t.usuario = :usuario") })
+@NamedQueries({ @NamedQuery(name = Caja.findByUsername, query = "SELECT c FROM Caja c INNER JOIN c.trabajadorCajas tc INNER JOIN tc.trabajador t WHERE t.usuario = :username") })
 public class Caja implements java.io.Serializable {
 
 	/**

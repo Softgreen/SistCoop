@@ -22,6 +22,11 @@ import org.sistemafinanciero.entity.PersonaNatural;
 public interface PersonaNaturalREST {
 
 	@GET
+	@Path("/tipoDocumentos")
+	@Produces({ "application/xml", "application/json" })
+	public Response getTipoDocumentoPersonaNatural();
+
+	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") @DefaultValue("-1") BigInteger id);
@@ -29,15 +34,11 @@ public interface PersonaNaturalREST {
 	@GET
 	@Path("/buscar")
 	@Produces({ "application/xml", "application/json" })
-	public Response findByTipoNumeroDocumento(
-			@QueryParam("idTipoDocumento") @DefaultValue("-1") BigInteger idTipoDocumento,
-			@QueryParam("numeroDocumento") @DefaultValue("") String numeroDocumento);
+	public Response findByTipoNumeroDocumento(@QueryParam("idTipoDocumento") @DefaultValue("-1") BigInteger idTipoDocumento, @QueryParam("numeroDocumento") @DefaultValue("") String numeroDocumento);
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public Response listAll(@QueryParam("filterText") String filterText,
-			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+	public Response listAll(@QueryParam("filterText") String filterText, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
 	@GET
 	@Path("/count")
@@ -48,8 +49,7 @@ public interface PersonaNaturalREST {
 	@Path("/{id}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response update(@PathParam("id") @DefaultValue("-1") BigInteger id,
-			PersonaNatural personanatural);
+	public Response update(@PathParam("id") @DefaultValue("-1") BigInteger id, PersonaNatural personanatural);
 
 	@POST
 	@Consumes({ "application/xml", "application/json" })
@@ -63,39 +63,21 @@ public interface PersonaNaturalREST {
 	@GET
 	@Path("{id}/firma")
 	@Produces("image/png")
-	public Response getFirma(@PathParam("id") String id,
-			@QueryParam("flowChunkNumber") int flowChunkNumber,
-			@QueryParam("flowChunkSize") int flowChunkSize,
-			@QueryParam("flowCurrentChunkSize") int flowCurrentChunkSize,
-			@QueryParam("flowFilename") String flowFilename,
-			@QueryParam("flowIdentifier") String flowIdentifier,
-			@QueryParam("flowRelativePath") String flowRelativePath,
-			@QueryParam("flowTotalChunks") int flowTotalChunks,
-			@QueryParam("flowTotalSize") int flowTotalSize);
+	public Response getFirma(@PathParam("id") String id, @QueryParam("flowChunkNumber") int flowChunkNumber, @QueryParam("flowChunkSize") int flowChunkSize, @QueryParam("flowCurrentChunkSize") int flowCurrentChunkSize, @QueryParam("flowFilename") String flowFilename, @QueryParam("flowIdentifier") String flowIdentifier, @QueryParam("flowRelativePath") String flowRelativePath, @QueryParam("flowTotalChunks") int flowTotalChunks, @QueryParam("flowTotalSize") int flowTotalSize);
 
 	@GET
 	@Path("{id}/foto")
 	@Produces("image/png")
-	public Response getFoto(@PathParam("id") String id,
-			@QueryParam("flowChunkNumber") int flowChunkNumber,
-			@QueryParam("flowChunkSize") int flowChunkSize,
-			@QueryParam("flowCurrentChunkSize") int flowCurrentChunkSize,
-			@QueryParam("flowFilename") String flowFilename,
-			@QueryParam("flowIdentifier") String flowIdentifier,
-			@QueryParam("flowRelativePath") String flowRelativePath,
-			@QueryParam("flowTotalChunks") int flowTotalChunks,
-			@QueryParam("flowTotalSize") int flowTotalSize);
+	public Response getFoto(@PathParam("id") String id, @QueryParam("flowChunkNumber") int flowChunkNumber, @QueryParam("flowChunkSize") int flowChunkSize, @QueryParam("flowCurrentChunkSize") int flowCurrentChunkSize, @QueryParam("flowFilename") String flowFilename, @QueryParam("flowIdentifier") String flowIdentifier, @QueryParam("flowRelativePath") String flowRelativePath, @QueryParam("flowTotalChunks") int flowTotalChunks, @QueryParam("flowTotalSize") int flowTotalSize);
 
 	@POST
 	@Path("/{id}/firma")
 	@Consumes("multipart/form-data")
-	public Response uploadFirma(@PathParam("id") BigInteger id,
-			MultipartFormDataInput input);
+	public Response uploadFirma(@PathParam("id") BigInteger id, MultipartFormDataInput input);
 
 	@POST
 	@Path("/{id}/foto")
 	@Consumes("multipart/form-data")
-	public Response uploadFoto(@PathParam("id") BigInteger id,
-			MultipartFormDataInput input);
+	public Response uploadFoto(@PathParam("id") BigInteger id, MultipartFormDataInput input);
 
 }

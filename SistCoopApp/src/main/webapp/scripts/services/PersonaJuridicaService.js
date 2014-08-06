@@ -2,8 +2,8 @@ define(['./module'], function (services) {
     'use strict';
     services.factory("PersonaJuridicaService",["Restangular",
         function(Restangular){
-            var _personaJuridicaService = Restangular.all("personaJuridica");
-            var baseUrl = "personaJuridica";
+            var _personaJuridicaService = Restangular.all("personas/juridicas");
+            var baseUrl = "personas/juridicas";
             return {
                 getModel: function(){
                     return {
@@ -26,8 +26,11 @@ define(['./module'], function (services) {
                         "accionistas":undefined
                     };
                 },
+                getTipoDocumentos: function(){
+                    return Restangular.all(baseUrl+"/tipoDocumentos").getList();
+                },
                 findById: function(id){
-                    return Restangular.one("personaJuridica", id).get();
+                    return Restangular.one(baseUrl, id).get();
                 },
                 findByTipoNumeroDocumento: function(idtipodocumento, numeroDocumento){
                     return Restangular.one(baseUrl + '/buscar').get({idTipoDocumento:idtipodocumento,numeroDocumento:numeroDocumento},{});

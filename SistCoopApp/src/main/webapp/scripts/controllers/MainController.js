@@ -1,8 +1,8 @@
 define(['./module'], function (controllers) {
     'use strict';
 
-    controllers.controller('MainController', ["$scope","$state", "$window", "hotkeys", "CajaSessionService", "UsuarioSessionService", "AgenciaSessionService","HotKeysFunctionsService", "RedirectService",
-        function($scope,$state, $window, hotkeys,  CajaSessionService, UsuarioSessionService, AgenciaSessionService, HotKeysFunctionsService, RedirectService) {
+    controllers.controller('MainController', ["$scope","$state", "$window", "hotkeys", "SessionService", "HotKeysFunctionsService", "RedirectService",
+        function($scope,$state, $window, hotkeys,  SessionService, HotKeysFunctionsService, RedirectService) {
 
             $scope.$watch('redirect', function(newValue, oldvalue){
                 if(newValue != oldvalue)
@@ -10,38 +10,42 @@ define(['./module'], function (controllers) {
                         RedirectService.limpiar();
             }, true);
 
-            $scope.cajaSession = {
-                "denominacion":"undefined",
-                "abreviatura":"undefined",
-                "abierto": false,
-                "estadoMovimiento":false,
-                "estado": false
+            $scope.cajaSession = {};
+            $scope.agenciaSession = {};
+            $scope.usuarioSession = {};
+
+            $scope.loadCajaOfSession = function(){
+                $scope.cajaSession = {
+                    denominacion:"undefined",
+                    abreviatura:"undefined",
+                    abierto: false,
+                    estadoMovimiento:false,
+                    estado: false
+                };
+                SessionService.getCajaOfSession().then(function(data){
+                    $scope.cajaSession = data;
+                });
+            };
+            $scope.loadUsuarioOfSession = function(){
+                SessionService.getUsuarioOfSession().then(function(data){
+                    $scope.usuarioSession = data;
+                });
+            };
+            $scope.loadAgenciaOfSession = function(){
+                $scope.agenciaSession = {
+                    "denominacion":"undefined",
+                    "abreviatura":"undefined",
+                    "ubigeo": "undefined",
+                    "estado":false
+                };
+                SessionService.getAgenciaOfSession().then(function(data){
+                    $scope.agenciaSession = data;
+                });
             };
 
-            $scope.agenciaSession = {
-                "denominacion":"undefined",
-                "abreviatura":"undefined",
-                "ubigeo": "undefined",
-                "estado":false
-            };
-
-            $scope.usuarioSession = undefined;
-
-            CajaSessionService.getCurrentCaja().then(
-                function(caja){
-                    $scope.cajaSession = caja;
-                }
-            );
-            UsuarioSessionService.getCurrentUsuario().then(
-                function(usuario){
-                    $scope.usuarioSession = usuario;
-                }
-            );
-            AgenciaSessionService.getCurrentAgencia().then(
-                function(agencia){
-                    $scope.agenciaSession = agencia;
-                }
-            );
+            $scope.loadCajaOfSession();
+            $scope.loadUsuarioOfSession();
+            $scope.loadAgenciaOfSession();
 
         }]);
 });

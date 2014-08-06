@@ -105,15 +105,16 @@ define(['../../module'], function (controllers) {
             };
 
             $scope.loadTipoDocumentoPJ = function(){
-                MaestroService.getTipoDocumentoPJ().then(function(data){
+                PersonaJuridicaService.getTipoDocumentos().then(function(data){
                     $scope.combo.tipoDocumentosPJ = data;
                 });
             };
             $scope.loadTipoDocumentoPN = function(){
-                MaestroService.getTipoDocumentoPN().then(function(tipodocumentos){
+                PersonaNaturalService.getTipoDocumentos().then(function(tipodocumentos){
                     $scope.combo.tipoDocumentosPN = tipodocumentos;
                 });
             };
+
             $scope.loadTipoEmpresas = function(){
                 MaestroService.getTiposEmpresa().then(function(tiposEmpresa){
                     $scope.combo.tiposEmpresa = tiposEmpresa;

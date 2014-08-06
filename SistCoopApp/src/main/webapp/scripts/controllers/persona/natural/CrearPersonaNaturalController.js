@@ -25,23 +25,23 @@ define(['../../module'], function (controllers) {
             };
 
             $scope.view = {
-                id:undefined,
-                idTipoDocumento:-1,
-                numeroDocumento:undefined,
-                apellidoPaterno:undefined,
-                apellidoMaterno:undefined,
-                nombres:undefined,
-                fechaNacimiento:undefined,
-                sexo:undefined,
-                estadoCivil:undefined,
-                ocupacion:undefined,
-                direccion:undefined,
-                referencia:undefined,
-                telefono:undefined,
-                celular:undefined,
-                email:undefined,
-                ubigeo:undefined,
-                codigoPais:undefined
+                id: undefined,
+                idTipoDocumento: -1,
+                numeroDocumento: undefined,
+                apellidoPaterno: undefined,
+                apellidoMaterno: undefined,
+                nombres: undefined,
+                fechaNacimiento: undefined,
+                sexo: undefined,
+                estadoCivil: undefined,
+                ocupacion: undefined,
+                direccion: undefined,
+                referencia: undefined,
+                telefono: undefined,
+                celular: undefined,
+                email: undefined,
+                ubigeo: undefined,
+                codigoPais: undefined
             };
 
             $scope.dateOptions = {
@@ -89,7 +89,7 @@ define(['../../module'], function (controllers) {
             };
 
             $scope.loadTipoDocumentoPN = function(){
-                MaestroService.getTipoDocumentoPN().then(function(data){
+                PersonaNaturalService.getTipoDocumentos().then(function(data){
                     $scope.combo.tipoDocumentos = data;
                 });
             };

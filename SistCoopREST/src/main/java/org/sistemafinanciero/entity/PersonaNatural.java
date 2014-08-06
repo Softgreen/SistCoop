@@ -28,7 +28,9 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -120,7 +122,8 @@ public class PersonaNatural implements java.io.Serializable {
 		this.trabajadors = trabajadors;
 	}
 
-	@XmlElement(name = "id")
+	@XmlID
+	@XmlAttribute(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_PERSONA_NATURAL", unique = true, nullable = false, precision = 22, scale = 0)
@@ -132,7 +135,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.idPersonaNatural = idPersonaNatural;
 	}
 
-	@XmlElement
+	@XmlElement(name = "tipoDocumento")
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_DOCUMENTO", nullable = false)
@@ -144,7 +147,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.tipoDocumento = tipoDocumento;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "numeroDocumento")
 	@NotNull
 	@NotBlank
 	@Size(min = 1, max = 20)
@@ -157,7 +160,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.numeroDocumento = numeroDocumento;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "apellidoPaterno")
 	@NotNull
 	@NotBlank
 	@Size(min = 1, max = 60)
@@ -170,7 +173,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.apellidoPaterno = apellidoPaterno;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "apellidoMaterno")
 	@NotNull
 	@NotBlank
 	@Size(min = 1, max = 60)
@@ -183,7 +186,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.apellidoMaterno = apellidoMaterno;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "nombres")
 	@NotNull
 	@NotBlank
 	@Size(min = 1, max = 70)
@@ -196,7 +199,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.nombres = nombres;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "fechaNacimiento")
 	@NotNull
 	@Past
 	@Temporal(TemporalType.DATE)
@@ -209,7 +212,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "sexo")
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "SEXO", nullable = false, length = 20, columnDefinition = "nvarchar2")
@@ -221,7 +224,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.sexo = sexo;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "estadoCivil")
 	@Column(name = "ESTADO_CIVIL", length = 20, columnDefinition = "nvarchar2")
 	public String getEstadoCivil() {
 		return this.estadoCivil;
@@ -231,7 +234,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.estadoCivil = estadoCivil;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "ocupacion")
 	@Size(max = 30)
 	@Column(name = "OCUPACION", length = 60, columnDefinition = "nvarchar2")
 	public String getOcupacion() {
@@ -242,7 +245,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.ocupacion = ocupacion;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "direccion")
 	@Size(max = 70)
 	@Column(name = "DIRECCION", length = 140, columnDefinition = "nvarchar2")
 	public String getDireccion() {
@@ -253,7 +256,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.direccion = direccion;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "referencia")
 	@Size(max = 50)
 	@Column(name = "REFERENCIA", length = 100, columnDefinition = "nvarchar2")
 	public String getReferencia() {
@@ -264,7 +267,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.referencia = referencia;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "telefono")
 	@Size(max = 20)
 	@Column(name = "TELEFONO", length = 40, columnDefinition = "nvarchar2")
 	public String getTelefono() {
@@ -275,7 +278,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.telefono = telefono;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "celular")
 	@Size(max = 20)
 	@Column(name = "CELULAR", length = 40, columnDefinition = "nvarchar2")
 	public String getCelular() {
@@ -286,7 +289,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.celular = celular;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "email")
 	@Email
 	@Size(max = 70)
 	@Column(name = "EMAIL", length = 140, columnDefinition = "nvarchar2")
@@ -298,7 +301,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "ubigeo")
 	@Size(max = 6)
 	@Column(name = "UBIGEO", length = 12, columnDefinition = "nvarchar2")
 	public String getUbigeo() {
@@ -309,7 +312,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.ubigeo = ubigeo;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "codigoPais")
 	@Size(max = 3)
 	@Column(name = "CODIGO_PAIS", length = 6, nullable = false, columnDefinition = "nvarchar2")
 	public String getCodigoPais() {
@@ -320,7 +323,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.codigoPais = codigoPais;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "urlFoto")
 	@Size(max = 100)
 	@Column(name = "URL_FOTO", nullable = true, length = 200, columnDefinition = "nvarchar2")
 	public String getUrlFoto() {
@@ -331,7 +334,7 @@ public class PersonaNatural implements java.io.Serializable {
 		this.urlFoto = urlFoto;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "urlFirma")
 	@Size(max = 100)
 	@Column(name = "URL_FIRMA", nullable = true, length = 200, columnDefinition = "nvarchar2")
 	public String getUrlFirma() {

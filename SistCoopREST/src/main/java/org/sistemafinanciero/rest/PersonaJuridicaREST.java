@@ -13,21 +13,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-@Path("/persona/juridica")
+import org.sistemafinanciero.rest.dto.PersonaJuridicaDTO;
+
+@Path("/personas/juridicas")
 public interface PersonaJuridicaREST {
 
 	@GET
+	@Path("/tipoDocumentos")
 	@Produces({ "application/xml", "application/json" })
-	public Response findAll(@QueryParam("filterText") String filterText,
-			@QueryParam("offset") BigInteger offset,
-			@QueryParam("limit") BigInteger limit);
+	public Response getTipoDocumentoPersonaJuridica();
+
+	@GET
+	@Produces({ "application/xml", "application/json" })
+	public Response findAll(@QueryParam("filterText") String filterText, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
 	@GET
 	@Path("/buscar")
 	@Produces({ "application/xml", "application/json" })
-	public Response findByTipoNumeroDocumento(
-			@QueryParam("idTipoDocumento") BigInteger idtipodocumento,
-			@QueryParam("numeroDocumento") String numerodocumento);
+	public Response findByTipoNumeroDocumento(@QueryParam("idTipoDocumento") BigInteger idtipodocumento, @QueryParam("numeroDocumento") String numerodocumento);
 
 	@GET
 	@Path("/count")
@@ -42,12 +45,12 @@ public interface PersonaJuridicaREST {
 	@POST
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response create();
+	public Response create(PersonaJuridicaDTO persona);
 
 	@PUT
 	@Path("/{id}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response update(@PathParam("id") @DefaultValue("-1") BigInteger id);
+	public Response update(@PathParam("id") BigInteger id, PersonaJuridicaDTO persona);
 
 }

@@ -3,8 +3,8 @@ define(['./module'], function (services) {
     services.factory("PersonaNaturalService",["Restangular",
         function(Restangular){
 
-            var _personaNaturalService = Restangular.all("personaNatural");
-            var baseUrl = "personaNatural";
+            var _personaNaturalService = Restangular.all("personas/naturales");
+            var baseUrl = "personas/naturales";
 
             return {
                 getModel: function(){
@@ -27,6 +27,9 @@ define(['./module'], function (services) {
                         "ubigeo":undefined,
                         "codigoPais":undefined
                     };
+                },
+                getTipoDocumentos: function(){
+                    return Restangular.all(baseUrl+"/tipoDocumentos").getList();
                 },
                 findById: function(id){
                     return Restangular.one(baseUrl, id).get();
@@ -74,9 +77,6 @@ define(['./module'], function (services) {
                 },
                 remove: function(id){
                     return Restangular.all(baseUrl + "/" + id).remove();
-                },
-                currentSession: function(){
-                    return Restangular.one("personanatural/currentSession").get();
                 },
                 getFirma: function(id){
                     return Restangular.one("personanatural/"+id+"/firma").get();

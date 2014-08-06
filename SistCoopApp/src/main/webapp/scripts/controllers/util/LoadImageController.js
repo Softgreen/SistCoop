@@ -1,11 +1,10 @@
 define(['../module'], function (controllers) {
     'use strict';
 
-    controllers.controller("LoadImageController", ["$scope",
-        function($scope) {
+    controllers.controller('LoadImageController', ['$scope','ConfiguracionService',
+        function($scope, ConfiguracionService) {
 
-            $scope.urlBase = "http://localhost:8080/SistemaFinancieroVentura-web/services/personaNatural/";
-            $scope.baseTarget = "/SistemaFinancieroVentura-web/services/personaNatural/";
+            $scope.urlBase = ConfiguracionService.getRestApiUrl();
             $scope.idPersona = undefined;
             $scope.tipoImagen = undefined;
 
@@ -15,7 +14,7 @@ define(['../module'], function (controllers) {
                 if(!angular.isUndefined(id)){
                     return {
                         singleFile: true,
-                        target: $scope.baseTarget + id + '/' + tipoFoto
+                        target: $scope.urlBase + 'RestApi/services/personas/naturales/' + id + '/' + tipoFoto
                     }
                 } else {
                     return {
@@ -27,14 +26,14 @@ define(['../module'], function (controllers) {
 
             $scope.getImagen = function(id,tipoFoto) {
                 if(!angular.isUndefined(id))
-                    return $scope.urlBase + id + "/" + tipoFoto;
+                    return $scope.urlBase + "/personas/naturales/" + id + "/" + tipoFoto;
             };
 
             $scope.$watch("view.id", function(){
                 if(!angular.isUndefined($scope.view)){
                     if(!angular.isUndefined($scope.view.id)){
                         $scope.idPersona = $scope.view.id;
-                        $scope.$flow.opts.target = $scope.baseTarget + $scope.idPersona + '/' + $scope.tipoImagen;
+                        $scope.$flow.opts.target = $scope.urlBase + '/personas/naturales/' + $scope.idPersona + '/' + $scope.tipoImagen;
                     }
                 }
             });

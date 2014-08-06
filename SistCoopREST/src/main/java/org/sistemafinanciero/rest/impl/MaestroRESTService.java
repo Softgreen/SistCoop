@@ -16,82 +16,122 @@
  */
 package org.sistemafinanciero.rest.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
+
+import org.sistemafinanciero.entity.Departamento;
+import org.sistemafinanciero.entity.Distrito;
+import org.sistemafinanciero.entity.Pais;
+import org.sistemafinanciero.entity.Provincia;
+import org.sistemafinanciero.entity.type.Estadocivil;
+import org.sistemafinanciero.entity.type.Sexo;
+import org.sistemafinanciero.entity.type.TipoEmpresa;
+import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.rest.MaestroREST;
+import org.sistemafinanciero.service.nt.MaestroServiceNT;
 
 public class MaestroRESTService implements MaestroREST {
 
+	@EJB
+	private MaestroServiceNT maestroServiceNT;
+
 	@Override
 	public Response getTipoPersonas() {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		TipoPersona[] s = TipoPersona.values();
+		List<TipoPersona> list = new ArrayList<TipoPersona>();
+		for (int i = 0; i < s.length; i++) {
+			list.add(s[i]);
+		}
+		response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response getEstadosCiviles() {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		Estadocivil[] e = Estadocivil.values();
+		List<Estadocivil> list = new ArrayList<Estadocivil>();
+		for (int i = 0; i < e.length; i++) {
+			list.add(e[i]);
+		}
+		response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response getSexos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Response getTipoDocumentoPersonaNatural() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Response getTipoDocumentoPersonaJuridica() {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		Sexo[] s = Sexo.values();
+		List<Sexo> list = new ArrayList<Sexo>();
+		for (int i = 0; i < s.length; i++) {
+			list.add(s[i]);
+		}
+		response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response getTiposEmpresa() {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		TipoEmpresa[] s = TipoEmpresa.values();
+		List<TipoEmpresa> list = new ArrayList<TipoEmpresa>();
+		for (int i = 0; i < s.length; i++) {
+			list.add(s[i]);
+		}
+		response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response getPaises() {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		List<Pais> list = maestroServiceNT.getPaises();
+		response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response findPaisByAbreviatura(String abreviatura) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		Pais pais = maestroServiceNT.findPaisByAbreviatura(abreviatura);
+		response = Response.status(Response.Status.OK).entity(pais).build();
+		return response;
 	}
 
 	@Override
 	public Response findPaisByCodigo(String codigo) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		Pais pais = maestroServiceNT.findPaisByCodigo(codigo);
+		response = Response.status(Response.Status.OK).entity(pais).build();
+		return response;
 	}
 
 	@Override
 	public Response getDepartamentos() {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		List<Departamento> list = maestroServiceNT.getDepartamentos();
+		response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response getProvinciasByCodigo(String codigoDepartamento) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		List<Provincia> list = maestroServiceNT.getProvincias(codigoDepartamento);
+		response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
-	public Response getDistritosByCodigo(String codigoDepartamento,
-			String codigoProvincia) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getDistritosByCodigo(String codigoDepartamento, String codigoProvincia) {
+		Response response;
+		List<Distrito> list = maestroServiceNT.getDistritos(codigoDepartamento, codigoProvincia);
+		response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 }

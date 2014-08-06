@@ -19,6 +19,9 @@ define([
     './RedirectService',
     './TransaccionInternaService',
 
+    './SessionService',
+    './ConfiguracionService',
+
     './HotKeysFunctionsService',
     './VariablesService'
 ], function () {

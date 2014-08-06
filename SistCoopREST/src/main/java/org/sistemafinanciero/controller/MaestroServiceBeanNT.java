@@ -34,8 +34,10 @@ public class MaestroServiceBeanNT implements MaestroServiceNT {
 
 	@Inject
 	private DAO<Object, Departamento> departamentoDAO;
+
 	@Inject
 	private DAO<Object, Provincia> provinciaDAO;
+
 	@Inject
 	private DAO<Object, Distrito> distritoDAO;
 

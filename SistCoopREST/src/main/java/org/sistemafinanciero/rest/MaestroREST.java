@@ -28,32 +28,22 @@ import javax.ws.rs.core.Response;
 public interface MaestroREST {
 
 	@GET
-	@Path("/tipopersona")
+	@Path("/tipoPersonas")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTipoPersonas();
 
 	@GET
-	@Path("/estadoCivil")
+	@Path("/estadosCiviles")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getEstadosCiviles();
 
 	@GET
-	@Path("/sexo")
+	@Path("/sexos")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSexos();
 
 	@GET
-	@Path("/tipoDocumento/personaNatural")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTipoDocumentoPersonaNatural();
-
-	@GET
-	@Path("/tipoDocumento/personaJuridica")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTipoDocumentoPersonaJuridica();
-
-	@GET
-	@Path("/tipoEmpresa")
+	@Path("/tiposEmpresa")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTiposEmpresa();
 
@@ -65,8 +55,7 @@ public interface MaestroREST {
 	@GET
 	@Path("/paises/abreviatura/{abreviatura}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response findPaisByAbreviatura(
-			@PathParam("abreviatura") String abreviatura);
+	public Response findPaisByAbreviatura(@PathParam("abreviatura") String abreviatura);
 
 	@GET
 	@Path("/paises/codigo/{codigo}")
@@ -74,21 +63,18 @@ public interface MaestroREST {
 	public Response findPaisByCodigo(@PathParam("codigo") String codigo);
 
 	@GET
-	@Path("/ubigeo/departamento")
+	@Path("/ubigeo/departamentos")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDepartamentos();
 
 	@GET
-	@Path("/ubigeo/provincia")
+	@Path("/ubigeo/provincias")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProvinciasByCodigo(
-			@QueryParam("codigoDepartamento") String codigoDepartamento);
+	public Response getProvinciasByCodigo(@QueryParam("codigoDepartamento") String codigoDepartamento);
 
 	@GET
-	@Path("/ubigeo/distrito")
+	@Path("/ubigeo/distritos")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDistritosByCodigo(
-			@QueryParam("codigoDepartamento") String codigoDepartamento,
-			@QueryParam("codigoProvincia") String codigoProvincia);
+	public Response getDistritosByCodigo(@QueryParam("codigoDepartamento") String codigoDepartamento, @QueryParam("codigoProvincia") String codigoProvincia);
 
 }
