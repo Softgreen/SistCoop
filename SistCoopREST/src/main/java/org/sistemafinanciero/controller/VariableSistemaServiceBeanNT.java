@@ -18,7 +18,6 @@ import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.VariableSistema;
 import org.sistemafinanciero.entity.type.Variable;
 import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
-import org.sistemafinanciero.util.ProduceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

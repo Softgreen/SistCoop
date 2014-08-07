@@ -14,7 +14,6 @@ import javax.inject.Named;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Moneda;
-import org.sistemafinanciero.entity.TasaInteres;
 import org.sistemafinanciero.entity.ValorTasaInteres;
 import org.sistemafinanciero.entity.type.TasaInteresType;
 import org.sistemafinanciero.service.nt.TasaInteresServiceNT;
@@ -27,10 +26,9 @@ public class TasaInteresServiceBeanNT implements TasaInteresServiceNT {
 
 	@Inject
 	private DAO<Object, Moneda> monedaDAO;
+
 	@Inject
 	private DAO<Object, ValorTasaInteres> valorTasaInteresDAO;
-	@Inject
-	private DAO<Object, TasaInteres> tasaInteresDAO;
 
 	@Override
 	public BigDecimal getTasaInteresCuentaPlazoFijo(BigInteger idMoneda, int periodo, BigDecimal monto) {

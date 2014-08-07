@@ -19,67 +19,56 @@ package org.sistemafinanciero.rest.impl;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import javax.ejb.EJB;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 
-import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.rest.TasaInteresREST;
+import org.sistemafinanciero.service.nt.TasaInteresServiceNT;
+import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
 
 public class TasaInteresRESTService implements TasaInteresREST {
 
-	@Override
-	public Response findCaja(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	@EJB
+	private TasaInteresServiceNT tasaInteresServiceNT;
+
+	@EJB
+	private VariableSistemaServiceNT variableSistemaServiceNT;
 
 	@Override
 	public Response findTasaAhorroByMoneda(BigInteger idMoneda) {
-		// TODO Auto-generated method stub
-		return null;
+		BigDecimal result = tasaInteresServiceNT.getTasaInteresCuentaAhorro(idMoneda);
+		JsonObject model = Json.createObjectBuilder().add("valor", result).build();
+		return Response.status(Response.Status.OK).entity(model).build();
 	}
 
 	@Override
 	public Response findTasaCorrienteByMoneda(BigInteger idMoneda) {
-		// TODO Auto-generated method stub
-		return null;
+		BigDecimal result = tasaInteresServiceNT.getTasaInteresCuentaCorriente(idMoneda);
+		JsonObject model = Json.createObjectBuilder().add("valor", result).build();
+		return Response.status(Response.Status.OK).entity(model).build();
 	}
 
 	@Override
 	public Response findTasaPlazoFijoByMoneda(BigInteger idMoneda) {
-		// TODO Auto-generated method stub
-		return null;
+		BigDecimal result = tasaInteresServiceNT.getTasaInteresCuentaPlazoFijo(idMoneda, 0, BigDecimal.ZERO);
+		JsonObject model = Json.createObjectBuilder().add("valor", result).build();
+		return Response.status(Response.Status.OK).entity(model).build();
 	}
 
 	@Override
-	public Response findTasaPlazoFijoByMonedaPeriodoMonto(BigInteger idMoneda,
-			int periodo, BigDecimal monto) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response findTasaPlazoFijoByMonedaPeriodoMonto(BigInteger idMoneda, int periodo, BigDecimal monto) {
+		BigDecimal result = tasaInteresServiceNT.getTasaInteresCuentaPlazoFijo(idMoneda, periodo, monto);
+		JsonObject model = Json.createObjectBuilder().add("valor", result).build();
+		return Response.status(Response.Status.OK).entity(model).build();
 	}
 
 	@Override
-	public Response getTasaCambio(BigInteger idMonedaRecibida,
-			BigInteger idMonedaEntregada) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Response createCaja() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Response updateCaja(Caja caja) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Response updateCaja(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getTasaCambio(BigInteger idMonedaRecibida, BigInteger idMonedaEntregada) {
+		BigDecimal result = variableSistemaServiceNT.getTasaCambio(idMonedaRecibida, idMonedaEntregada);
+		JsonObject model = Json.createObjectBuilder().add("valor", result).build();
+		return Response.status(Response.Status.OK).entity(model).build();
 	}
 
 }
