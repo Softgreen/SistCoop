@@ -3,8 +3,10 @@ package org.sistemafinanciero.controller;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Set;
 
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -13,18 +15,23 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Socio;
+import org.sistemafinanciero.entity.SocioView;
 import org.sistemafinanciero.entity.type.EstadoCuentaAporte;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
-import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.service.nt.PersonaJuridicaServiceNT;
+import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
+import org.sistemafinanciero.service.nt.SocioServiceNT;
 import org.sistemafinanciero.service.ts.SocioServiceTS;
+import org.sistemafinanciero.util.ProduceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +44,9 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 	private static Logger LOGGER = LoggerFactory.getLogger(SocioServiceBeanTS.class);
 
 	@Inject
+	private DAO<Object, Agencia> agenciaDAO;
+
+	@Inject
 	private DAO<Object, Socio> socioDAO;
 
 	@Inject
@@ -45,28 +55,151 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 	@Inject
 	private DAO<Object, PersonaNatural> personaNaturalDAO;
 
+	@EJB
+	private SocioServiceNT socioServiceNT;
+
+	@EJB
+	private PersonaNaturalServiceNT personaNaturalServiceNT;
+
+	@EJB
+	private PersonaJuridicaServiceNT personaJuridicaServiceNT;
+
 	@Override
-	public BigInteger create(Socio t) throws PreexistingEntityException, RollbackFailureException {
-		// TODO Auto-generated method stub
-		return null;
+	public BigInteger create(SocioView t) throws PreexistingEntityException, RollbackFailureException {
+		PersonaNatural personaNatural = null;
+		PersonaJuridica personaJuridica = null;
+		PersonaNatural apoderado = null;
+		Agencia agencia = null;
+
+		Collection<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo);
+		if (list.size() <= 1) {
+			for (Agencia ag : list) {
+				agencia = ag;
+			}
+		} else {
+			LOGGER.error("Mas de una agencia con el mismo codigo.");
+		}
+		if (agencia == null)
+			throw new RollbackFailureException("Agencia no encontrada");
+
+		apoderado = personaNaturalDAO.find(t.getIdApoderado());
+		if (apoderado == null)
+			throw new RollbackFailureException("Apoderado no encontrado");
+
+		Calendar calendar = Calendar.getInstance();
+		switch (t.getTipoPersona()) {
+		case NATURAL:
+			personaNatural = personaNaturalServiceNT.find(t.getIdTipoDocumento(), t.getNumeroDocumento());
+			if (personaNatural == null)
+				throw new RollbackFailureException("Persona para socio no encontrado");
+			if (apoderado != null)
+				if (personaNatural.equals(apoderado))
+					throw new RollbackFailureException("Apoderado y socio deben de ser diferentes");
+			break;
+		case JURIDICA:
+			personaJuridica = personaJuridicaServiceNT.find(t.getIdTipoDocumento(), t.getNumeroDocumento());
+			if (personaJuridica == null)
+				throw new RollbackFailureException("Persona para socio no encontrado");
+			if (apoderado != null)
+				if (personaJuridica.getRepresentanteLegal().equals(apoderado))
+					throw new RollbackFailureException("Apoderado y representante legal deben de ser diferentes");
+			break;
+		default:
+			throw new RollbackFailureException("Tipo de persona no valido");
+		}
+
+		// verificar si el socio ya existe
+		SocioView socioView = socioServiceNT.find(t.getTipoPersona(), t.getIdTipoDocumento(), t.getNumeroDocumento());
+		Socio socio = null;
+		if (socioView != null) {
+			if (socioView.getEstadoSocio()) {
+				BigInteger idCuentaAporte = socioView.getIdCuentaAporte();
+				if (idCuentaAporte == null) {
+					CuentaAporte cuentaAporte = new CuentaAporte();
+					cuentaAporte.setNumeroCuenta(agencia.getCodigo());
+					cuentaAporte.setEstadoCuenta(EstadoCuentaAporte.ACTIVO);
+					cuentaAporte.setMoneda(ProduceObject.getMonedaPrincipal());
+					cuentaAporte.setSaldo(BigDecimal.ZERO);
+					cuentaAporte.setSocios(null);
+					cuentaAporteDAO.create(cuentaAporte);
+
+					String numeroCuenta = ProduceObject.getNumeroCuenta(cuentaAporte);
+					cuentaAporte.setNumeroCuenta(numeroCuenta);
+					cuentaAporteDAO.update(cuentaAporte);
+
+					socio = socioDAO.find(socioView.getIdsocio());
+					socio.setCuentaAporte(cuentaAporte);
+					socio.setApoderado(apoderado);
+					socioDAO.update(socio);
+				} else {
+					throw new RollbackFailureException("Socio ya existente, y tiene cuenta aportes activa");
+				}
+			} else {
+				CuentaAporte cuentaAporte = new CuentaAporte();
+				cuentaAporte.setNumeroCuenta(agencia.getCodigo());
+				cuentaAporte.setEstadoCuenta(EstadoCuentaAporte.ACTIVO);
+				cuentaAporte.setMoneda(ProduceObject.getMonedaPrincipal());
+				cuentaAporte.setSaldo(BigDecimal.ZERO);
+				cuentaAporte.setSocios(null);
+				cuentaAporteDAO.create(cuentaAporte);
+
+				String numeroCuenta = ProduceObject.getNumeroCuenta(cuentaAporte);
+				cuentaAporte.setNumeroCuenta(numeroCuenta);
+				cuentaAporteDAO.update(cuentaAporte);
+
+				socio = new Socio();
+				socio.setPersonaNatural(personaNatural);
+				socio.setPersonaJuridica(personaJuridica);
+				socio.setApoderado(apoderado);
+				socio.setCuentaAporte(cuentaAporte);
+				socio.setEstado(true);
+				socio.setFechaInicio(calendar.getTime());
+				socio.setFechaFin(null);
+				socioDAO.create(socio);
+			}
+		} else {
+			CuentaAporte cuentaAporte = new CuentaAporte();
+			cuentaAporte.setNumeroCuenta(agencia.getCodigo());
+			cuentaAporte.setEstadoCuenta(EstadoCuentaAporte.ACTIVO);
+			cuentaAporte.setMoneda(ProduceObject.getMonedaPrincipal());
+			cuentaAporte.setSaldo(BigDecimal.ZERO);
+			cuentaAporte.setSocios(null);
+			cuentaAporteDAO.create(cuentaAporte);
+
+			String numeroCuenta = ProduceObject.getNumeroCuenta(cuentaAporte);
+			cuentaAporte.setNumeroCuenta(numeroCuenta);
+			cuentaAporteDAO.update(cuentaAporte);
+
+			socio = new Socio();
+			socio.setPersonaNatural(personaNatural);
+			socio.setPersonaJuridica(personaJuridica);
+			socio.setApoderado(apoderado);
+			socio.setCuentaAporte(cuentaAporte);
+			socio.setEstado(true);
+			socio.setFechaInicio(calendar.getTime());
+			socio.setFechaFin(null);
+			socioDAO.create(socio);
+		}
+
+		return socio.getIdSocio();
 	}
 
 	@Override
-	public void update(BigInteger id, Socio t) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
-		// TODO Auto-generated method stub
-
+	public void update(BigInteger id, SocioView t) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
+		throw new RollbackFailureException("El metodo no esta implementado");
 	}
 
 	@Override
 	public void delete(BigInteger id) throws NonexistentEntityException, RollbackFailureException {
-		// TODO Auto-generated method stub
-
+		throw new RollbackFailureException("No se puede eliminar un socio");
 	}
 
-	@Override
-	public BigInteger create(BigInteger idAgencia, TipoPersona tipoPersona, BigInteger idDocSocio, String numDocSocio, BigInteger idDocApoderado, String numDocApoderado) throws RollbackFailureException {
-		return null;
-	}
+	/*
+	 * @Override public BigInteger create(BigInteger idAgencia, TipoPersona
+	 * tipoPersona, BigInteger idDocSocio, String numDocSocio, BigInteger
+	 * idDocApoderado, String numDocApoderado) throws RollbackFailureException {
+	 * return null; }
+	 */
 
 	@Override
 	public void congelarCuentaAporte(BigInteger idSocio) throws RollbackFailureException {

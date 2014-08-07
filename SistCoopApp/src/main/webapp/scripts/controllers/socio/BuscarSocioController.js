@@ -137,7 +137,7 @@ define(['../module'], function (controllers) {
                     {field:'socio', displayName:'SOCIO'},
                     {displayName: 'Nº CTA APORTE', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 100%;"><span ng-show="row.entity.numeroCuentaAporte">{{row.entity.numeroCuentaAporte}}</span><span ng-hide="row.entity.numeroCuentaAporte">NO REGISTRADO</span></div>', width:110},
                     {displayName: 'ESTADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>', width:70},
-                    {field:"fechaAsociado | date:'dd-MM-yyyy'", displayName:'F. ASOCIADO',width:90},
+                    {field:"fechaAsociado | date:'dd/MM/yyyy'", displayName:'F. ASOCIADO',width:90},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editSocio(row.entity)"><span class="glyphicon glyphicon-share"></span>Editar</button></div>', width:"7%"}
                 ]
             };

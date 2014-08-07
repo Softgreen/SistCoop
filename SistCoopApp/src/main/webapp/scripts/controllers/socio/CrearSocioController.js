@@ -53,17 +53,17 @@ define(['../module'], function (controllers) {
             };
 
             $scope.loadTipoDocumentosApoderado = function(){
-                MaestroService.getTipoDocumentoPN().then(function(data){
+                PersonaNaturalService.getTipoDocumentos().then(function(data){
                     $scope.combo.tipoDocumentosApoderado = data;
                 });
             };
             $scope.loadTipoDocumentoSocioPN = function(){
-                MaestroService.getTipoDocumentoPN().then(function(data){
+                PersonaNaturalService.getTipoDocumentos().then(function(data){
                     $scope.combo.tipoDocumentosSocio = data;
                 });
             };
             $scope.loadTipoDocumentoSocioPJ = function(){
-                MaestroService.getTipoDocumentoPJ().then(function(data){
+                PersonaJuridicaService.getTipoDocumentos().then(function(data){
                     $scope.combo.tipoDocumentosSocio = data;
                 });
             };

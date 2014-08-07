@@ -9,7 +9,6 @@ import javax.ejb.Remote;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.HistorialAportesSP;
-import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.SocioView;
 import org.sistemafinanciero.entity.type.TipoPersona;
@@ -30,10 +29,6 @@ public interface SocioServiceNT extends AbstractServiceNT<SocioView> {
 	public List<SocioView> findAllView(String filterText, Boolean estadoCuentaAporte, Boolean estadoSocio, Integer offset, Integer limit);
 
 	public SocioView find(TipoPersona tipoPersona, BigInteger idTipoDocumento, String numeroDocumento);
-	
-	public PersonaNatural getPersonaNatural(BigInteger idSocio);
-
-	public PersonaJuridica getPersonaJuridica(BigInteger idSocio);
 
 	public PersonaNatural getApoderado(BigInteger idSocio);
 

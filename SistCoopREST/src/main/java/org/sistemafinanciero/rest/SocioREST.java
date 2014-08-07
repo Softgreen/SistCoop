@@ -11,6 +11,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.sistemafinanciero.rest.dto.ApoderadoDTO;
+import org.sistemafinanciero.rest.dto.SocioDTO;
+
 @Path("/socios")
 public interface SocioREST {
 
@@ -51,7 +54,7 @@ public interface SocioREST {
 	@POST
 	@Path("/{id}/apoderado/cambiar")
 	@Produces({ "application/xml", "application/json" })
-	public Response cambiarApoderado(@PathParam("id") BigInteger idSocio);
+	public Response cambiarApoderado(@PathParam("id") BigInteger idSocio, ApoderadoDTO apoderado);
 
 	@POST
 	@Path("/{id}/apoderado/eliminar")
@@ -70,7 +73,7 @@ public interface SocioREST {
 
 	@POST
 	@Produces({ "application/xml", "application/json" })
-	public Response createSocio();
+	public Response createSocio(SocioDTO socio);
 
 	@POST
 	@Path("/{id}/desactivar")

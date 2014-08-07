@@ -25,7 +25,7 @@ import com.sun.istack.NotNull;
  */
 @Entity
 @Table(name = "TRABAJADOR", schema = "BDSISTEMAFINANCIERO")
-@NamedQueries({ @NamedQuery(name = Trabajador.findByUsername, query = "SELECT t FROM Trabajador t WHERE t.usuario = :usuario") })
+@NamedQueries({ @NamedQuery(name = Trabajador.findByUsername, query = "SELECT t FROM Trabajador t WHERE t.usuario = :username") })
 public class Trabajador implements java.io.Serializable {
 
 	/**

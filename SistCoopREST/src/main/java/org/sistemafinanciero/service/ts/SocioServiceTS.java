@@ -4,14 +4,13 @@ import java.math.BigInteger;
 
 import javax.ejb.Remote;
 
-import org.sistemafinanciero.entity.Socio;
-import org.sistemafinanciero.entity.type.TipoPersona;
+import org.sistemafinanciero.entity.SocioView;
 import org.sistemafinanciero.exception.RollbackFailureException;
 
 @Remote
-public interface SocioServiceTS extends AbstractServiceTS<Socio> {
+public interface SocioServiceTS extends AbstractServiceTS<SocioView> {
 
-	public BigInteger create(BigInteger idAgencia, TipoPersona tipoPersona, BigInteger idDocSocio, String numDocSocio, BigInteger idDocApoderado, String numDocApoderado) throws RollbackFailureException;
+	//public BigInteger create(BigInteger idAgencia, TipoPersona tipoPersona, BigInteger idDocSocio, String numDocSocio, BigInteger idDocApoderado, String numDocApoderado) throws RollbackFailureException;
 
 	public void congelarCuentaAporte(BigInteger idSocio) throws RollbackFailureException;
 

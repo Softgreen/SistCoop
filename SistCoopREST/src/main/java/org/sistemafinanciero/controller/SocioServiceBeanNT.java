@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.ejb.EJBException;
 import javax.ejb.Remote;
@@ -17,12 +16,10 @@ import javax.inject.Named;
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
-import org.sistemafinanciero.entity.Accionista;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.HistorialAportesSP;
 import org.sistemafinanciero.entity.Moneda;
-import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Socio;
 import org.sistemafinanciero.entity.SocioView;
@@ -41,7 +38,7 @@ public class SocioServiceBeanNT implements SocioServiceNT {
 
 	@Inject
 	private DAO<Object, SocioView> socioViewDAO;
-	
+
 	@Inject
 	private DAO<Object, CuentaBancariaView> cuentaBancariaViewDAO;
 
@@ -145,41 +142,6 @@ public class SocioServiceBeanNT implements SocioServiceNT {
 		} else {
 			throw new EJBException("Se encontró mas de un socio activo");
 		}
-	}
-
-	@Override
-	public PersonaNatural getPersonaNatural(BigInteger idSocio) {
-		Socio socio = socioDAO.find(idSocio);
-		if (socio == null)
-			return null;
-		PersonaNatural persona = socio.getPersonaNatural();
-		if (persona != null) {
-			Hibernate.initialize(persona);
-			TipoDocumento documento = persona.getTipoDocumento();
-			Hibernate.initialize(documento);
-		}
-		return persona;
-	}
-
-	@Override
-	public PersonaJuridica getPersonaJuridica(BigInteger idSocio) {
-		Socio socio = socioDAO.find(idSocio);
-		if (socio == null)
-			return null;
-		PersonaJuridica persona = socio.getPersonaJuridica();
-		if (persona != null) {
-			Hibernate.initialize(persona);
-
-			Set<Accionista> accionistas = persona.getAccionistas();
-			PersonaNatural personaNatural = persona.getRepresentanteLegal();
-			TipoDocumento docRepresentante = personaNatural.getTipoDocumento();
-			TipoDocumento tipoDocumento = persona.getTipoDocumento();
-			Hibernate.initialize(accionistas);
-			Hibernate.initialize(personaNatural);
-			Hibernate.initialize(docRepresentante);
-			Hibernate.initialize(tipoDocumento);
-		}
-		return persona;
 	}
 
 	@Override

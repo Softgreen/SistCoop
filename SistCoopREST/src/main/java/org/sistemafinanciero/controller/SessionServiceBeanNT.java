@@ -14,6 +14,7 @@ import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.PersonaNatural;
+import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.service.nt.SessionServiceNT;
 import org.sistemafinanciero.util.UsuarioSession;
 
@@ -25,6 +26,9 @@ public class SessionServiceBeanNT implements SessionServiceNT {
 
 	@Inject
 	private DAO<Object, Caja> cajaDAO;
+	
+	@Inject
+	private DAO<Object, Trabajador> trabajadorDAO;
 	
 	@Inject
 	private UsuarioSession usuarioSession;
@@ -53,8 +57,22 @@ public class SessionServiceBeanNT implements SessionServiceNT {
 
 	@Override
 	public Agencia getAgenciaOfSession() {
-		// TODO Auto-generated method stub
-		return null;
+		String username = usuarioSession.getUsername();
+		QueryParameter queryParameter = QueryParameter.with("username", username);
+		List<Trabajador> list = trabajadorDAO.findByNamedQuery(Trabajador.findByUsername, queryParameter.parameters());
+		if(list.size() <= 1){
+			Trabajador trabajador = null;
+			for (Trabajador t : list) {
+				trabajador = t;
+			}
+			if(trabajador != null) {
+				return trabajador.getAgencia();
+			} else {
+				return null;
+			}		
+		} else {
+			return null;
+		}
 	}
 
 }

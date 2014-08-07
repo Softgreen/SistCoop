@@ -22,23 +22,36 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
 
+import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.SocioView;
+import org.sistemafinanciero.entity.type.TipoPersona;
+import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.SocioREST;
+import org.sistemafinanciero.rest.dto.ApoderadoDTO;
+import org.sistemafinanciero.rest.dto.SocioDTO;
+import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
+import org.sistemafinanciero.service.nt.SessionServiceNT;
 import org.sistemafinanciero.service.nt.SocioServiceNT;
 import org.sistemafinanciero.service.ts.SocioServiceTS;
 
 public class SocioRESTService implements SocioREST {
-
+	
 	@EJB
 	private SocioServiceNT socioServiceNT;
 
 	@EJB
 	private SocioServiceTS socioServiceTS;
+	
+	@EJB
+	private PersonaNaturalServiceNT personaNaturalServiceNT;
+	
+	@EJB
+	private SessionServiceNT sessionServiceNT;
 
 	@Override
 	public Response listAll(String filterText, Boolean estadoCuentaAporte, Boolean estadoSocio, Integer offset, Integer limit) {
@@ -102,9 +115,25 @@ public class SocioRESTService implements SocioREST {
 	}
 
 	@Override
-	public Response cambiarApoderado(BigInteger idSocio) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response cambiarApoderado(BigInteger idSocio, ApoderadoDTO apoderado) {
+		Response response;
+		BigInteger idTipoDocumento = apoderado.getIdTipoDocumento();
+		String numeroDocumento = apoderado.getNumeroDocumento();
+		PersonaNatural personaNatural = personaNaturalServiceNT.find(idTipoDocumento, numeroDocumento);
+		if(personaNatural != null){
+			BigInteger idPersonaNatural = personaNatural.getIdPersonaNatural();
+			try {
+				socioServiceTS.cambiarApoderado(idSocio, idPersonaNatural);
+				response = Response.status(Response.Status.NO_CONTENT).build();
+			} catch (RollbackFailureException e) {
+				Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+				response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+			}	
+		} else {
+			Jsend jsend = Jsend.getErrorJSend("Persona no encontrada");
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
@@ -134,15 +163,51 @@ public class SocioRESTService implements SocioREST {
 	}
 
 	@Override
-	public Response createSocio() {
-		// TODO Auto-generated method stub
-		return null;
+	public Response createSocio(SocioDTO socio) {
+		Response response;	
+		
+		TipoPersona tipoPersona = socio.getTipoPersona();
+		BigInteger idDocSocio = socio.getIdTipoDocumentoSocio();
+		String numDocSocio = socio.getNumeroDocumentoSocio();
+		BigInteger idDocApoderado = socio.getIdTipoDocumentoApoderado();
+		String numDocApoderado = socio.getNumeroDocumentoApoderado();
+		
+		Agencia agencia = sessionServiceNT.getAgenciaOfSession();		
+		PersonaNatural apoderado = null;
+		if(idDocApoderado != null && numDocApoderado != null)
+			apoderado = personaNaturalServiceNT.find(idDocApoderado, numDocApoderado);	
+		
+		try {			
+			SocioView socioView = new SocioView();
+			socioView.setCodigoAgencia(agencia.getCodigo());
+			socioView.setTipoPersona(tipoPersona);
+			socioView.setIdTipoDocumento(idDocSocio);
+			socioView.setNumeroDocumento(numDocSocio);			
+			if(apoderado != null)
+				socioView.setIdApoderado(apoderado.getIdPersonaNatural());			
+			socioServiceTS.create(socioView);
+			response = Response.status(Response.Status.CREATED).build();
+		} catch (PreexistingEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
 	public Response desactivarSocio(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			socioServiceTS.inactivarSocio(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 }

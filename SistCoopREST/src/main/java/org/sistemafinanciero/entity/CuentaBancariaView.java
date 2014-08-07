@@ -141,6 +141,7 @@ public class CuentaBancariaView implements Serializable {
 		this.saldo = saldo;
 	}
 	
+	@XmlElement(name="cantidadRetirantes")
 	@Column(name = "CANTIDAD_RETIRANTES")
 	public int getCantidadRetirantes() {
 		return cantidadRetirantes;

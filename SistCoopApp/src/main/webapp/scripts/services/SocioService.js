@@ -53,7 +53,7 @@ define(['./module'], function (services) {
                         "idTipoDocumentoApoderado" : idTipoDocumentoApoderado,
                         "numeroDocumentoApoderado" : numeroDocumentoApoderado
                     };
-                    return Restangular.all("socio").post(socio);
+                    return Restangular.all(baseUrl).post(socio);
                 },
                 getSocio: function(id){
                     return Restangular.one(baseUrl+"/"+id).get();
@@ -62,10 +62,10 @@ define(['./module'], function (services) {
                     return Restangular.one(baseUrl+"/"+id+"/cuentaAporte").get();
                 },
                 getPersonaNatural: function(id){
-                    return Restangular.one("socio/"+id+"/personaNatural").get();
+                    return Restangular.one(baseUrl+"/"+id+"/personaNatural").get();
                 },
                 getPersonaJuridica: function(id){
-                    return Restangular.one("socio/"+id+"/personaJuridica").get();
+                    return Restangular.one(baseUrl+"/"+id+"/personaJuridica").get();
                 },
                 getApoderado: function(id){
                     return Restangular.one(baseUrl+"/"+id+"/apoderado").get();
@@ -83,25 +83,25 @@ define(['./module'], function (services) {
                     return Restangular.one(baseUrl +"/"+id).remove();
                 },
                 cambiarApoderado: function(idSocio, apoderado){
-                    return Restangular.all(baseUrl+"/"+idSocio+"/apoderado").customPUT(apoderado,'',{},{});
+                    return Restangular.all(baseUrl+"/"+idSocio+"/apoderado/cambiar").customPOST(apoderado,'',{},{});
                 },
                 eliminarApoderado: function(idSocio){
-                    return Restangular.all(baseUrl+"/"+idSocio+"/apoderado").remove();
+                    return Restangular.all(baseUrl+"/"+idSocio+"/apoderado/eliminar").post();
                 },
                 getVoucherCuentaAporte: function(id) {
-                    return Restangular.one("socio/"+id+"/voucherCuentaAporte").get();
+                    return Restangular.one(baseUrl+"/"+id+"/voucherCuentaAporte").get();
                 },
                 getHistorialAportes: function(idSocio,desde, hasta, offset, limit){
                     if(arguments.length == 1){
-                        return Restangular.all("socio/"+idSocio+"/historialAportes").getList({},{});
+                        return Restangular.all(baseUrl+"/"+idSocio+"/historialAportes").getList({},{});
                     } else if(arguments.length == 2){
-                        return Restangular.all("socio/"+idSocio+"/historialAportes").getList({desde:desde},{});
+                        return Restangular.all(baseUrl+"/"+idSocio+"/historialAportes").getList({desde:desde},{});
                     } else if(arguments.length == 3){
-                        return Restangular.all("socio/"+idSocio+"/historialAportes").getList({desde:desde, hasta:hasta},{});
+                        return Restangular.all(baseUrl+"/"+idSocio+"/historialAportes").getList({desde:desde, hasta:hasta},{});
                     } else if(arguments.length == 4){
-                        return Restangular.all("socio/"+idSocio+"/historialAportes").getList({desde:desde, hasta:hasta,offset:offset},{});
+                        return Restangular.all(baseUrl+"/"+idSocio+"/historialAportes").getList({desde:desde, hasta:hasta,offset:offset},{});
                     } else if(arguments.length == 5){
-                        return Restangular.all("socio/"+idSocio+"/historialAportes").getList({desde:desde, hasta:hasta,offset:offset,limit:limit},{});
+                        return Restangular.all(baseUrl+"/"+idSocio+"/historialAportes").getList({desde:desde, hasta:hasta,offset:offset,limit:limit},{});
                     }
                 }
             }
