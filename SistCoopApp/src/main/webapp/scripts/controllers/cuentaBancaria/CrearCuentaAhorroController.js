@@ -118,11 +118,11 @@ define(['../module'], function (controllers) {
                 $scope.socioNatural = undefined;
                 $scope.socioJuridico = undefined;
                 if($scope.view.tipoPersona == "NATURAL"){
-                    MaestroService.getTipoDocumentoPN().then(function(data){
+                    PersonaNaturalService.getTipoDocumentos().then(function(data){
                         $scope.combo.tipoDocumentos = data;
                     });
                 }else{if($scope.view.tipoPersona == "JURIDICA"){
-                    MaestroService.getTipoDocumentoPJ().then(function(data){
+                    PersonaJuridicaService.getTipoDocumentos().then(function(data){
                         $scope.combo.tipoDocumentos = data;
                     });
                 }}
@@ -180,6 +180,7 @@ define(['../module'], function (controllers) {
                         return;
 
                     var cuenta = {
+                        "tipoCuenta": 'AHORRO',
                         "idMoneda": $scope.view.idMoneda,
                         "tipoPersona": $scope.view.tipoPersona,
                         "idTipoDocumento": $scope.view.idTipoDocumento,
@@ -199,7 +200,6 @@ define(['../module'], function (controllers) {
                         function(data){
                             $scope.control.inProcess = false;
                             $scope.control.success = true;
-                            var mensaje= data.message;
                             $state.transitionTo("app.socio.editarCuentaBancaria", { id: data.id, redirect: true });
                         }, function error(error){
                             $scope.control.inProcess = false;

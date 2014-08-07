@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
@@ -66,7 +67,9 @@ public class SessionServiceBeanNT implements SessionServiceNT {
 				trabajador = t;
 			}
 			if(trabajador != null) {
-				return trabajador.getAgencia();
+				Agencia agencia = trabajador.getAgencia();
+				Hibernate.initialize(agencia);
+				return agencia;
 			} else {
 				return null;
 			}		

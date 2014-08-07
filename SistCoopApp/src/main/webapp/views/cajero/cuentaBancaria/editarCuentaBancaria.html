@@ -111,7 +111,7 @@
                         <div class="col-md-6" style="font-weight: bold;">Cuenta Bancaria</div>
                         <div class="col-md-6">
                             <div class="text-right">
-                                <button ng-if="cuentaBancaria.tipoCuentaBancaria == 'PLAZO_FIJO'" type="button" ng-click="imprimirCertificado()" class="btn btn-link" style="padding: 0px 12px;">
+                                <button ng-if="cuentaBancaria.tipoCuenta == 'PLAZO_FIJO'" type="button" ng-click="imprimirCertificado()" class="btn btn-link" style="padding: 0px 12px;">
                                     Certificado Plazo Fijo
                                 </button>
                             </div>
@@ -125,7 +125,7 @@
                 <table class="table">
                     <tr>
                         <td colspan="1" style="width: 115px; font-size: 12px;"><strong>Tipo Cuenta:</strong></td>
-                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.tipoCuentaBancaria"></span></td>
+                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.tipoCuenta"></span></td>
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>N&uacute;mero Cuenta:</strong></td>
@@ -133,7 +133,7 @@
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Estado:</strong></td>
-                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.estado"></span></td>
+                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.estadoCuenta"></span></td>
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Fecha Apertura:</strong></td>
@@ -143,11 +143,11 @@
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Moneda:</strong></td>
-                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.moneda.denominacion"></span></td>
+                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.moneda"></span></td>
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Saldo Disponible:</strong></td>
-                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.saldo | currency : cuentaBancaria.moneda.simbolo"></span></td>
+                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.saldo | currency : cuentaBancaria.moneda"></span></td>
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>N&deg; Retirantes:</strong></td>

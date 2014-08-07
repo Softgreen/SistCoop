@@ -25,9 +25,12 @@ define(['../module'], function (controllers) {
             };
 
             //cargar tipos documento
-            MaestroService.getTipoDocumentoPN().then(function(data){
-                $scope.tipoDocumentos = data;
-            });
+            $scope.loadTipoDocumento = function(){
+                PersonaNaturalService.getTipoDocumentos().then(function(data){
+                    $scope.tipoDocumentos = data;
+                });
+            };
+            $scope.loadTipoDocumento();
 
             $scope.formTitular = {};
             $scope.addTitular = function() {

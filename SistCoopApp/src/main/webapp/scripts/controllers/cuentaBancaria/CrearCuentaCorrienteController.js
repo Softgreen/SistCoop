@@ -116,11 +116,11 @@ define(['../module'], function (controllers) {
                 $scope.socioNatural = undefined;
                 $scope.socioJuridico = undefined;
                 if($scope.view.tipoPersona == "NATURAL"){
-                    MaestroService.getTipoDocumentoPN().then(function(data){
+                    PersonaNaturalService.getTipoDocumentos().then(function(data){
                         $scope.combo.tipoDocumentos = data;
                     });
                 }else{if($scope.view.tipoPersona == "JURIDICA"){
-                    MaestroService.getTipoDocumentoPJ().then(function(data){
+                    PersonaJuridicaService.getTipoDocumentos().then(function(data){
                         $scope.combo.tipoDocumentos = data;
                     });
                 }}

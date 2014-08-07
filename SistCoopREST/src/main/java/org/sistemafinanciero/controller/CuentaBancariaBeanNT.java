@@ -22,12 +22,11 @@ import org.hibernate.Hibernate;
 import org.joda.time.LocalDate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
-import org.sistemafinanciero.entity.Agencia;
+
 import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
-import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.Titular;
@@ -37,7 +36,6 @@ import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.service.nt.CuentaBancariaServiceNT;
 import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
 import org.sistemafinanciero.service.nt.TasaInteresServiceNT;
-import org.sistemafinanciero.util.ProduceObject;
 
 @Named
 @Stateless
@@ -52,9 +50,6 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	private DAO<Object, CuentaBancariaView> cuentaBancariaViewDAO;
 
 	@Inject
-	private DAO<Object, Agencia> agenciaDAO;
-
-	@Inject
 	private DAO<Object, Titular> titularDAO;
 
 	@Inject
@@ -67,33 +62,13 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	private PersonaNaturalServiceNT personaNaturalService;
 
 	@Override
-	public Agencia getAgencia(BigInteger idCuentaBancaria) {
-		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuentaBancaria);
-		if (cuentaBancaria == null)
-			return null;
-		String numeroCuenta = cuentaBancaria.getNumeroCuenta();
-		String codigoAgencia = ProduceObject.getCodigoAgenciaFromNumeroCuenta(numeroCuenta);
-		QueryParameter queryParameter = QueryParameter.with("codigo", codigoAgencia);
-		List<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo, queryParameter.parameters());
-		if (list.size() != 1)
-			return null;
-		return list.get(0);
-	}
-
-	@Override
-	public CuentaBancariaView findView(BigInteger idCuentaBancaria) {
-		CuentaBancariaView cuentaBancariaView = cuentaBancariaViewDAO.find(idCuentaBancaria);		
-		return cuentaBancariaView;
-	}
-
-	@Override
-	public CuentaBancariaView find(String numeroCuenta) {
+	public CuentaBancariaView findByNumeroCuenta(String numeroCuenta) {
 		QueryParameter queryParameter = QueryParameter.with("numeroCuenta", numeroCuenta);
 		List<CuentaBancariaView> list = cuentaBancariaViewDAO.findByNamedQuery(CuentaBancariaView.findByNumeroCuenta, queryParameter.parameters());
 		if (list.size() > 1)
 			throw new EJBException("Mas de una cuenta con el numero de cuenta");
 		else
-			for (CuentaBancariaView cuentaBancaria : list) {				
+			for (CuentaBancariaView cuentaBancaria : list) {
 				return cuentaBancaria;
 			}
 		return null;
@@ -167,7 +142,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		Integer offSetInteger = offset.intValue();
 		Integer limitInteger = (limit != null ? limit.intValue() : null);
 
-		result = cuentaBancariaViewDAO.findByNamedQuery(CuentaBancariaView.FindByFilterTextCuentaBancariaView, queryParameter.parameters(), offSetInteger, limitInteger);		
+		result = cuentaBancariaViewDAO.findByNamedQuery(CuentaBancariaView.FindByFilterTextCuentaBancariaView, queryParameter.parameters(), offSetInteger, limitInteger);
 		return result;
 	}
 
@@ -225,22 +200,14 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	}
 
 	@Override
-	public CuentaBancaria findById(BigInteger id) {
-		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(id);
-		if (cuentaBancaria != null) {
-			Moneda moneda = cuentaBancaria.getMoneda();
-			Hibernate.initialize(moneda);
-		}
-		return cuentaBancaria;
+	public CuentaBancariaView findById(BigInteger id) {
+		CuentaBancariaView cuentaBancariaView = cuentaBancariaViewDAO.find(id);
+		return cuentaBancariaView;
 	}
 
 	@Override
-	public List<CuentaBancaria> findAll() {
-		List<CuentaBancaria> list = cuentaBancariaDAO.findAll();
-		for (CuentaBancaria cuentaBancaria : list) {
-			Moneda moneda = cuentaBancaria.getMoneda();
-			Hibernate.initialize(moneda);
-		}
+	public List<CuentaBancariaView> findAll() {
+		List<CuentaBancariaView> list = cuentaBancariaViewDAO.findAll();
 		return list;
 	}
 

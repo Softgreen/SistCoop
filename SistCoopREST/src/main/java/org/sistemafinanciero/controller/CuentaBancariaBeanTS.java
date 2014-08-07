@@ -2,7 +2,6 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -92,7 +91,7 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 
 	@Override
 	public BigInteger create(CuentaBancaria t) throws PreexistingEntityException, RollbackFailureException {
-		return null;
+		throw new RollbackFailureException("Metodo no implementado");
 	}
 
 	@Override

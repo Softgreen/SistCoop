@@ -10,18 +10,23 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 
-@XmlRootElement(name = "crearCuentaAhorro")
+@XmlRootElement(name = "crearCuentaPlazoFijo")
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class CuentaAhorroDTO implements Serializable {
+public class CuentaBancariaDTO implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private TipoCuentaBancaria tipoCuenta;
+
 	private BigInteger idMoneda;
+	private int periodo;
+	private BigDecimal monto;
 	private BigDecimal tasaInteres;
 
 	private TipoPersona tipoPersona;
@@ -38,6 +43,22 @@ public class CuentaAhorroDTO implements Serializable {
 
 	public void setIdMoneda(BigInteger idMoneda) {
 		this.idMoneda = idMoneda;
+	}
+
+	public int getPeriodo() {
+		return periodo;
+	}
+
+	public void setPeriodo(int periodo) {
+		this.periodo = periodo;
+	}
+
+	public BigDecimal getMonto() {
+		return monto;
+	}
+
+	public void setMonto(BigDecimal monto) {
+		this.monto = monto;
 	}
 
 	public BigDecimal getTasaInteres() {
@@ -94,6 +115,14 @@ public class CuentaAhorroDTO implements Serializable {
 
 	public void setBeneficiarios(List<Beneficiario> beneficiarios) {
 		this.beneficiarios = beneficiarios;
+	}
+
+	public TipoCuentaBancaria getTipoCuenta() {
+		return tipoCuenta;
+	}
+
+	public void setTipoCuenta(TipoCuentaBancaria tipoCuenta) {
+		this.tipoCuenta = tipoCuenta;
 	}
 
 }

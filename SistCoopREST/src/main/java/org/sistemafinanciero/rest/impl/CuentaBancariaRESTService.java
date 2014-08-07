@@ -16,21 +16,32 @@
  */
 package org.sistemafinanciero.rest.impl;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.CuentaBancaria;
+import org.sistemafinanciero.entity.CuentaBancariaView;
+import org.sistemafinanciero.entity.PersonaNatural;
+import org.sistemafinanciero.entity.Titular;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.CuentaBancariaREST;
+import org.sistemafinanciero.rest.Jsend;
+import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
 import org.sistemafinanciero.service.nt.CuentaBancariaServiceNT;
+import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
+import org.sistemafinanciero.service.nt.SessionServiceNT;
 import org.sistemafinanciero.service.ts.CuentaBancariaServiceTS;
 
 public class CuentaBancariaRESTService implements CuentaBancariaREST {
@@ -41,36 +52,38 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	@EJB
 	private CuentaBancariaServiceTS cuentaBancariaServiceTS;
 
+	@EJB
+	private PersonaNaturalServiceNT personaNaturalServiceNT;
+
+	@EJB
+	private SessionServiceNT sessionServiceNT;
+
 	@Override
-	public Response findAll(String filterText, TipoCuentaBancaria[] tipoCuenta,
-			TipoPersona[] tipoPersona, EstadoCuentaBancaria[] tipoEstadoCuenta,
-			BigInteger offset, BigInteger limit) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response findAll(String filterText, TipoCuentaBancaria[] tipoCuenta, TipoPersona[] tipoPersona, EstadoCuentaBancaria[] tipoEstadoCuenta, Integer offset, Integer limit) {
+		List<CuentaBancariaView> list = cuentaBancariaServiceNT.findAllView(filterText, tipoCuenta, tipoPersona, tipoEstadoCuenta, offset, limit);
+		Response response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response count() {
-		// TODO Auto-generated method stub
-		return null;
+		int count = cuentaBancariaServiceNT.count();
+		Response response = Response.status(Response.Status.OK).entity(count).build();
+		return response;
 	}
 
 	@Override
 	public Response buscarByNumeroCuenta(String numeroCuenta) {
-		// TODO Auto-generated method stub
-		return null;
+		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findByNumeroCuenta(numeroCuenta);
+		Response response = Response.status(Response.Status.OK).entity(cuentaBancariaView).build();
+		return response;
 	}
 
 	@Override
 	public Response findById(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Response getSocio(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(id);
+		Response response = Response.status(Response.Status.OK).entity(cuentaBancariaView).build();
+		return response;
 	}
 
 	@Override
@@ -87,14 +100,28 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response congelar(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			cuentaBancariaServiceTS.congelarCuentaBancaria(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
 	public Response descongelar(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			cuentaBancariaServiceTS.descongelarCuentaBancaria(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
@@ -116,9 +143,28 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	}
 
 	@Override
-	public Response create() {
-		// TODO Auto-generated method stub
-		return null;
+	public Response create(CuentaBancariaDTO cuentaBancaria) {
+		Response response;
+
+		TipoCuentaBancaria tipoCuentaBancaria = cuentaBancaria.getTipoCuenta();
+		BigInteger idMoneda = cuentaBancaria.getIdMoneda();
+		BigDecimal tasaInteres = cuentaBancaria.getTasaInteres();
+		TipoPersona tipoPersona = cuentaBancaria.getTipoPersona();
+		int periodo = cuentaBancaria.getPeriodo();
+		int cantRetirantes = cuentaBancaria.getCantRetirantes();
+		List<BigInteger> titulares = cuentaBancaria.getTitulares();
+		List<Beneficiario> beneficiarios = cuentaBancaria.getBeneficiarios();
+
+		Agencia agencia = sessionServiceNT.getAgenciaOfSession();
+		PersonaNatural persona = personaNaturalServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
+		try {
+			cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
+			response = Response.status(Response.Status.CREATED).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
@@ -129,7 +175,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response getTitulares(BigInteger id, Boolean estado) {
-		// TODO Auto-generated method stub
+		Set<Titular> list = cuentaBancariaServiceNT.getTitulares(id, estado);
 		return null;
 	}
 
@@ -176,8 +222,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	}
 
 	@Override
-	public Response updateBeneficiario(BigInteger id,
-			BigInteger idBeneficiario, Beneficiario beneficiario) {
+	public Response updateBeneficiario(BigInteger id, BigInteger idBeneficiario, Beneficiario beneficiario) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -187,12 +232,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		try {
 			cuentaBancariaServiceTS.deleteBeneficiario(idBeneficiario);
 			return Response.status(Status.OK).build();
-
 		} catch (NonexistentEntityException e) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 

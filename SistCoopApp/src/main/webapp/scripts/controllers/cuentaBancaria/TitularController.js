@@ -8,7 +8,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.loadTipoDocumentoPN = function(){
-                MaestroService.getTipoDocumentoPN().then(function(data){
+                PersonaNaturalService.getTipoDocumentos().then(function(data){
                     $scope.combo.tipoDocumentos = data;
                 });
             };

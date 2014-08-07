@@ -7,9 +7,7 @@ import java.util.Set;
 
 import javax.ejb.Remote;
 
-import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Beneficiario;
-import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
 import org.sistemafinanciero.entity.Titular;
@@ -18,13 +16,9 @@ import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 
 @Remote
-public interface CuentaBancariaServiceNT extends AbstractServiceNT<CuentaBancaria> {
+public interface CuentaBancariaServiceNT extends AbstractServiceNT<CuentaBancariaView> {
 
-	public Agencia getAgencia(BigInteger idCuentaBancaria);
-
-	public CuentaBancariaView findView(BigInteger idCuentaBancaria);
-
-	public CuentaBancariaView find(String numeroCuenta);
+	public CuentaBancariaView findByNumeroCuenta(String numeroCuenta);
 
 	public List<CuentaBancariaView> findAllView();
 
