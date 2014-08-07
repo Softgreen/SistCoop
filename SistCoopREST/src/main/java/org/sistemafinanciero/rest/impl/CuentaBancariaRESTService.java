@@ -18,6 +18,8 @@ package org.sistemafinanciero.rest.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
 
@@ -46,6 +48,7 @@ import org.sistemafinanciero.service.ts.CuentaBancariaServiceTS;
 
 public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
+	private final static String baseUrl = "/cuentasBancarias";
 	@EJB
 	private CuentaBancariaServiceNT cuentaBancariaServiceNT;
 
@@ -158,9 +161,14 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		Agencia agencia = sessionServiceNT.getAgenciaOfSession();
 		PersonaNatural persona = personaNaturalServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
 		try {
-			cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
+			BigInteger idCuenta = cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
 			response = Response.status(Response.Status.CREATED).build();
+			URI resource = new URI(baseUrl + "/" + idCuenta.toString());
+			response = Response.created(resource).entity(Jsend.getSuccessJSend(idCuenta)).build();	
 		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (URISyntaxException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
@@ -176,12 +184,12 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	@Override
 	public Response getTitulares(BigInteger id, Boolean estado) {
 		Set<Titular> list = cuentaBancariaServiceNT.getTitulares(id, estado);
-		return null;
+		Response response = Response.status(Response.Status.CREATED).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response getTitular(BigInteger id, BigInteger idTitular) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -205,8 +213,9 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response getBeneficiarios(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Beneficiario> list = cuentaBancariaServiceNT.getBeneficiarios(id);
+		Response response = Response.status(Response.Status.CREATED).entity(list).build();
+		return response;
 	}
 
 	@Override

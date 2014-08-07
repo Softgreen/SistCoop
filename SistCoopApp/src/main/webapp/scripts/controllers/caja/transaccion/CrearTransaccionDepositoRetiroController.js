@@ -117,7 +117,7 @@ define(['../../module'], function (controllers) {
 
             $scope.loadDenominacionesMoneda = function(){
                 if(!angular.isUndefined($scope.objetosCargados.cuentaBancaria)){
-                    MonedaService.getDenominaciones($scope.objetosCargados.cuentaBancaria.moneda.id).then(function(data){
+                    MonedaService.getDenominaciones($scope.objetosCargados.cuentaBancaria.idMoneda).then(function(data){
                         $scope.objetosCargados.denominacionesMoneda = data;
                     });
                 }

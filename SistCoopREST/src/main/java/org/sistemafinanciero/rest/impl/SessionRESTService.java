@@ -32,7 +32,9 @@ import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.SessionREST;
+import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 import org.sistemafinanciero.service.nt.SessionServiceNT;
 import org.sistemafinanciero.service.ts.SessionServiceTS;
 
@@ -85,13 +87,21 @@ public class SessionRESTService implements SessionREST {
 	}
 
 	@Override
-	public Response crearTransaccionCuentaAporte() {
+	public Response crearTransaccionCuentaAporte(TransaccionCuentaAporteDTO transaccion) {
+		Response response;
 		try {
-			sessionServiceTS.crearAporte(null, null, 1, 10, null);
-			return Response.status(Response.Status.CREATED).build();
+			BigInteger idSocio = transaccion.getIdSocio();
+			BigDecimal monto = transaccion.getMonto();
+			int mes = transaccion.getMes();
+			int anio = transaccion.getAnio();
+			String referencia = transaccion.getReferencia();		
+			sessionServiceTS.crearAporte(idSocio, monto, mes, anio, referencia);
+			response = Response.status(Response.Status.CREATED).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override

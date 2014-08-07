@@ -17,6 +17,8 @@
 package org.sistemafinanciero.rest.impl;
 
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -40,6 +42,8 @@ import org.sistemafinanciero.service.nt.SocioServiceNT;
 import org.sistemafinanciero.service.ts.SocioServiceTS;
 
 public class SocioRESTService implements SocioREST {
+	
+	private final static String baseUrl = "/socios";
 	
 	@EJB
 	private SocioServiceNT socioServiceNT;
@@ -184,13 +188,18 @@ public class SocioRESTService implements SocioREST {
 			socioView.setIdTipoDocumento(idDocSocio);
 			socioView.setNumeroDocumento(numDocSocio);			
 			if(apoderado != null)
-				socioView.setIdApoderado(apoderado.getIdPersonaNatural());			
-			socioServiceTS.create(socioView);
-			response = Response.status(Response.Status.CREATED).build();
+				socioView.setIdApoderado(apoderado.getIdPersonaNatural());		
+			
+			BigInteger idSocio = socioServiceTS.create(socioView);	
+			URI resource = new URI(baseUrl + "/" + idSocio.toString());
+			response = Response.created(resource).entity(Jsend.getSuccessJSend(idSocio)).build();	
 		} catch (PreexistingEntityException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
 		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (URISyntaxException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}

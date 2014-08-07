@@ -30,10 +30,8 @@ import org.sistemafinanciero.entity.type.TipoPersona;
 @Table(name = "SOCIO_VIEW", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "socioview")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = SocioView.findAll, query = "SELECT sv FROM SocioView sv WHERE sv.estadoSocio IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"), 
-				@NamedQuery(name = SocioView.FindAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.idCuentaAporte IS NOT NULL AND sv.estadoSocio IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"), 
-				@NamedQuery(name = SocioView.FindByFilterTextSocioView, query = "SELECT sv FROM SocioView sv WHERE sv.estadoSocio IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numeroDocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC"),
-				@NamedQuery(name = SocioView.FindByFilterTextSocioViewAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.idCuentaAporte IS NOT NULL AND sv.estadoSocio IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numeroDocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC"), })
+@NamedQueries({ @NamedQuery(name = SocioView.findAll, query = "SELECT sv FROM SocioView sv WHERE sv.estadoSocio IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"), @NamedQuery(name = SocioView.FindAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.idCuentaAporte IS NOT NULL AND sv.estadoSocio IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"), @NamedQuery(name = SocioView.FindByFilterTextSocioView, query = "SELECT sv FROM SocioView sv WHERE sv.estadoSocio IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numeroDocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC"),
+		@NamedQuery(name = SocioView.FindByFilterTextSocioViewAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.idCuentaAporte IS NOT NULL AND sv.estadoSocio IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numeroDocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC"), @NamedQuery(name = SocioView.FindByTipoAndNumeroDocumento, query = "SELECT sv FROM SocioView sv WHERE sv.tipoPersona = :tipoPersona AND sv.idTipoDocumento = :idTipoDocumento AND sv.numeroDocumento = :numeroDocumento AND sv.estadoSocio = TRUE") })
 public class SocioView implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -96,7 +94,7 @@ public class SocioView implements Serializable {
 	public void setFechaAsociado(Date fechaAsociado) {
 		this.fechaAsociado = fechaAsociado;
 	}
-	
+
 	@XmlElement(name = "fechaFin")
 	@Temporal(TemporalType.DATE)
 	@Column(name = "FECHA_FIN")

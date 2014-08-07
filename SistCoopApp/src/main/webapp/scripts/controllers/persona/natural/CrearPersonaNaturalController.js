@@ -136,7 +136,7 @@ define(['../../module'], function (controllers) {
 
                     $scope.buttonDisableState = true;
                     PersonaNaturalService.crear(personaTransaccion).then(
-                        function(persona){
+                        function(data){
                             $scope.redireccion();
                         },
                         function error(error){

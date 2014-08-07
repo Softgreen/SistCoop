@@ -3,6 +3,12 @@ define(['./app'], function(app) {
     return app.config(function($stateProvider, $urlRouterProvider, RestangularProvider) {
 
         RestangularProvider.setBaseUrl('http://localhost:8080/SistCoopREST/rest');
+        /*RestangularProvider.setResponseInterceptor(function (data, operation, what, url, response, deferred) {
+            if (operation == 'post') {
+                data.location = response.headers('Location');
+            }
+            return response.data;
+        });*/
 
         $urlRouterProvider.when('', '/app/home');
 

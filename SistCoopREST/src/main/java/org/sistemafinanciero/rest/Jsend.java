@@ -1,6 +1,7 @@
 package org.sistemafinanciero.rest;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +24,27 @@ public class Jsend implements Serializable {
 	}
 
 	private STATUS_VALUE status;
+	private BigInteger id;
 	private Object data;
 	private List<String> message;
 
+	public static Jsend getSuccessJSend() {
+		Jsend jsend = new Jsend(STATUS_VALUE.success);
+		return jsend;
+	}
+
+	public static Jsend getSuccessJSend(BigInteger id) {
+		Jsend jsend = new Jsend(STATUS_VALUE.success);
+		jsend.setId(id);
+		return jsend;
+	}
+	
+	public static Jsend getSuccessJSend(String message) {
+		Jsend jsend = new Jsend(STATUS_VALUE.success);
+		jsend.addMessage(message);
+		return jsend;
+	}
+	
 	public static Jsend getErrorJSend() {
 		Jsend jsend = new Jsend(STATUS_VALUE.fail);
 		return jsend;
@@ -83,6 +102,15 @@ public class Jsend implements Serializable {
 
 	public void setMessage(List<String> message) {
 		this.message = message;
+	}
+
+	@XmlElement
+	public BigInteger getId() {
+		return id;
+	}
+
+	public void setId(BigInteger id) {
+		this.id = id;
 	}
 
 }

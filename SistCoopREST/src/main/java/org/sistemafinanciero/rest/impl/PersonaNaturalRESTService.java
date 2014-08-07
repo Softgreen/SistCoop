@@ -2,6 +2,8 @@ package org.sistemafinanciero.rest.impl;
 
 import java.io.File;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,9 +31,10 @@ import org.sistemafinanciero.service.ts.PersonaNaturalServiceTS;
 
 public class PersonaNaturalRESTService implements PersonaNaturalREST {
 
+	private final static String baseUrl = "/personas/naturales";
 	private final String UPLOADED_FIRMA_PATH = "d:\\firmas\\";
 	private final String UPLOADED_FOTO_PATH = "d:\\fotos\\";
-	
+
 	@Inject
 	private Validator validator;
 
@@ -82,7 +85,7 @@ public class PersonaNaturalRESTService implements PersonaNaturalREST {
 
 	@Override
 	public Response update(BigInteger id, PersonaNatural personaNatural) {
-		Response response;		
+		Response response;
 		try {
 			Set<ConstraintViolation<PersonaNatural>> violations = validator.validate(personaNatural);
 			if (!violations.isEmpty()) {
@@ -106,7 +109,7 @@ public class PersonaNaturalRESTService implements PersonaNaturalREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
-		}		
+		}
 		return response;
 	}
 
@@ -118,8 +121,9 @@ public class PersonaNaturalRESTService implements PersonaNaturalREST {
 			if (!violations.isEmpty()) {
 				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 			}
-			personaNaturalServiceTS.create(personaNatural);
-			response = Response.status(Response.Status.CREATED).build();
+			BigInteger idPersona = personaNaturalServiceTS.create(personaNatural);
+			URI resource = new URI(baseUrl + "/" + idPersona.toString());
+			response = Response.created(resource).entity(Jsend.getSuccessJSend(idPersona)).build();
 		} catch (ConstraintViolationException e) {
 			Jsend jsend = Jsend.getErrorJSend("datos invalidos");
 			for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
@@ -130,6 +134,9 @@ public class PersonaNaturalRESTService implements PersonaNaturalREST {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
 		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (URISyntaxException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}

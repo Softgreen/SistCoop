@@ -118,7 +118,7 @@ define(['../module'], function (controllers) {
                     {field:"tipoDocumento", displayName:'TIPO DOC', width:75},
                     {field:"numeroDocumento", displayName:'Nº DOCUMENTO', width:100},
                     {field:"socio", displayName:'SOCIO'},
-                    {field:"moneda.simbolo", displayName:'MONEDA', width:60},
+                    {field:"moneda", displayName:'MONEDA', width:60},
                     {field:"estadoCuenta", displayName:'ESTADO', width:70},
                     {displayName: 'Select', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="selectCuenta(row.entity)"><span class="glyphicon glyphicon-share"></span>Select</button></div>',  width:70}
                 ]

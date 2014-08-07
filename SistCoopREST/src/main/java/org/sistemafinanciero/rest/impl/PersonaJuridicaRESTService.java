@@ -1,6 +1,8 @@
 package org.sistemafinanciero.rest.impl;
 
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,8 @@ import org.sistemafinanciero.service.ts.PersonaJuridicaServiceTS;
 
 public class PersonaJuridicaRESTService implements PersonaJuridicaREST {
 
+	private final static String baseUrl = "/personas/juridicas";
+	
 	@EJB
 	private PersonaJuridicaServiceNT personaJuridicaServiceNT;
 
@@ -109,8 +113,9 @@ public class PersonaJuridicaRESTService implements PersonaJuridicaREST {
 				accionistasFinal.add(accionistaFinal);
 			}
 			personaJuridica.setAccionistas(accionistasFinal);
-			personaJuridicaServiceTS.create(personaJuridica);
-			response = Response.status(Response.Status.CREATED).build();
+			BigInteger idPersona = personaJuridicaServiceTS.create(personaJuridica);
+			URI resource = new URI(baseUrl + "/" + idPersona.toString());
+			response = Response.created(resource).entity(Jsend.getSuccessJSend(idPersona)).build();			
 		} catch (PreexistingEntityException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
@@ -118,6 +123,9 @@ public class PersonaJuridicaRESTService implements PersonaJuridicaREST {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (URISyntaxException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}

@@ -23,31 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="EditarCuentaBancariaController.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/EditarCuentaBancariaController.js">
+      <file leaf-file-name="CrearSocioController.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/socio/CrearSocioController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.96" vertical-offset="966" max-vertical-offset="7463">
-              <caret line="70" column="54" selection-start-line="70" selection-start-column="42" selection-end-line="70" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CuentaBancariaService.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CuentaBancariaService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45104894" vertical-offset="881" max-vertical-offset="1734">
-              <caret line="67" column="51" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="editarCuentaBancaria.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/views/cajero/cuentaBancaria/editarCuentaBancaria.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.769231" vertical-offset="2142" max-vertical-offset="5066">
-              <caret line="144" column="87" selection-start-line="144" selection-start-column="87" selection-end-line="144" selection-end-column="87" />
+            <state vertical-scroll-proportion="4.9832497" vertical-offset="0" max-vertical-offset="5151">
+              <caret line="175" column="85" selection-start-line="175" selection-start-column="83" selection-end-line="175" selection-end-column="85" />
               <folding />
             </state>
           </provider>
@@ -77,7 +57,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/MaestroService.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/views/cajero/persona/natural/crearPersonaNatural.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/views/cajero/persona/natural/editarPersonaNatural.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/natural/CrearPersonaNaturalController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/natural/EditarPersonaNaturalController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/ConfiguracionService.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/util/LoadImageController.js" />
@@ -86,7 +65,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/juridica/CrearPersonaJuridicaController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/juridica/AccionistaController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/juridica/EditarPersonaJuridicaController.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/scripts/routes.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/socio/BuscarSocioController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/styles/main.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/socio/PanelSocioController.js" />
@@ -103,6 +81,11 @@
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/CrearCuentaPlazoFijoController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/views/cajero/cuentaBancaria/editarCuentaBancaria.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/CuentaBancariaService.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/BuscarCuentaBancariaPopUpController.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/CrearTransaccionDepositoRetiroController.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/CajaSessionService.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/natural/CrearPersonaNaturalController.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/routes.js" />
       </list>
     </option>
   </component>
@@ -386,36 +369,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SistCoopApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SistCoopApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -450,7 +403,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cuentaBancaria" />
+              <option name="myItemId" value="socio" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -575,34 +528,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/.editorconfig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="610">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/.jshintrc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="610">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="610">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/.gitattributes">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="610">
@@ -671,6 +596,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="610">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -685,6 +611,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.2185315" vertical-offset="0" max-vertical-offset="952">
           <caret line="41" column="41" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -723,17 +650,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/natural/CrearPersonaNaturalController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.0" vertical-offset="1544" max-vertical-offset="3145">
-          <caret line="107" column="20" selection-start-line="107" selection-start-column="20" selection-end-line="107" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/natural/EditarPersonaNaturalController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18356644" vertical-offset="1289" max-vertical-offset="3655">
           <caret line="82" column="21" selection-start-line="82" selection-start-column="21" selection-end-line="82" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -784,6 +705,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18356644" vertical-offset="1272" max-vertical-offset="5304">
           <caret line="81" column="11" selection-start-line="81" selection-start-column="11" selection-end-line="90" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -791,14 +713,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.37018424" vertical-offset="1564" max-vertical-offset="5729">
           <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3321234" vertical-offset="72" max-vertical-offset="12478">
-          <caret line="15" column="100" selection-start-line="15" selection-start-column="100" selection-end-line="15" selection-end-column="100" />
           <folding />
         </state>
       </provider>
@@ -823,8 +737,8 @@
         <state vertical-scroll-proportion="0.36446887" vertical-offset="39" max-vertical-offset="5984">
           <caret line="14" column="74" selection-start-line="14" selection-start-column="74" selection-end-line="14" selection-end-column="74" />
           <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#legend#0;n#fieldset#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#tr#4;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#legend#0;n#fieldset#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#td#0;n#tr#4;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -857,14 +771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1564">
           <caret line="30" column="33" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/socio/CrearSocioController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.24" vertical-offset="2683" max-vertical-offset="5151">
-          <caret line="167" column="38" selection-start-line="167" selection-start-column="33" selection-end-line="167" selection-end-column="38" />
           <folding />
         </state>
       </provider>
@@ -935,26 +841,108 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/views/cajero/cuentaBancaria/editarCuentaBancaria.html">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CuentaBancariaService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.769231" vertical-offset="2142" max-vertical-offset="5066">
-          <caret line="144" column="87" selection-start-line="144" selection-start-column="87" selection-end-line="144" selection-end-column="87" />
+        <state vertical-scroll-proportion="0.45104894" vertical-offset="881" max-vertical-offset="1734">
+          <caret line="67" column="51" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/EditarCuentaBancariaController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.96" vertical-offset="966" max-vertical-offset="7463">
+        <state vertical-scroll-proportion="0.3916084" vertical-offset="966" max-vertical-offset="7463">
           <caret line="70" column="54" selection-start-line="70" selection-start-column="42" selection-end-line="70" selection-end-column="54" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CuentaBancariaService.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/views/cajero/cuentaBancaria/editarCuentaBancaria.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45104894" vertical-offset="881" max-vertical-offset="1734">
-          <caret line="67" column="51" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.5359019" vertical-offset="2142" max-vertical-offset="5066">
+          <caret line="144" column="87" selection-start-line="144" selection-start-column="87" selection-end-line="144" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/CrearAporteController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1989" max-vertical-offset="2771">
+          <caret line="128" column="50" selection-start-line="128" selection-start-column="39" selection-end-line="128" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/BuscarCuentaBancariaPopUpController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1734" max-vertical-offset="2720">
+          <caret line="120" column="34" selection-start-line="120" selection-start-column="34" selection-end-line="120" selection-end-column="34" />
+          <folding>
+            <marker date="1407434009684" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/CrearTransaccionDepositoRetiroController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.96" vertical-offset="1799" max-vertical-offset="4063">
+          <caret line="119" column="98" selection-start-line="119" selection-start-column="98" selection-end-line="119" selection-end-column="98" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CajaSessionService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36239317" vertical-offset="995" max-vertical-offset="1904">
+          <caret line="71" column="71" selection-start-line="71" selection-start-column="71" selection-end-line="71" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/natural/CrearPersonaNaturalController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68844223" vertical-offset="1935" max-vertical-offset="3145">
+          <caret line="138" column="39" selection-start-line="138" selection-start-column="39" selection-end-line="138" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2847571" vertical-offset="0" max-vertical-offset="12580">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1407452430951" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/socio/CrearSocioController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="4.9832497" vertical-offset="0" max-vertical-offset="5151">
+          <caret line="175" column="85" selection-start-line="175" selection-start-column="83" selection-end-line="175" selection-end-column="85" />
           <folding />
         </state>
       </provider>

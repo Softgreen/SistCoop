@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
@@ -71,7 +72,8 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 		PersonaNatural apoderado = null;
 		Agencia agencia = null;
 
-		Collection<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo);
+		QueryParameter queryParameter = QueryParameter.with("codigo", t.getCodigoAgencia());
+		Collection<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo, queryParameter.parameters());
 		if (list.size() <= 1) {
 			for (Agencia ag : list) {
 				agencia = ag;
@@ -82,8 +84,9 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 		if (agencia == null)
 			throw new RollbackFailureException("Agencia no encontrada");
 
-		apoderado = personaNaturalDAO.find(t.getIdApoderado());
-		if (apoderado == null)
+		if(t.getIdApoderado() != null)
+			apoderado = personaNaturalDAO.find(t.getIdApoderado());
+		if (t.getIdApoderado() != null && apoderado == null)
 			throw new RollbackFailureException("Apoderado no encontrado");
 
 		Calendar calendar = Calendar.getInstance();

@@ -133,7 +133,7 @@ public class SocioServiceBeanNT implements SocioServiceNT {
 	public SocioView find(TipoPersona tipoPersona, BigInteger idTipoDocumento, String numeroDocumento) {
 		QueryParameter queryParameter = QueryParameter.with("tipoPersona", tipoPersona).and("idTipoDocumento", idTipoDocumento).and("numeroDocumento", numeroDocumento);
 		List<SocioView> list = socioViewDAO.findByNamedQuery(SocioView.FindByTipoAndNumeroDocumento, queryParameter.parameters());
-		if (list.size() >= 1) {
+		if (list.size() <= 1) {
 			SocioView socio = null;
 			for (SocioView socioView : list) {
 				socio = socioView;

@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.sistemafinanciero.entity.dto.GenericDetalle;
+import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 
 @Path("/session")
 public interface SessionREST {
@@ -48,10 +49,10 @@ public interface SessionREST {
 			@FormParam("observacion") String observacion);
 
 	@POST
-	@Path("/transaccionAporte")
+	@Path("/transaccionCuentaAporte")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response crearTransaccionCuentaAporte();
+	public Response crearTransaccionCuentaAporte(TransaccionCuentaAporteDTO transaccion);
 
 	@POST
 	@Path("/transaccionCompraVenta")
