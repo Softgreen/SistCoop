@@ -6,8 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.ejb.EJB;
-import javax.ejb.EJBAccessException;
+import javax.ejb.EJBException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -19,24 +18,17 @@ import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Accionista;
-import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.CuentaAporte;
-import org.sistemafinanciero.entity.CuentaBancaria;
+import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.HistorialAportesSP;
-import org.sistemafinanciero.entity.HistorialAportesView;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Socio;
 import org.sistemafinanciero.entity.SocioView;
 import org.sistemafinanciero.entity.TipoDocumento;
-import org.sistemafinanciero.entity.TransaccionCuentaAporte;
 import org.sistemafinanciero.entity.type.TipoPersona;
-import org.sistemafinanciero.service.nt.PersonaJuridicaServiceNT;
-import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
 import org.sistemafinanciero.service.nt.SocioServiceNT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Named
 @Stateless
@@ -44,98 +36,69 @@ import org.slf4j.LoggerFactory;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class SocioServiceBeanNT implements SocioServiceNT {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(SocioServiceBeanNT.class);
-
 	@Inject
 	private DAO<Object, Socio> socioDAO;
+
 	@Inject
 	private DAO<Object, SocioView> socioViewDAO;
+	
 	@Inject
-	private DAO<Object, CuentaAporte> cuentaAporteDAO;
-	@Inject
-	private DAO<Object, CuentaBancaria> cuentaBancariaDAO;
-	@Inject
-	private DAO<Object, Agencia> agenciaDAO;
-	@Inject
-	private DAO<Object, PersonaNatural> personaNaturalDAO;
-	@Inject
-	private DAO<Object, TransaccionCuentaAporte> transaccionCuentaAporteDAO;
-
-	@Inject
-	private DAO<Object, HistorialAportesView> historialAportesViewDAO;
-
-	@EJB
-	private PersonaNaturalServiceNT personaNaturalService;
-	@EJB
-	private PersonaJuridicaServiceNT personaJuridicaService;
+	private DAO<Object, CuentaBancariaView> cuentaBancariaViewDAO;
 
 	@Override
-	public Socio findById(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+	public SocioView findById(BigInteger id) {
+		return socioViewDAO.find(id);
 	}
 
 	@Override
-	public List<Socio> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SocioView> findAll() {
+		return socioViewDAO.findAll();
 	}
 
 	@Override
 	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<SocioView> findAllView() {
-		// TODO Auto-generated method stub
-		return null;
+		return socioViewDAO.count();
 	}
 
 	@Override
 	public List<SocioView> findAllView(Boolean estadoCuentaAporte, Boolean estadoSocio) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAllView(estadoCuentaAporte, estadoSocio, null, null);
 	}
 
 	@Override
 	public List<SocioView> findAllView(Boolean estadoCuentaAporte, Boolean estadoSocio, Integer offset, Integer limit) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAllView(null, estadoCuentaAporte, estadoSocio, null, null);
 	}
 
 	@Override
 	public List<SocioView> findAllView(String filterText) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAllView(filterText, null, null, null, null);
 	}
 
 	@Override
 	public List<SocioView> findAllView(String filterText, Boolean estadoCuentaAporte, Boolean estadoSocio) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAllView(filterText, estadoCuentaAporte, estadoSocio, null, null);
 	}
 
 	@Override
-	public List<SocioView> findAllView(String filterText, BigInteger offset, BigInteger limit) {
+	public List<SocioView> findAllView(String filterText, Integer offset, Integer limit) {
 		Boolean estadoCuentaAporte = null;
 		Boolean estadoSocio = null;
 		return findAllView(filterText, estadoCuentaAporte, estadoSocio, offset, limit);
 	}
 
 	@Override
-	public List<SocioView> findAllView(String filterText, Boolean estadoCuentaAporte, Boolean estadoSocio, BigInteger offset, BigInteger limit) {
+	public List<SocioView> findAllView(String filterText, Boolean estadoCuentaAporte, Boolean estadoSocio, Integer offset, Integer limit) {
 		List<SocioView> result = null;
 
 		if (filterText == null)
 			filterText = "";
 		if (offset == null) {
-			offset = BigInteger.ZERO;
+			offset = 0;
 		}
-		offset = offset.abs();
+		offset = Math.abs(offset);
 		if (limit != null) {
-			limit = limit.abs();
+			limit = Math.abs(limit);
 		}
 		Integer offSetInteger = offset.intValue();
 		Integer limitInteger = (limit != null ? limit.intValue() : null);
@@ -170,56 +133,18 @@ public class SocioServiceBeanNT implements SocioServiceNT {
 	}
 
 	@Override
-	public Socio find(TipoPersona tipoPersona, BigInteger idTipoDocumento, String numeroDocumento) {
-		switch (tipoPersona) {
-		case NATURAL:
-			QueryParameter queryParameter1 = QueryParameter.with("idtipodocumento", idTipoDocumento).and("numerodocumento", numeroDocumento);
-			List<Socio> list1 = socioDAO.findByNamedQuery(Socio.FindByPNTipoAndNumeroDocumento, queryParameter1.parameters());
-			if (list1.size() == 1)
-				return list1.get(0);
-			if (list1.size() > 1) {
-				LOGGER.error("Resultado invalido", "Se encontró mas de un socio");
-				throw new EJBAccessException("Se encontró mas de un socio activo");
+	public SocioView find(TipoPersona tipoPersona, BigInteger idTipoDocumento, String numeroDocumento) {
+		QueryParameter queryParameter = QueryParameter.with("tipoPersona", tipoPersona).and("idTipoDocumento", idTipoDocumento).and("numeroDocumento", numeroDocumento);
+		List<SocioView> list = socioViewDAO.findByNamedQuery(SocioView.FindByTipoAndNumeroDocumento, queryParameter.parameters());
+		if (list.size() >= 1) {
+			SocioView socio = null;
+			for (SocioView socioView : list) {
+				socio = socioView;
 			}
-			break;
-		case JURIDICA:
-			QueryParameter queryParameter2 = QueryParameter.with("idtipodocumento", idTipoDocumento).and("numerodocumento", numeroDocumento);
-			List<Socio> list2 = socioDAO.findByNamedQuery(Socio.FindByPJTipoAndNumeroDocumento, queryParameter2.parameters());
-			if (list2.size() == 1)
-				return list2.get(0);
-			if (list2.size() > 1) {
-				LOGGER.error("Resultado invalido", "Se encontró mas de un socio");
-				throw new EJBAccessException("Se encontró mas de un socio activo");
-			}
-			break;
-		default:
-			return null;
+			return socio;
+		} else {
+			throw new EJBException("Se encontró mas de un socio activo");
 		}
-		return null;
-	}
-
-	@Override
-	public Socio find(BigInteger idCuentaBancaria) {
-		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuentaBancaria);
-		if (cuentaBancaria == null)
-			return null;
-		Socio socio = cuentaBancaria.getSocio();
-		PersonaNatural personaNatural = socio.getPersonaNatural();
-		PersonaJuridica personaJuridica = socio.getPersonaJuridica();
-		Hibernate.initialize(socio);
-		if (personaNatural != null) {
-			TipoDocumento documento = personaNatural.getTipoDocumento();
-			Hibernate.initialize(personaNatural);
-			Hibernate.initialize(documento);
-		}
-		if (personaJuridica != null) {
-			TipoDocumento documento = personaJuridica.getTipoDocumento();
-			Set<Accionista> accionistas = personaJuridica.getAccionistas();
-			Hibernate.initialize(personaJuridica);
-			Hibernate.initialize(documento);
-			Hibernate.initialize(accionistas);
-		}
-		return socio;
 	}
 
 	@Override
@@ -286,17 +211,10 @@ public class SocioServiceBeanNT implements SocioServiceNT {
 	}
 
 	@Override
-	public Set<CuentaBancaria> getCuentasBancarias(BigInteger idSocio) {
-		Socio socio = socioDAO.find(idSocio);
-		if (socio == null)
-			return null;
-		Set<CuentaBancaria> cuentas = socio.getCuentaBancarias();
-		for (CuentaBancaria cuentaBancaria : cuentas) {
-			Hibernate.initialize(cuentaBancaria);
-			Moneda moneda = cuentaBancaria.getMoneda();
-			Hibernate.initialize(moneda);
-		}
-		return cuentas;
+	public List<CuentaBancariaView> getCuentasBancarias(BigInteger idSocio) {
+		QueryParameter queryParameter = QueryParameter.with("idSocio", idSocio);
+		List<CuentaBancariaView> list = cuentaBancariaViewDAO.findByNamedQuery(CuentaBancariaView.findByIdSocio, queryParameter.parameters());
+		return list;
 	}
 
 	@Override

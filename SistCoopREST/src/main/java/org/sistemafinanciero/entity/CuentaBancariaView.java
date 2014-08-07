@@ -7,9 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
@@ -27,150 +25,102 @@ import java.util.Date;
 @XmlRootElement(name = "cuentabancariaview")
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({
-		@NamedQuery(name = CuentaBancariaView.findByNumeroCuenta, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.numerocuenta = :numeroCuenta"),
-		@NamedQuery(name = CuentaBancariaView.FindByFilterTextCuentaBancariaView, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.tipocuenta IN :tipoCuenta AND cbv.tipopersona IN :tipoPersona AND cbv.estadocuenta IN :tipoEstadoCuenta AND (cbv.numerocuenta LIKE :filtertext OR cbv.numerodocumento LIKE :filtertext OR UPPER(cbv.socio) LIKE :filtertext)") })
+		@NamedQuery(name = CuentaBancariaView.findByNumeroCuenta, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.numeroCuenta = :numeroCuenta"),
+		@NamedQuery(name = CuentaBancariaView.FindByFilterTextCuentaBancariaView, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.tipoCuenta IN :tipoCuenta AND cbv.tipoPersona IN :tipoPersona AND cbv.estadoCuenta IN :tipoEstadoCuenta AND (cbv.numeroCuenta LIKE :filtertext OR cbv.numeroDocumento LIKE :filtertext OR UPPER(cbv.socio) LIKE :filtertext)"),
+		@NamedQuery(name = CuentaBancariaView.findByIdSocio, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.idSocio = :idSocio")})
 public class CuentaBancariaView implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String FindByFilterTextCuentaBancariaView = "CuentaBancariaView.FindByFilterTextCuentaBancariaView";
 	public final static String findByNumeroCuenta = "CuentaBancariaView.findByNumeroCuenta";
+	public final static String findByIdSocio = "CuentaBancariaView.findByIdSocio";
 
-	private String numerocuenta;
-	private BigInteger idcuentabancaria;
-	private EstadoCuentaBancaria estadocuenta;
-	private Date fecnac_fecconst;
-	private Moneda moneda;
-	private BigInteger idsocio;
-	private String numerodocumento;
-	private String socio;
-	private TipoCuentaBancaria tipocuenta;
-	private String tipodocumento;
-	private TipoPersona tipopersona;
-
+	private BigInteger idCuentaBancaria;
+	private TipoCuentaBancaria tipoCuenta;
+	private String numeroCuenta;	
+	private EstadoCuentaBancaria estadoCuenta;
+	private BigInteger idMoneda;
+	private String moneda;
 	private BigDecimal tasaInteres;
 	private BigDecimal saldo;
+	private int cantidadRetirantes;
 	private Date fechaApertura;
 	private Date fechaCierre;
-
+	
+	private BigInteger idSocio;
+	private String socio;
+	
+	private TipoPersona tipoPersona;
+	private BigInteger idTipoDocumento;
+	private String tipoDocumento;
+	private String numeroDocumento;
+	
 	public CuentaBancariaView() {
 	}
 
 	@XmlElement(name = "id")
 	@Id
-	@Column(name = "IDCUENTABANCARIA", unique = true, nullable = false)
-	public BigInteger getIdcuentabancaria() {
-		return this.idcuentabancaria;
+	@Column(name = "ID_CUENTA_BANCARIA", unique = true, nullable = false)
+	public BigInteger getIdCuentaBancaria() {
+		return this.idCuentaBancaria;
 	}
 
-	public void setIdcuentabancaria(BigInteger idcuentabancaria) {
-		this.idcuentabancaria = idcuentabancaria;
+	public void setIdCuentaBancaria(BigInteger idCuentaBancaria) {
+		this.idCuentaBancaria = idCuentaBancaria;
+	}
+	
+	@XmlElement(name="tipoCuenta")	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "TIPO_CUENTA", columnDefinition = "nvarchar2")
+	public TipoCuentaBancaria getTipoCuenta() {
+		return tipoCuenta;
+	}
+
+	public void setTipoCuenta(TipoCuentaBancaria tipoCuenta) {
+		this.tipoCuenta = tipoCuenta;
 	}
 
 	@XmlElement(name = "numeroCuenta")
-	@Column(name = "NUMEROCUENTA", nullable = false, length = 40, columnDefinition = "nvarchar2")
-	public String getNumerocuenta() {
-		return this.numerocuenta;
+	@Column(name = "NUMERO_CUENTA", nullable = false, length = 40, columnDefinition = "nvarchar2")
+	public String getNumeroCuenta() {
+		return this.numeroCuenta;
 	}
 
-	public void setNumerocuenta(String numerocuenta) {
-		this.numerocuenta = numerocuenta;
+	public void setNumeroCuenta(String numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
 	}
 
 	@XmlElement(name = "estadoCuenta")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "ESTADOCUENTA", nullable = false, columnDefinition = "nvarchar2")
-	public EstadoCuentaBancaria getEstadocuenta() {
-		return this.estadocuenta;
+	@Column(name = "ESTADO_CUENTA", nullable = false, columnDefinition = "nvarchar2")
+	public EstadoCuentaBancaria getEstadoCuenta() {
+		return this.estadoCuenta;
 	}
 
-	public void setEstadocuenta(EstadoCuentaBancaria estadocuenta) {
-		this.estadocuenta = estadocuenta;
+	public void setEstadoCuenta(EstadoCuentaBancaria estadoCuenta) {
+		this.estadoCuenta = estadoCuenta;
+	}
+	
+	@XmlElement(name="idMoneda")
+	@Column(name = "ID_MONEDA")
+	public BigInteger getIdMoneda() {
+		return idMoneda;
 	}
 
-	@XmlElement(name = "fecha")
-	@Temporal(TemporalType.DATE)
-	@Column(name = "FECNAC_FECCONST", nullable = false, length = 7)
-	public Date getFecnac_fecconst() {
-		return this.fecnac_fecconst;
+	public void setIdMoneda(BigInteger idMoneda) {
+		this.idMoneda = idMoneda;
 	}
-
-	public void setFecnac_fecconst(Date fecnac_fecconst) {
-		this.fecnac_fecconst = fecnac_fecconst;
-	}
-
+	
 	@XmlElement(name = "moneda")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "IDMONEDA", nullable = false)
-	public Moneda getMoneda() {
+	@Column(name="MONEDA", columnDefinition="nvarchar2")
+	public String getMoneda() {
 		return this.moneda;
 	}
 
-	public void setMoneda(Moneda moneda) {
+	public void setMoneda(String moneda) {
 		this.moneda = moneda;
 	}
-
-	@XmlTransient
-	@Column(name = "IDSOCIO")
-	public BigInteger getIdsocio() {
-		return this.idsocio;
-	}
-
-	public void setIdsocio(BigInteger idsocio) {
-		this.idsocio = idsocio;
-	}
-
-	@XmlElement(name = "numeroDocumento")
-	@Column(name = "NUMERODOCUMENTO", nullable = false, length = 40, columnDefinition = "nvarchar2")
-	public String getNumerodocumento() {
-		return this.numerodocumento;
-	}
-
-	public void setNumerodocumento(String numerodocumento) {
-		this.numerodocumento = numerodocumento;
-	}
-
-	@XmlElement(name = "socio")
-	@Column(name = "SOCIO", nullable = false, columnDefinition = "nvarchar2")
-	public String getSocio() {
-		return this.socio;
-	}
-
-	public void setSocio(String socio) {
-		this.socio = socio;
-	}
-
-	@XmlElement(name = "tipoCuenta")
-	@Enumerated(EnumType.STRING)
-	@Column(name = "TIPOCUENTA", nullable = false, columnDefinition = "nvarchar2")
-	public TipoCuentaBancaria getTipocuenta() {
-		return this.tipocuenta;
-	}
-
-	public void setTipocuenta(TipoCuentaBancaria tipocuenta) {
-		this.tipocuenta = tipocuenta;
-	}
-
-	@XmlElement(name = "tipoDocumento")
-	@Column(name = "TIPODOCUMENTO", nullable = false, length = 20, columnDefinition = "nvarchar2")
-	public String getTipoDocumento() {
-		return this.tipodocumento;
-	}
-
-	public void setTipoDocumento(String tipoDocumento) {
-		this.tipodocumento = tipoDocumento;
-	}
-
-	@XmlElement(name = "tipoPersona")
-	@Enumerated(EnumType.STRING)
-	@Column(name = "TIPOPERSONA", columnDefinition = "nvarchar2")
-	public TipoPersona getTipopersona() {
-		return this.tipopersona;
-	}
-
-	public void setTipopersona(TipoPersona tipopersona) {
-		this.tipopersona = tipopersona;
-	}
-
+	
 	@XmlElement(name = "tasaInteres")
 	@Column(name = "TASA_INTERES")
 	public BigDecimal getTasaInteres() {
@@ -180,7 +130,7 @@ public class CuentaBancariaView implements Serializable {
 	public void setTasaInteres(BigDecimal tasaInteres) {
 		this.tasaInteres = tasaInteres;
 	}
-
+	
 	@XmlElement(name = "saldo")
 	@Column(name = "SALDO")
 	public BigDecimal getSaldo() {
@@ -190,7 +140,16 @@ public class CuentaBancariaView implements Serializable {
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
+	
+	@Column(name = "CANTIDAD_RETIRANTES")
+	public int getCantidadRetirantes() {
+		return cantidadRetirantes;
+	}
 
+	public void setCantidadRetirantes(int cantidadRetirantes) {
+		this.cantidadRetirantes = cantidadRetirantes;
+	}
+	
 	@XmlElement(name = "fechaApertura")
 	@Temporal(TemporalType.DATE)
 	@Column(name = "FECHA_APERTURA", nullable = false, length = 7)
@@ -211,6 +170,67 @@ public class CuentaBancariaView implements Serializable {
 
 	public void setFechaCierre(Date fechaCierre) {
 		this.fechaCierre = fechaCierre;
+	}
+	
+	@XmlElement(name="idSocio")
+	@Column(name = "ID_SOCIO")
+	public BigInteger getIdSocio() {
+		return idSocio;
+	}
+
+	public void setIdSocio(BigInteger idSocio) {
+		this.idSocio = idSocio;
+	}
+	
+	@XmlElement(name = "socio")
+	@Column(name = "SOCIO", nullable = false, columnDefinition = "nvarchar2")
+	public String getSocio() {
+		return this.socio;
+	}
+
+	public void setSocio(String socio) {
+		this.socio = socio;
+	}
+
+	@XmlElement(name = "tipoPersona")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "TIPO_PERSONA", columnDefinition = "nvarchar2")
+	public TipoPersona getTipoPersona() {
+		return this.tipoPersona;
+	}
+
+	public void setTipoPersona(TipoPersona tipoPersona) {
+		this.tipoPersona = tipoPersona;
+	}
+	
+	@XmlElement(name="idTipoDocumento")
+	@Column(name = "ID_TIPO_DOCUMENTO")
+	public BigInteger getIdTipoDocumento() {
+		return idTipoDocumento;
+	}
+
+	public void setIdTipoDocumento(BigInteger idTipoDocumento) {
+		this.idTipoDocumento = idTipoDocumento;
+	}
+	
+	@XmlElement(name = "tipoDocumento")
+	@Column(name = "TIPO_DOCUMENTO", nullable = false, length = 20, columnDefinition = "nvarchar2")
+	public String getTipoDocumento() {
+		return this.tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+	
+	@XmlElement(name = "numeroDocumento")
+	@Column(name = "NUMERO_DOCUMENTO", nullable = false, length = 40, columnDefinition = "nvarchar2")
+	public String getNumeroDocumento() {
+		return this.numeroDocumento;
+	}
+
+	public void setNumeroDocumento(String numeroDocumento) {
+		this.numeroDocumento = numeroDocumento;
 	}
 
 }

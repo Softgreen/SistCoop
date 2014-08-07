@@ -21,6 +21,6 @@ public interface SocioServiceTS extends AbstractServiceTS<Socio> {
 
 	public void cambiarApoderado(BigInteger idSocio, BigInteger idPersonaNatural) throws RollbackFailureException;
 
-	public void eliminarApoderado(BigInteger idSocio) throws RollbackFailureException;
+	public void deleteApoderado(BigInteger idSocio) throws RollbackFailureException;
 
 }

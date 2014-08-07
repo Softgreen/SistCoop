@@ -11,16 +11,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/socio")
+@Path("/socios")
 public interface SocioREST {
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public Response listAll(@QueryParam("filterText") String filterText,
-			@QueryParam("cuentaAporte") Boolean estadoCuentaAporte,
-			@QueryParam("estadoSocio") Boolean estadoSocio,
-			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+	public Response listAll(@QueryParam("filterText") String filterText, @QueryParam("cuentaAporte") Boolean estadoCuentaAporte, @QueryParam("estadoSocio") Boolean estadoSocio, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
 	@GET
 	@Path("/count")
@@ -70,8 +66,7 @@ public interface SocioREST {
 	@GET
 	@Path("/{id}/historialAportes")
 	@Produces({ "application/xml", "application/json" })
-	public Response getAportesHistorial(@PathParam("id") BigInteger idSocio,
-			@QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
+	public Response getAportesHistorial(@PathParam("id") BigInteger idSocio, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
 
 	@POST
 	@Produces({ "application/xml", "application/json" })

@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('PanelSocioController', ['$scope', '$state','$location','$window','$modal','SocioService','MaestroService','RedirectService',
-        function($scope,$state,$location,$window,$modal,SocioService,MaestroService,RedirectService) {
+    controllers.controller('PanelSocioController', ['$scope', '$state','$location','$window','$modal','SocioService','PersonaNaturalService','PersonaJuridicaService','MaestroService','RedirectService',
+        function($scope,$state,$location,$window,$modal,SocioService,PersonaNaturalService,PersonaJuridicaService,MaestroService,RedirectService) {
 
             $scope.viewState = "app.socio.panelSocio";
 
@@ -20,6 +20,15 @@ define(['../module'], function (controllers) {
                     SocioService.getSocio($scope.id).then(
                         function(data){
                             $scope.socio = data;
+                            if($scope.socio.tipoPersona == 'NATURAL'){
+                                PersonaNaturalService.findByTipoNumeroDocumento($scope.socio.idTipoDocumento, $scope.socio.numeroDocumento).then(function(data){
+                                    $scope.personaNatural = data;
+                                });
+                            } else if ($scope.socio.tipoPersona == 'JURIDICA'){
+                                PersonaJuridicaService.findByTipoNumeroDocumento($scope.socio.idTipoDocumento, $scope.socio.numeroDocumento).then(function(data){
+                                    $scope.personaJuridica = data;
+                                });
+                            }
                         }, function error(error){
                             $scope.alerts = [{ type: "danger", msg: "Socio no encontrado."}];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
@@ -37,28 +46,6 @@ define(['../module'], function (controllers) {
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
                     );
-                }
-            };
-            $scope.loadPersonaNatural = function(){
-                if(!angular.isUndefined($scope.id)){
-                    SocioService.getPersonaNatural($scope.id).then(function(data){
-                        $scope.personaNatural = data;
-                        var abreviaturaPais = $scope.personaNatural.codigoPais;
-                        MaestroService.getPaisByAbreviatura(abreviaturaPais).then(function(pais){
-                            $scope.pais = pais;
-                        });
-                    });
-                }
-            };
-            $scope.loadPersonaJuridica = function(){
-                if(!angular.isUndefined($scope.id)){
-                    SocioService.getPersonaJuridica($scope.id).then(function(data){
-                        $scope.personaJuridica = data;
-                        var abreviaturaPais = $scope.personaJuridica.representanteLegal.codigoPais;
-                        MaestroService.getPaisByAbreviatura(abreviaturaPais).then(function(pais){
-                            $scope.pais = pais;
-                        });
-                    });
                 }
             };
             $scope.loadApoderado = function(){
@@ -79,8 +66,6 @@ define(['../module'], function (controllers) {
             $scope.loadRedireccion();
             $scope.loadSocio();
             $scope.loadCuentaAporte();
-            $scope.loadPersonaNatural();
-            $scope.loadPersonaJuridica();
             $scope.loadApoderado();
             $scope.loadCuentasBancarias();
 

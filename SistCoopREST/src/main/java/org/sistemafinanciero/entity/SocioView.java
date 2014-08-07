@@ -8,10 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -33,11 +30,10 @@ import org.sistemafinanciero.entity.type.TipoPersona;
 @Table(name = "SOCIO_VIEW", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "socioview")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({
-		@NamedQuery(name = SocioView.findAll, query = "SELECT sv FROM SocioView sv WHERE sv.estado IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"),
-		@NamedQuery(name = SocioView.FindAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.cuentaAporte IS NOT NULL AND sv.estado IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"),
-		@NamedQuery(name = SocioView.FindByFilterTextSocioView, query = "SELECT sv FROM SocioView sv WHERE sv.estado IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numerodocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC"),
-		@NamedQuery(name = SocioView.FindByFilterTextSocioViewAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.cuentaAporte IS NOT NULL AND sv.estado IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numerodocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC") })
+@NamedQueries({ @NamedQuery(name = SocioView.findAll, query = "SELECT sv FROM SocioView sv WHERE sv.estadoSocio IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"), 
+				@NamedQuery(name = SocioView.FindAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.idCuentaAporte IS NOT NULL AND sv.estadoSocio IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"), 
+				@NamedQuery(name = SocioView.FindByFilterTextSocioView, query = "SELECT sv FROM SocioView sv WHERE sv.estadoSocio IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numeroDocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC"),
+				@NamedQuery(name = SocioView.FindByFilterTextSocioViewAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.idCuentaAporte IS NOT NULL AND sv.estadoSocio IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numeroDocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC"), })
 public class SocioView implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -45,32 +41,26 @@ public class SocioView implements Serializable {
 	public final static String FindAllHaveCuentaAporte = "SocioView.FindAllHaveCuentaAporte";
 	public final static String FindByFilterTextSocioView = "SocioView.FindByFilterTextSocioView";
 	public final static String FindByFilterTextSocioViewAllHaveCuentaAporte = "SocioView.FindByFilterTextSocioViewAllHaveCuentaAporte";
+	public final static String FindByTipoAndNumeroDocumento = "SocioView.FindByTipoAndNumeroDocumento";
 
 	private BigInteger idsocio;
+	private int estadoSocio;
+	private Date fechaAsociado;
+	private Date fechaFin;
 
-	private int estado;
-
-	private CuentaAporte cuentaAporte;
-
+	private BigInteger idCuentaAporte;
 	private String numeroCuentaAporte;
-
 	private EstadoCuentaAporte estadoCuentaAporte;
 
-	private String tipodocumento;
-
-	private TipoPersona tipopersona;
-
-	private String numerodocumento;
-
+	private TipoPersona tipoPersona;
+	private BigInteger idTipoDocumento;
+	private String tipoDocumento;
+	private String numeroDocumento;
 	private String socio;
+	private Date fechaNacimiento;
 
-	private Date fecNacfecConst;
-
-	private Date fechaasociado;
-
-	private String direccion;
-
-	private String email;
+	private BigInteger idApoderado;
+	private String codigoAgencia;
 
 	public SocioView() {
 	}
@@ -86,108 +76,46 @@ public class SocioView implements Serializable {
 		this.idsocio = idsocio;
 	}
 
-	@XmlElement(name = "direccion")
-	@Column(name = "DIRECCION", nullable = false, length = 70, columnDefinition = "nvarchar2")
-	public String getDireccion() {
-		return this.direccion;
+	@XmlElement(name = "estado")
+	@Column(name = "ESTADO_SOCIO", nullable = false)
+	public boolean getEstadoSocio() {
+		return (this.estadoSocio == 1 ? true : false);
 	}
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
-	@XmlElement(name = "email")
-	@Column(name = "EMAIL", nullable = false, length = 70, columnDefinition = "nvarchar2")
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	@XmlElement
-	@Column(name = "SOCIO", nullable = false, length = 192, columnDefinition = "nvarchar2")
-	public String getSocio() {
-		return this.socio;
-	}
-
-	public void setSocio(String socio) {
-		this.socio = socio;
-	}
-
-	@XmlElement(name = "tipoDocumento")
-	@Column(name = "TIPO_DOCUMENTO", nullable = false, length = 20, columnDefinition = "nvarchar2")
-	public String getTipodocumento() {
-		return tipodocumento;
-	}
-
-	public void setTipodocumento(String tipodocumento) {
-		this.tipodocumento = tipodocumento;
-	}
-
-	@XmlElement(name = "numeroDocumento")
-	@Column(name = "NUMERO_DOCUMENTO", nullable = false, length = 20, columnDefinition = "nvarchar2")
-	public String getNumerodocumento() {
-		return numerodocumento;
-	}
-
-	public void setNumerodocumento(String numerodocumento) {
-		this.numerodocumento = numerodocumento;
-	}
-
-	@XmlElement(name = "tipoPersona")
-	@Enumerated(EnumType.STRING)
-	@Column(name = "TIPO_PERSONA", nullable = false, length = 20, columnDefinition = "nvarchar2")
-	public TipoPersona getTipopersona() {
-		return tipopersona;
-	}
-
-	public void setTipopersona(TipoPersona tipopersona) {
-		this.tipopersona = tipopersona;
-	}
-
-	@XmlElement
-	@Temporal(TemporalType.DATE)
-	@Column(name = "\"FEC. NAC. / FEC. CONST.\"")
-	public Date getFecNacFecConst() {
-		return fecNacfecConst;
-	}
-
-	public void setFecNacFecConst(Date fecNacFecConst) {
-		fecNacfecConst = fecNacFecConst;
+	public void setEstadoSocio(boolean estadoSocio) {
+		this.estadoSocio = (estadoSocio ? 1 : 0);
 	}
 
 	@XmlElement(name = "fechaAsociado")
 	@Temporal(TemporalType.DATE)
 	@Column(name = "FECHA_ASOCIADO")
-	public Date getFechaasociado() {
-		return fechaasociado;
+	public Date getFechaAsociado() {
+		return fechaAsociado;
 	}
 
-	public void setFechaasociado(Date fechaasociado) {
-		this.fechaasociado = fechaasociado;
+	public void setFechaAsociado(Date fechaAsociado) {
+		this.fechaAsociado = fechaAsociado;
+	}
+	
+	@XmlElement(name = "fechaFin")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "FECHA_FIN")
+	public Date getFechaFin() {
+		return fechaFin;
 	}
 
-	@XmlElement(name = "estado")
-	@Column(name = "ESTADO_SOCIO", nullable = false)
-	public boolean getEstado() {
-		return (this.estado == 1 ? true : false);
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
-	public void setEstado(boolean estado) {
-		this.estado = (estado ? 1 : 0);
+	@XmlElement(name = "idCuentaAporte")
+	@Column(name = "ID_CUENTA_APORTE", precision = 22, scale = 0)
+	public BigInteger getIdCuentaAporte() {
+		return idCuentaAporte;
 	}
 
-	@XmlElement(name = "cuentaAporte")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_CUENTA_APORTE", nullable = true)
-	public CuentaAporte getCuentaAporte() {
-		return cuentaAporte;
-	}
-
-	public void setCuentaAporte(CuentaAporte cuentaAporte) {
-		this.cuentaAporte = cuentaAporte;
+	public void setIdCuentaAporte(BigInteger idCuentaAporte) {
+		this.idCuentaAporte = idCuentaAporte;
 	}
 
 	@XmlElement(name = "numeroCuentaAporte")
@@ -209,6 +137,88 @@ public class SocioView implements Serializable {
 
 	public void setEstadoCuentaAporte(EstadoCuentaAporte estadoCuentaAporte) {
 		this.estadoCuentaAporte = estadoCuentaAporte;
+	}
+
+	@XmlElement(name = "tipoPersona")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "TIPO_PERSONA", nullable = false, length = 20, columnDefinition = "nvarchar2")
+	public TipoPersona getTipoPersona() {
+		return tipoPersona;
+	}
+
+	public void setTipoPersona(TipoPersona tipoPersona) {
+		this.tipoPersona = tipoPersona;
+	}
+
+	@XmlElement(name = "idTipoDocumento")
+	@Column(name = "ID_TIPO_DOCUMENTO", precision = 22, scale = 0)
+	public BigInteger getIdTipoDocumento() {
+		return idTipoDocumento;
+	}
+
+	public void setIdTipoDocumento(BigInteger idTipoDocumento) {
+		this.idTipoDocumento = idTipoDocumento;
+	}
+
+	@XmlElement(name = "tipoDocumento")
+	@Column(name = "TIPO_DOCUMENTO", columnDefinition = "nvarchar2")
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	@XmlElement(name = "numeroDocumento")
+	@Column(name = "NUMERO_DOCUMENTO", columnDefinition = "nvarchar2")
+	public String getNumeroDocumento() {
+		return numeroDocumento;
+	}
+
+	public void setNumeroDocumento(String numeroDocumento) {
+		this.numeroDocumento = numeroDocumento;
+	}
+
+	@XmlElement(name = "socio")
+	@Column(name = "SOCIO", nullable = false, length = 192, columnDefinition = "nvarchar2")
+	public String getSocio() {
+		return this.socio;
+	}
+
+	public void setSocio(String socio) {
+		this.socio = socio;
+	}
+
+	@XmlElement
+	@Temporal(TemporalType.DATE)
+	@Column(name = "FECHA_NACIMIENTO")
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	@XmlElement(name = "idApoderado")
+	@Column(name = "ID_APODERADO", precision = 22, scale = 0)
+	public BigInteger getIdApoderado() {
+		return idApoderado;
+	}
+
+	public void setIdApoderado(BigInteger idApoderado) {
+		this.idApoderado = idApoderado;
+	}
+
+	@XmlElement(name = "codigoAgencia")
+	@Column(name = "CODIGO_AGENCIA", columnDefinition = "nvarchar2")
+	public String getCodigoAgencia() {
+		return codigoAgencia;
+	}
+
+	public void setCodigoAgencia(String codigoAgencia) {
+		this.codigoAgencia = codigoAgencia;
 	}
 
 }

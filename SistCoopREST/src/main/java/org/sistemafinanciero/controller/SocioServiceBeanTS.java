@@ -2,14 +2,9 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
-import javax.ejb.EJB;
-import javax.ejb.EJBAccessException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -17,39 +12,19 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.hibernate.Hibernate;
-import org.joda.time.LocalDate;
 import org.sistemafinanciero.dao.DAO;
-import org.sistemafinanciero.dao.QueryParameter;
-import org.sistemafinanciero.entity.Accionista;
-import org.sistemafinanciero.entity.Agencia;
-import org.sistemafinanciero.entity.BovedaCaja;
-import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
-import org.sistemafinanciero.entity.HistorialAportesSP;
-import org.sistemafinanciero.entity.HistorialAportesView;
-import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Socio;
-import org.sistemafinanciero.entity.SocioView;
-import org.sistemafinanciero.entity.TipoDocumento;
-import org.sistemafinanciero.entity.TransaccionCuentaAporte;
-import org.sistemafinanciero.entity.dto.VoucherTransaccionCuentaAporte;
 import org.sistemafinanciero.entity.type.EstadoCuentaAporte;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
-import org.sistemafinanciero.exception.IllegalResultException;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
-import org.sistemafinanciero.service.nt.PersonaJuridicaServiceNT;
-import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
-import org.sistemafinanciero.service.nt.SocioServiceNT;
 import org.sistemafinanciero.service.ts.SocioServiceTS;
-import org.sistemafinanciero.util.EntityManagerProducer;
-import org.sistemafinanciero.util.ProduceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,28 +38,12 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 
 	@Inject
 	private DAO<Object, Socio> socioDAO;
-	@Inject
-	private DAO<Object, SocioView> socioViewDAO;
+
 	@Inject
 	private DAO<Object, CuentaAporte> cuentaAporteDAO;
-	@Inject
-	private DAO<Object, CuentaBancaria> cuentaBancariaDAO;
-	@Inject
-	private DAO<Object, Agencia> agenciaDAO;
+
 	@Inject
 	private DAO<Object, PersonaNatural> personaNaturalDAO;
-	@Inject
-	private DAO<Object, TransaccionCuentaAporte> transaccionCuentaAporteDAO;
-
-	@Inject
-	private DAO<Object, HistorialAportesView> historialAportesViewDAO;
-
-	@EJB
-	private PersonaNaturalServiceNT personaNaturalService;
-	@EJB
-	private PersonaJuridicaServiceNT personaJuridicaService;
-	@EJB
-	private SocioServiceNT socioServiceNT;
 
 	@Override
 	public BigInteger create(Socio t) throws PreexistingEntityException, RollbackFailureException {
@@ -106,114 +65,7 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 
 	@Override
 	public BigInteger create(BigInteger idAgencia, TipoPersona tipoPersona, BigInteger idDocSocio, String numDocSocio, BigInteger idDocApoderado, String numDocApoderado) throws RollbackFailureException {
-		PersonaNatural personaNatural = null;
-		PersonaJuridica personaJuridica = null;
-		PersonaNatural apoderado = null;
-		Agencia agencia = agenciaDAO.find(idAgencia);
-
-		if (agencia == null)
-			throw new RollbackFailureException("Agencia no encontrada");
-
-		if (idDocApoderado != null && numDocApoderado != null) {
-			apoderado = personaNaturalService.find(idDocApoderado, numDocApoderado);
-			if (apoderado == null)
-				throw new RollbackFailureException("Apoderado no encontrado");
-		}
-
-		Calendar calendar = Calendar.getInstance();
-		switch (tipoPersona) {
-		case NATURAL:
-			personaNatural = personaNaturalService.find(idDocSocio, numDocSocio);
-			if (personaNatural == null)
-				throw new RollbackFailureException("Persona para socio no encontrado");
-			if (apoderado != null)
-				if (personaNatural.equals(apoderado))
-					throw new RollbackFailureException("Apoderado y socio deben de ser diferentes");
-			break;
-		case JURIDICA:
-			personaJuridica = personaJuridicaService.find(idDocSocio, numDocSocio);
-			if (personaJuridica == null)
-				throw new RollbackFailureException("Persona para socio no encontrado");
-			if (apoderado != null)
-				if (personaJuridica.getRepresentanteLegal().equals(apoderado))
-					throw new RollbackFailureException("Apoderado y representante legal deben de ser diferentes");
-			break;
-		default:
-			throw new RollbackFailureException("Tipo de persona no valido");
-		}
-
-		// verificar si el socio ya existe
-		Socio socio = socioServiceNT.find(tipoPersona, idDocSocio, numDocSocio);
-		if (socio != null) {
-			if (socio.getEstado()) {
-				CuentaAporte aporte = socio.getCuentaAporte();
-				if (aporte == null) {
-					CuentaAporte cuentaAporte = new CuentaAporte();
-					cuentaAporte.setNumeroCuenta(agencia.getCodigo());
-					cuentaAporte.setEstadoCuenta(EstadoCuentaAporte.ACTIVO);
-					cuentaAporte.setMoneda(ProduceObject.getMonedaPrincipal());
-					cuentaAporte.setSaldo(BigDecimal.ZERO);
-					cuentaAporte.setSocios(null);
-					cuentaAporteDAO.create(cuentaAporte);
-
-					String numeroCuenta = ProduceObject.getNumeroCuenta(cuentaAporte);
-					cuentaAporte.setNumeroCuenta(numeroCuenta);
-					cuentaAporteDAO.update(cuentaAporte);
-
-					socio.setCuentaAporte(cuentaAporte);
-					socio.setApoderado(apoderado);
-					socioDAO.update(socio);
-				} else {
-					throw new RollbackFailureException("Socio ya existente, y tiene cuenta aportes activa");
-				}
-			} else {
-				CuentaAporte cuentaAporte = new CuentaAporte();
-				cuentaAporte.setNumeroCuenta(agencia.getCodigo());
-				cuentaAporte.setEstadoCuenta(EstadoCuentaAporte.ACTIVO);
-				cuentaAporte.setMoneda(ProduceObject.getMonedaPrincipal());
-				cuentaAporte.setSaldo(BigDecimal.ZERO);
-				cuentaAporte.setSocios(null);
-				cuentaAporteDAO.create(cuentaAporte);
-
-				String numeroCuenta = ProduceObject.getNumeroCuenta(cuentaAporte);
-				cuentaAporte.setNumeroCuenta(numeroCuenta);
-				cuentaAporteDAO.update(cuentaAporte);
-
-				socio = new Socio();
-				socio.setPersonaNatural(personaNatural);
-				socio.setPersonaJuridica(personaJuridica);
-				socio.setApoderado(apoderado);
-				socio.setCuentaAporte(cuentaAporte);
-				socio.setEstado(true);
-				socio.setFechaInicio(calendar.getTime());
-				socio.setFechaFin(null);
-				socioDAO.create(socio);
-			}
-		} else {
-			CuentaAporte cuentaAporte = new CuentaAporte();
-			cuentaAporte.setNumeroCuenta(agencia.getCodigo());
-			cuentaAporte.setEstadoCuenta(EstadoCuentaAporte.ACTIVO);
-			cuentaAporte.setMoneda(ProduceObject.getMonedaPrincipal());
-			cuentaAporte.setSaldo(BigDecimal.ZERO);
-			cuentaAporte.setSocios(null);
-			cuentaAporteDAO.create(cuentaAporte);
-
-			String numeroCuenta = ProduceObject.getNumeroCuenta(cuentaAporte);
-			cuentaAporte.setNumeroCuenta(numeroCuenta);
-			cuentaAporteDAO.update(cuentaAporte);
-
-			socio = new Socio();
-			socio.setPersonaNatural(personaNatural);
-			socio.setPersonaJuridica(personaJuridica);
-			socio.setApoderado(apoderado);
-			socio.setCuentaAporte(cuentaAporte);
-			socio.setEstado(true);
-			socio.setFechaInicio(calendar.getTime());
-			socio.setFechaFin(null);
-			socioDAO.create(socio);
-		}
-
-		return socio.getIdSocio();
+		return null;
 	}
 
 	@Override
@@ -308,7 +160,7 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 	}
 
 	@Override
-	public void eliminarApoderado(BigInteger idSocio) throws RollbackFailureException {
+	public void deleteApoderado(BigInteger idSocio) throws RollbackFailureException {
 		Socio socio = socioDAO.find(idSocio);
 		if (socio == null)
 			throw new RollbackFailureException("Socio no encontrado");

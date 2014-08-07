@@ -3,8 +3,8 @@ define(['./module'], function (services) {
     services.factory("SocioService",["Restangular",
         function(Restangular){
 
-            var _socioService = Restangular.all("socio");
-            var baseUrl = "socio";
+            var _socioService = Restangular.all("socios");
+            var baseUrl = "socios";
 
             return {
                 findById: function(id){
@@ -52,14 +52,14 @@ define(['./module'], function (services) {
                         "numeroDocumentoSocio" : numeroDocumentoSocio,
                         "idTipoDocumentoApoderado" : idTipoDocumentoApoderado,
                         "numeroDocumentoApoderado" : numeroDocumentoApoderado
-                    }
+                    };
                     return Restangular.all("socio").post(socio);
                 },
                 getSocio: function(id){
-                    return Restangular.one("socio/"+id).get();
+                    return Restangular.one(baseUrl+"/"+id).get();
                 },
                 getCuentaAporte: function(id){
-                    return Restangular.one("socio/"+id+"/cuentaAporte").get();
+                    return Restangular.one(baseUrl+"/"+id+"/cuentaAporte").get();
                 },
                 getPersonaNatural: function(id){
                     return Restangular.one("socio/"+id+"/personaNatural").get();
@@ -68,16 +68,16 @@ define(['./module'], function (services) {
                     return Restangular.one("socio/"+id+"/personaJuridica").get();
                 },
                 getApoderado: function(id){
-                    return Restangular.one("socio/"+id+"/apoderado").get();
+                    return Restangular.one(baseUrl+"/"+id+"/apoderado").get();
                 },
                 getCuentasBancarias: function(id){
-                    return Restangular.all("socio/"+id+"/cuentaBancaria").getList();
+                    return Restangular.all(baseUrl+"/"+id+"/cuentasBancarias").getList();
                 },
                 congelarCuentaAporte: function(id){
-                    return Restangular.one(baseUrl +"/"+id+"/cuentaAporte/congelar").customPUT({},'',{},{});
+                    return Restangular.one(baseUrl +"/"+id+"/cuentaAporte/congelar").customPOST({},'',{},{});
                 },
                 descongelarCuentaAporte: function(id){
-                    return Restangular.one(baseUrl +"/"+id+"/cuentaAporte/descongelar").customPUT({},'',{},{});
+                    return Restangular.one(baseUrl +"/"+id+"/cuentaAporte/descongelar").customPOST({},'',{},{});
                 },
                 inactivarSocio: function(id){
                     return Restangular.one(baseUrl +"/"+id).remove();

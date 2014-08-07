@@ -17,54 +17,88 @@
 package org.sistemafinanciero.rest.impl;
 
 import java.math.BigInteger;
+import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
 
+import org.sistemafinanciero.entity.CuentaAporte;
+import org.sistemafinanciero.entity.CuentaBancariaView;
+import org.sistemafinanciero.entity.PersonaNatural;
+import org.sistemafinanciero.entity.SocioView;
+import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.SocioREST;
+import org.sistemafinanciero.service.nt.SocioServiceNT;
+import org.sistemafinanciero.service.ts.SocioServiceTS;
 
 public class SocioRESTService implements SocioREST {
 
+	@EJB
+	private SocioServiceNT socioServiceNT;
+
+	@EJB
+	private SocioServiceTS socioServiceTS;
+
 	@Override
-	public Response listAll(String filterText, Boolean estadoCuentaAporte,
-			Boolean estadoSocio, Integer offset, Integer limit) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response listAll(String filterText, Boolean estadoCuentaAporte, Boolean estadoSocio, Integer offset, Integer limit) {
+		List<SocioView> list = socioServiceNT.findAllView(filterText, estadoCuentaAporte, estadoSocio, offset, limit);
+		Response response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
 	public Response countAll() {
-		// TODO Auto-generated method stub
-		return null;
+		int count = socioServiceNT.count();
+		Response response = Response.status(Response.Status.OK).entity(count).build();
+		return response;
 	}
 
 	@Override
 	public Response findById(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		SocioView socio = socioServiceNT.findById(id);
+		Response response = Response.status(Response.Status.OK).entity(socio).build();
+		return response;
 	}
 
 	@Override
 	public Response getCuentaAporte(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		CuentaAporte cuentaAporte = socioServiceNT.getCuentaAporte(id);
+		Response response = Response.status(Response.Status.OK).entity(cuentaAporte).build();
+		return response;
 	}
 
 	@Override
 	public Response congelarCuentaAporte(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			socioServiceTS.congelarCuentaAporte(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
 	public Response descongelarCuentaAporte(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			socioServiceTS.descongelarCuentaAporte(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
-	public Response getApoderado(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getApoderado(BigInteger id) {		
+		PersonaNatural apoderado = socioServiceNT.getApoderado(id);
+		Response response = Response.status(Response.Status.OK).entity(apoderado).build();		
+		return response;
 	}
 
 	@Override
@@ -75,19 +109,26 @@ public class SocioRESTService implements SocioREST {
 
 	@Override
 	public Response eliminarApoderado(BigInteger idSocio) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			socioServiceTS.deleteApoderado(idSocio);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
 	public Response getCuentasBancarias(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CuentaBancariaView> list = socioServiceNT.getCuentasBancarias(id);
+		Response response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
-	public Response getAportesHistorial(BigInteger idSocio, Long desde,
-			Long hasta) {
+	public Response getAportesHistorial(BigInteger idSocio, Long desde, Long hasta) {
 		// TODO Auto-generated method stub
 		return null;
 	}

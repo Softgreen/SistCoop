@@ -82,9 +82,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 
 	@Override
 	public CuentaBancariaView findView(BigInteger idCuentaBancaria) {
-		CuentaBancariaView cuentaBancariaView = cuentaBancariaViewDAO.find(idCuentaBancaria);
-		Moneda moneda = cuentaBancariaView.getMoneda();
-		Hibernate.initialize(moneda);
+		CuentaBancariaView cuentaBancariaView = cuentaBancariaViewDAO.find(idCuentaBancaria);		
 		return cuentaBancariaView;
 	}
 
@@ -95,9 +93,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		if (list.size() > 1)
 			throw new EJBException("Mas de una cuenta con el numero de cuenta");
 		else
-			for (CuentaBancariaView cuentaBancaria : list) {
-				Moneda moneda = cuentaBancaria.getMoneda();
-				Hibernate.initialize(moneda);
+			for (CuentaBancariaView cuentaBancaria : list) {				
 				return cuentaBancaria;
 			}
 		return null;
@@ -171,12 +167,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		Integer offSetInteger = offset.intValue();
 		Integer limitInteger = (limit != null ? limit.intValue() : null);
 
-		result = cuentaBancariaViewDAO.findByNamedQuery(CuentaBancariaView.FindByFilterTextCuentaBancariaView, queryParameter.parameters(), offSetInteger, limitInteger);
-		if (result != null)
-			for (CuentaBancariaView cuentaBancariaView : result) {
-				Moneda moneda = cuentaBancariaView.getMoneda();
-				Hibernate.initialize(moneda);
-			}
+		result = cuentaBancariaViewDAO.findByNamedQuery(CuentaBancariaView.FindByFilterTextCuentaBancariaView, queryParameter.parameters(), offSetInteger, limitInteger);		
 		return result;
 	}
 

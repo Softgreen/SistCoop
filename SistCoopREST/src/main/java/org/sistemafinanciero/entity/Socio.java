@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,18 +32,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "SOCIO", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "socio")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({
-		@NamedQuery(name = Socio.FindByPNTipoAndNumeroDocumento, query = "SELECT s FROM Socio s INNER JOIN s.personaNatural pn WHERE pn.numeroDocumento = :numerodocumento AND pn.tipoDocumento.idTipoDocumento = :idtipodocumento AND s.estado = true"),
-		@NamedQuery(name = Socio.FindByPJTipoAndNumeroDocumento, query = "SELECT s FROM Socio s INNER JOIN s.personaJuridica pj WHERE pj.numeroDocumento = :numerodocumento AND pj.tipoDocumento.idTipoDocumento = :idtipodocumento AND s.estado = true") })
 public class Socio implements java.io.Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public final static String FindByPNTipoAndNumeroDocumento = "Socio.FindByPNTipoAndNumeroDocumento";
-	public final static String FindByPJTipoAndNumeroDocumento = "Socio.FindByPJTipoAndNumeroDocumento";
 
 	private BigInteger idSocio;
 	private PersonaNatural personaNatural;
@@ -60,17 +52,14 @@ public class Socio implements java.io.Serializable {
 	public Socio() {
 	}
 
-	public Socio(BigInteger idSocio, CuentaAporte cuentaAporte,
-			Date fechaInicio, boolean estado) {
+	public Socio(BigInteger idSocio, CuentaAporte cuentaAporte, Date fechaInicio, boolean estado) {
 		this.idSocio = idSocio;
 		this.cuentaAporte = cuentaAporte;
 		this.fechaInicio = fechaInicio;
 		this.estado = (estado ? 1 : 0);
 	}
 
-	public Socio(BigInteger idSocio, PersonaNatural personaNatural,
-			CuentaAporte cuentaAporte, PersonaJuridica personaJuridica,
-			Date fechaInicio, Date fechaFin, boolean estado, Set cuentaBancarias) {
+	public Socio(BigInteger idSocio, PersonaNatural personaNatural, CuentaAporte cuentaAporte, PersonaJuridica personaJuridica, Date fechaInicio, Date fechaFin, boolean estado, Set cuentaBancarias) {
 		this.idSocio = idSocio;
 		this.personaNatural = personaNatural;
 		this.cuentaAporte = cuentaAporte;

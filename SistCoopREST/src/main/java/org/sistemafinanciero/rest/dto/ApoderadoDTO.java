@@ -2,13 +2,12 @@ package org.sistemafinanciero.rest.dto;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "titular")
+@XmlRootElement(name = "apoderadoDTO")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class ApoderadoDTO implements Serializable{
 

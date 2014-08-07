@@ -11,8 +11,8 @@
             </div>
             <div class="col-sm-6" ng-if="socio.estado" style="text-align: right;font-size: 14px;">
                 <div class="btn-group">
-                    <button type="button" ng-if="cuentaAporte.estadoCuenta == 'ACTIVO'" ng-click="congelarCuentaAporte()" popover="Congelar cuenta aporte" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Congelado</button>
-                    <button type="button" ng-if="cuentaAporte.estadoCuenta == 'CONGELADO'" ng-click="descongelarCuentaAporte()" popover="Descongelar cuenta aportes" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default active">Congelado</button>
+                    <button type="button" ng-if="socio.estadoCuentaAporte == 'ACTIVO'" ng-click="congelarCuentaAporte()" popover="Congelar cuenta aporte" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Congelado</button>
+                    <button type="button" ng-if="socio.estadoCuentaAporte == 'CONGELADO'" ng-click="descongelarCuentaAporte()" popover="Descongelar cuenta aportes" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default active">Congelado</button>
                     <button type="button" ng-click="inactivarSocio()" popover="Eliminar socio" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Inactivar</button>
                 </div>
             </div>
@@ -21,7 +21,7 @@
 </fieldset>
 <div class="row">
     <div class="col-sm-6">
-        <div class="panel panel-default" ng-show="personaNatural">
+        <div class="panel panel-default" ng-show="socio.tipoPersona == 'NATURAL'">
             <!-- Default panel contents -->
             <div class="panel-heading">
                 <div class="row">
@@ -89,7 +89,7 @@
                 </tr>
             </table>
         </div>
-        <div ng-show="personaJuridica">
+        <div ng-show="socio.tipoPersona == 'JURIDICA'">
             <tabset>
                 <tab heading="Persona Juridica">
                     <div class="panel panel-default">
@@ -226,7 +226,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 12px;"><strong>Fec. Apertura:</strong></td>
-                    <td style="font-size: 12px;"><span ng-bind="socio.fechaInicio | date : 'dd/MM/yyyy'"></span></td>
+                    <td style="font-size: 12px;"><span ng-bind="socio.fechaAsociado | date : 'dd/MM/yyyy'"></span></td>
                     <td style="font-size: 12px;"><strong>Fecha Retiro:</strong></td>
                     <td style="font-size: 12px;">
                         <span ng-cloak>{{socio.fechaFin === undefined ? 'INDEFINIDO' : socio.fechaFin | date : 'dd/MM/yyyy'}}</span>
@@ -263,10 +263,10 @@
             </table>
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-md-5" style="font-weight: bold;">
+                    <div class="col-md-3" style="font-weight: bold;">
                         Apoderado
                     </div>
-                    <div class="col-md-7" ng-if="socio.estado">
+                    <div class="col-md-9" ng-if="socio.estado">
                         <div class="text-right">
                             <button type="button" ng-if="apoderado" ng-click="eliminarApoderado()" class="btn btn-link" style="padding: 0px 12px;">Eliminar</button>
                             <button type="button" ng-click="cambiarApoderado()" class="btn btn-link" style="padding: 0px 12px;">Cambiar</button>
@@ -321,9 +321,9 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="cuenta in cuentasBancarias">
-                    <td style="font-size: 12px;"><span ng-bind="cuenta.tipoCuentaBancaria"/></td>
+                    <td style="font-size: 12px;"><span ng-bind="cuenta.tipoCuenta"/></td>
                     <td style="font-size: 12px;"><span ng-bind="cuenta.numeroCuenta"/></td>
-                    <td style="font-size: 12px;"><span ng-bind="cuenta.moneda.denominacion"/></td>
+                    <td style="font-size: 12px;"><span ng-bind="cuenta.moneda"/></td>
                     <td style="font-size: 12px;"><span ng-bind="cuenta.saldo"/></td>
                     <td style="font-size: 12px;"><span ng-bind="cuenta.fechaApertura | date : 'dd/MM/yyyy'"/></td>
                     <td style="font-size: 12px;">
@@ -331,7 +331,7 @@
                         <span ng-show="!cuenta.fechaCierre">INDEFINIDO</span>
                     </td>
                     <td style="font-size: 12px; text-align: center"><span ng-bind="cuenta.cantidadRetirantes"/></td>
-                    <td style="font-size: 12px;"><span ng-bind="cuenta.estado"/></td>
+                    <td style="font-size: 12px;"><span ng-bind="cuenta.estadoCuenta"/></td>
                     <td>
                         <button type="button" class="btn btn-info btn-xs" ng-click="editarCuentaBancaria($index)">
                             <span class="glyphicon glyphicon-share"></span>Editar
