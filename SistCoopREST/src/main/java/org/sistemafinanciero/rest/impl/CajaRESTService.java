@@ -28,6 +28,7 @@ import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.CajaCierreMoneda;
@@ -150,25 +151,11 @@ public class CajaRESTService implements CajaREST {
 	}
 
 	@Override
-	public Response abrir(BigInteger id) {
-		try {
-			cajaSessionServiceTS.abrirCaja();
-			return Response.status(Response.Status.NO_CONTENT).build();
-		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.NO_CONTENT).build();
-		}
+	public Response getPendientesOfCaja(BigInteger id, BigInteger idHistorial) {
+		Set<PendienteCaja> pendientes = cajaServiceNT.getPendientes(id, idHistorial);
+		return Response.status(Response.Status.OK).entity(pendientes).build();
 	}
-
-	@Override
-	public Response cerrar(BigInteger id) {
-		try {
-			cajaSessionServiceTS.cerrarCaja(null);
-			return Response.status(Response.Status.NO_CONTENT).build();
-		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-		}
-	}
-
+	
 	@Override
 	public Response desactivarCaja(BigInteger id) {
 		try {
@@ -234,5 +221,4 @@ public class CajaRESTService implements CajaREST {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

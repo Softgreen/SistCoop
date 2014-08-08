@@ -11,6 +11,7 @@ import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.CajaCierreMoneda;
@@ -61,5 +62,7 @@ public interface CajaServiceNT extends AbstractServiceNT<Caja> {
 	public VoucherTransferenciaBancaria getVoucherTransferenciaBancaria(BigInteger idTransferencia);
 
 	public VoucherCompraVenta getVoucherCompraVenta(BigInteger idTransaccionCompraVenta);
+	
+	public Set<PendienteCaja> getPendientes(BigInteger idCaja, BigInteger idHistorialCaja);
 
 }

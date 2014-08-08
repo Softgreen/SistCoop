@@ -3,11 +3,13 @@ package org.sistemafinanciero.service.ts;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Remote;
 
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.type.TipoPersona;
@@ -20,6 +22,8 @@ public interface SessionServiceTS {
 	public BigInteger abrirCaja() throws RollbackFailureException;
 
 	public BigInteger cerrarCaja(Set<GenericMonedaDetalle> detalleCaja) throws RollbackFailureException;
+	
+	public Map<Boveda, BigDecimal> getDiferenciaSaldoCaja(Set<GenericMonedaDetalle> detalle);
 
 	public BigInteger crearAporte(BigInteger idSocio, BigDecimal monto, int mes, int anio, String referencia) throws RollbackFailureException;
 
@@ -51,6 +55,6 @@ public interface SessionServiceTS {
 
 	public void cancelarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException;
 
-	public void confirmarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException;
+	public void confirmarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException;	
 
 }

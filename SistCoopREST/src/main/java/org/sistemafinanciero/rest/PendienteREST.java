@@ -25,6 +25,5 @@ public interface PendienteREST {
 	@Path("{id}/voucher")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getVoucherPendienteCaja(
-			@PathParam("id") BigInteger idPendienteCaja);
+	public Response getVoucherPendienteCaja(@PathParam("id") BigInteger idPendienteCaja);
 }

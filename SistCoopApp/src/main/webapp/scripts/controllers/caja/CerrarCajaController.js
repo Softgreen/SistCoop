@@ -1,12 +1,13 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CerrarCajaController', ["$scope", "$state","$window", "$location","$filter", "CajaSessionService",
-        function($scope, $state,$window, $location, $filter, CajaSessionService) {
+    controllers.controller('CerrarCajaController', ["$scope", "$state","$window", "$location","$filter", "SessionService","CajaService",
+        function($scope, $state,$window, $location, $filter,SessionService,CajaService) {
 
             $scope.control = {"success":false, "inProcess": false};
 
+            //console.log("caja en session:"+JSON.stringify($scope.cajaSession));
             //cargar los datos del web service
-            CajaSessionService.getDetalle().then(function(detalleCaja){
+            CajaService.getDetalle($scope.cajaSession.id).then(function(detalleCaja){
                 for(var i = 0; i<detalleCaja.length; i++){
                     angular.forEach(detalleCaja[i].detalle, function(row){
                         row.subtotal = function(){
@@ -54,9 +55,9 @@ define(['../module'], function (controllers) {
                         total = total + ($scope.myDataInicial[index][i].valor * $scope.myDataInicial[index][i].cantidad);
                     }
                     return $filter('currency')(total," ")
-                }
+                };
                 return $scope.gridOptionsInicial[index];
-            }
+            };
 
             $scope.myDataFinal = [];
             $scope.gridOptionsFinal = [];
@@ -96,7 +97,7 @@ define(['../module'], function (controllers) {
             $scope.cerrarCaja = function () {
                 $scope.control.inProcess = true;
 
-                CajaSessionService.cerrar($scope.detalleCajaFinal).then(
+                SessionService.cerrarCajaOfSession($scope.detalleCajaFinal).then(
                     function(data){
                         $scope.control.inProcess = false;
                         $scope.control.success = true;
@@ -118,7 +119,7 @@ define(['../module'], function (controllers) {
                                     "idboveda":error.data[i].idboveda,
                                     "boveda": error.data[i].boveda,
                                     "monto": error.data[i].monto
-                                }
+                                };
                                 mensajes[i] = {
                                     type: "danger",
                                     msg: 'Monto de cierre invalido en '+error.data[i].boveda +' necesita:'
@@ -145,7 +146,7 @@ define(['../module'], function (controllers) {
 
             $scope.cancelar = function(){
                 $state.go("app.caja", null, { reload: true });
-            }
+            };
 
             $scope.alertMessageDisplay = function(){
                 if($scope.cajaSession.denominacion == "undefined")
@@ -154,11 +155,11 @@ define(['../module'], function (controllers) {
                     return true;
                 else
                     return false;
-            }
+            };
 
             $scope.buttonDisableState = function(){
                 return $scope.alertMessageDisplay() || $scope.control.inProcess;
-            }
+            };
 
         }]);
 });

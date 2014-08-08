@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.sistemafinanciero.entity.dto.GenericDetalle;
+import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 
 @Path("/session")
@@ -26,6 +27,18 @@ public interface SessionREST {
 	@Path("/caja")
 	@Produces({ "application/xml", "application/json" })
 	public Response getCajaOfSession();
+
+	@POST
+	@Path("/caja/abrir")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response abrirCajaOfSession();
+
+	@POST
+	@Path("/caja/cerrar")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response cerrarCajaOfSession(Set<GenericMonedaDetalle> detalle);
 
 	@GET
 	@Path("/agencia")
@@ -44,9 +57,7 @@ public interface SessionREST {
 	@POST
 	@Path("/transaccionPendiente")
 	@Produces({ "application/xml", "application/json" })
-	public Response crearPendiente(@FormParam("idboveda") BigInteger idboveda,
-			@FormParam("monto") BigDecimal monto,
-			@FormParam("observacion") String observacion);
+	public Response crearPendiente(@FormParam("idboveda") BigInteger idboveda, @FormParam("monto") BigDecimal monto, @FormParam("observacion") String observacion);
 
 	@POST
 	@Path("/transaccionCuentaAporte")
@@ -75,8 +86,7 @@ public interface SessionREST {
 	@POST
 	@Path("/cuentaBancaria/cancelar/{id}")
 	@Produces({ "application/xml", "application/json" })
-	public Response cancelarCuentaBancariaConRetiro(
-			@PathParam("id") BigInteger id);
+	public Response cancelarCuentaBancariaConRetiro(@PathParam("id") BigInteger id);
 
 	@POST
 	@Path("/transaccionCajaCaja")
@@ -99,16 +109,13 @@ public interface SessionREST {
 	@Path("/transaccionBovedaCaja")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response createTransaccionBovedaCaja(
-			Set<GenericDetalle> detalleTransaccion,
-			@QueryParam("boveda") BigInteger idboveda);
+	public Response createTransaccionBovedaCaja(Set<GenericDetalle> detalleTransaccion, @QueryParam("boveda") BigInteger idboveda);
 
 	@POST
 	@Path("/transaccionBovedaCaja/{id}/confirmar")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response confirmarTransaccionBovedaCaja(
-			@PathParam("id") BigInteger id);
+	public Response confirmarTransaccionBovedaCaja(@PathParam("id") BigInteger id);
 
 	@POST
 	@Path("/transaccionBovedaCaja/{id}/cancelar")

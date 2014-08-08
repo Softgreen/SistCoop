@@ -74,18 +74,11 @@ public interface CajaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response getTransaccionesBovedaCajaOfCajaRecibidos(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
 
-	@POST
-	@Path("/{id}/abrir")
-	@Consumes({ "application/xml", "application/json" })
+	@GET
+	@Path("/{id}/pendientes")
 	@Produces({ "application/xml", "application/json" })
-	public Response abrir(@PathParam("id") BigInteger id);
-
-	@POST
-	@Path("/{id}/cerrar")
-	@Consumes({ "application/xml", "application/json" })
-	@Produces({ "application/xml", "application/json" })
-	public Response cerrar(@PathParam("id") BigInteger id);
-
+	public Response getPendientesOfCaja(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
+	
 	@POST
 	@Path("/{id}/desactivar")
 	@Consumes({ "application/xml", "application/json" })

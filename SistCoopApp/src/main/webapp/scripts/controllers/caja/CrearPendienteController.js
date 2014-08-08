@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearPendienteController', ["$scope", "$state", "$filter", "$modal", "CajaSessionService","MonedaService",
-        function($scope, $state, $filter,$modal, CajaSessionService, MonedaService) {
+    controllers.controller('CrearPendienteController', ["$scope", "$state", "$filter", "$modal", "CajaService","SessionService","MonedaService",
+        function($scope, $state, $filter,$modal, CajaService, SessionService,MonedaService) {
 
             $scope.Math = window.Math;
 
@@ -11,7 +11,7 @@ define(['../module'], function (controllers) {
             $scope.monto;
             $scope.boveda;
 
-            CajaSessionService.getBovedasOfCurrentCaja().then(function(bovedas){
+            CajaService.getBovedas($scope.cajaSession.id).then(function(bovedas){
                 $scope.bovedas = bovedas;
                 //cargar datos precargados
                 if($scope.idboveda !== undefined && $scope.idboveda !== null){
@@ -33,7 +33,7 @@ define(['../module'], function (controllers) {
                     }
                     $scope.monto = Math.abs($scope.monto);
                 }
-            }
+            };
             $scope.cargarMonto();
 
             $scope.$watch('monto', function() {
@@ -50,7 +50,7 @@ define(['../module'], function (controllers) {
                         $scope.denominacionesMoneda = denominaciones;
                     }
                 );
-            }
+            };
 
 
             $scope.open = function () {
@@ -77,7 +77,7 @@ define(['../module'], function (controllers) {
             $scope.crearPendiente = function(){
                 if($scope.formCrearPendiente.$valid && $scope.monto != 0){
                     $scope.control.inProcess = true;
-                    CajaSessionService.crearPendiente($scope.boveda.id, (Math.abs($scope.monto) * $scope.tipopendiente.factor), $scope.observacion).then(
+                    SessionService.crearPendiente($scope.boveda.id, (Math.abs($scope.monto) * $scope.tipopendiente.factor), $scope.observacion).then(
                         function(data){
                             $scope.control.inProcess = false;
                             $state.transitionTo('app.caja.pendienteVoucher', { id: data.id });

@@ -3,8 +3,10 @@ package org.sistemafinanciero.controller;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.EJB;
@@ -20,6 +22,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
+import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
@@ -414,6 +417,28 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		}
 	}
 
+	@Override
+	public Map<Boveda, BigDecimal> getDiferenciaSaldoCaja(Set<GenericMonedaDetalle> detalle) {
+		Map<Boveda, BigDecimal> result = new HashMap<Boveda, BigDecimal>();
+		Caja caja = getCaja();
+		Set<BovedaCaja> bovedas = caja.getBovedaCajas();
+		for (BovedaCaja bovedaCaja : bovedas) {
+			Moneda moneda = bovedaCaja.getBoveda().getMoneda();
+			for (GenericMonedaDetalle det : detalle) {
+				if (moneda.equals(det.getMoneda())) {
+					if (bovedaCaja.getSaldo().compareTo(det.getTotal()) != 0) {
+						Boveda boveda = bovedaCaja.getBoveda();
+						Hibernate.initialize(boveda);
+						BigDecimal diferencia = bovedaCaja.getSaldo().subtract(det.getTotal());
+						result.put(boveda, diferencia);
+					}
+					break;
+				}
+			}
+		}
+		return result;
+	}
+	
 	@Override
 	public BigInteger crearAporte(BigInteger idSocio, BigDecimal monto, int mes, int anio, String referencia) throws RollbackFailureException {
 		Socio socio = socioDAO.find(idSocio);

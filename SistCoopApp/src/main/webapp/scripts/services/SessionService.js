@@ -15,6 +15,21 @@ define(['./module'], function (services) {
                 },
                 getAgenciaOfSession: function(){
                     return Restangular.one(baseUrl+"/agencia").get();
+                },
+                abrirCajaOfSession: function(){
+                    return Restangular.all(baseUrl+"/caja/abrir").post();
+                },
+                cerrarCajaOfSession: function(detalle){
+                    var copy = Restangular.copy(detalle);
+                    return Restangular.all(baseUrl+"/caja/cerrar").post(copy);
+                },
+                crearPendiente: function(boveda,monto,observacion){
+                    var data = $.param({idboveda:boveda,monto:monto,observacion:observacion});
+                    return Restangular.one(baseUrl+"/transaccionPendiente").customPOST(
+                        data,
+                        '',{},{
+                            "Content-Type":"application/x-www-form-urlencoded"}
+                    );
                 }
             };
         }]);

@@ -19,7 +19,7 @@ define(['./app'], function(app) {
                 abstract: true,
                 url: '/app?redirect',
                 template: '' +
-                    '<div class="container" ng-controller="MainController" style="padding-top: 70px;">' +
+                    '<div class="container" style="padding-top: 70px;">' +
                     '<div class="navbar navbar-default navbar-fixed-top" role="navigation">' +
                     '<div class="container">' +
                     '<div class="navbar-header">' +

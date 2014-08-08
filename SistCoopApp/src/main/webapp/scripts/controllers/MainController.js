@@ -12,40 +12,68 @@ define(['./module'], function (controllers) {
 
             $scope.cajaSession = {};
             $scope.agenciaSession = {};
-            $scope.usuarioSession = {};
+            $scope.usuarioSession = undefined;
 
-            $scope.loadCajaOfSession = function(){
-                $scope.cajaSession = {
-                    denominacion:"undefined",
-                    abreviatura:"undefined",
-                    abierto: false,
-                    estadoMovimiento:false,
-                    estado: false
-                };
-                SessionService.getCajaOfSession().then(function(data){
-                    $scope.cajaSession = data;
-                });
-            };
             $scope.loadUsuarioOfSession = function(){
-                SessionService.getUsuarioOfSession().then(function(data){
-                    $scope.usuarioSession = data;
-                });
+                SessionService.getUsuarioOfSession().then(
+                    function(data){
+                        $scope.usuarioSession = data;
+                    },
+                    function error(error){
+                        $scope.usuarioSession = undefined;
+                        if(error.status == 400){
+                            $scope.loadCajaOfSession();
+                        }
+                    }
+                );
+            };
+            $scope.loadCajaOfSession = function(){
+                SessionService.getCajaOfSession().then(
+                    function(data){
+                        $scope.cajaSession = data;
+                    },
+                    function error(error){
+                        $scope.cajaSession = {
+                            "denominacion": undefined,
+                            "abreviatura": undefined,
+                            "abierto": false,
+                            "estadoMovimiento":false,
+                            "estado": false
+                        };
+                        if(error.status == 400){
+                            $scope.loadCajaOfSession();
+                        }
+                    }
+                );
             };
             $scope.loadAgenciaOfSession = function(){
-                $scope.agenciaSession = {
-                    "denominacion":"undefined",
-                    "abreviatura":"undefined",
-                    "ubigeo": "undefined",
-                    "estado":false
-                };
-                SessionService.getAgenciaOfSession().then(function(data){
-                    $scope.agenciaSession = data;
-                });
-            };
+                SessionService.getAgenciaOfSession().then(
+                    function(data){
+                        $scope.agenciaSession = data;
+                    },
+                    function error(status){
+                        $scope.agenciaSession = {
+                            "denominacion":"undefined",
+                            "abreviatura":"undefined",
+                            "ubigeo": "undefined",
+                            "estado":false
+                        };
+                        if(error.status == 400){
+                            $scope.loadAgenciaOfSession;
+                        }
+                    }
+                );
+            }
 
-            $scope.loadCajaOfSession();
-            $scope.loadUsuarioOfSession();
-            $scope.loadAgenciaOfSession();
+            if(angular.isUndefined($scope.usuarioSession)){
+                $scope.loadUsuarioOfSession();
+            }
+            if(angular.isUndefined($scope.cajaSession.id)){
+                $scope.loadCajaOfSession();
+            }
+            if(angular.isUndefined($scope.agenciaSession.id)){
+                $scope.loadCajaOfSession();
+            }
 
         }]);
 });

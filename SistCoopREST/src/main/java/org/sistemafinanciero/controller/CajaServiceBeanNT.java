@@ -833,4 +833,34 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		return voucherCompraVenta;
 	}
 
+	@Override
+	public Set<PendienteCaja> getPendientes(BigInteger idCaja, BigInteger idHistorialCaja) {
+		Caja caja = cajaDAO.find(idCaja);
+		if(caja == null)
+			return null;
+		HistorialCaja historialCaja = null;
+		if(idHistorialCaja != null)
+			historialCaja = historialCajaDAO.find(idHistorialCaja);
+		if(historialCaja != null && !historialCaja.getCaja().equals(caja))
+			return null;
+		
+		Set<PendienteCaja> result = null;
+		if(historialCaja != null){
+			result = historialCaja.getPendienteCajas();
+		}			
+		else {
+			historialCaja = getHistorialActivo(idCaja);
+			result = historialCaja.getPendienteCajas();
+		}
+			
+		for (PendienteCaja pendienteCaja : result) {
+			Moneda moneda = pendienteCaja.getMoneda();
+			Hibernate.initialize(pendienteCaja);
+			Hibernate.initialize(moneda);
+		}
+		return result;
+	}
+	
+	
+
 }
