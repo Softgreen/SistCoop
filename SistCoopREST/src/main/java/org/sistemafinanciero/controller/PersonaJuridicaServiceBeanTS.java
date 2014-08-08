@@ -26,16 +26,12 @@ import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.service.nt.PersonaJuridicaServiceNT;
 import org.sistemafinanciero.service.ts.PersonaJuridicaServiceTS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Named
 @Stateless
 @Remote(PersonaJuridicaServiceTS.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class PersonaJuridicaServiceBeanTS implements PersonaJuridicaServiceTS {
-
-	private static Logger LOGGER = LoggerFactory.getLogger(PersonaJuridicaServiceBeanTS.class);
 
 	@Inject
 	private DAO<Object, PersonaJuridica> personaJuridicaDAO;
@@ -97,7 +93,7 @@ public class PersonaJuridicaServiceBeanTS implements PersonaJuridicaServiceTS {
 
 		TipoDocumento tipoDocumento = personaJuridica.getTipoDocumento();
 		String numeroDocumento = personaJuridica.getNumeroDocumento();
-		Set<Accionista> accionistas = personaJuridica.getAccionistas();
+		// Set<Accionista> accionistas = personaJuridica.getAccionistas();
 
 		PersonaJuridica personaDB = personaJuridicaServiceNT.find(tipoDocumento.getIdTipoDocumento(), numeroDocumento);
 		PersonaJuridica personaById = personaJuridicaDAO.find(idPersonaJuridica);
@@ -129,8 +125,7 @@ public class PersonaJuridicaServiceBeanTS implements PersonaJuridicaServiceTS {
 
 	@Override
 	public void delete(BigInteger id) throws NonexistentEntityException, RollbackFailureException {
-		// TODO Auto-generated method stub
-
+		throw new RollbackFailureException("Metodo no implementado");
 	}
 
 }

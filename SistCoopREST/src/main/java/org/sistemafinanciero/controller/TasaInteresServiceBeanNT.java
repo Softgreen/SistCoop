@@ -89,7 +89,7 @@ public class TasaInteresServiceBeanNT implements TasaInteresServiceNT {
 
 	@Override
 	public TasaInteresServiceNT findById(BigInteger id) {
-		// TODO Auto-generated method stub
+		// throw new RollbackFailureException("Metodo no implementado");
 		return null;
 	}
 

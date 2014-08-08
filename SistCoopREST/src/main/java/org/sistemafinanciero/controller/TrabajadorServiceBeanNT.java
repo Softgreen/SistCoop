@@ -13,6 +13,7 @@ import javax.inject.Named;
 
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.Trabajador;
@@ -33,7 +34,7 @@ public class TrabajadorServiceBeanNT implements TrabajadorServiceNT {
 
 	@Inject
 	private DAO<Object, Trabajador> trabajadorDAO;
-
+	
 	@Override
 	public Caja findByTrabajador(BigInteger idTrabajador) throws NonexistentEntityException {
 		Caja result = null;
@@ -56,8 +57,19 @@ public class TrabajadorServiceBeanNT implements TrabajadorServiceNT {
 	}
 
 	@Override
-	public Trabajador findByUsuario(BigInteger idusuario) {
-		return null;
+	public Trabajador findByUsuario(String username) {
+		QueryParameter queryParameter = QueryParameter.with("username", username);
+		List<Trabajador> list = trabajadorDAO.findByNamedQuery(Trabajador.findByUsername, queryParameter.parameters());
+		if (list.size() <= 1) {
+			Trabajador trabajador = null;
+			for (Trabajador t : list) {
+				trabajador = t;
+			}
+			return trabajador;
+		} else {
+			System.out.println("Error: mas de un usuario registrado");
+			return null;
+		}
 	}
 
 	@Override

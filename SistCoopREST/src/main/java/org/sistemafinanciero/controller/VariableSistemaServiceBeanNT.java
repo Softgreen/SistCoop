@@ -18,8 +18,6 @@ import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.VariableSistema;
 import org.sistemafinanciero.entity.type.Variable;
 import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Named
 @Stateless
@@ -27,7 +25,8 @@ import org.slf4j.LoggerFactory;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class VariableSistemaServiceBeanNT implements VariableSistemaServiceNT {
 
-	private Logger LOGGER = LoggerFactory.getLogger(VariableSistemaServiceNT.class);
+	// private Logger LOGGER =
+	// LoggerFactory.getLogger(VariableSistemaServiceNT.class);
 
 	@Inject
 	private DAO<Object, VariableSistema> variableSistemaDAO;
@@ -90,20 +89,17 @@ public class VariableSistemaServiceBeanNT implements VariableSistemaServiceNT {
 
 	@Override
 	public VariableSistema findById(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		return variableSistemaDAO.find(id);
 	}
 
 	@Override
 	public List<VariableSistema> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return variableSistemaDAO.findAll();
 	}
 
 	@Override
 	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
+		return variableSistemaDAO.count();
 	}
 
 	@Override

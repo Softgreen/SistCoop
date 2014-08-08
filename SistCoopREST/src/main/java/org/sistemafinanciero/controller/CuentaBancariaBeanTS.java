@@ -96,14 +96,12 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 
 	@Override
 	public void update(BigInteger id, CuentaBancaria t) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
-		// TODO Auto-generated method stub
-
+		throw new RollbackFailureException("Metodo no implementado");
 	}
 
 	@Override
 	public void delete(BigInteger id) throws NonexistentEntityException, RollbackFailureException {
-		// TODO Auto-generated method stub
-
+		throw new RollbackFailureException("Metodo no implementado");
 	}
 
 	@Override
@@ -481,8 +479,7 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 
 	@Override
 	public void updateTitular(BigInteger idTitular, Titular titular) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
-		// TODO Auto-generated method stub
-
+		throw new RollbackFailureException("Metodo no implementado");
 	}
 
 	@Override

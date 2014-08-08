@@ -53,6 +53,9 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	private DAO<Object, Titular> titularDAO;
 
 	@Inject
+	private DAO<Object, Beneficiario> beneficiarioDAO;
+
+	@Inject
 	private DAO<Object, EstadocuentaBancariaView> estadocuentaBancariaViewDAO;
 
 	@EJB
@@ -129,8 +132,6 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		ArrayList<EstadoCuentaBancaria> tres = new ArrayList<>(Arrays.asList(estadoCuenta));
 		QueryParameter queryParameter = QueryParameter.with("filtertext", '%' + filterText.toUpperCase() + '%').and("tipoCuenta", uno).and("tipoPersona", dos).and("tipoEstadoCuenta", tres);
 
-		if (filterText == null)
-			filterText = "";
 		if (offset == null) {
 			offset = 0;
 		}
@@ -225,8 +226,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 
 	@Override
 	public Beneficiario findBeneficiarioById(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		return beneficiarioDAO.find(id);
 	}
 
 	@Override

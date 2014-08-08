@@ -27,17 +27,33 @@ public class SessionServiceBeanNT implements SessionServiceNT {
 
 	@Inject
 	private DAO<Object, Caja> cajaDAO;
-	
+
 	@Inject
 	private DAO<Object, Trabajador> trabajadorDAO;
-	
+
 	@Inject
 	private UsuarioSession usuarioSession;
-	
+
 	@Override
 	public PersonaNatural getPersonaOfSession() {
-		// TODO Auto-generated method stub
-		return null;
+		String username = usuarioSession.getUsername();
+		QueryParameter queryParameter = QueryParameter.with("username", username);
+		List<Trabajador> list = trabajadorDAO.findByNamedQuery(Trabajador.findByUsername, queryParameter.parameters());
+		if (list.size() <= 1) {
+			Trabajador trabajador = null;
+			for (Trabajador t : list) {
+				trabajador = t;
+			}
+			if (trabajador != null) {
+				PersonaNatural persona = trabajador.getPersonaNatural();
+				Hibernate.initialize(persona);
+				return persona;
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -45,10 +61,10 @@ public class SessionServiceBeanNT implements SessionServiceNT {
 		String username = usuarioSession.getUsername();
 		QueryParameter queryParameter = QueryParameter.with("username", username);
 		List<Caja> list = cajaDAO.findByNamedQuery(Caja.findByUsername, queryParameter.parameters());
-		if(list.size() <= 1){
+		if (list.size() <= 1) {
 			Caja caja = null;
 			for (Caja c : list) {
-				caja = c;				
+				caja = c;
 			}
 			return caja;
 		} else {
@@ -61,18 +77,18 @@ public class SessionServiceBeanNT implements SessionServiceNT {
 		String username = usuarioSession.getUsername();
 		QueryParameter queryParameter = QueryParameter.with("username", username);
 		List<Trabajador> list = trabajadorDAO.findByNamedQuery(Trabajador.findByUsername, queryParameter.parameters());
-		if(list.size() <= 1){
+		if (list.size() <= 1) {
 			Trabajador trabajador = null;
 			for (Trabajador t : list) {
 				trabajador = t;
 			}
-			if(trabajador != null) {
+			if (trabajador != null) {
 				Agencia agencia = trabajador.getAgencia();
 				Hibernate.initialize(agencia);
 				return agencia;
 			} else {
 				return null;
-			}		
+			}
 		} else {
 			return null;
 		}

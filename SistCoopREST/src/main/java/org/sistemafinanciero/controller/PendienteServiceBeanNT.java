@@ -21,7 +21,6 @@ import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.dto.VoucherPendienteCaja;
 import org.sistemafinanciero.service.nt.PendienteServiceNT;
 
-
 @Named
 @Stateless
 @Remote(PendienteServiceNT.class)
@@ -30,12 +29,12 @@ public class PendienteServiceBeanNT implements PendienteServiceNT {
 
 	@Inject
 	private DAO<Object, PendienteCaja> pendienteCajaDAO;
-		
+
 	@Override
 	public VoucherPendienteCaja getVoucherPendienteCaja(BigInteger idPendienteCaja) {
-		VoucherPendienteCaja voucherPendienteCaja = new VoucherPendienteCaja();		
-		
-		//recuperando pendiente
+		VoucherPendienteCaja voucherPendienteCaja = new VoucherPendienteCaja();
+
+		// recuperando pendiente
 		PendienteCaja pendientecaja = pendienteCajaDAO.find(idPendienteCaja);
 		Caja caja = pendientecaja.getHistorialCaja().getCaja();
 		Set<BovedaCaja> list = caja.getBovedaCajas();
@@ -44,25 +43,25 @@ public class PendienteServiceBeanNT implements PendienteServiceNT {
 			agencia = bovedaCaja.getBoveda().getAgencia();
 			break;
 		}
-			
-		//poniendo los datos del pendiente
+
+		// poniendo los datos del pendiente
 		voucherPendienteCaja.setAgenciaDenominacion(agencia.getDenominacion());
 		voucherPendienteCaja.setAgenciaAbreviatura(agencia.getAbreviatura());
 		voucherPendienteCaja.setCajaDenominacion(caja.getDenominacion());
 		voucherPendienteCaja.setCajaAbreviatura(caja.getAbreviatura());
-		voucherPendienteCaja.setIdPendienteCaja(idPendienteCaja);	
+		voucherPendienteCaja.setIdPendienteCaja(idPendienteCaja);
 		voucherPendienteCaja.setMonto(pendientecaja.getMonto());
 		voucherPendienteCaja.setObservacion(pendientecaja.getObservacion());
 		voucherPendienteCaja.setFecha(pendientecaja.getFecha());
 		voucherPendienteCaja.setHora(pendientecaja.getHora());
 		voucherPendienteCaja.setTipoPendiente(pendientecaja.getTipoPendiente());
 		voucherPendienteCaja.setTrabajador(pendientecaja.getTrabajador());
-			
+
 		Moneda moneda = pendientecaja.getMoneda();
 		Hibernate.initialize(moneda);
-		
+
 		voucherPendienteCaja.setMoneda(moneda);
-		
+
 		return voucherPendienteCaja;
 	}
 
@@ -76,13 +75,11 @@ public class PendienteServiceBeanNT implements PendienteServiceNT {
 
 	@Override
 	public List<PendienteCaja> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return pendienteCajaDAO.findAll();
 	}
 
 	@Override
 	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pendienteCajaDAO.count();
 	}
 }

@@ -12,7 +12,7 @@ import org.sistemafinanciero.exception.NonexistentEntityException;
 @Remote
 public interface TrabajadorServiceNT extends AbstractServiceNT<Trabajador> {
 
-	public Trabajador findByUsuario(BigInteger idusuario);
+	public Trabajador findByUsuario(String username);
 
 	public Caja findByTrabajador(BigInteger idTrabajador) throws NonexistentEntityException;
 
