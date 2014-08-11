@@ -61,12 +61,12 @@ public interface PersonaNaturalREST {
 	public Response delete(@PathParam("id") @DefaultValue("-1") BigInteger id);
 
 	@GET
-	@Path("{id}/firma")
+	@Path("/{id}/firma")
 	@Produces("image/png")
 	public Response getFirma(@PathParam("id") String id, @QueryParam("flowChunkNumber") int flowChunkNumber, @QueryParam("flowChunkSize") int flowChunkSize, @QueryParam("flowCurrentChunkSize") int flowCurrentChunkSize, @QueryParam("flowFilename") String flowFilename, @QueryParam("flowIdentifier") String flowIdentifier, @QueryParam("flowRelativePath") String flowRelativePath, @QueryParam("flowTotalChunks") int flowTotalChunks, @QueryParam("flowTotalSize") int flowTotalSize);
 
 	@GET
-	@Path("{id}/foto")
+	@Path("/{id}/foto")
 	@Produces("image/png")
 	public Response getFoto(@PathParam("id") String id, @QueryParam("flowChunkNumber") int flowChunkNumber, @QueryParam("flowChunkSize") int flowChunkSize, @QueryParam("flowCurrentChunkSize") int flowCurrentChunkSize, @QueryParam("flowFilename") String flowFilename, @QueryParam("flowIdentifier") String flowIdentifier, @QueryParam("flowRelativePath") String flowRelativePath, @QueryParam("flowTotalChunks") int flowTotalChunks, @QueryParam("flowTotalSize") int flowTotalSize);
 

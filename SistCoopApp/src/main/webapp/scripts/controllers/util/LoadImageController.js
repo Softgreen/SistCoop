@@ -14,7 +14,7 @@ define(['../module'], function (controllers) {
                 if(!angular.isUndefined(id)){
                     return {
                         singleFile: true,
-                        target: $scope.urlBase + 'RestApi/services/personas/naturales/' + id + '/' + tipoFoto
+                        target: $scope.urlBase + '/personas/naturales/' + id + '/' + tipoFoto
                     }
                 } else {
                     return {

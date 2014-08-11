@@ -26,8 +26,6 @@ import org.sistemafinanciero.service.nt.MonedaServiceNT;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class MonedaServiceBeanNT implements MonedaServiceNT {
 
-	// private Logger LOGGER = LoggerFactory.getLogger(MonedaService.class);
-
 	@Inject
 	private DAO<Object, Moneda> monedaDAO;
 

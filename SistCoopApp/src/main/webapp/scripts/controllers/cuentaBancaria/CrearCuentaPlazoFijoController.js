@@ -186,6 +186,7 @@ define(['../module'], function (controllers) {
 
                     //poniendo variables
                     var cuenta = {
+                        "tipoCuenta": 'PLAZO_FIJO',
                         "idMoneda": $scope.view.idMoneda,
                         "periodo": $scope.view.periodo,
                         "monto": $scope.view.monto,

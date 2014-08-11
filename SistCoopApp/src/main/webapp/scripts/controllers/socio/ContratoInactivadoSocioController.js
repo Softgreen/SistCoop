@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('ContratoInactivadoSocioController', [ '$scope','$state','CajaSessionService','SocioService',
-        function($scope,$state,CajaSessionService,SocioService) {
+    controllers.controller('ContratoInactivadoSocioController', [ '$scope','$state','SessionService','CajaService','SocioService',
+        function($scope,$state,SessionService,CajaService,SocioService) {
 
             $scope.view = {
                 condiciones: false
@@ -18,7 +18,7 @@ define(['../module'], function (controllers) {
 
             $scope.inactivarSocio = function(){
                 if(!angular.isUndefined($scope.id)){
-                    CajaSessionService.inactivarSocio($scope.id).then(
+                    SessionService.inactivarSocioConRetiro($scope.id).then(
                         function(data){
                             var idTransaccion = data.id;
                             $state.transitionTo("app.socio.voucherCancelacionCuenta", { id:$scope.id, idTransaccion:idTransaccion });
@@ -32,7 +32,7 @@ define(['../module'], function (controllers) {
 
             $scope.loadVoucherRetiroCuentaAporte = function(){
                 if(!angular.isUndefined($scope.idTransaccion)){
-                    CajaSessionService.getVoucherCancelacionCuentaAporte($scope.idTransaccion).then(
+                    CajaService.getVoucherCuentaAporte($scope.idTransaccion).then(
                         function(data){
                             $scope.transaccion = data;
                         }

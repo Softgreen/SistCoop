@@ -10,14 +10,12 @@ define(['./module'], function (services) {
                     return Restangular.one("usuario").get();
                 },
                 authenticationAsAdministrator : function(username, password){
-                    var data = $.param({username:username,password:password});
-                    return Restangular.one("caja/session/pendiente").customPOST(
+                    var data = $.param({username:username,password:md5(password)});
+                    return Restangular.one("usuarios/authenticateAsAdministrator").customPOST(
                         data,
                         '',{},{
                             "Content-Type":"application/x-www-form-urlencoded"}
                     );
-
-                    return Restangular.all("usuario/authenticate/administrator").getList({"username":username, "password":md5(password)},{});
                 }
             };
 

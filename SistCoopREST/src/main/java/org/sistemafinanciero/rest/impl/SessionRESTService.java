@@ -26,6 +26,7 @@ import javax.ejb.EJBException;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
@@ -124,10 +125,23 @@ public class SessionRESTService implements SessionREST {
 	}
 
 	@Override
+	public Response desactivarSocio(@PathParam("id") BigInteger id) {
+		Response response;
+		try {
+			BigInteger idTransaccion = sessionServiceTS.cancelarSocioConRetiro(id);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion)).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
 	public Response crearPendiente(BigInteger idboveda, BigDecimal monto, String observacion) {
 		Response response;
 		try {
-			BigInteger idPendiente = sessionServiceTS.crearPendiente(idboveda, monto, observacion);		
+			BigInteger idPendiente = sessionServiceTS.crearPendiente(idboveda, monto, observacion);
 			JsonObject model = Json.createObjectBuilder().add("id", idPendiente).build();
 			response = Response.status(Response.Status.CREATED).entity(model).build();
 		} catch (RollbackFailureException e) {
@@ -146,8 +160,8 @@ public class SessionRESTService implements SessionREST {
 			int mes = transaccion.getMes();
 			int anio = transaccion.getAnio();
 			String referencia = transaccion.getReferencia();
-			sessionServiceTS.crearAporte(idSocio, monto, mes, anio, referencia);
-			response = Response.status(Response.Status.CREATED).build();
+			BigInteger idAporte = sessionServiceTS.crearAporte(idSocio, monto, mes, anio, referencia);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idAporte)).build();
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();

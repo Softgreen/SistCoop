@@ -18,7 +18,7 @@ keycloack configuration
 	scope: "cajero".
 	
 	access type: confidential
-	redirect url: http://localhost:8080/SistCoopApp/*
+	redirect url: http://localhost:8080/SistCoopREST/*
 	base url: 	
 	admin url: 
 	web origin: http://localhost:8080

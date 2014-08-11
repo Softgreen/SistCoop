@@ -195,25 +195,25 @@ public class CajaRESTService implements CajaREST {
 	@Override
 	public Response getVoucherCuentaAporte(BigInteger idTransaccionCompraVenta) {
 		VoucherTransaccionCuentaAporte voucher = cajaServiceNT.getVoucherCuentaAporte(idTransaccionCompraVenta);
-		return Response.status(Response.Status.NO_CONTENT).entity(voucher).build();
+		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
 
 	@Override
 	public Response getVoucherCompraVenta(BigInteger idTransaccionCompraVenta) {
 		VoucherCompraVenta voucher = cajaServiceNT.getVoucherCompraVenta(idTransaccionCompraVenta);
-		return Response.status(Response.Status.NO_CONTENT).entity(voucher).build();
+		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
 
 	@Override
 	public Response getVoucherTransaccionBancaria(BigInteger idTransaccionTransaccionBancaria) {
 		VoucherTransaccionBancaria voucher = cajaServiceNT.getVoucherTransaccionBancaria(idTransaccionTransaccionBancaria);
-		return Response.status(Response.Status.NO_CONTENT).entity(voucher).build();
+		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
 
 	@Override
 	public Response getVoucherTransferenciaBancaria(BigInteger idTransferenciaBancaria) {
 		VoucherTransferenciaBancaria voucher = cajaServiceNT.getVoucherTransferenciaBancaria(idTransferenciaBancaria);
-		return Response.status(Response.Status.NO_CONTENT).entity(voucher).build();
+		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
 
 	@Override

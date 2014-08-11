@@ -30,6 +30,9 @@ define(['./module'], function (services) {
                         '',{},{
                             "Content-Type":"application/x-www-form-urlencoded"}
                     );
+                },
+                inactivarSocioConRetiro: function(idSocio){
+                    return Restangular.all(baseUrl+"/socio/"+idSocio+"/desactivar").post();
                 }
             };
         }]);

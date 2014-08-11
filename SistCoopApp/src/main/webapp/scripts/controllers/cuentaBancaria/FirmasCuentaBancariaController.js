@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller("FirmasCuentaBancariaController", ["$scope", "$state","focus", "CuentaBancariaService", "PersonaNaturalService",
-        function($scope, $state, focus, CuentaBancariaService, PersonaNaturalService) {
+    controllers.controller("FirmasCuentaBancariaController", ["$scope", "$state","focus", "CuentaBancariaService","SocioService", "PersonaNaturalService",
+        function($scope, $state, focus, CuentaBancariaService,SocioService, PersonaNaturalService) {
 
             $scope.alerts = [];
             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
@@ -10,19 +10,14 @@ define(['../module'], function (controllers) {
                 CuentaBancariaService.getCuentasBancaria($scope.id).then(
                     function(data){
                         $scope.cuentaBancaria = data;
+                        if(!angular.isUndefined($scope.cuentaBancaria)){
+                            SocioService.findById($scope.cuentaBancaria.idSocio).then(function(data){
+                                $scope.socio = data;
+                            });
+                        }
                     }, function error(error){
                         $scope.cuentaBancaria = undefined;
                         $scope.alerts.push({ type: "danger", msg: "Cuenta bancaria no encontrada."});
-                    }
-                );
-            }
-            if(!angular.isUndefined($scope.id)){
-                CuentaBancariaService.getSocio($scope.id).then(
-                    function(data){
-                        $scope.socio = data;
-                    }, function error(error){
-                        $scope.socio = undefined;
-                        $scope.alerts.push({ type: "danger", msg: "Socio no encontrado."});
                     }
                 );
             }
@@ -49,13 +44,11 @@ define(['../module'], function (controllers) {
                         $scope.alerts.push({ type: "danger", msg: "Titulares no encontrados."});
                     }
                 );
-
-
             }
 
             $scope.goToPanelCuenta = function(){
                 $state.transitionTo("app.socio.editarCuentaBancaria", { id: $scope.id });
-            }
+            };
 
         }]);
 });

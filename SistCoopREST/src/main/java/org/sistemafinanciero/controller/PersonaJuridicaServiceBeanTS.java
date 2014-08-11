@@ -93,7 +93,6 @@ public class PersonaJuridicaServiceBeanTS implements PersonaJuridicaServiceTS {
 
 		TipoDocumento tipoDocumento = personaJuridica.getTipoDocumento();
 		String numeroDocumento = personaJuridica.getNumeroDocumento();
-		// Set<Accionista> accionistas = personaJuridica.getAccionistas();
 
 		PersonaJuridica personaDB = personaJuridicaServiceNT.find(tipoDocumento.getIdTipoDocumento(), numeroDocumento);
 		PersonaJuridica personaById = personaJuridicaDAO.find(idPersonaJuridica);
@@ -110,17 +109,6 @@ public class PersonaJuridicaServiceBeanTS implements PersonaJuridicaServiceTS {
 		} else {
 			personaJuridicaDAO.update(personaJuridica);
 		}
-
-		/*
-		 * //crear accionistas for (Accionista accionista : accionistas) {
-		 * PersonaNatural personaNatural = accionista.getPersonaNatural();
-		 * if(personaNatural != null){ BigInteger idPersona =
-		 * personaNatural.getIdPersonaNatural(); if(idPersona != null){
-		 * PersonaNatural persona = personaNaturalDAO.find(idPersona);
-		 * if(persona != null){ accionista.setPersonaJuridica(personaJuridica);
-		 * accionistaDAO.create(accionista); } else { throw new
-		 * RollbackFailureException("Accionista no encontrado"); } } } }
-		 */
 	}
 
 	@Override

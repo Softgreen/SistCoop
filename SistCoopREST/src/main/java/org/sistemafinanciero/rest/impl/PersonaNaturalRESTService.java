@@ -1,11 +1,15 @@
 package org.sistemafinanciero.rest.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.EJB;
@@ -16,6 +20,8 @@ import javax.validation.Validator;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.commons.io.IOUtils;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.TipoDocumento;
@@ -185,12 +191,54 @@ public class PersonaNaturalRESTService implements PersonaNaturalREST {
 
 	@Override
 	public Response uploadFirma(BigInteger id, MultipartFormDataInput input) {
-		return Response.status(Response.Status.NOT_FOUND).build();
+		String fileName = "";
+		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+		List<InputPart> inputParts = uploadForm.get("file");
+		fileName = id.toString();
+		for (InputPart inputPart : inputParts) {
+			try {
+				// convert the uploaded file to inputstream
+				InputStream inputStream = inputPart.getBody(InputStream.class, null);
+				byte[] bytes = IOUtils.toByteArray(inputStream);
+				// constructs upload file path
+				fileName = UPLOADED_FIRMA_PATH + fileName;
+				writeFile(bytes, fileName);
+			} catch (IOException e) {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Internal error").build();
+			}
+		}
+		return Response.status(200).entity("uploadFile is called, Uploaded file name : " + fileName).build();
 	}
 
 	@Override
 	public Response uploadFoto(BigInteger id, MultipartFormDataInput input) {
-		return Response.status(Response.Status.NOT_FOUND).build();
+		String fileName = "";
+		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+		List<InputPart> inputParts = uploadForm.get("file");
+		fileName = id.toString();
+		for (InputPart inputPart : inputParts) {
+			try {
+				InputStream inputStream = inputPart.getBody(InputStream.class, null);
+				byte[] bytes = IOUtils.toByteArray(inputStream);
+				// constructs upload file path
+				fileName = UPLOADED_FOTO_PATH + fileName;
+				writeFile(bytes, fileName);
+			} catch (IOException e) {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Internal error").build();
+			}
+		}
+		return Response.status(200).entity("uploadFile is called, Uploaded file name : " + fileName).build();
 	}
 
+	// save to somewhere
+	private void writeFile(byte[] content, String filename) throws IOException {
+		File file = new File(filename);
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+		FileOutputStream fop = new FileOutputStream(file);
+		fop.write(content);
+		fop.flush();
+		fop.close();
+	}
 }

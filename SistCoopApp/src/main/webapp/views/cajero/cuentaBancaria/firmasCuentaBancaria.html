@@ -7,28 +7,23 @@
                     <tr>
                         <td colspan="1" style="width: 110px;"><strong>Documento:</strong></td>
                         <td colspan="1" style="width: 200px;">
-                            <span ng-show="socio.personaNatural" ng-bind-template="{{socio.personaNatural.tipoDocumento.abreviatura}}/{{socio.personaNatural.numeroDocumento}}"></span>
-                            <span ng-show="socio.personaJuridica" ng-bind-template="{{socio.personaJuridica.tipoDocumento.abreviatura}}/{{socio.personaJuridica.numeroDocumento}}"></span>
+                            <span ng-show="socio" ng-bind-template="{{socio.tipoDocumento}}/{{socio.numeroDocumento}}"></span>
                         </td>
                         <td colspan="1"><strong>Socio:</strong></td>
                         <td colspan="1">
-                            <span ng-show="socio.personaNatural" ng-bind-template="{{socio.personaNatural.apellidoPaterno}} {{socio.personaNatural.apellidoMaterno}}, {{socio.personaNatural.nombres}}"></span>
-                            <span ng-show="socio.personaJuridica" ng-bind="socio.personaJuridica.razonSocial"></span>
+                            <span ng-show="socio.personaNatural" ng-bind-template="{{socio.socio}}"></span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="1"><strong>Tipo Cuenta:</strong></td>
-                        <td colspan="1"><span ng-bind="cuentaBancaria.tipoCuentaBancaria"></span></td>
+                        <td colspan="1"><span ng-bind="cuentaBancaria.tipoCuenta"></span></td>
                         <td colspan="1" style="width: 140px"><strong>N&uacute;mero Cuenta:</strong></td>
                         <td colspan="1"><span ng-bind="cuentaBancaria.numeroCuenta"></span></td>
                     </tr>
                     <tr>
                         <td colspan="1"><strong>Moneda:</strong></td>
                         <td colspan="1">
-                        	<span ng-bind="cuentaBancaria.moneda.denominacion"></span>
-                        	<span>(</span>
-                        	<span ng-bind="cuentaBancaria.moneda.simbolo"></span>
-                        	<span>)</span>
+                        	<span ng-bind="cuentaBancaria.moneda"></span>
                         </td>
                     </tr>
                 </table>

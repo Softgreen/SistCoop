@@ -25,9 +25,6 @@ import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class VariableSistemaServiceBeanNT implements VariableSistemaServiceNT {
 
-	// private Logger LOGGER =
-	// LoggerFactory.getLogger(VariableSistemaServiceNT.class);
-
 	@Inject
 	private DAO<Object, VariableSistema> variableSistemaDAO;
 

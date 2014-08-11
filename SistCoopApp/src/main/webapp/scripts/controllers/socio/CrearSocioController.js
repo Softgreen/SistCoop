@@ -107,8 +107,13 @@ define(['../module'], function (controllers) {
                 if($scope.view.tipoPersona == "NATURAL"){
                     PersonaNaturalService.findByTipoNumeroDocumento(tipoDoc,numDoc).then(function(data){
                         $scope.objetosCargados.socio = data;
-                        $scope.alerts = [{ type: "success", msg: "Persona(socio) encontrada."}];
-                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                        if(!angular.isUndefined($scope.objetosCargados.socio)){
+                            $scope.alerts = [{ type: "success", msg: "Persona(socio) encontrada."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                        } else {
+                            $scope.alerts = [{ type: "danger", msg: "Persona(socio) no encontrada."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
                     },function error(error){
                         $scope.objetosCargados.socio = undefined;
                         $scope.alerts = [{ type: "danger", msg: "Persona(socio) no encontrada."}];
@@ -117,8 +122,13 @@ define(['../module'], function (controllers) {
                 }else{if($scope.view.tipoPersona == "JURIDICA"){
                     PersonaJuridicaService.findByTipoNumeroDocumento(tipoDoc,numDoc).then(function(persona){
                         $scope.objetosCargados.socio = persona;
-                        $scope.alerts = [{ type: "success", msg: "Persona(socio) encontrada."}];
-                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                        if(!angular.isUndefined($scope.objetosCargados.socio)){
+                            $scope.alerts = [{ type: "success", msg: "Persona(socio) encontrada."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                        } else {
+                            $scope.alerts = [{ type: "danger", msg: "Persona(socio) no encontrada."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                        }
                     },function error(error){
                         $scope.objetosCargados.socio = undefined;
                         $scope.alerts = [{ type: "danger", msg: "Persona(socio) no encontrada."}];
@@ -138,8 +148,13 @@ define(['../module'], function (controllers) {
                 var numDoc = $scope.view.numeroDocumentoApoderado;
                 PersonaNaturalService.findByTipoNumeroDocumento(tipoDoc, numDoc).then(function(data){
                     $scope.objetosCargados.apoderado = data;
-                    $scope.alerts = [{ type: "success", msg: "Persona(apoderado) encontrada."}];
-                    $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                    if(!angular.isUndefined($scope.objetosCargados.apoderado)){
+                        $scope.alerts = [{ type: "success", msg: "Persona(apoderado) encontrada."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                    } else {
+                        $scope.alerts = [{ type: "danger", msg: "Persona(apoderado) no encontrado."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
                 },function error(error){
                     $scope.objetosCargados.apoderado = undefined;
                     $scope.alerts = [{ type: "danger", msg: "Persona(apoderado) no encontrado."}];

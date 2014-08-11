@@ -84,8 +84,8 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 	@Override
 	public VoucherTransaccionCajaCaja getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) {
-		// TODO Auto-generated method stub
-		return null;
+		VoucherTransaccionCajaCaja voucherTransaccionCajaCaja = new VoucherTransaccionCajaCaja();
+		return voucherTransaccionCajaCaja;
 	}
 
 }

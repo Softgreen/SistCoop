@@ -49,6 +49,7 @@ import org.sistemafinanciero.service.ts.CuentaBancariaServiceTS;
 public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	private final static String baseUrl = "/cuentasBancarias";
+
 	@EJB
 	private CuentaBancariaServiceNT cuentaBancariaServiceNT;
 
@@ -164,7 +165,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			BigInteger idCuenta = cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
 			response = Response.status(Response.Status.CREATED).build();
 			URI resource = new URI(baseUrl + "/" + idCuenta.toString());
-			response = Response.created(resource).entity(Jsend.getSuccessJSend(idCuenta)).build();	
+			response = Response.created(resource).entity(Jsend.getSuccessJSend(idCuenta)).build();
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
@@ -183,6 +184,8 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response getTitulares(BigInteger id, Boolean estado) {
+		if (estado == null)
+			estado = false;
 		Set<Titular> list = cuentaBancariaServiceNT.getTitulares(id, estado);
 		Response response = Response.status(Response.Status.CREATED).entity(list).build();
 		return response;

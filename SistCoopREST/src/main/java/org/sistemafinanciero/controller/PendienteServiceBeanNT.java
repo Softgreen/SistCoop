@@ -43,7 +43,6 @@ public class PendienteServiceBeanNT implements PendienteServiceNT {
 			agencia = bovedaCaja.getBoveda().getAgencia();
 			break;
 		}
-
 		// poniendo los datos del pendiente
 		voucherPendienteCaja.setAgenciaDenominacion(agencia.getDenominacion());
 		voucherPendienteCaja.setAgenciaAbreviatura(agencia.getAbreviatura());

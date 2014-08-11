@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('VoucherTransaccionAporteController', ["$scope", "$state", "$filter","focus", "SocioService", "RedirectService",
-        function($scope, $state, $filter,focus, SocioService, RedirectService) {
+    controllers.controller('VoucherTransaccionAporteController', ["$scope", "$state", "$filter","focus", "CajaService", "RedirectService",
+        function($scope, $state, $filter,focus, CajaService, RedirectService) {
 
             $scope.focusElements = {
                 imprimir: 'focusImprimir',
@@ -14,7 +14,7 @@ define(['../module'], function (controllers) {
             };
             $scope.setInitialFocus();
 
-    		SocioService.getVoucherCuentaAporte($scope.id).then(
+            CajaService.getVoucherCuentaAporte($scope.id).then(
                 function(data){
                     $scope.transaccionCuentaAporte = data;
                 },

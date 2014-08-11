@@ -178,6 +178,7 @@ define(['../module'], function (controllers) {
                         return;
 
                     var cuenta = {
+                        "tipoCuenta": 'CORRIENTE',
                         "idMoneda": $scope.view.idMoneda,
                         "tipoPersona": $scope.view.tipoPersona,
                         "idTipoDocumento": $scope.view.idTipoDocumento,

@@ -55,6 +55,11 @@ public interface SessionREST {
 	public Response getPersonaOfSession();
 
 	@POST
+	@Path("/socio/{id}/desactivar")
+	@Produces({ "application/xml", "application/json" })
+	public Response desactivarSocio(@PathParam("id") BigInteger id);
+
+	@POST
 	@Path("/transaccionPendiente")
 	@Produces({ "application/xml", "application/json" })
 	public Response crearPendiente(@FormParam("idboveda") BigInteger idboveda, @FormParam("monto") BigDecimal monto, @FormParam("observacion") String observacion);
