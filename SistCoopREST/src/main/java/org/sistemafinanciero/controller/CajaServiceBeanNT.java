@@ -125,7 +125,9 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			Set<Boveda> bovedas = new HashSet<>();
 			for (BovedaCaja bc : bovedasCajas) {
 				Boveda boveda = bc.getBoveda();
+				Moneda moneda = boveda.getMoneda();
 				Hibernate.initialize(boveda);
+				Hibernate.initialize(moneda);
 				bovedas.add(boveda);
 			}
 			return bovedas;

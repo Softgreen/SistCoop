@@ -4,7 +4,7 @@ define(['./module'], function (services) {
         function(Restangular){
             return {
                 getVoucherPendienteCaja: function(id) {
-                    return Restangular.one("pendiente/"+id+"/voucherPendienteCaja").get();
+                    return Restangular.one("pendiente/"+id+"/voucher").get();
                 }
             }
         }])

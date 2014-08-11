@@ -1,13 +1,13 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('BuscarPendienteController', ["$scope", "$state", "$filter", "CajaSessionService",
-        function($scope, $state, $filter, CajaSessionService) {
+    controllers.controller('BuscarPendienteController', ["$scope", "$state", "$filter", "CajaService",
+        function($scope, $state, $filter, CajaService) {
 
             $scope.crear = function(){
                 $state.transitionTo('app.caja.pendienteCrear');
             };
 
-            CajaSessionService.getPendientes().then(
+            CajaService.getPendientes($scope.cajaSession.id).then(
                 function(pendientes){
                     $scope.pendientes = pendientes;
                 }

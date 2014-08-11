@@ -15,7 +15,10 @@ define(['./module'], function (services) {
                     return Restangular.all(baseUrl+"/"+idCaja+"/bovedas").getList();
                 },
                 getPendientes: function(idCaja, idHistorial){
-                    
+                    if(arguments.length == 1)
+                        return Restangular.all(baseUrl+"/"+idCaja+"/pendientes").getList();
+                    else if(arguments.length == 2)
+                        return Restangular.all(baseUrl+"/"+idCaja+"/pendientes").getList({idHistorial:idHistorial});
                 }
             }
         }])

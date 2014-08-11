@@ -125,12 +125,16 @@ public class SessionRESTService implements SessionREST {
 
 	@Override
 	public Response crearPendiente(BigInteger idboveda, BigDecimal monto, String observacion) {
+		Response response;
 		try {
-			sessionServiceTS.crearPendiente(idboveda, monto, observacion);
-			return Response.status(Response.Status.CREATED).build();
+			BigInteger idPendiente = sessionServiceTS.crearPendiente(idboveda, monto, observacion);		
+			JsonObject model = Json.createObjectBuilder().add("id", idPendiente).build();
+			response = Response.status(Response.Status.CREATED).entity(model).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override
