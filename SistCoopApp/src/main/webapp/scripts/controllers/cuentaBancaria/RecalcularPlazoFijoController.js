@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('RecalcularPlazoFijoController', [ "$scope","$state","$filter","$timeout","focus","CuentaBancariaService","TasaInteresService","RedirectService",
-        function($scope,$state,$filter,$timeout,focus,CuentaBancariaService,TasaInteresService,RedirectService) {
+    controllers.controller('RecalcularPlazoFijoController', [ "$scope","$state","$filter","$timeout","focus","CuentaBancariaService","SocioService","TasaInteresService","RedirectService",
+        function($scope,$state,$filter,$timeout,focus,CuentaBancariaService,SocioService,TasaInteresService,RedirectService) {
 
             $scope.focusElements = {
                 tasaInteres: 'focusTasaInteres'
@@ -43,11 +43,20 @@ define(['../module'], function (controllers) {
 
             $scope.loadCuentaBancaria = function(){
                 if(!angular.isUndefined($scope.id)){
-                    CuentaBancariaService.getCuentasBancariaView($scope.id).then(
+                    CuentaBancariaService.getCuentasBancaria($scope.id).then(
                         function(data){
                             $scope.cuentaBancaria = data;
                             $scope.view.fechaCierre = $scope.cuentaBancaria.fechaCierre;
                             $scope.view.tasaInteres = ($scope.cuentaBancaria.tasaInteres*100).toString();
+
+                            SocioService.findById($scope.cuentaBancaria.idSocio).then(
+                                function(data){
+                                    $scope.socio = data;
+                                }, function error(error){
+                                    $scope.socio = undefined;
+                                    $scope.alerts.push({ type: "danger", msg: "Socio no encontrado."});
+                                }
+                            );
                         }, function error(error){
                             $scope.cuentaBancaria = undefined;
                             $scope.alerts.push({ type: "danger", msg: "Cuenta bancaria no encontrada."});
@@ -55,20 +64,7 @@ define(['../module'], function (controllers) {
                     );
                 }
             };
-            $scope.loadSocio = function(){
-                if(!angular.isUndefined($scope.id)){
-                    CuentaBancariaService.getSocio($scope.id).then(
-                        function(data){
-                            $scope.socio = data;
-                        }, function error(error){
-                            $scope.socio = undefined;
-                            $scope.alerts.push({ type: "danger", msg: "Socio no encontrado."});
-                        }
-                    );
-                };
-            };
             $scope.loadCuentaBancaria();
-            $scope.loadSocio();
 
             $scope.redireccion = function(){
                 if(RedirectService.haveNext()){
@@ -119,7 +115,6 @@ define(['../module'], function (controllers) {
                         function(data){
                             $scope.control.inProcess = false;
                             $scope.control.success = true;
-                            var mensaje= data.message;
                             var sendParameters = {
                                 id: $scope.id,
                                 redirect: true

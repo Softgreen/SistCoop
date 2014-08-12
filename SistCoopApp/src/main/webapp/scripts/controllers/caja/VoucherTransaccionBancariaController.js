@@ -1,11 +1,11 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('VoucherTransaccionBancariaController', ["$scope", "$state", "$filter", "CuentaBancariaService", "RedirectService",
-        function($scope, $state, $filter, CuentaBancariaService, RedirectService) {
+    controllers.controller('VoucherTransaccionBancariaController', ["$scope", "$state", "$filter", "CajaService", "RedirectService",
+        function($scope, $state, $filter, CajaService, RedirectService) {
 
-    		CuentaBancariaService.getVoucherCuentaBancaria($scope.id).then(
-                function(transaccionCuentaBancaria){
-                    $scope.transaccionCuentaBancaria = transaccionCuentaBancaria;
+            CajaService.getVoucherTransaccionBancaria($scope.id).then(
+                function(data){
+                    $scope.transaccionCuentaBancaria = data;
                 },
                 function error(error){
                     alert("Transaccion Cuenta Bancaria no Encontrado");

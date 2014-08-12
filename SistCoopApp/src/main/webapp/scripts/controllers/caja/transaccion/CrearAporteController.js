@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearAporteController', ["$scope", "$state", "$window", "$filter", "$modal","focus", "CajaSessionService",
-        function($scope, $state, $window, $filter, $modal,focus,CajaSessionService) {
+    controllers.controller('CrearAporteController', ["$scope", "$state", "$window", "$filter", "$modal","focus", "SessionService",
+        function($scope, $state, $window, $filter, $modal,focus,SessionService) {
 
             $scope.viewState = "app.transaccion.aporte";
 
@@ -126,7 +126,7 @@ define(['../../module'], function (controllers) {
                         "anio": $scope.view.anio,
                         "referencia" : $scope.view.referencia
                     };
-                    CajaSessionService.crearAporte(transaccion).then(
+                    SessionService.crearAporte(transaccion).then(
                         function(data){
                             $scope.control.success = true;
                             $scope.control.inProcess = false;

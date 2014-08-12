@@ -1,6 +1,5 @@
 define(['../module'], function (controllers) {
     'use strict';
-
     controllers.controller('LoadImageController', ['$scope','ConfiguracionService',
         function($scope, ConfiguracionService) {
 

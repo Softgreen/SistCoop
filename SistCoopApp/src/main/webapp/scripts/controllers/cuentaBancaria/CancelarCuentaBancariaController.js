@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CancelarCuentaBancariaController', [ "$scope","$state","$location","$filter","$window","focus","$modal","CuentaBancariaService","CajaSessionService","RedirectService",
-        function($scope,$state,$location,$filter,$window,focus,$modal,CuentaBancariaService,CajaSessionService,RedirectService) {
+    controllers.controller('CancelarCuentaBancariaController', [ "$scope","$state","$location","$filter","$window","focus","$modal","CuentaBancariaService","SessionService","RedirectService",
+        function($scope,$state,$location,$filter,$window,focus,$modal,CuentaBancariaService,SessionService,RedirectService) {
 
             $scope.viewState = "app.socio.cancelarCuentaBancaria";
 
@@ -39,7 +39,7 @@ define(['../module'], function (controllers) {
             $scope.cancelarCuentaBancaria = function(){
                 if($scope.view.condiciones == true){
                     if(!angular.isUndefined($scope.cuentaBancaria)){
-                        CajaSessionService.cancelarCuentaBancaria($scope.cuentaBancaria.id).then(
+                        SessionService.cancelarCuentaBancariaConRetiro($scope.cuentaBancaria.id).then(
                             function(data){
                                 var savedParameters = {
                                     id: $scope.cuentaBancaria.id

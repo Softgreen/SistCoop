@@ -65,7 +65,7 @@ public interface CuentaBancariaREST {
 	@POST
 	@Path("/{id}/recalcular")
 	@Produces({ "application/xml", "application/json" })
-	public Response recalcular(@PathParam("id") BigInteger id);
+	public Response recalcular(@PathParam("id") BigInteger id, CuentaBancariaDTO cuenta);
 
 	@POST
 	@Path("/{id}/renovar")
@@ -109,9 +109,9 @@ public interface CuentaBancariaREST {
 	public Response updateTitular(@PathParam("id") BigInteger id, @PathParam("idTitular") BigInteger idTitular);
 
 	@DELETE
-	@Path("/{id}/beneficiarios/{idBeneficiario}")
+	@Path("/{id}/titulares/{idTitular}")
 	@Produces({ "application/xml", "application/json" })
-	public Response deleteTitular(@PathParam("id") BigInteger id, @PathParam("idBeneficiario") BigInteger idTitular);
+	public Response deleteTitular(@PathParam("id") BigInteger id, @PathParam("idTitular") BigInteger idTitular);
 
 	@GET
 	@Path("/{id}/beneficiarios")

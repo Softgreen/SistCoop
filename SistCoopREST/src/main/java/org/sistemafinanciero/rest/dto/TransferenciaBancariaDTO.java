@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "transaccionBancariaDTO")
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class TranferenciaBancariaDTO implements Serializable {
+public class TransferenciaBancariaDTO implements Serializable {
 
 	/**
 	 * 

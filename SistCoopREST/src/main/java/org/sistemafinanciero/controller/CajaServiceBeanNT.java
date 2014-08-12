@@ -39,6 +39,7 @@ import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.TransaccionCompraVenta;
 import org.sistemafinanciero.entity.TransaccionCuentaAporte;
+import org.sistemafinanciero.entity.TransferenciaBancaria;
 import org.sistemafinanciero.entity.VariableSistema;
 import org.sistemafinanciero.entity.dto.CajaCierreMoneda;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
@@ -79,6 +80,9 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 	@Inject
 	private DAO<Object, TransaccionBancaria> transaccionBancariaDAO;
 
+	@Inject
+	private DAO<Object, TransferenciaBancaria> transferenciaBancariaDAO;
+	
 	@Inject
 	private DAO<Object, TransaccionCompraVenta> transaccionCopraVentaDAO;
 
@@ -784,8 +788,65 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 	@Override
 	public VoucherTransferenciaBancaria getVoucherTransferenciaBancaria(BigInteger idTransferencia) {
-		// TODO Auto-generated method stub
-		return null;
+		VoucherTransferenciaBancaria voucher = new VoucherTransferenciaBancaria();
+
+		// recuperando transaccion
+		TransferenciaBancaria transferenciaBancaria = transferenciaBancariaDAO.find(idTransferencia);
+		CuentaBancaria cuentaOrigen = transferenciaBancaria.getCuentaBancariaOrigen();
+		CuentaBancaria cuentaDestino = transferenciaBancaria.getCuentaBancariaDestino();
+		Socio socioOrigen = cuentaOrigen.getSocio();
+		//Socio socioDestino = cuentaDestino.getSocio();
+		Caja caja = transferenciaBancaria.getHistorialCaja().getCaja();				
+		Set<BovedaCaja> list = caja.getBovedaCajas();
+		Agencia agencia = null;
+		for (BovedaCaja bovedaCaja : list) {
+			agencia = bovedaCaja.getBoveda().getAgencia();
+			break;
+		}
+
+		// Poniendo datos de transaccion
+		voucher.setIdTransferenciaBancaria(transferenciaBancaria.getIdTransferenciaBancaria());
+		Moneda moneda = cuentaOrigen.getMoneda();
+		Hibernate.initialize(moneda);
+		voucher.setMoneda(moneda);
+		voucher.setFecha(transferenciaBancaria.getFecha());
+		voucher.setHora(transferenciaBancaria.getHora());
+		voucher.setNumeroOperacion(transferenciaBancaria.getNumeroOperacion());
+		voucher.setMonto(transferenciaBancaria.getMonto());
+		voucher.setReferencia(transferenciaBancaria.getReferencia());
+		voucher.setTipoTransaccion("TRANSFERENCIA");	
+		voucher.setObservacion(transferenciaBancaria.getObservacion());
+			
+		// Poniendo datos de cuenta bancaria
+		voucher.setNumeroCuentaOrigen(cuentaOrigen.getNumeroCuenta());
+		voucher.setNumeroCuentaDestino(cuentaDestino.getNumeroCuenta());
+		
+		// Poniendo datos de agencia
+		voucher.setAgenciaDenominacion(agencia.getDenominacion());
+		voucher.setAgenciaAbreviatura(agencia.getAbreviatura());
+
+		// Poniendo datos de caja
+		voucher.setCajaDenominacion(caja.getDenominacion());
+		voucher.setCajaAbreviatura(caja.getAbreviatura());
+
+		// Poniendo datos del socio
+		
+		
+		PersonaNatural personaNatural = socioOrigen.getPersonaNatural();
+		PersonaJuridica personaJuridica = socioOrigen.getPersonaJuridica();
+		if (personaJuridica == null) {
+			voucher.setIdSocio(socioOrigen.getIdSocio());
+			voucher.setTipoDocumento(socioOrigen.getPersonaNatural().getTipoDocumento()); //
+			voucher.setNumeroDocumento(socioOrigen.getPersonaNatural().getNumeroDocumento());
+			voucher.setSocio(personaNatural.getApellidoPaterno() + " " + personaNatural.getApellidoMaterno() + ", " + personaNatural.getNombres());
+		}
+		if (personaNatural == null) {
+			voucher.setIdSocio(socioOrigen.getIdSocio());
+			voucher.setTipoDocumento(socioOrigen.getPersonaJuridica().getTipoDocumento()); //
+			voucher.setNumeroDocumento(socioOrigen.getPersonaJuridica().getNumeroDocumento());
+			voucher.setSocio(personaJuridica.getRazonSocial());
+		}
+		return voucher;
 	}
 
 	@Override

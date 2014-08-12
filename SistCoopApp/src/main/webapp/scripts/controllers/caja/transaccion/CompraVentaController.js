@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    controllers.controller('CompraVentaController', ["$scope","$state","$window","$timeout","$filter","$modal","focus","CuentaBancariaService","CajaSessionService","MonedaService","PersonaNaturalService","TasaInteresService",
-        function($scope,$state,$window,$timeout,$filter,$modal,focus,CuentaBancariaService,CajaSessionService,MonedaService,PersonaNaturalService,TasaInteresService) {
+    controllers.controller('CompraVentaController', ["$scope","$state","$window","$timeout","$filter","$modal","focus","CuentaBancariaService","SessionService","MonedaService","PersonaNaturalService","TasaInteresService",
+        function($scope,$state,$window,$timeout,$filter,$modal,focus,CuentaBancariaService,SessionService,MonedaService,PersonaNaturalService,TasaInteresService) {
 
             $scope.viewState = 'app.transaccion.compraVenta';
 
@@ -148,7 +148,7 @@ define(['../../module'], function (controllers) {
 
                     $scope.control.inProcess = true;
 
-                    CajaSessionService.crearTransaccionCompraVenta(transaccion).then(
+                    SessionService.crearTransaccionCompraVenta(transaccion).then(
                         function(data){
                             $scope.control.success = true;
                             $scope.control.inProcess = false;

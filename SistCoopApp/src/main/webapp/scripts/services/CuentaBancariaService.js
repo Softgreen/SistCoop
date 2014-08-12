@@ -43,9 +43,6 @@ define(['./module'], function (services) {
                 getCuentasBancaria: function(id){
                     return Restangular.one(baseUrl+"/"+id).get();
                 },
-                getCuentasBancariaView: function(id){
-                    return Restangular.one("cuentaBancaria/view/"+id).get();
-                },
                 findCuentaByNumeroCuenta: function(numeroCuenta){
                     return Restangular.one("cuentaBancaria/view/buscar").get({numeroCuenta:numeroCuenta},{});
                 },
@@ -64,11 +61,26 @@ define(['./module'], function (services) {
                 getTitulares: function(idCuenta){
                     return Restangular.all(baseUrl+"/"+idCuenta+"/titulares").getList();
                 },
+                getTitular: function(idCuenta, idTitular){
+                    return Restangular.one(baseUrl+"/"+idCuenta+"/titulares/"+idTitular).get();
+                },
                 addTitular: function(idCuenta, titular){
-                    return Restangular.all(baseUrl+"/"+idCuenta+"/titular").post(titular);
+                    return Restangular.all(baseUrl+"/"+idCuenta+"/titulares").post(titular);
+                },
+                eliminarTitular: function(idCuenta, idTitular){
+                    return Restangular.one(baseUrl+"/"+idCuenta+"/titulares/"+idTitular).remove();
                 },
                 getBeneficiarios: function(idCuenta){
                     return Restangular.all(baseUrl+"/"+idCuenta+"/beneficiarios").getList();
+                },
+                getBeneficiario: function(idCuenta, idBeneficiario){
+                    return Restangular.one(baseUrl+"/"+idCuenta+"/beneficiarios/"+idBeneficiario).get();
+                },
+                addBeneficiario : function(idCuenta, beneficiario){
+                    return Restangular.all(baseUrl+"/"+idCuenta+"/beneficiarios").post(beneficiario);
+                },
+                eliminarBeneficiario: function(idCuenta, idBeneficiario){
+                    return Restangular.one(baseUrl+"/"+idCuenta+"/beneficiarios/"+idBeneficiario).remove();
                 },
                 getVoucherCuentaBancaria: function(id) {
                     return Restangular.one("cuentaBancaria/"+id+"/voucherCuentaBancaria").get();
@@ -80,16 +92,16 @@ define(['./module'], function (services) {
                     return Restangular.all(baseUrl+"/"+id+"/estadoCuenta").getList({"desde":desde,"hasta":hasta},{});
                 },
                 congelarCuentaBancaria: function(id){
-                    return Restangular.one("cuentaBancaria/"+id+"/congelar").customPUT({},'',{},{});
+                    return Restangular.one(baseUrl+"/"+id+"/congelar").customPOST({},'',{},{});
                 },
                 descongelarCuentaBancaria: function(id){
-                    return Restangular.one("cuentaBancaria/"+id+"/descongelar").customPUT({},'',{},{});
+                    return Restangular.one(baseUrl+"/"+id+"/descongelar").customPOST({},'',{},{});
                 },
                 cancelarCuenta: function(id){
-                    return Restangular.one("cuentaBancaria/"+id).remove();
+                    return Restangular.all(baseUrl+"/"+id+"/cancelar").post();
                 },
                 recalcularPlazoFijo: function(idCuenta, data){
-                    return Restangular.one("cuentaBancaria/"+idCuenta+"/recalcularPlazoFijo").customPUT(data,'',{},{});
+                    return Restangular.one(baseUrl+"/"+idCuenta+"/recalcular").customPOST(data,'',{},{});
                 },
                 renovarPlazoFijo: function(idCuenta, data){
                     return Restangular.one("cuentaBancaria/"+idCuenta+"/renovarPlazoFijo").customPUT(data,'',{},{});

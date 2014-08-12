@@ -39,10 +39,14 @@ import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.SessionREST;
+import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
+import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
+import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
 import org.sistemafinanciero.service.nt.SessionServiceNT;
 import org.sistemafinanciero.service.ts.SessionServiceTS;
 
@@ -164,49 +168,76 @@ public class SessionRESTService implements SessionREST {
 			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idAporte)).build();
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
-			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
 
 	@Override
-	public Response crearTransaccionCompraVenta() {
+	public Response crearTransaccionCompraVenta(TransaccionCompraVentaDTO transaccion) {
+		Response response;
 		try {
-			sessionServiceTS.crearTransaccionCompraVenta(null, null, null, null, null, null, null);
-			return Response.status(Response.Status.CREATED).build();
+			Tipotransaccioncompraventa tipoTransaccion = transaccion.getTipoOperacion();
+			BigInteger idMonedaRecibido = transaccion.getIdMonedaRecibida();
+			BigInteger idMonedaEntregado = transaccion.getIdMonedaEntregada();
+			BigDecimal montoRecibido = transaccion.getMontoRecibido();
+			BigDecimal montoEntregado = transaccion.getMontoEntregado();
+			BigDecimal tasaCambio = transaccion.getTasaCambio();
+			String referencia = transaccion.getReferencia();
+			BigInteger idTransaccion = sessionServiceTS.crearTransaccionCompraVenta(tipoTransaccion, idMonedaRecibido, idMonedaEntregado, montoRecibido, montoEntregado, tasaCambio, referencia);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override
-	public Response crearTransaccionBancaria() {
+	public Response crearTransaccionBancaria(TransaccionBancariaDTO transaccion) {
+		Response response;
 		try {
-			sessionServiceTS.crearTransaccionBancaria(null, null, null);
-			return Response.status(Response.Status.CREATED).build();
+			String numeroCuenta = transaccion.getNumeroCuenta();
+			BigDecimal monto = transaccion.getMonto();
+			String referencia = transaccion.getReferencia();
+			BigInteger idTransaccion = sessionServiceTS.crearTransaccionBancaria(numeroCuenta, monto, referencia);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override
-	public Response crearTransferencia() {
+	public Response crearTransferencia(TransferenciaBancariaDTO transferencia) {
+		Response response;
 		try {
-			sessionServiceTS.crearTransferenciaBancaria(null, null, null, null);
-			return Response.status(Response.Status.CREATED).build();
+			String numeroCuentaOrigen = transferencia.getNumeroCuentaOrigen();
+			String numeroCuentaDestino = transferencia.getNumeroCuentaDestino();
+			BigDecimal monto = transferencia.getMonto();
+			String referencia = transferencia.getReferencia();
+
+			BigInteger idTransferencia = sessionServiceTS.crearTransferenciaBancaria(numeroCuentaOrigen, numeroCuentaDestino, monto, referencia);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransferencia)).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override
 	public Response cancelarCuentaBancariaConRetiro(BigInteger id) {
+		Response response;
 		try {
-			sessionServiceTS.cancelarCuentaBancariaConRetiro(id);
-			return Response.status(Response.Status.OK).build();
+			BigInteger idTransaccion = sessionServiceTS.cancelarCuentaBancariaConRetiro(id);
+			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override

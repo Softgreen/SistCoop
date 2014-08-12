@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('VoucherTransaccionAporteController', ["$scope", "$state", "$filter","focus", "CajaService", "RedirectService",
-        function($scope, $state, $filter,focus, CajaService, RedirectService) {
+    controllers.controller('VoucherTransaccionAporteController', ["$scope", "$state", "$filter","focus", "CajaService", "RedirectService","ConfiguracionService",
+        function($scope, $state, $filter,focus, CajaService, RedirectService, ConfiguracionService) {
 
             $scope.focusElements = {
                 imprimir: 'focusImprimir',
@@ -38,6 +38,9 @@ define(['../module'], function (controllers) {
             };
 
             $scope.imprimir = function(){
+                var printerName = ConfiguracionService.getDefaultPrinterName();
+                //findPrinter(printerName);
+                //if (notReady()) { return;}
                 qz.findPrinter("EPSON TM-U220");												//Elegir impresora
                 qz.append("\x1B\x40");															//reset printer
                 

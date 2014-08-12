@@ -18,7 +18,10 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
+import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
+import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
 
 @Path("/session")
 public interface SessionREST {
@@ -74,22 +77,22 @@ public interface SessionREST {
 	@Path("/transaccionCompraVenta")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response crearTransaccionCompraVenta();
+	public Response crearTransaccionCompraVenta(TransaccionCompraVentaDTO tansaccion);
 
 	@POST
 	@Path("/transaccionBancaria")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response crearTransaccionBancaria();
+	public Response crearTransaccionBancaria(TransaccionBancariaDTO transaccion);
 
 	@POST
 	@Path("/transferenciaBancaria")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response crearTransferencia();
+	public Response crearTransferencia(TransferenciaBancariaDTO transferencia);
 
 	@POST
-	@Path("/cuentaBancaria/cancelar/{id}")
+	@Path("/cuentasBancarias/{id}/cancelar")
 	@Produces({ "application/xml", "application/json" })
 	public Response cancelarCuentaBancariaConRetiro(@PathParam("id") BigInteger id);
 

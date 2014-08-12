@@ -33,6 +33,21 @@ define(['./module'], function (services) {
                 },
                 inactivarSocioConRetiro: function(idSocio){
                     return Restangular.all(baseUrl+"/socio/"+idSocio+"/desactivar").post();
+                },
+                cancelarCuentaBancariaConRetiro: function(id){
+                    return Restangular.all(baseUrl+"/cuentasBancarias/"+id+"/cancelar").post();
+                },
+                crearAporte: function(transaccion){
+                    return Restangular.all(baseUrl+"/transaccionCuentaAporte").post(transaccion);
+                },
+                crearTransaccionBancaria: function(transaccion){
+                    return Restangular.all(baseUrl+"/transaccionBancaria").post(transaccion);
+                },
+                crearTransferenciaBancaria: function(transaccion){
+                    return Restangular.all(baseUrl+"/transferenciaBancaria").post(transaccion);
+                },
+                crearTransaccionCompraVenta: function(transaccion){
+                    return Restangular.all(baseUrl+"/transaccionCompraVenta").post(transaccion);
                 }
             };
         }]);

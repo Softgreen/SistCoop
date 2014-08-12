@@ -5,9 +5,6 @@ define(['./module'], function (services) {
             var _cajaService = Restangular.all("cajas");
             var baseUrl = "cajas";
             return {
-                getVoucherCompraVenta: function(idCompraVenta){
-                    return Restangular.one("caja/"+idCompraVenta+"/voucherCompraVenta").get();
-                },
                 getDetalle: function(idCaja){
                     return Restangular.all(baseUrl+"/"+idCaja+"/detalle").getList();
                 },
@@ -22,6 +19,15 @@ define(['./module'], function (services) {
                 },
                 getVoucherCuentaAporte: function(idTransaccion){
                     return Restangular.one(baseUrl+"/voucherCuentaAporte/"+idTransaccion).get();
+                },
+                getVoucherTransaccionBancaria: function(idTransaccion){
+                    return Restangular.one(baseUrl+"/voucherTransaccionBancaria/"+idTransaccion).get();
+                },
+                getVoucherTransferenciaBancaria: function(idTransferencia){
+                    return Restangular.one(baseUrl+"/voucherTransferenciaBancaria/"+idTransferencia).get();
+                },
+                getVoucherCompraVenta: function(idCompraVenta){
+                    return Restangular.one(baseUrl+"/voucherCompraVenta/"+idCompraVenta).get();
                 }
             }
         }])

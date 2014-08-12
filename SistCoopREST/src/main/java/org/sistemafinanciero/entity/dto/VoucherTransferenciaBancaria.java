@@ -54,7 +54,7 @@ public class VoucherTransferenciaBancaria implements java.io.Serializable {
 	private BigDecimal saldoDisponible;
 
 	@XmlElement
-	private Tipotransaccionbancaria tipoTransaccion;
+	private String tipoTransaccion;
 
 	@XmlElement
 	private String observacion;
@@ -163,11 +163,11 @@ public class VoucherTransferenciaBancaria implements java.io.Serializable {
 		this.saldoDisponible = saldoDisponible;
 	}
 
-	public Tipotransaccionbancaria getTipoTransaccion() {
+	public String getTipoTransaccion() {
 		return tipoTransaccion;
 	}
 
-	public void setTipoTransaccion(Tipotransaccionbancaria tipoTransaccion) {
+	public void setTipoTransaccion(String tipoTransaccion) {
 		this.tipoTransaccion = tipoTransaccion;
 	}
 

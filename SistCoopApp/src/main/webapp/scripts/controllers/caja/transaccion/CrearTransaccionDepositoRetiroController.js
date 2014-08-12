@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTransaccionDepositoRetiroController', ["$scope", "$state", "$window", "$filter", "$modal","focus","CuentaBancariaService", "CajaSessionService","MonedaService","RedirectService",
-        function($scope, $state, $window, $filter, $modal,focus,CuentaBancariaService, CajaSessionService, MonedaService,RedirectService) {
+    controllers.controller('CrearTransaccionDepositoRetiroController', ["$scope", "$state", "$window", "$filter", "$modal","focus","CuentaBancariaService", "SessionService","MonedaService","RedirectService",
+        function($scope, $state, $window, $filter, $modal,focus,CuentaBancariaService, SessionService, MonedaService,RedirectService) {
 
             $scope.viewState = 'app.socio.crearCuentaBancaria';
 
@@ -191,7 +191,7 @@ define(['../../module'], function (controllers) {
                         "monto": (Math.abs(parseFloat($scope.view.monto.toString())) * $scope.getTipoTransaccion().factor),
                         "referencia" : $scope.view.referencia
                     };
-                    CajaSessionService.crearTransaccionBancaria(transaccion).then(
+                    SessionService.crearTransaccionBancaria(transaccion).then(
                         function(data){
                             $scope.control.success = true;
                             $scope.control.inProcess = false;

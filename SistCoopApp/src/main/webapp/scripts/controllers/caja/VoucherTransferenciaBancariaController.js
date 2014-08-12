@@ -1,11 +1,11 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('VoucherTransferenciaBancariaController', ["$scope", "$state", "$filter", "CuentaBancariaService", "RedirectService",
-        function($scope, $state, $filter, CuentaBancariaService, RedirectService) {
+    controllers.controller('VoucherTransferenciaBancariaController', ["$scope", "$state", "$filter", "CajaService", "RedirectService",
+        function($scope, $state, $filter, CajaService, RedirectService) {
 
             $scope.loadVoucher = function(){
                 if(!angular.isUndefined($scope.id)){
-                    CuentaBancariaService.getVoucherTransferenciaBancaria($scope.id).then(
+                    CajaService.getVoucherTransferenciaBancaria($scope.id).then(
                         function(data){
                             $scope.transferenciaCuentaBancaria = data;
                         },

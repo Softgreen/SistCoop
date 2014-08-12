@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTransferenciaController', ["$scope", "$state", "$window", "$filter", "$modal","focus","CuentaBancariaService","CajaSessionService","MonedaService",
-        function($scope, $state, $window, $filter, $modal,focus, CuentaBancariaService, CajaSessionService, MonedaService) {
+    controllers.controller('CrearTransferenciaController', ["$scope", "$state", "$window", "$filter", "$modal","focus","CuentaBancariaService","SessionService","MonedaService",
+        function($scope, $state, $window, $filter, $modal,focus, CuentaBancariaService, SessionService, MonedaService) {
 
             $scope.viewState = 'app.transaccion.transferencia';
             $scope.focusElements = {
@@ -194,7 +194,7 @@ define(['../../module'], function (controllers) {
 
                     $scope.control.inProcess = true;
 
-                    CajaSessionService.crearTransferenciaBancaria($scope.transaccion).then(
+                    SessionService.crearTransferenciaBancaria($scope.transaccion).then(
                         function(data){
                             $scope.control.success = true;
                             $scope.control.inProcess = false;

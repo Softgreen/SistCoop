@@ -39,6 +39,7 @@ import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.exception.NonexistentEntityException;
+import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.CuentaBancariaREST;
 import org.sistemafinanciero.rest.Jsend;
@@ -134,9 +135,19 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	}
 
 	@Override
-	public Response recalcular(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response recalcular(BigInteger id, CuentaBancariaDTO cuenta) {
+		Response response;
+
+		int periodo = cuenta.getPeriodo();
+		BigDecimal tasaInteres = cuenta.getTasaInteres();
+		try {
+			cuentaBancariaServiceTS.recalcularCuentaPlazoFijo(id, periodo, tasaInteres);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
@@ -198,7 +209,9 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response getTitular(BigInteger id, BigInteger idTitular) {
-		return null;
+		Titular titular = cuentaBancariaServiceNT.findTitularById(idTitular);
+		Response response = Response.status(Response.Status.OK).entity(titular).build();
+		return response;
 	}
 
 	@Override
@@ -230,8 +243,18 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response deleteTitular(BigInteger id, BigInteger idTitular) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			cuentaBancariaServiceTS.deleteTitular(idTitular);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
@@ -243,20 +266,41 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response getBeneficiario(BigInteger id, BigInteger idBeneficiario) {
-		// TODO Auto-generated method stub
-		return null;
+		Beneficiario beneficiario = cuentaBancariaServiceNT.findBeneficiarioById(idBeneficiario);
+		Response response = Response.status(Response.Status.OK).entity(beneficiario).build();
+		return response;
 	}
 
 	@Override
 	public Response createBeneficiario(BigInteger id, Beneficiario beneficiario) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			BigInteger idBeneficiario = cuentaBancariaServiceTS.addBeneficiario(id, beneficiario);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idBeneficiario)).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override
 	public Response updateBeneficiario(BigInteger id, BigInteger idBeneficiario, Beneficiario beneficiario) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+		try {
+			cuentaBancariaServiceTS.updateBeneficiario(idBeneficiario, beneficiario);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (PreexistingEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override

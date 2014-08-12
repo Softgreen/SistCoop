@@ -228,7 +228,7 @@ define(['../module'], function (controllers) {
 
             $scope.cancelarCuentaBancaria = function(){
                 if(!angular.isUndefined($scope.cuentaBancaria)){
-                    if($scope.cuentaBancaria.estado != 'ACTIVO'){
+                    if($scope.cuentaBancaria.estadoCuenta != 'ACTIVO'){
                         $scope.alerts = [{ type: "warning", msg: "Error: La cuenta debe de estar activa."}];
                         $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         return;
@@ -262,9 +262,9 @@ define(['../module'], function (controllers) {
                 modalInstance.result.then(function (result) {
                     var titular = {"idTipoDocumento" : result.tipoDocumento.id,"numeroDocumento": result.numeroDocumento};
 
-                    TitularService.crearTitular($scope.id, titular).then(
+                    CuentaBancariaService.addTitular($scope.id, titular).then(
                         function(data){
-                            TitularService.getTitular(data.id).then(function(titular){
+                            CuentaBancariaService.getTitular($scope.id, data.id).then(function(titular){
                                 $scope.titulares.push(titular);
                             });
                             $scope.alerts = [{ type: "success", msg: "Titular creado." }];
@@ -288,7 +288,7 @@ define(['../module'], function (controllers) {
                     controller: "ConfirmPopUpController"
                 });
                 modalInstance.result.then(function (result) {
-                    TitularService.eliminarTitular($scope.titulares[index].id).then(
+                    CuentaBancariaService.eliminarTitular($scope.id, $scope.titulares[index].id).then(
                         function(data){
                             $scope.alerts = [{ type: "success", msg: "Titular eliminado." }];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
@@ -326,9 +326,9 @@ define(['../module'], function (controllers) {
                     }
                 });
                 modalInstance.result.then(function (result) {
-                    BeneficiarioService.crearBeneficiario($scope.id, result).then(
+                    CuentaBancariaService.addBeneficiario($scope.id, result).then(
                         function(data){
-                            BeneficiarioService.getBeneficiario(data.id).then(function(beneficiario){
+                            CuentaBancariaService.getBeneficiario($scope.id, data.id).then(function(beneficiario){
                                 $scope.beneficiarios.push(beneficiario);
                             });
                             $scope.alerts = [{ type: "success", msg: "Beneficiario creado." }];
@@ -352,7 +352,7 @@ define(['../module'], function (controllers) {
                     controller: "ConfirmPopUpController"
                 });
                 modalInstance.result.then(function (result) {
-                    BeneficiarioService.eliminarBeneficiario($scope.beneficiarios[index].id).then(
+                    CuentaBancariaService.eliminarBeneficiario($scope.id, $scope.beneficiarios[index].id).then(
                         function(data){
                             $scope.alerts = [{ type: "success", msg: "Beneficiario eliminado." }];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};

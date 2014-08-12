@@ -1,23 +1,26 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('FirmaPopUpController', function ($scope, $modalInstance, idPersonas, nombres) {
+    controllers.controller('FirmaPopUpController', ['$scope','ConfiguracionService','$modalInstance','idPersonas','nombres',
+        function($scope, ConfiguracionService,$modalInstance, idPersonas, nombres) {
 
-        $scope.idPersonas = idPersonas;
-        $scope.nombres = nombres;
+            $scope.urlBase = ConfiguracionService.getRestApiUrl();
 
-        $scope.getUrlFirma = function(index) {
-            return "http://localhost:8080/SistemaFinancieroVentura-web/services/personaNatural/"+$scope.idPersonas[index]+"/firma";
-        };
-        $scope.getNombre = function(index){
-            return $scope.nombres[index];
-        };
+            $scope.idPersonas = idPersonas;
+            $scope.nombres = nombres;
 
-        $scope.ok = function () {
-            $modalInstance.close();
-        };
+            $scope.getUrlFirma = function(index) {
+                return $scope.urlBase + '/personas/naturales/' + $scope.idPersonas[index] + '/firma';
+            };
+            $scope.getNombre = function(index){
+                return $scope.nombres[index];
+            };
 
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
-    });
+            $scope.ok = function () {
+                $modalInstance.close();
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+        }]);
 });
