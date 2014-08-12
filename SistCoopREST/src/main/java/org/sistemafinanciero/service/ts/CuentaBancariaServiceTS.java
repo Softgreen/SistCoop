@@ -38,7 +38,7 @@ public interface CuentaBancariaServiceTS extends AbstractServiceTS<CuentaBancari
 
 	public void deleteBeneficiario(BigInteger idBeneficiario) throws NonexistentEntityException, RollbackFailureException;
 
-	public BigInteger addTitular(BigInteger idCuenta, Titular titular) throws RollbackFailureException;
+	public BigInteger addTitular(BigInteger idCuenta, BigInteger idPersonaNatural) throws RollbackFailureException;
 
 	public void updateTitular(BigInteger idTitular, Titular titular) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException;
 

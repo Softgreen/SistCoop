@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,7 @@ import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
+import org.sistemafinanciero.entity.EstadocuentaBancariaView;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Titular;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
@@ -41,6 +43,7 @@ import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.CuentaBancariaREST;
 import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
+import org.sistemafinanciero.rest.dto.TitularDTO;
 import org.sistemafinanciero.service.nt.CuentaBancariaServiceNT;
 import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
 import org.sistemafinanciero.service.nt.SessionServiceNT;
@@ -98,8 +101,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response getEstadoCuenta(BigInteger id, Long desde, Long hasta) {
-		// TODO Auto-generated method stub
-		return null;
+		Date dateDesde = (desde != null ? new Date(desde) : null);
+		Date dateHasta = (desde != null ? new Date(hasta) : null);
+		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(id, dateDesde, dateHasta);
+		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
 	@Override
@@ -197,9 +202,24 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	}
 
 	@Override
-	public Response createTitular(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response createTitular(BigInteger id, TitularDTO titular) {
+		Response response;
+
+		BigInteger idTipoDocumento = titular.getIdTipoDocumento();
+		String numeroDocumento = titular.getNumeroDocumento();
+		PersonaNatural personaNatural = personaNaturalServiceNT.find(idTipoDocumento, numeroDocumento);
+		if (personaNatural != null) {
+			try {
+				BigInteger idTitular = cuentaBancariaServiceTS.addTitular(id, personaNatural.getIdPersonaNatural());
+				response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTitular)).build();
+			} catch (RollbackFailureException e) {
+				Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+				response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+			}
+		} else {
+			response = Response.status(Response.Status.BAD_REQUEST).entity(Jsend.getErrorJSend("Titular no encontrado")).build();
+		}
+		return response;
 	}
 
 	@Override

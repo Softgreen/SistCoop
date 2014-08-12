@@ -45,42 +45,18 @@
                 <div class="panel-body" ng-show="!socio">
                     <p>Socio no Encontrado</p>
                 </div>
-                <table class="table table-condensed" ng-if="socio.personaNatural">
+                <table class="table table-condensed">
                     <tr>
                         <td colspan="1" style="width: 130px; font-size: 12px;"><strong>Documento:</strong></td>
-                        <td colspan="1" style="font-size: 12px;"><span ng-bind-template="{{socio.personaNatural.tipoDocumento.abreviatura}}/{{socio.personaNatural.numeroDocumento}}"></span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="1" style="font-size: 12px;"><strong>Ap. y Nombres:</strong></td>
-                        <td colspan="1" style="font-size: 12px;"><span ng-bind-template="{{socio.personaNatural.apellidoPaterno}} {{socio.personaNatural.apellidoMaterno}}, {{socio.personaNatural.nombres}}"></span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="1" style="font-size: 12px;"><strong>Fecha Nacimiento:</strong></td>
-                        <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.personaNatural.fechaNacimiento |date : 'dd/MM/yyyy'"></span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="1" style="font-size: 12px;"><strong>Sexo:</strong></td>
-                        <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.personaNatural.sexo"></span></td>
-                    </tr>
-                </table>
-                <table class="table table-condensed" ng-if="socio.personaJuridica">
-                    <tr>
-                        <td colspan="1" style="width: 130px; font-size: 12px;"><strong>Documento:</strong></td>
-                        <td colspan="1" style="font-size: 12px;"><span ng-bind-template="{{socio.personaJuridica.tipoDocumento.abreviatura}}/{{socio.personaJuridica.numeroDocumento}}"></span></td>
+                        <td colspan="1" style="font-size: 12px;"><span ng-bind-template="{{socio.tipoDocumento}}/{{socio.numeroDocumento}}"></span></td>
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Socio:</strong></td>
-                        <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.personaJuridica.razonSocial"></span></td>
+                        <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.socio"></span></td>
                     </tr>
                     <tr>
-                        <td colspan="1" style="font-size: 12px;"><strong>Nombre Comercial:</strong></td>
-                        <td colspan="1" style="font-size: 12px;">
-                           <span ng-bind="socio.personaJuridica.nombreComercial"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="1" style="font-size: 12px;"><strong>Fecha Constituci&oacute;n:</strong></td>
-                        <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.personaJuridica.fechaConstitucion | date : 'dd/MM/yyyy'"></span></td>
+                        <td colspan="1" style="font-size: 12px;"><strong>Fecha Nac./Const.:</strong></td>
+                        <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.fechaNacimiento |date : 'dd/MM/yyyy'"></span></td>
                     </tr>
                 </table>
                 <div class="panel-heading" ng-if="socio" style="font-weight: bold;">Datos Adicionales</div>
@@ -91,7 +67,7 @@
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Fecha Asociado:</strong></td>
-                        <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.fechaInicio | date : 'dd/MM/yyyy'"></span></td>
+                        <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.fechaAsociado | date : 'dd/MM/yyyy'"></span></td>
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Fecha Retiro:</strong></td>

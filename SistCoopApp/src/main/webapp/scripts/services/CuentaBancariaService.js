@@ -64,6 +64,9 @@ define(['./module'], function (services) {
                 getTitulares: function(idCuenta){
                     return Restangular.all(baseUrl+"/"+idCuenta+"/titulares").getList();
                 },
+                addTitular: function(idCuenta, titular){
+                    return Restangular.all(baseUrl+"/"+idCuenta+"/titular").post(titular);
+                },
                 getBeneficiarios: function(idCuenta){
                     return Restangular.all(baseUrl+"/"+idCuenta+"/beneficiarios").getList();
                 },
@@ -74,7 +77,7 @@ define(['./module'], function (services) {
                     return Restangular.one("cuentaBancaria/"+idTransferencia+"/voucherTransferenciaBancaria").get();
                 },
                 getEstadoCuenta: function(id, desde, hasta) {
-                    return Restangular.all("cuentaBancaria/"+id+"/estadoCuenta").getList({"desde":desde,"hasta":hasta},{});
+                    return Restangular.all(baseUrl+"/"+id+"/estadoCuenta").getList({"desde":desde,"hasta":hasta},{});
                 },
                 congelarCuentaBancaria: function(id){
                     return Restangular.one("cuentaBancaria/"+id+"/congelar").customPUT({},'',{},{});

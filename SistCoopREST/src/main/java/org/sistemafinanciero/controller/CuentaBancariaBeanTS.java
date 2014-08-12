@@ -416,26 +416,18 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 	}
 
 	@Override
-	public BigInteger addTitular(BigInteger idCuenta, Titular titular) throws RollbackFailureException {
+	public BigInteger addTitular(BigInteger idCuenta, BigInteger idPersonaNatural) throws RollbackFailureException {
 		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuenta);
 		if (cuentaBancaria == null)
 			throw new RollbackFailureException("Cuenta bancaria no encotrada");
 		if (cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.INACTIVO))
 			throw new RollbackFailureException("Cuenta bancaria inactiva, no se puede modificar titulares");
 
-		PersonaNatural personaNatural = titular.getPersonaNatural();
-		personaNatural = personaNaturalService.find(personaNatural.getTipoDocumento().getIdTipoDocumento(), personaNatural.getNumeroDocumento());
-
-		Set<Titular> titulresDB = cuentaBancaria.getTitulars();
-		for (Titular titDB : titulresDB) {
-			if (titDB.getPersonaNatural().equals(personaNatural))
-				if (titDB.getEstado())
-					throw new RollbackFailureException("Titular ya existente");
-		}
-
+		PersonaNatural personaNatural = personaNaturalDAO.find(idPersonaNatural);
 		if (personaNatural == null)
 			throw new RollbackFailureException("Persona para titular no encontrado");
 
+		Titular titular = new Titular();
 		titular.setPersonaNatural(personaNatural);
 		titular.setIdTitular(null);
 		titular.setCuentaBancaria(cuentaBancaria);

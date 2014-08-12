@@ -19,6 +19,7 @@ import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
+import org.sistemafinanciero.rest.dto.TitularDTO;
 
 @Path("/cuentasBancarias")
 public interface CuentaBancariaREST {
@@ -99,7 +100,7 @@ public interface CuentaBancariaREST {
 	@POST
 	@Path("/{id}/titulares")
 	@Produces({ "application/xml", "application/json" })
-	public Response createTitular(@PathParam("id") BigInteger id);
+	public Response createTitular(@PathParam("id") BigInteger id, TitularDTO titular);
 
 	@PUT
 	@Path("/{id}/titulares/{idTitular}")

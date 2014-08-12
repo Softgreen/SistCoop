@@ -35,6 +35,16 @@ define(['../module'], function (controllers) {
                     CuentaBancariaService.getCuentasBancaria($scope.id).then(
                         function(data){
                             $scope.cuentaBancaria = data;
+                            if(!angular.isUndefined($scope.cuentaBancaria)){
+                                SocioService.findById($scope.cuentaBancaria.idSocio).then(
+                                    function(data){
+                                        $scope.socio = data;
+                                    }, function error(error){
+                                        $scope.socio = undefined;
+                                        $scope.alerts.push({ type: "danger", msg: "Socio no encontrado."});
+                                    }
+                                );
+                            };
                         }, function error(error){
                             $scope.cuentaBancaria = undefined;
                             $scope.alerts.push({ type: "danger", msg: "Cuenta bancaria no encontrada."});
@@ -42,18 +52,7 @@ define(['../module'], function (controllers) {
                     );
                 }
             };
-            $scope.loadSocio = function(){
-                if(!angular.isUndefined($scope.id)){
-                    CuentaBancariaService.getSocio($scope.id).then(
-                        function(data){
-                            $scope.socio = data;
-                        }, function error(error){
-                            $scope.socio = undefined;
-                            $scope.alerts.push({ type: "danger", msg: "Socio no encontrado."});
-                        }
-                    );
-                };
-            };
+
             $scope.loadBeneficiarios = function(){
                 if(!angular.isUndefined($scope.id)){
                     CuentaBancariaService.getBeneficiarios($scope.id).then(
@@ -104,7 +103,6 @@ define(['../module'], function (controllers) {
                 ]
             };
 
-            $scope.loadSocio();
             $scope.loadCuentaBancaria();
             $scope.loadBeneficiarios();
             $scope.loadTitulares();
