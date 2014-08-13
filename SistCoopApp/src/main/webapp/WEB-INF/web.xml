@@ -2,6 +2,24 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 
+	<module-name>SistCoopApp</module-name>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Cajeros</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>cajero</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>KEYCLOAK</auth-method>
+		<realm-name>SistemaFinanciero</realm-name>
+	</login-config>
+	<security-role>
+		<role-name>cajero</role-name>
+	</security-role>
+
 	<servlet>
 		<servlet-name>default</servlet-name>
 		<servlet-class>io.undertow.servlet.handlers.DefaultServlet</servlet-class>
