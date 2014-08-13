@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.HistorialCaja;
+import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
@@ -217,8 +218,8 @@ public class CajaRESTService implements CajaREST {
 	}
 
 	@Override
-	public Response getHistorialTransaccionCaja(String filterText, BigInteger idCaja, BigInteger idAgencia) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getHistorialTransaccionCaja(BigInteger idCaja, BigInteger idHistorial, String filterText) {
+		List<HistorialTransaccionCaja> list = cajaServiceNT.getHistorialTransaccion(idCaja, idHistorial, filterText);
+		return Response.status(Response.Status.OK).entity(list).build();		
 	}
 }

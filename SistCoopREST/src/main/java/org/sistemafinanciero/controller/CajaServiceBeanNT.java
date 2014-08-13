@@ -27,6 +27,7 @@ import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.DetalleHistorialCaja;
 import org.sistemafinanciero.entity.HistorialCaja;
+import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.PendienteCaja;
@@ -82,9 +83,12 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 	@Inject
 	private DAO<Object, TransferenciaBancaria> transferenciaBancariaDAO;
-	
+
 	@Inject
 	private DAO<Object, TransaccionCompraVenta> transaccionCopraVentaDAO;
+
+	@Inject
+	private DAO<Object, HistorialTransaccionCaja> historialTransaccionCajaDAO;
 
 	@EJB
 	private MonedaServiceNT monedaServiceNT;
@@ -795,8 +799,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		CuentaBancaria cuentaOrigen = transferenciaBancaria.getCuentaBancariaOrigen();
 		CuentaBancaria cuentaDestino = transferenciaBancaria.getCuentaBancariaDestino();
 		Socio socioOrigen = cuentaOrigen.getSocio();
-		//Socio socioDestino = cuentaDestino.getSocio();
-		Caja caja = transferenciaBancaria.getHistorialCaja().getCaja();				
+		// Socio socioDestino = cuentaDestino.getSocio();
+		Caja caja = transferenciaBancaria.getHistorialCaja().getCaja();
 		Set<BovedaCaja> list = caja.getBovedaCajas();
 		Agencia agencia = null;
 		for (BovedaCaja bovedaCaja : list) {
@@ -814,13 +818,13 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		voucher.setNumeroOperacion(transferenciaBancaria.getNumeroOperacion());
 		voucher.setMonto(transferenciaBancaria.getMonto());
 		voucher.setReferencia(transferenciaBancaria.getReferencia());
-		voucher.setTipoTransaccion("TRANSFERENCIA");	
+		voucher.setTipoTransaccion("TRANSFERENCIA");
 		voucher.setObservacion(transferenciaBancaria.getObservacion());
-			
+
 		// Poniendo datos de cuenta bancaria
 		voucher.setNumeroCuentaOrigen(cuentaOrigen.getNumeroCuenta());
 		voucher.setNumeroCuentaDestino(cuentaDestino.getNumeroCuenta());
-		
+
 		// Poniendo datos de agencia
 		voucher.setAgenciaDenominacion(agencia.getDenominacion());
 		voucher.setAgenciaAbreviatura(agencia.getAbreviatura());
@@ -830,8 +834,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		voucher.setCajaAbreviatura(caja.getAbreviatura());
 
 		// Poniendo datos del socio
-		
-		
+
 		PersonaNatural personaNatural = socioOrigen.getPersonaNatural();
 		PersonaJuridica personaJuridica = socioOrigen.getPersonaJuridica();
 		if (personaJuridica == null) {
@@ -899,23 +902,22 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 	@Override
 	public Set<PendienteCaja> getPendientes(BigInteger idCaja, BigInteger idHistorialCaja) {
 		Caja caja = cajaDAO.find(idCaja);
-		if(caja == null)
+		if (caja == null)
 			return null;
 		HistorialCaja historialCaja = null;
-		if(idHistorialCaja != null)
+		if (idHistorialCaja != null)
 			historialCaja = historialCajaDAO.find(idHistorialCaja);
-		if(historialCaja != null && !historialCaja.getCaja().equals(caja))
+		if (historialCaja != null && !historialCaja.getCaja().equals(caja))
 			return null;
-		
+
 		Set<PendienteCaja> result = null;
-		if(historialCaja != null){
+		if (historialCaja != null) {
 			result = historialCaja.getPendienteCajas();
-		}			
-		else {
+		} else {
 			historialCaja = getHistorialActivo(idCaja);
 			result = historialCaja.getPendienteCajas();
 		}
-			
+
 		for (PendienteCaja pendienteCaja : result) {
 			Moneda moneda = pendienteCaja.getMoneda();
 			Hibernate.initialize(pendienteCaja);
@@ -923,7 +925,32 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		}
 		return result;
 	}
-	
-	
+
+	@Override
+	public List<HistorialTransaccionCaja> getHistorialTransaccion(BigInteger idCaja, BigInteger idHistorial, String filterText) {
+		Caja caja = cajaDAO.find(idCaja);
+		HistorialCaja historial = null;
+		if (caja == null) {
+			return null;
+		}
+		if (idHistorial != null) {
+			historial = historialCajaDAO.find(idHistorial);
+		} else {
+			historial = getHistorialActivo(idCaja);
+		}
+		if (historial == null || !historial.getCaja().equals(caja)) {
+			return null;
+		}
+
+		if (filterText != null) {
+			QueryParameter queryParameter = QueryParameter.with("filterText", "%" + filterText + "%");
+			List<HistorialTransaccionCaja> list = historialTransaccionCajaDAO.findByNamedQuery(HistorialTransaccionCaja.findByTransaccion, queryParameter.parameters());
+			return list;
+		} else {
+			QueryParameter queryParameter = QueryParameter.with("idHistorialCaja", historial.getIdHistorialCaja());
+			List<HistorialTransaccionCaja> list = historialTransaccionCajaDAO.findByNamedQuery(HistorialTransaccionCaja.findByHistorialCaja, queryParameter.parameters());
+			return list;
+		}
+	}
 
 }

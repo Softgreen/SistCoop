@@ -10,6 +10,7 @@ import javax.ejb.Remote;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.HistorialCaja;
+import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
@@ -26,13 +27,13 @@ import org.sistemafinanciero.entity.dto.VoucherTransferenciaBancaria;
 public interface CajaServiceNT extends AbstractServiceNT<Caja> {
 
 	public Set<Boveda> getBovedas(BigInteger idCaja);
-	
+
 	public Set<Moneda> getMonedas(BigInteger idCaja);
-	
+
 	public Set<HistorialCaja> getHistorialCaja(BigInteger idCaja, Date dateDesde, Date dateHasta);
-	
-	public Set<GenericMonedaDetalle> getDetalleCaja(BigInteger idCaja);	
-	
+
+	public Set<GenericMonedaDetalle> getDetalleCaja(BigInteger idCaja);
+
 	public Set<GenericMonedaDetalle> getDetalleCaja(BigInteger idCaja, BigInteger idHistorialCaja);
 
 	public List<TransaccionBovedaCajaView> getTransaccionesEnviadasBovedaCaja(BigInteger idCaja);
@@ -62,7 +63,9 @@ public interface CajaServiceNT extends AbstractServiceNT<Caja> {
 	public VoucherTransferenciaBancaria getVoucherTransferenciaBancaria(BigInteger idTransferencia);
 
 	public VoucherCompraVenta getVoucherCompraVenta(BigInteger idTransaccionCompraVenta);
-	
+
 	public Set<PendienteCaja> getPendientes(BigInteger idCaja, BigInteger idHistorialCaja);
+
+	public List<HistorialTransaccionCaja> getHistorialTransaccion(BigInteger idCaja, BigInteger idHistorial, String filterText);
 
 }

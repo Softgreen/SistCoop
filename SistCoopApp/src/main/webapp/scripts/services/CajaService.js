@@ -28,6 +28,9 @@ define(['./module'], function (services) {
                 },
                 getVoucherCompraVenta: function(idCompraVenta){
                     return Restangular.one(baseUrl+"/voucherCompraVenta/"+idCompraVenta).get();
+                },
+                getHistorialTransaccion: function(idCaja, idHistorial, filterText){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/historialTransaccion").getList({idHistorial:idHistorial,filterText:filterText});
                 }
             }
         }])

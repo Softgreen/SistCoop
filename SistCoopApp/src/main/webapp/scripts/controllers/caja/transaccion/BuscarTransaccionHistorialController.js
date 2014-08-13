@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    controllers.controller("BuscarTransaccionHistorialController", ["$scope", "$state", "$modal","ngProgress","focus", "CajaSessionService",
-        function($scope, $state,$modal, ngProgress,focus, CajaSessionService) {
+    controllers.controller("BuscarTransaccionHistorialController", ["$scope", "$state", "$modal","ngProgress","focus", "CajaService",
+        function($scope, $state,$modal, ngProgress,focus, CajaService) {
 
             $scope.focusElements = {
                 filterText: 'focusFilterText'
@@ -40,22 +40,23 @@ define(['../../module'], function (controllers) {
             };
             $scope.getPagedDataInitial = function () {
                 $scope.pagingOptions.currentPage = 1;
-                CajaSessionService.getHistorialTransaccion().then(function(data){
+                CajaService.getHistorialTransaccion($scope.cajaSession.id, null, null).then(function(data){
                     $scope.historialList = data;
                     $scope.setPagingData($scope.historialList, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
                 });
             };
             $scope.getPagedDataInitial();
+
             $scope.getPagedDataSearched = function () {
                 if ($scope.filterOptions.filterText) {
                     var ft = $scope.filterOptions.filterText.toUpperCase();
-                    CajaSessionService.findByFilterTextView(ft).then(function (data){
+                    CajaService.getHistorialTransaccion($scope.cajaSession.id, null, ft).then(function (data){
                         $scope.transaccionesList = data;
                         $scope.setPagingData($scope.transaccionesList, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
                     });
-                    CajaSessionService.getCountHistorialTransaccion().then(function(data){
+                   /* CajaSessionService.getCountHistorialTransaccion().then(function(data){
                         $scope.totalServerItems = data;
-                    });
+                    });*/
                 } else {
                     $scope.getPagedDataInitial();
                 }
@@ -75,12 +76,12 @@ define(['../../module'], function (controllers) {
                     }
                     if ($scope.filterOptions.filterText) {
                         var ft = $scope.filterOptions.filterText.toUpperCase();
-                        CajaSessionService.getHistorialTransaccion().then(function (data){
+                        CajaService.getHistorialTransaccion($scope.cajaSession.id, null, ft).then(function (data){
                             $scope.historialList = data;
                             $scope.setPagingData($scope.historialList, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
                         });
                     } else {
-                        CajaSessionService.getHistorialTransaccion().then(function(data){
+                        CajaService.getHistorialTransaccion($scope.cajaSession.id, null, null).then(function(data){
                             $scope.historialList = data;
                             $scope.setPagingData($scope.historialList, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
                         });

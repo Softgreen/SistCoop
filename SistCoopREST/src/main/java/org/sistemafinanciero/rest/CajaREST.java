@@ -78,7 +78,7 @@ public interface CajaREST {
 	@Path("/{id}/pendientes")
 	@Produces({ "application/xml", "application/json" })
 	public Response getPendientesOfCaja(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
-	
+
 	@POST
 	@Path("/{id}/desactivar")
 	@Consumes({ "application/xml", "application/json" })
@@ -121,8 +121,8 @@ public interface CajaREST {
 	public Response getVoucherTransferenciaBancaria(@PathParam("id") BigInteger idTransferenciaBancaria);
 
 	@GET
-	@Path("/historialTransaccion")
+	@Path("/{id}/historialTransaccion")
 	@Produces({ "application/xml", "application/json" })
-	public Response getHistorialTransaccionCaja(@QueryParam("filterText") String filterText, @QueryParam("idCaja") BigInteger idCaja, @QueryParam("idAgencia") BigInteger idAgencia);
+	public Response getHistorialTransaccionCaja(@PathParam("id") BigInteger idCaja, @QueryParam("idHistorial") BigInteger idHistorial, @QueryParam("filterText") String filterText);
 
 }
