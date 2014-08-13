@@ -146,8 +146,7 @@ public class SessionRESTService implements SessionREST {
 		Response response;
 		try {
 			BigInteger idPendiente = sessionServiceTS.crearPendiente(idboveda, monto, observacion);
-			JsonObject model = Json.createObjectBuilder().add("id", idPendiente).build();
-			response = Response.status(Response.Status.CREATED).entity(model).build();
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idPendiente)).build();
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
