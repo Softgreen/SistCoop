@@ -22,15 +22,20 @@ define(['./module'], function (controllers) {
                     function error(error){
                         $scope.usuarioSession = undefined;
                         if(error.status == 400){
-                            $scope.loadCajaOfSession();
+                            $scope.loadUsuarioOfSession();
                         }
                     }
                 );
             };
+
             $scope.loadCajaOfSession = function(){
                 SessionService.getCajaOfSession().then(
                     function(data){
                         $scope.cajaSession = data;
+                        $scope.cajaNotFound = "<span>holaaaaaaaaaaaaa</span>";
+                        if(angular.isUndefined($scope.cajaSession)){
+                            //$scope.cajaNotFound = '<div class="modal-backdrop fade in" ng-class="{in: animate}" style="z-index: 1040" modal-backdrop="" style="z-index: 1040;"></div>';
+                        }
                     },
                     function error(error){
                         $scope.cajaSession = {
@@ -42,6 +47,9 @@ define(['./module'], function (controllers) {
                         };
                         if(error.status == 400){
                             $scope.loadCajaOfSession();
+                        } else {
+                            //$scope.cajaNotFound = '<div class="modal-backdrop fade in" ng-class="{in: animate}" style="z-index: 1040" modal-backdrop="" style="z-index: 1040;"></div>';
+                            console.log("La caja no pudo ser cargada");
                         }
                     }
                 );
@@ -63,17 +71,17 @@ define(['./module'], function (controllers) {
                         }
                     }
                 );
-            }
+            };
 
             if(angular.isUndefined($scope.usuarioSession)){
                 $scope.loadUsuarioOfSession();
-            }
+            };
             if(angular.isUndefined($scope.cajaSession.id)){
                 $scope.loadCajaOfSession();
-            }
+            };
             if(angular.isUndefined($scope.agenciaSession.id)){
-                $scope.loadCajaOfSession();
-            }
+                $scope.loadAgenciaOfSession();
+            };
 
         }]);
 });

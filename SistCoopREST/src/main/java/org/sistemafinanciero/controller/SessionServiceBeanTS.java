@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBAccessException;
+import javax.ejb.EJBException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -335,7 +336,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 			return historialCajaNew.getIdHistorialCaja();
 		} catch (ConstraintViolationException e) {
 			LOGGER.error(e.getMessage(), e.getCause(), e.getLocalizedMessage());
-			return BigInteger.ONE.negate();
+			throw new EJBException(e);
 		}
 	}
 

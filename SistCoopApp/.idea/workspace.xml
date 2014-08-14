@@ -23,15 +23,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BuscarTransaccionHistorialController.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/BuscarTransaccionHistorialController.js">
+      <file leaf-file-name="routes.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2208" max-vertical-offset="2805">
-              <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="12121">
+              <caret line="15" column="64" selection-start-line="15" selection-start-column="64" selection-end-line="15" selection-end-column="64" />
               <folding>
-                <marker date="1407888327716" expanded="false" signature="5358:5377" placeholder="..." />
-                <marker date="1407888327716" expanded="false" signature="5630:5649" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="736:754" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="3639:3652" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="3692:3704" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="4318:4331" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="4503:4521" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="4617:4630" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="5423:5442" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="5587:5606" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="5750:5769" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="6068:6106" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="6526:6544" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="6655:6666" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="6952:6990" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="8792:8830" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="9619:9654" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="11423:11441" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="11474:11505" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="13314:13332" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="13365:13396" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="15070:15088" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="15121:15152" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="16575:16593" placeholder="..." />
+                <marker date="1407973220040" expanded="true" signature="16627:16658" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SessionService.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/SessionService.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
+              <caret line="2" column="36" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="36" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -39,29 +70,24 @@
       <file leaf-file-name="index.caja.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.caja.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.0384614" vertical-offset="253" max-vertical-offset="918">
-              <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
+            <state vertical-scroll-proportion="-12.153846" vertical-offset="347" max-vertical-offset="952">
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CajaSessionService.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CajaSessionService.js">
+      <file leaf-file-name="MainController.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/MainController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4147541" vertical-offset="1294" max-vertical-offset="1904">
-              <caret line="91" column="16" selection-start-line="91" selection-start-column="16" selection-end-line="93" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CajaService.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CajaService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="117" max-vertical-offset="731">
-              <caret line="31" column="39" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="39" />
-              <folding />
+            <state vertical-scroll-proportion="0.34170854" vertical-offset="408" max-vertical-offset="1564">
+              <caret line="36" column="30" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
+              <folding>
+                <marker date="1407973881942" expanded="true" signature="1666:1679" placeholder="..." />
+                <marker date="1407973881942" expanded="true" signature="1706:1720" placeholder="..." />
+                <marker date="1407973881942" expanded="true" signature="2409:2422" placeholder="..." />
+                <marker date="1407973881942" expanded="true" signature="2449:2463" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -76,17 +102,12 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/SocioService.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/BuscarCuentaBancariaController.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/TitularController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/TitularPopUpController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/MonedaService.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/CrearCuentaAhorroController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/cuentaBancaria/BuscarCuentaBancariaPopUpController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/CajaSessionService.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/natural/CrearPersonaNaturalController.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/scripts/routes.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/MainController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/CerrarCajaController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/CrearPendienteController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/BuscarPendienteController.js" />
@@ -114,7 +135,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/VoucherTransaccionAporteController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/deployJava.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/qz-print_jnlp.jnlp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/index.caja.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/util/LoadImageController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/util/FirmaPopUpController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/CrearTransaccionDepositoRetiroController.js" />
@@ -127,6 +147,12 @@
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/CompraVentaController.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/CajaService.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/BuscarTransaccionHistorialController.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/AbrirCajaController.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/CajaInterceptor.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/services/main.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/index.caja.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/routes.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/scripts/controllers/MainController.js" />
       </list>
     </option>
   </component>
@@ -162,7 +188,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -235,8 +260,95 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SistCoopApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SistCoopApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SistCoopApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SistCoopApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SistCoopApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SistCoopApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -247,9 +359,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Huertas\Documents\GitHub\SistCoop\SistCoopApp\src\main\webapp\scripts\services" />
       <recent name="C:\Users\Huertas\Documents\GitHub\SistCoop\SistCoopApp\src\main\webapp" />
       <recent name="C:\Users\Huertas\Documents\GitHub\SistCoop\SistCoopApp\src\main\webapp\scripts" />
-      <recent name="C:\Users\Huertas\Documents\GitHub\SistCoop\SistCoopApp\src\main\webapp\scripts\services" />
       <recent name="C:\Users\Huertas\Documents\GitHub\SistCoop\SistCoopApp\src\main\webapp\views" />
       <recent name="C:\Users\Huertas\Documents\GitHub\SistCoop\SistCoopApp\src\main\webapp\styles" />
     </key>
@@ -260,14 +372,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -278,14 +382,12 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="CucumberJavaScriptRunConfigurationType" factoryName="Cucumber.js">
-      <option name="cucumberJsArguments" />
-      <option name="executablePath" />
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
       <option name="filePath" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
-      <envs />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
       <method />
     </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
@@ -293,6 +395,16 @@
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="Chrome" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaScriptRunConfigurationType" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" />
+      <option name="executablePath" />
+      <option name="filePath" />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -320,22 +432,22 @@
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -358,62 +470,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/persona/natural/CrearPersonaNaturalController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68844223" vertical-offset="1935" max-vertical-offset="3145">
-          <caret line="138" column="39" selection-start-line="138" selection-start-column="39" selection-end-line="138" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/AgenciaSessionService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="610">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15384616" vertical-offset="167" max-vertical-offset="12580">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/MainController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.7370185" vertical-offset="0" max-vertical-offset="1428">
-          <caret line="61" column="55" selection-start-line="61" selection-start-column="55" selection-end-line="61" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/CerrarCajaController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.1486014" vertical-offset="1836" max-vertical-offset="2907">
-          <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/CrearPendienteController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1173" max-vertical-offset="1802">
-          <caret line="79" column="34" selection-start-line="79" selection-start-column="20" selection-end-line="79" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/BuscarPendienteController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
-          <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/views/cajero/voucher/pendienteVoucher.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62157536" vertical-offset="1048" max-vertical-offset="1632">
-          <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="88" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/socio/ContratoInactivadoSocioController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.3919598" vertical-offset="882" max-vertical-offset="1479">
@@ -561,13 +617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/deployJava.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="597">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/views/cajero/voucher/aporteVoucher.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.346154" vertical-offset="861" max-vertical-offset="1598">
@@ -658,14 +707,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/SessionService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.055737704" vertical-offset="0" max-vertical-offset="1020">
-          <caret line="2" column="36" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/CompraVentaController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42713568" vertical-offset="2295" max-vertical-offset="4267">
@@ -688,38 +729,140 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CajaService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="117" max-vertical-offset="731">
-          <caret line="31" column="39" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/transaccion/BuscarTransaccionHistorialController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2208" max-vertical-offset="2805">
           <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <marker date="1407888327716" expanded="false" signature="5358:5377" placeholder="..." />
-            <marker date="1407888327716" expanded="false" signature="5630:5649" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.caja.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.0384614" vertical-offset="253" max-vertical-offset="918">
-          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CajaSessionService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4147541" vertical-offset="1294" max-vertical-offset="1904">
-          <caret line="91" column="16" selection-start-line="91" selection-start-column="16" selection-end-line="93" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.16393442" vertical-offset="1294" max-vertical-offset="1904">
+          <caret line="82" column="31" selection-start-line="82" selection-start-column="31" selection-end-line="82" selection-end-column="31" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/CajaService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2562814" vertical-offset="0" max-vertical-offset="731">
+          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/caja/AbrirCajaController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27540985" vertical-offset="733" max-vertical-offset="1700">
+          <caret line="53" column="49" selection-start-line="53" selection-start-column="49" selection-end-line="53" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/AgenciaSessionService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="610">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="610">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.19508196" vertical-offset="306" max-vertical-offset="2108">
+          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/SessionService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
+          <caret line="2" column="36" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/services/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.055737704" vertical-offset="0" max-vertical-offset="612">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.caja.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.153846" vertical-offset="347" max-vertical-offset="952">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="12121">
+          <caret line="15" column="64" selection-start-line="15" selection-start-column="64" selection-end-line="15" selection-end-column="64" />
+          <folding>
+            <marker date="1407973220040" expanded="true" signature="736:754" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="3639:3652" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="3692:3704" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="4318:4331" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="4503:4521" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="4617:4630" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="5423:5442" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="5587:5606" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="5750:5769" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="6068:6106" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="6526:6544" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="6655:6666" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="6952:6990" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="8792:8830" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="9619:9654" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="11423:11441" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="11474:11505" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="13314:13332" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="13365:13396" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="15070:15088" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="15121:15152" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="16575:16593" placeholder="..." />
+            <marker date="1407973220040" expanded="true" signature="16627:16658" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/scripts/controllers/MainController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34170854" vertical-offset="408" max-vertical-offset="1564">
+          <caret line="36" column="30" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
+          <folding>
+            <marker date="1407973881942" expanded="true" signature="1666:1679" placeholder="..." />
+            <marker date="1407973881942" expanded="true" signature="1706:1720" placeholder="..." />
+            <marker date="1407973881942" expanded="true" signature="2409:2422" placeholder="..." />
+            <marker date="1407973881942" expanded="true" signature="2449:2463" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

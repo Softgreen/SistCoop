@@ -138,7 +138,6 @@ public class HistorialCaja implements java.io.Serializable {
 	}
 
 	@XmlElement(name = "fechaCierre")
-	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = "FECHA_CIERRE", length = 7)
 	public Date getFechaCierre() {
@@ -161,7 +160,6 @@ public class HistorialCaja implements java.io.Serializable {
 	}
 
 	@XmlElement(name = "horaCierre")
-	@NotNull
 	@Column(name = "HORA_CIERRE")
 	public Date getHoraCierre() {
 		return this.horaCierre;
