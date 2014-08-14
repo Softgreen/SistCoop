@@ -1,11 +1,11 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('VoucherTransaccionBovedaCajaController', ['$scope', "$state", '$filter','TransaccionInternaService','RedirectService',
-        function($scope, $state, $filter, TransaccionInternaService,RedirectService) {
+    controllers.controller('VoucherTransaccionBovedaCajaController', ['$scope', "$state", '$filter','CajaService','RedirectService',
+        function($scope, $state, $filter, CajaService,RedirectService) {
 
             $scope.loadVoucher = function(){
                 if(!angular.isUndefined($scope.id)){
-                    TransaccionInternaService.getVoucherTransaccionBovedaCaja($scope.id).then(
+                    CajaService.getVoucherTransaccionBovedaCaja($scope.id).then(
                         function(data){
                             $scope.transaccionBovedaCaja = data;
                         },
@@ -47,8 +47,8 @@ define(['../module'], function (controllers) {
                 qz.append("CAJA:" + "\t" + ($scope.transaccionBovedaCaja.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + "\r\n");
                 qz.append("FECHA:" + "\t" + ($filter('date')($scope.transaccionBovedaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionBovedaCaja.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("MONEDA:" + "\t" + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
-                qz.append("ORIGEN:" + "\t" + ($scope.transaccionCuentaBancaria.origen) + "\r\n");
-                qz.append("MONTO:" + "\t" + ($scope.transaccionCuentaBancaria.monto) + "\r\n");
+                qz.append("ORIGEN:" + "\t" + ($scope.transaccionBovedaCaja.origen) + "\r\n");
+                qz.append("MONTO:" + "\t" + ($scope.transaccionBovedaCaja.monto) + "\r\n");
 
                 qz.append("\x1D\x56\x41");														//cortar papel
                 qz.append("\x1B\x40");

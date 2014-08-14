@@ -121,6 +121,12 @@ public interface CajaREST {
 	public Response getVoucherTransferenciaBancaria(@PathParam("id") BigInteger idTransferenciaBancaria);
 
 	@GET
+	@Path("/voucherTransaccionBovedaCaja/{id}")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response getVoucherTransaccionBovedaCaja(@PathParam("id") BigInteger idTransaccionBovedaCaja);
+
+	@GET
 	@Path("/{id}/historialTransaccion")
 	@Produces({ "application/xml", "application/json" })
 	public Response getHistorialTransaccionCaja(@PathParam("id") BigInteger idCaja, @QueryParam("idHistorial") BigInteger idHistorial, @QueryParam("filterText") String filterText);

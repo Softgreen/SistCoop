@@ -37,6 +37,25 @@ define(['./module'], function (services) {
                 },
                 getResumenCierreCaja: function(idCaja, idHistorial){
                     return Restangular.one(baseUrl+"/"+idCaja+"/historiales/resumenCierreCaja").get({idHistorial:idHistorial});
+                },
+                getHistoriales: function(idCaja,desde, hasta){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/historiales").getList({"desde":desde,"hasta":hasta},{});
+                },
+
+                getTransaccionBovedaCajaEnviadas: function(idCaja, idHistorial){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/transaccionBovedaCaja/enviados").getList({idHistorial:idHistorial});
+                },
+                getTransaccionBovedaCajaRecibidas: function(idCaja, idHistorial){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/transaccionBovedaCaja/recibidos").getList({idHistorial:idHistorial});
+                },
+                getTransaccionCajaCajaEnviadas: function(idCaja, idHistorial){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/transaccionCajaCaja/enviados").getList({idHistorial:idHistorial});
+                },
+                getTransaccionCajaCajaRecibidas: function(idCaja, idHistorial){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/transaccionCajaCaja/recibidos").getList({idHistorial:idHistorial});
+                },
+                getVoucherTransaccionBovedaCaja: function(idTransaccionBovedaCaja){
+                    return Restangular.one(baseUrl+"/voucherTransaccionBovedaCaja/"+idTransaccionBovedaCaja).get();
                 }
             }
         }])

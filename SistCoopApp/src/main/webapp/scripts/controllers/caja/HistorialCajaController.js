@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('HistorialCajaController', ['$scope', "$state", '$filter', "CajaSessionService",
-        function($scope, $state, $filter, CajaSessionService) {
+    controllers.controller('HistorialCajaController', ['$scope', "$state", '$filter', "CajaService",
+        function($scope, $state, $filter, CajaService) {
 
             $scope.today = function() {
                 $scope.desde = new Date();
@@ -32,16 +32,16 @@ define(['../module'], function (controllers) {
             $scope.format = $scope.formats[0];
 
             $scope.buscar = function(){
-                CajaSessionService.getHistoriales($scope.desde.getTime(),$scope.hasta.getTime()).then(
+                CajaService.getHistoriales($scope.cajaSession.id, $scope.desde.getTime(),$scope.hasta.getTime()).then(
                     function(historiales){
                         $scope.listHistoriales = historiales;
                     }
                 );
-            }
+            };
 
             $scope.getVoucher = function(cajaHistorial){
                 $state.transitionTo('app.caja.voucherCerrarCaja', { id: cajaHistorial.id});
-            }
+            };
 
             $scope.gridOptions = {
                 data: 'listHistoriales',

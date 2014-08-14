@@ -48,6 +48,25 @@ define(['./module'], function (services) {
                 },
                 crearTransaccionCompraVenta: function(transaccion){
                     return Restangular.all(baseUrl+"/transaccionCompraVenta").post(transaccion);
+                },
+
+                crearTransaccionBovedaCajaOrigenCaja: function(boveda, detalle){
+                    var copy = Restangular.copy(detalle);
+                    return Restangular.all(baseUrl+"/transaccionBovedaCaja/CAJA").post(copy ,{"boveda":boveda});
+                },
+                crearTransaccionBovedaCajaOrigenBoveda: function(boveda, detalle){
+                    var copy = Restangular.copy(detalle);
+                    return Restangular.all(baseUrl+"/transaccionBovedaCaja/BOVEDA").post(copy ,{"boveda":boveda});
+                },
+                crearTransaccionCajaCaja: function(boveda, detalle){
+                    var copy = Restangular.copy(detalle);
+                    return Restangular.all(baseUrl+"/transaccionCajaCaja").post(copy ,{"boveda":boveda});
+                },
+                cancelarTransaccionBovedaCaja: function(id){
+                    return Restangular.all(baseUrl+"/transaccionBovedaCaja/"+id+"/cancelar").post();
+                },
+                confirmarTransaccionBovedaCaja: function(id){
+                    return Restangular.all(baseUrl+"/transaccionBovedaCaja/"+id+"/confirmar").post();
                 }
             };
         }]);

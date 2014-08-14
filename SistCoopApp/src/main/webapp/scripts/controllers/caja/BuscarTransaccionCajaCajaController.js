@@ -1,18 +1,18 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('BuscarTransaccionCajaCajaController', ['$scope', "$state", '$filter', "CajaSessionService",
-        function($scope, $state, $filter, CajaSessionService) {
+    controllers.controller('BuscarTransaccionCajaCajaController', ['$scope', "$state", '$filter', "CajaService",
+        function($scope, $state, $filter, CajaService) {
 
             $scope.nuevo = function(){
                 $state.transitionTo('app.caja.createTransaccionCajaCaja');
-            }
+            };
 
-            CajaSessionService.getTransaccionCajaCajaEnviadas().then(
+            CajaService.getTransaccionCajaCajaEnviadas($scope.cajaSession.id).then(
                 function(enviados){
                     $scope.transaccionesEnviadas = enviados;
                 }
             );
-            CajaSessionService.getTransaccionCajaCajaRecibidas().then(
+            CajaService.getTransaccionCajaCajaRecibidas($scope.cajaSession.id).then(
                 function(recibidos){
                     $scope.transaccionesRecibidas = recibidos;
                 }
@@ -46,7 +46,7 @@ define(['../module'], function (controllers) {
 
             $scope.getVoucher = function(row){
                 $state.transitionTo('app.caja.voucherTransaccionCajaCaja', { id: row.id });
-            }
+            };
 
         }]);
 });

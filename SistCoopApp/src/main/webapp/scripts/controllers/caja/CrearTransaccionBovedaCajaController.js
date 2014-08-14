@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTransaccionBovedaCajaController', ['$scope','$state', '$filter','focus', "MonedaService", "CajaSessionService",
-        function($scope,$state,$filter,focus,MonedaService,CajaSessionService) {
+    controllers.controller('CrearTransaccionBovedaCajaController', ['$scope','$state', '$filter','focus', "MonedaService", "CajaService","SessionService",
+        function($scope,$state,$filter,focus,MonedaService,CajaService,SessionService) {
 
             $scope.focusElements = {
                 boveda: 'focusBoveda'
@@ -31,8 +31,19 @@ define(['../module'], function (controllers) {
                 detalles: []
             };
 
+            $scope.getBoveda = function(){
+              if(!angular.isUndefined($scope.view.idBoveda) && !angular.isUndefined($scope.combo.boveda)){
+                  for(var i = 0; i < $scope.combo.boveda.length; i++){
+                      if($scope.view.idBoveda == $scope.combo.boveda[i].id)
+                        return $scope.combo.boveda[i];
+                  }
+                  return undefined;
+              } else{
+                  return undefined;
+              }
+            };
             $scope.loadBovedas = function(){
-                CajaSessionService.getBovedasOfCurrentCaja().then(
+                CajaService.getBovedas($scope.cajaSession.id).then(
                     function(data){
                         $scope.combo.boveda = data;
                     }
@@ -45,6 +56,9 @@ define(['../module'], function (controllers) {
                     MonedaService.getDenominaciones($scope.view.idBoveda).then(
                         function(data){
                             $scope.objetosCargados.detalles = data;
+                            for(var i = 0; i < $scope.objetosCargados.detalles.length; i++){
+                                $scope.objetosCargados.detalles[i].cantidad = 0;
+                            }
                         },
                         function error(error){
                             $scope.objetosCargados.detalles = [];
@@ -71,9 +85,18 @@ define(['../module'], function (controllers) {
             };
 
             $scope.crearTransaccion = function(){
-                if ($scope.formCrearTransaccionBovedaCaja.$valid && ($scope.total() != 0 || $scope.total() !== undefined)) {
+                if ($scope.formCrearTransaccionBovedaCaja.$valid && ($scope.total() != 0 && !angular.isUndefined($scope.total()))) {
                     $scope.control.inProcess = true;
-                    CajaSessionService.crearTransaccionBovedaCaja($scope.view.idBoveda,$scope.objetosCargados.detalles).then(
+
+                    var transaccion = [];
+                    for(var i = 0; i<$scope.objetosCargados.detalles.length; i++){
+                        transaccion[i] = {
+                            valor: $scope.objetosCargados.detalles[i].valor,
+                            cantidad: $scope.objetosCargados.detalles[i].cantidad
+                        }
+                    }
+
+                    SessionService.crearTransaccionBovedaCajaOrigenCaja($scope.view.idBoveda, transaccion).then(
                         function(data){
                             $scope.control.inProcess = false;
                             $scope.control.success = true;
@@ -84,12 +107,14 @@ define(['../module'], function (controllers) {
                             $scope.control.inProcess = false;
                             $scope.control.success = false;
                             //mostrar error al usuario
-                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data + "."}];
+                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
                     );
                 } else {
                     $scope.control.submitted = true;
+                    $scope.alerts = [{ type: "danger", msg: "Error: Monto de transaccion invalido."}];
+                    $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                 }
             };
 

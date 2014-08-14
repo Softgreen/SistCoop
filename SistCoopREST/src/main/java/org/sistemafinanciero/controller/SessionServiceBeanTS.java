@@ -984,7 +984,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
 	@AllowedTo(Permission.ABIERTO)
 	@Override
-	public BigInteger crearTransaccionBovedaCaja(BigInteger idBoveda, Set<GenericDetalle> detalleTransaccion) throws RollbackFailureException {
+	public BigInteger crearTransaccionBovedaCaja(BigInteger idBoveda, Set<GenericDetalle> detalleTransaccion, TransaccionBovedaCajaOrigen origen) throws RollbackFailureException {
 		Boveda boveda = bovedaDAO.find(idBoveda);
 		Caja caja = getCaja();
 		if (boveda == null || caja == null)
@@ -1021,17 +1021,30 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 			BigDecimal valor = detalle.getMonedaDenominacion().getValor();
 			BigDecimal subtotal = valor.multiply(new BigDecimal(cantidad));
 			totalBoveda = totalBoveda.add(subtotal);
-		}
-		totalBoveda = totalBoveda.subtract(totalTransaccion);
+		}		
 		for (BovedaCaja bovedaCaja : bovedasCajas) {
 			Boveda bovedaCaj = bovedaCaja.getBoveda();
 			if (bovedaCaj.equals(boveda)) {
 				totalCajaByMoneda = bovedaCaja.getSaldo();
 				break;
 			}
+		}		
+		// verificando los que los saldos sean correctos
+		if (totalTransaccion.compareTo(BigDecimal.ZERO) < 1)
+			throw new RollbackFailureException("Monto de transaccion:" + totalTransaccion.toString() + " invalido");
+		switch (origen) {
+		case CAJA:
+			if (totalCajaByMoneda.compareTo(totalTransaccion) == -1)
+				throw new RollbackFailureException("Monto de transaccion:" + totalTransaccion.toString() + "; saldo disponible:" + totalCajaByMoneda.toString() + "; no se puede realizar la transaccion");
+			break;
+		case BOVEDA:
+			if (totalBoveda.compareTo(totalTransaccion) == -1)
+				throw new RollbackFailureException("Monto de transaccion:" + totalTransaccion.toString() + "; saldo disponible:" + totalCajaByMoneda.toString() + "; no se puede realizar la transaccion");
+			break;
+		default:
+			throw new RollbackFailureException("Origen de transaccion no definido");
 		}
-		totalCajaByMoneda = totalCajaByMoneda.add(totalTransaccion);
-
+		
 		// creando la transaccion
 		TransaccionBovedaCaja transaccionBovedaCaja = new TransaccionBovedaCaja();
 		Calendar calendar = Calendar.getInstance();
@@ -1043,8 +1056,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		transaccionBovedaCaja.setHistorialBoveda(historialBoveda);
 		transaccionBovedaCaja.setHistorialCaja(historialCaja);
 		transaccionBovedaCaja.setOrigen(TransaccionBovedaCajaOrigen.CAJA);
-		transaccionBovedaCaja.setSaldoDisponibleOrigen(totalCajaByMoneda);
-		transaccionBovedaCaja.setSaldoDisponibleDestino(totalBoveda);
+		transaccionBovedaCaja.setSaldoDisponibleOrigen(totalCajaByMoneda.add(totalTransaccion));
+		transaccionBovedaCaja.setSaldoDisponibleDestino(totalBoveda.subtract(totalTransaccion));
 		transaccionBovedaCajaDAO.create(transaccionBovedaCaja);
 
 		// creando el detalle de transaccion

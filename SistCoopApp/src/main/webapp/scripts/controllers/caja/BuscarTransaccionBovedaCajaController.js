@@ -1,21 +1,21 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('BuscarTransaccionBovedaCajaController', ['$scope', '$state', '$filter','$modal','CajaSessionService',
-        function($scope, $state, $filter,$modal, CajaSessionService) {
+    controllers.controller('BuscarTransaccionBovedaCajaController', ['$scope', '$state', '$filter','$modal','CajaService','SessionService',
+        function($scope, $state, $filter,$modal, CajaService, SessionService) {
 
             $scope.nuevo = function(){
                 $state.transitionTo('app.caja.createTransaccionBovedaCaja');
             };
 
             $scope.loadTransaccionEnviadas = function(){
-                CajaSessionService.getTransaccionBovedaCajaEnviadas().then(
+                CajaService.getTransaccionBovedaCajaEnviadas($scope.cajaSession.id).then(
                     function(enviados){
                         $scope.transaccionesEnviadas = enviados;
                     }
                 );
             };
             $scope.loadTransaccionRecibidas = function(){
-                CajaSessionService.getTransaccionBovedaCajaRecibidas().then(
+                CajaService.getTransaccionBovedaCajaRecibidas($scope.cajaSession.id).then(
                     function(recibidos){
                         $scope.transaccionesRecibidas = recibidos;
                     }
@@ -69,7 +69,7 @@ define(['../module'], function (controllers) {
                         controller: "ConfirmPopUpController"
                     });
                     modalInstance.result.then(function (result) {
-                        CajaSessionService.cancelarTransaccionBovedaCaja(row.id).then(
+                        SessionService.cancelarTransaccionBovedaCaja(row.id).then(
                             function(data){
                                 $scope.loadTransaccionEnviadas();
                             }
@@ -89,7 +89,7 @@ define(['../module'], function (controllers) {
                         controller: "ConfirmPopUpController"
                     });
                     modalInstance.result.then(function (result) {
-                        CajaSessionService.confirmarTransaccionBovedaCaja(row.id).then(
+                        SessionService.confirmarTransaccionBovedaCaja(row.id).then(
                             function(data){
                                 $scope.loadTransaccionRecibidas();
                             }

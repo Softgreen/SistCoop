@@ -40,6 +40,7 @@ import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
+import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.SessionREST;
@@ -237,7 +238,7 @@ public class SessionRESTService implements SessionREST {
 			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
-			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -273,33 +274,42 @@ public class SessionRESTService implements SessionREST {
 	}
 
 	@Override
-	public Response createTransaccionBovedaCaja(Set<GenericDetalle> detalleTransaccion, BigInteger idboveda) {
+	public Response createTransaccionBovedaCaja(TransaccionBovedaCajaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idboveda) {
+		Response response;
 		try {
-			sessionServiceTS.crearTransaccionBovedaCaja(null, null);
-			return Response.status(Status.OK).build();
+			BigInteger idTransaccion = sessionServiceTS.crearTransaccionBovedaCaja(idboveda, detalleTransaccion, origen);
+			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override
 	public Response confirmarTransaccionBovedaCaja(BigInteger id) {
+		Response response;
 		try {
 			sessionServiceTS.confirmarTransaccionBovedaCaja(id);
-			return Response.status(Status.OK).build();
+			response = Response.status(Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override
 	public Response cancelarTransaccionBovedaCaja(BigInteger id) {
+		Response response;
 		try {
 			sessionServiceTS.cancelarTransaccionBovedaCaja(id);
-			return Response.status(Status.OK).build();
+			response = Response.status(Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 }

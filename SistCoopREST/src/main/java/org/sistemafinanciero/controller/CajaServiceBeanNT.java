@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.hibernate.Hibernate;
+import org.joda.time.LocalDate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
@@ -163,10 +164,14 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 	}
 
 	@Override
+	// carlo
 	public Set<HistorialCaja> getHistorialCaja(BigInteger idCaja, Date dateDesde, Date dateHasta) {
 		Caja caja = cajaDAO.find(idCaja);
 		if (caja != null) {
-			QueryParameter queryParameter = QueryParameter.with("idcaja", caja.getIdCaja()).and("desde", dateDesde).and("hasta", dateHasta);
+			LocalDate localDesde = new LocalDate(dateDesde);
+			LocalDate localHasta = new LocalDate(dateHasta);
+
+			QueryParameter queryParameter = QueryParameter.with("idcaja", caja.getIdCaja()).and("desde", localDesde.toDateTimeAtStartOfDay().toDate()).and("hasta", localHasta.toDateTimeAtStartOfDay().toDate());
 			List<HistorialCaja> list = historialCajaDAO.findByNamedQuery(HistorialCaja.findByHistorialDateRange, queryParameter.parameters());
 			return new HashSet<HistorialCaja>(list);
 		} else {

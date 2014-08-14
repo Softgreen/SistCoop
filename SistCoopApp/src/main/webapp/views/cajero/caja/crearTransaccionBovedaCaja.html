@@ -49,7 +49,7 @@
                             <tbody>
                             <tr ng-repeat="detalle in objetosCargados.detalles">
                                 <td style="width: 20%;">
-                                    <span ng-bind="detalle.valor | currency: boveda.moneda.simbolo"/>
+                                    <span ng-bind="detalle.valor | currency: getBoveda().moneda.simbolo"/>
                                 </td>
                                 <td style="width: 35%;">
                                     <ng-form name="cantidadForm">
@@ -64,7 +64,7 @@
                                     </ng-form>
                                 </td>
                                 <td style="width: 45%;">
-                                    <span>{{detalle.valor*detalle.cantidad | currency: boveda.moneda.simbolo}}</span>
+                                    <span>{{detalle.valor * detalle.cantidad | currency: getBoveda().moneda.simbolo}}</span>
                                 </td>
                             </tr>
                             </tbody>

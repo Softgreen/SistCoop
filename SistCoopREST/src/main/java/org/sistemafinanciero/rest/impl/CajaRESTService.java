@@ -37,6 +37,7 @@ import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.dto.ResumenOperacionesCaja;
 import org.sistemafinanciero.entity.dto.VoucherCompraVenta;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBancaria;
+import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCuentaAporte;
 import org.sistemafinanciero.entity.dto.VoucherTransferenciaBancaria;
 import org.sistemafinanciero.exception.NonexistentEntityException;
@@ -44,6 +45,7 @@ import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.CajaREST;
 import org.sistemafinanciero.service.nt.CajaServiceNT;
+import org.sistemafinanciero.service.nt.TransaccionInternaServiceNT;
 import org.sistemafinanciero.service.ts.CajaServiceTS;
 import org.sistemafinanciero.service.ts.SessionServiceTS;
 
@@ -57,6 +59,9 @@ public class CajaRESTService implements CajaREST {
 
 	@EJB
 	private SessionServiceTS cajaSessionServiceTS;
+
+	@EJB
+	private TransaccionInternaServiceNT transaccionInternaServiceNT;
 
 	@Override
 	public Response findById(BigInteger id) {
@@ -157,7 +162,7 @@ public class CajaRESTService implements CajaREST {
 		Set<PendienteCaja> pendientes = cajaServiceNT.getPendientes(id, idHistorial);
 		return Response.status(Response.Status.OK).entity(pendientes).build();
 	}
-	
+
 	@Override
 	public Response desactivarCaja(BigInteger id) {
 		try {
@@ -219,8 +224,15 @@ public class CajaRESTService implements CajaREST {
 	}
 
 	@Override
+	public Response getVoucherTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
+		VoucherTransaccionBovedaCaja voucher = transaccionInternaServiceNT.getVoucherTransaccionBovedaCaja(idTransaccionBovedaCaja);
+		return Response.status(Response.Status.OK).entity(voucher).build();
+	}
+
+	@Override
 	public Response getHistorialTransaccionCaja(BigInteger idCaja, BigInteger idHistorial, String filterText) {
 		List<HistorialTransaccionCaja> list = cajaServiceNT.getHistorialTransaccion(idCaja, idHistorial, filterText);
-		return Response.status(Response.Status.OK).entity(list).build();		
+		return Response.status(Response.Status.OK).entity(list).build();
 	}
+
 }

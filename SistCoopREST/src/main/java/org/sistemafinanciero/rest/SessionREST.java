@@ -18,6 +18,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
@@ -114,10 +115,10 @@ public interface SessionREST {
 	public Response cancelarTransaccionCajaCaja(@PathParam("id") BigInteger id);
 
 	@POST
-	@Path("/transaccionBovedaCaja")
+	@Path("/transaccionBovedaCaja/{origen}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response createTransaccionBovedaCaja(Set<GenericDetalle> detalleTransaccion, @QueryParam("boveda") BigInteger idboveda);
+	public Response createTransaccionBovedaCaja(@PathParam("origen") TransaccionBovedaCajaOrigen origen, Set<GenericDetalle> detalleTransaccion, @QueryParam("boveda") BigInteger idboveda);
 
 	@POST
 	@Path("/transaccionBovedaCaja/{id}/confirmar")
