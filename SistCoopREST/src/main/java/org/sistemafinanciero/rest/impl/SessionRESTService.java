@@ -149,7 +149,10 @@ public class SessionRESTService implements SessionREST {
 			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idPendiente)).build();
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
-			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}

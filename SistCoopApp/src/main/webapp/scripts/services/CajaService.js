@@ -31,6 +31,12 @@ define(['./module'], function (services) {
                 },
                 getHistorialTransaccion: function(idCaja, idHistorial, filterText){
                     return Restangular.all(baseUrl+"/"+idCaja+"/historialTransaccion").getList({idHistorial:idHistorial,filterText:filterText});
+                },
+                getVoucherCierreCaja: function(idCaja, idHistorial){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/historiales/voucherCierreCaja").getList({idHistorial:idHistorial});
+                },
+                getResumenCierreCaja: function(idCaja, idHistorial){
+                    return Restangular.one(baseUrl+"/"+idCaja+"/historiales/resumenCierreCaja").get({idHistorial:idHistorial});
                 }
             }
         }])

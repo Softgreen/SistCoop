@@ -43,16 +43,16 @@ public interface CajaREST {
 	public Response getHistorialCajaBetweenDates(@PathParam("id") BigInteger id, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
 
 	@GET
-	@Path("/{id}/historial/{idHistorial}/voucherCierreCaja")
+	@Path("/{id}/historiales/voucherCierreCaja")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getVoucherCierreCaja(@PathParam("id") BigInteger id, @PathParam("idHistorial") BigInteger idHistorial);
+	public Response getVoucherCierreCaja(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
 
 	@GET
-	@Path("/{id}/historial/{idHistorial}/resumenCierreCaja")
+	@Path("/{id}/historiales/resumenCierreCaja")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getResumenCierreCaja(@PathParam("id") BigInteger idHistorialCaja, @PathParam("idHistorial") BigInteger idHistorial);
+	public Response getResumenCierreCaja(@PathParam("id") BigInteger idHistorialCaja, @QueryParam("idHistorial") BigInteger idHistorial);
 
 	@GET
 	@Path("{id}/transaccionCajaCaja/enviados")

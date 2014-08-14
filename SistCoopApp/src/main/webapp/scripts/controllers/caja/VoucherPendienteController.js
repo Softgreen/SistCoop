@@ -10,7 +10,7 @@ define(['../module'], function (controllers) {
             );
 
             $scope.cancelar = function(){
-
+                $state.transitionTo('app.caja.pendiente');
             };
 
             $scope.imprimir = function(){
@@ -30,7 +30,7 @@ define(['../module'], function (controllers) {
                 qz.append("T. PENDIENTE:" + "\t" +($scope.pendiente.tipoPendiente) + "\r\n");
                 qz.append("FECHA:" + "\t\t" +($filter('date')($scope.pendiente.fecha, 'dd/MM/yyyy'))+ " " + ($filter('date')($scope.pendiente.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("MONEDA:" + "\t\t" +($scope.pendiente.moneda.denominacion) + "\r\n");
-                qz.append("MONTO:" + "\t\t" +($filter('currency')($scope.pendiente.monto, $scope.pendiente.moneda.simbolo)) + "\r\n");
+                qz.append("MONTO:" + "\t\t" + $scope.pendiente.moneda.simbolo + ($filter('number')($scope.pendiente.monto, 2)) + "\r\n");
                 qz.append("CAJA:" + "\t\t" +($scope.pendiente.cajaDenominacion) + "(" +($scope.pendiente.cajaAbreviatura) + ")" + "\r\n");
                 qz.append("CAJERO:" + "\t\t" +($scope.pendiente.trabajador) + "\r\n");
                 qz.append("OBSERVACION:" + "\t" +($scope.pendiente.observacion) + "\r\n");

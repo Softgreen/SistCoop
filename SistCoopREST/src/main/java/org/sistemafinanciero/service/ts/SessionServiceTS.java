@@ -22,7 +22,7 @@ public interface SessionServiceTS {
 	public BigInteger abrirCaja() throws RollbackFailureException;
 
 	public BigInteger cerrarCaja(Set<GenericMonedaDetalle> detalleCaja) throws RollbackFailureException;
-	
+
 	public Map<Boveda, BigDecimal> getDiferenciaSaldoCaja(Set<GenericMonedaDetalle> detalle);
 
 	public BigInteger crearAporte(BigInteger idSocio, BigDecimal monto, int mes, int anio, String referencia) throws RollbackFailureException;
@@ -55,6 +55,6 @@ public interface SessionServiceTS {
 
 	public void cancelarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException;
 
-	public void confirmarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException;	
+	public void confirmarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException;
 
 }

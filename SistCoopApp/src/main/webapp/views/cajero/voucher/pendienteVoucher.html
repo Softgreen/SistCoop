@@ -43,7 +43,7 @@
                         </tr>
                         <tr>
                             <td>MONTO:</td>
-                            <td><span ng-bind="pendiente.monto | currency : pendiente.moneda.simbolo"/> </td>
+                            <td><span ng-bind="pendiente.moneda.simbolo"></span><span ng-bind="pendiente.monto | number : 2"/> </td>
                         </tr>
                         <tr>
                             <td>CAJA:</td>
@@ -81,10 +81,4 @@
         </div>
     </div>
 </div>
-<applet id="qz" archive="qz-print.jar" name="QZ Print Plugin" code="qz.PrintApplet.class" width="55" height="55">
-    <param name="jnlp_href" value="qz-print_jnlp.jnlp">
-    <param name="cache_option" value="plugin">
-    <param name="disable_logging" value="false">
-    <param name="initial_focus" value="false">
-</applet>
 

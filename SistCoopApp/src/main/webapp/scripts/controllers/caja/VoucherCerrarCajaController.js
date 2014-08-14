@@ -1,14 +1,14 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('VoucherCerrarCajaController', ['$scope', "$state", '$filter', "HistorialCajaService",
-        function($scope, $state, $filter, HistorialCajaService) {
+    controllers.controller('VoucherCerrarCajaController', ['$scope', "$state", '$filter', "CajaService",
+        function($scope, $state, $filter, CajaService) {
 
-            HistorialCajaService.getVoucherCierreCaja($scope.id).then(
+            CajaService.getVoucherCierreCaja($scope.cajaSession.id, $scope.id).then(
                 function(voucher){
                     $scope.voucherByMoneda = voucher;
                 }
             );
-            HistorialCajaService.getResumenCierreCaja($scope.id).then(
+            CajaService.getResumenCierreCaja($scope.cajaSession.id, $scope.id).then(
                 function(resumen){
                     $scope.resumenCaja = resumen;
                 }
@@ -20,7 +20,7 @@ define(['../module'], function (controllers) {
                     totalVoucher = totalVoucher + (detalle[i].valor*detalle[i].cantidad);
                 }
                 return totalVoucher;
-            }
+            };
 
             $scope.imprimirResumen = function(){
 
@@ -102,7 +102,7 @@ define(['../module'], function (controllers) {
                 qz.append("\x1D\x56\x41"); // 4
                 qz.append("\x1B\x40"); // 5
                 qz.print();
-            }
+            };
 
             $scope.imprimirVoucherPorMoneda = function(index){
 
@@ -150,6 +150,6 @@ define(['../module'], function (controllers) {
                 qz.append("\x1D\x56\x41"); // 4
                 qz.append("\x1B\x40"); // 5
                 qz.print();
-            }
+            };
         }]);
 });

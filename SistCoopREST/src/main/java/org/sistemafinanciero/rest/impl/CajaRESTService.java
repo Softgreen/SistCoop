@@ -34,6 +34,7 @@ import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.CajaCierreMoneda;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.dto.ResumenOperacionesCaja;
 import org.sistemafinanciero.entity.dto.VoucherCompraVenta;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBancaria;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCuentaAporte;
@@ -107,8 +108,8 @@ public class CajaRESTService implements CajaREST {
 
 	@Override
 	public Response getResumenCierreCaja(BigInteger idHistorialCaja, BigInteger idHistorial) {
-		Set<CajaCierreMoneda> list = cajaServiceNT.getVoucherCierreCaja(idHistorial);
-		return Response.status(Response.Status.OK).entity(list).build();
+		ResumenOperacionesCaja resumen = cajaServiceNT.getResumenOperacionesCaja(idHistorial);
+		return Response.status(Response.Status.OK).entity(resumen).build();
 	}
 
 	@Override

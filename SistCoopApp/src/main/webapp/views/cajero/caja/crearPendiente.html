@@ -2,7 +2,7 @@
     <fieldset>
         <legend>Crear Pendiente</legend>
 
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
             {{alert.msg}}
         </alert>
         <form name="formCrearPendiente" ng-submit="crearPendiente()" novalidate>
@@ -76,7 +76,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary" ng-disabled="buttonDisableState()">Guardar</button>
-            <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+            <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
         </form>
     </fieldset>
 </div>

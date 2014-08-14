@@ -3,8 +3,6 @@ package org.sistemafinanciero.util;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -19,9 +17,6 @@ import org.sistemafinanciero.entity.Caja;
  */
 public class Guard {
 
-	@Resource
-	private SessionContext context;
-
 	@Inject
 	private UsuarioSession usuarioSession;
 
@@ -34,7 +29,7 @@ public class Guard {
 
 		Caja caja = null;
 		String username = usuarioSession.getUsername();
-		QueryParameter queryParameter = QueryParameter.with("usuario", username);
+		QueryParameter queryParameter = QueryParameter.with("username", username);
 		List<Caja> list = cajaDAO.findByNamedQuery(Caja.findByUsername, queryParameter.parameters());
 		if (list.size() <= 1) {
 			for (Caja c : list) {

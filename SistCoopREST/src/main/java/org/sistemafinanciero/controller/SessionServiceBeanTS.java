@@ -18,6 +18,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import javax.persistence.Query;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -67,13 +68,17 @@ import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.ts.CuentaBancariaServiceTS;
 import org.sistemafinanciero.service.ts.SessionServiceTS;
 import org.sistemafinanciero.service.ts.SocioServiceTS;
+import org.sistemafinanciero.util.AllowedTo;
 import org.sistemafinanciero.util.EntityManagerProducer;
+import org.sistemafinanciero.util.Guard;
+import org.sistemafinanciero.util.Permission;
 import org.sistemafinanciero.util.UsuarioSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Stateless
 @Named
+@Interceptors(Guard.class)
 @Remote(SessionServiceTS.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class SessionServiceBeanTS implements SessionServiceTS {
@@ -248,6 +253,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		}
 	}
 
+	@AllowedTo(Permission.CERRADO)
 	@Override
 	public BigInteger abrirCaja() throws RollbackFailureException {
 		Caja caja = getCaja();
@@ -340,6 +346,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		}
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger cerrarCaja(Set<GenericMonedaDetalle> detalleCaja) throws RollbackFailureException {
 		Caja caja = getCaja();
@@ -440,6 +447,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return result;
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger crearAporte(BigInteger idSocio, BigDecimal monto, int mes, int anio, String referencia) throws RollbackFailureException {
 		Socio socio = socioDAO.find(idSocio);
@@ -495,6 +503,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return transaccionCuentaAporte.getIdTransaccionCuentaAporte();
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger retiroCuentaAporte(BigInteger idSocio) throws RollbackFailureException {
 		Socio socio = socioDAO.find(idSocio);
@@ -547,6 +556,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return transaccionCuentaAporte.getIdTransaccionCuentaAporte();
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger crearTransaccionBancaria(String numeroCuenta, BigDecimal monto, String referencia) throws RollbackFailureException {
 		CuentaBancaria cuentaBancaria = null;
@@ -607,6 +617,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return transaccionBancaria.getIdTransaccionBancaria();
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger crearTransaccionCompraVenta(Tipotransaccioncompraventa tipoTransaccion, BigInteger idMonedaRecibido, BigInteger idMonedaEntregado, BigDecimal montoRecibido, BigDecimal montoEntregado, BigDecimal tasaCambio, String referencia) throws RollbackFailureException {
 		Moneda monedaRecibida = monedaDAO.find(idMonedaRecibido);
@@ -644,6 +655,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return transaccionCompraVenta.getIdTransaccionCompraVenta();
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger crearTransferenciaBancaria(String numeroCuentaOrigen, String numeroCuentaDestino, BigDecimal monto, String referencia) throws RollbackFailureException {
 		CuentaBancaria cuentaBancariaOrigen = null;
@@ -728,6 +740,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return transferenciaBancaria.getIdTransferenciaBancaria();
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException {
 		HistorialTransaccionCaja transaccion = historialTransaccionCajaDAO.find(idTransaccion);
@@ -864,6 +877,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		throw new RollbackFailureException("Todavia no es posible extornar las transferencias");
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger[] crearCuentaBancariaPlazoFijoConDeposito(String codigo, BigInteger idMoneda, TipoPersona tipoPersona, BigInteger idPersona, int cantRetirantes, BigDecimal monto, int periodo, BigDecimal tasaInteres, List<BigInteger> titulares, List<Beneficiario> beneficiarios) throws RollbackFailureException {
 		BigInteger idCuentaBancaria = cuentaBancariaServiceTS.create(TipoCuentaBancaria.PLAZO_FIJO, codigo, idMoneda, tasaInteres, tipoPersona, idPersona, new Integer(periodo), cantRetirantes, titulares, beneficiarios);
@@ -873,6 +887,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return new BigInteger[] { idCuentaBancaria, idTransaccion };
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger cancelarCuentaBancariaConRetiro(BigInteger id) throws RollbackFailureException {
 		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(id);
@@ -896,6 +911,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return idTransaccion;
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger cancelarSocioConRetiro(BigInteger idSocio) throws RollbackFailureException {
 		Socio socio = socioDAO.find(idSocio);
@@ -914,6 +930,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return idTransaccion;
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger crearPendiente(BigInteger idBoveda, BigDecimal monto, String observacion) throws RollbackFailureException {
 		Caja caja = getCaja();
@@ -938,9 +955,13 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 			throw new RollbackFailureException("La caja y la boveda seleccionados no estan relacionados");
 
 		// obteniendo el historial de la caja
-		HistorialCaja historialCaja;
+		HistorialCaja historialCaja = this.getHistorialActivo();
 
-		historialCaja = this.getHistorialActivo();
+		// verificando el saldo negativo
+		BigDecimal saldoActual = bovedaCajaTransaccion.getSaldo();
+		BigDecimal saldoFinal = saldoActual.add(monto);
+		if (saldoFinal.compareTo(BigDecimal.ZERO) == -1)
+			throw new RollbackFailureException("Saldo actual de caja:" + saldoActual.toString() + "; transaccion:" + monto.toString() + ". No se puede realizar transaccion");
 
 		Calendar calendar = Calendar.getInstance();
 		PendienteCaja pendienteCaja = new PendienteCaja();
@@ -949,21 +970,19 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		pendienteCaja.setHistorialCaja(historialCaja);
 		pendienteCaja.setMoneda(boveda.getMoneda());
 		pendienteCaja.setMonto(monto);
-		pendienteCaja.setTipoPendiente(monto.compareTo(BigDecimal.ZERO) >= 1 ? TipoPendiente.FALTANTE : TipoPendiente.SOBRANTE);
+		pendienteCaja.setTipoPendiente(monto.compareTo(BigDecimal.ZERO) >= 1 ? TipoPendiente.SOBRANTE : TipoPendiente.FALTANTE);
 		pendienteCaja.setObservacion(observacion);
 		pendienteCaja.setTrabajador(trabajador.getPersonaNatural().getApellidoPaterno() + " " + trabajador.getPersonaNatural().getApellidoMaterno() + ", " + trabajador.getPersonaNatural().getNombres());
 		pendienteCajaDAO.create(pendienteCaja);
 
 		// modificando el saldo de boveda
-		BigDecimal saldoActual = bovedaCajaTransaccion.getSaldo();
-		BigDecimal montoTransaccion = (monto.negate());
-		BigDecimal saldoFinal = saldoActual.add(montoTransaccion);
 		bovedaCajaTransaccion.setSaldo(saldoFinal);
 		bovedaCajaDAO.update(bovedaCajaTransaccion);
 
 		return pendienteCaja.getIdPendienteCaja();
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger crearTransaccionBovedaCaja(BigInteger idBoveda, Set<GenericDetalle> detalleTransaccion) throws RollbackFailureException {
 		Boveda boveda = bovedaDAO.find(idBoveda);
@@ -1047,12 +1066,14 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return transaccionBovedaCaja.getIdTransaccionBovedaCaja();
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger crearTransaccionCajaCaja(BigInteger idCajadestino, BigInteger idMoneda, BigDecimal monto, String observacion) throws RollbackFailureException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void cancelarTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) throws RollbackFailureException {
 		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO.find(idTransaccionBovedaCaja);
@@ -1068,6 +1089,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		transaccionBovedaCajaDAO.update(transaccionBovedaCaja);
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void confirmarTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) throws RollbackFailureException {
 		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO.find(idTransaccionBovedaCaja);
@@ -1088,12 +1110,14 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		transaccionBovedaCajaDAO.update(transaccionBovedaCaja);
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void cancelarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void confirmarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException {
 		// TODO Auto-generated method stub

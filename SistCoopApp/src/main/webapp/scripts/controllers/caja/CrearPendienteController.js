@@ -7,7 +7,7 @@ define(['../module'], function (controllers) {
 
             $scope.control = {"success":false, "inProcess": false, "submitted":false};
 
-            $scope.tipopendientes = [{"denominacion":"FALTANTE", "factor":1},{"denominacion":"SOBRANTE", "factor":-1}];
+            $scope.tipopendientes = [{"denominacion":"FALTANTE", "factor":-1},{"denominacion":"SOBRANTE", "factor":1}];
             $scope.monto;
             $scope.boveda;
 
@@ -84,18 +84,22 @@ define(['../module'], function (controllers) {
                         },
                         function error(error){
                             $scope.control.inProcess = false;
-                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data + "."}];
+                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
                     );
                 } else {
                     $scope.control.submitted = true;
                 }
-            }
+            };
 
             $scope.buttonDisableState = function(){
                 return $scope.control.inProcess;
-            }
+            };
+
+            $scope.cancelar = function(){
+                $state.transitionTo('app.caja.pendiente');
+            };
 
         }]);
 });
