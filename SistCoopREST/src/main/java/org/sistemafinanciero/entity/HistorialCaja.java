@@ -40,9 +40,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "HISTORIAL_CAJA", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "historialcaja")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = HistorialCaja.findByHistorialActivo, query = "SELECT c FROM HistorialCaja c WHERE c.caja.idCaja = :idcaja AND c.estado = true"),
-				@NamedQuery(name = HistorialCaja.findByHistorialDateRange, query = "SELECT h FROM HistorialCaja h WHERE h.caja.idCaja = :idcaja AND h.fechaApertura BETWEEN :desde AND :hasta AND h.estado = false ORDER BY h.horaApertura DESC"), 
-				@NamedQuery(name = HistorialCaja.findByHistorialDateRangePenultimo, query = "SELECT h FROM HistorialCaja h WHERE h.caja.idCaja = :idcaja AND h.fechaApertura <= :fecha ORDER BY h.horaApertura DESC") })
+@NamedQueries({ @NamedQuery(name = HistorialCaja.findByHistorialActivo, query = "SELECT c FROM HistorialCaja c WHERE c.caja.idCaja = :idcaja AND c.estado = true"), @NamedQuery(name = HistorialCaja.findByHistorialDateRange, query = "SELECT h FROM HistorialCaja h WHERE h.caja.idCaja = :idcaja AND h.fechaApertura BETWEEN :desde AND :hasta AND h.estado = false ORDER BY h.horaApertura DESC"), @NamedQuery(name = HistorialCaja.findByHistorialDateRangePenultimo, query = "SELECT h FROM HistorialCaja h WHERE h.caja.idCaja = :idcaja AND h.fechaApertura <= :fecha ORDER BY h.horaApertura DESC") })
 public class HistorialCaja implements java.io.Serializable {
 
 	/**
@@ -196,7 +194,7 @@ public class HistorialCaja implements java.io.Serializable {
 	}
 
 	@XmlTransient
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "historialCajaByIdCajaHistorialDestino")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "historialCajaDestino")
 	public Set<TransaccionCajaCaja> getTransaccionCajaCajasForIdCajaHistorialDestino() {
 		return this.transaccionCajaCajasForIdCajaHistorialDestino;
 	}
@@ -236,7 +234,7 @@ public class HistorialCaja implements java.io.Serializable {
 	}
 
 	@XmlTransient
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "historialCajaByIdCajaHistorialOrigen")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "historialCajaOrigen")
 	public Set<TransaccionCajaCaja> getTransaccionCajaCajasForIdCajaHistorialOrigen() {
 		return this.transaccionCajaCajasForIdCajaHistorialOrigen;
 	}

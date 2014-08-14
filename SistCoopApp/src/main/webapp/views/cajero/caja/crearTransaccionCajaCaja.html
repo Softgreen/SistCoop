@@ -2,7 +2,7 @@
     <fieldset>
         <legend>Transaccion Caja - Caja</legend>
 
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 
         <form name="formCrearTransaccionCajaCaja" ng-submit="crearTransaccion()" novalidate>
             <div class="row">
@@ -10,7 +10,7 @@
                     <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionCajaCaja.caja.$invalid && control.submitted}">
                         <label>Caja</label>
                         <label style="color: brown;">(*)</label>
-                        <select name="caja" ng-options="caja as caja.denominacion for caja in cajas" ng-model="caja" class="form-control" required autofocus>
+                        <select focus-on="focusCaja" name="caja" ng-options="caja.id as caja.denominacion for caja in combo.cajas" ng-model="view.idCaja" class="form-control" required autofocus>
                         	<option value="">--Seleccione--</option>
                         </select>
                         <div ng-show="formCrearTransaccionCajaCaja.caja.$invalid && control.submitted">
@@ -26,7 +26,7 @@
                     <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionCajaCaja.moneda.$invalid && control.submitted}">
                         <label>Moneda</label>
                         <label style="color: brown;">(*)</label>
-                        <select name="moneda" ng-options="moneda as moneda.denominacion for moneda in monedas" ng-model="moneda" class="form-control" required>
+                        <select name="moneda" ng-options="moneda.id as moneda.denominacion for moneda in combo.monedas" ng-model="view.idMoneda" class="form-control" required>
                         	<option value="">--Seleccione--</option>
                         </select>
                         <div ng-show="formCrearTransaccionCajaCaja.moneda.$invalid && control.submitted">
@@ -39,20 +39,29 @@
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionCajaCaja.monto.$invalid && control.submitted}">
+                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionCajaCaja.monto.$invalid && (control.submitted || formCrearTransaccionCajaCaja.monto.$dirty)}">
                         <label>Monto</label>
                         <label style="color: brown;">(*)</label>
                         <div class="input-group">
-                            <input type="text" name="monto" ng-model="monto" class="form-control" placeholder="Monto" required/>
+                            <input type="text" name="monto" ng-model="view.monto" ng-minlength="1" ng-maxlength="18" ng-pattern="/^(\d+|\d+.\d{1,2})$/" class="form-control" placeholder="Monto" required/>
                               <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="open()" ng-disabled="moneda === undefined">
                                     <span class="glyphicon glyphicon-th-list"></span>
                                 </button>
                               </span>
                         </div>
-                        <div ng-show="formCrearTransaccionCajaCaja.monto.$invalid && control.submitted">
+                        <div ng-show="formCrearTransaccionCajaCaja.monto.$invalid && (control.submitted || formCrearTransaccionCajaCaja.monto.$dirty)">
                             <p class="help-block" ng-show="formCrearTransaccionCajaCaja.monto.$error.required">
-                                Ingrese monto.
+                                Ingrese monto valido.
+                            </p>
+                            <p class="help-block" ng-show="formCrearTransaccionCajaCaja.monto.$error.minlength">
+                                Numero invalido.
+                            </p>
+                            <p class="help-block" ng-show="formCrearTransaccionCajaCaja.monto.$error.maxlength">
+                                Ingrese menos caracteres.
+                            </p>
+                            <p class="help-block" ng-show="formCrearTransaccionCajaCaja.monto.$error.pattern">
+                                Numero invalido (Ejemplo: 99.99).
                             </p>
                         </div>
                     </div>
@@ -61,8 +70,8 @@
                     <div class="form-group">
                         <label>&nbsp;</label>
                         <kbd style="display: block;margin-top: 3px;">
-                            <span ng-bind="moneda.simbolo "/>
-                            <span ng-bind="monto | number : 2"/>
+                            <span ng-bind="getMoneda().simbolo"></span>
+                            <span ng-bind="view.monto | number : 2"/>
                         </kbd>
                     </div>
                 </div>
@@ -71,7 +80,7 @@
                 <div class="col-sm-8">
                     <div class="form-group">
                         <label>Observacion</label>
-                        <textarea class="form-control" rows="3"></textarea>
+                        <textarea class="form-control" ng-model="view.observacion" rows="3"></textarea>
                     </div>
                 </div>
             </div>

@@ -3,10 +3,14 @@ package org.sistemafinanciero.entity;
 // Generated 02-may-2014 11:48:28 by Hibernate Tools 4.0.0
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,64 +25,61 @@ import javax.persistence.TemporalType;
 @Table(name = "TRANSACCION_CAJA_CAJA", schema = "BDSISTEMAFINANCIERO")
 public class TransaccionCajaCaja implements java.io.Serializable {
 
-	private BigDecimal idTransaccionCajaCaja;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private BigInteger idTransaccionCajaCaja;
 	private Moneda moneda;
-	private HistorialCaja historialCajaByIdCajaHistorialDestino;
-	private HistorialCaja historialCajaByIdCajaHistorialOrigen;
+	private HistorialCaja historialCajaDestino;
+	private HistorialCaja historialCajaOrigen;
 	private Date fecha;
 	private Date hora;
 	private BigDecimal saldoDisponibleOrigen;
 	private String observacion;
-	private BigDecimal estadoSolicitud;
-	private BigDecimal estadoConfirmacion;
+	private int estadoSolicitud;
+	private int estadoConfirmacion;
 	private BigDecimal saldoDisponibleDestino;
+	private BigDecimal monto;
 
 	public TransaccionCajaCaja() {
 	}
 
-	public TransaccionCajaCaja(BigDecimal idTransaccionCajaCaja,
-			HistorialCaja historialCajaByIdCajaHistorialDestino,
-			HistorialCaja historialCajaByIdCajaHistorialOrigen, Date fecha,
-			Date hora, BigDecimal saldoDisponibleOrigen,
-			BigDecimal estadoSolicitud, BigDecimal estadoConfirmacion,
-			BigDecimal saldoDisponibleDestino) {
+	public TransaccionCajaCaja(BigInteger idTransaccionCajaCaja, HistorialCaja historialCajaDestino, HistorialCaja historialCajaOrigen, Date fecha, Date hora, BigDecimal saldoDisponibleOrigen, boolean estadoSolicitud, boolean estadoConfirmacion, BigDecimal saldoDisponibleDestino) {
 		this.idTransaccionCajaCaja = idTransaccionCajaCaja;
-		this.historialCajaByIdCajaHistorialDestino = historialCajaByIdCajaHistorialDestino;
-		this.historialCajaByIdCajaHistorialOrigen = historialCajaByIdCajaHistorialOrigen;
+		this.historialCajaDestino = historialCajaDestino;
+		this.historialCajaOrigen = historialCajaOrigen;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.saldoDisponibleOrigen = saldoDisponibleOrigen;
-		this.estadoSolicitud = estadoSolicitud;
-		this.estadoConfirmacion = estadoConfirmacion;
+		this.estadoSolicitud = (estadoSolicitud ? 1 : 0);
+		this.estadoConfirmacion = (estadoConfirmacion ? 1 : 0);
 		this.saldoDisponibleDestino = saldoDisponibleDestino;
 	}
 
-	public TransaccionCajaCaja(BigDecimal idTransaccionCajaCaja, Moneda moneda,
-			HistorialCaja historialCajaByIdCajaHistorialDestino,
-			HistorialCaja historialCajaByIdCajaHistorialOrigen, Date fecha,
-			Date hora, BigDecimal saldoDisponibleOrigen,
-			String observacion, BigDecimal estadoSolicitud,
-			BigDecimal estadoConfirmacion, BigDecimal saldoDisponibleDestino) {
+	public TransaccionCajaCaja(BigInteger idTransaccionCajaCaja, Moneda moneda, HistorialCaja historialCajaDestino, HistorialCaja historialCajaOrigen, Date fecha, Date hora, BigDecimal saldoDisponibleOrigen, String observacion, boolean estadoSolicitud, boolean estadoConfirmacion, BigDecimal saldoDisponibleDestino) {
 		this.idTransaccionCajaCaja = idTransaccionCajaCaja;
 		this.moneda = moneda;
-		this.historialCajaByIdCajaHistorialDestino = historialCajaByIdCajaHistorialDestino;
-		this.historialCajaByIdCajaHistorialOrigen = historialCajaByIdCajaHistorialOrigen;
+		this.historialCajaDestino = historialCajaDestino;
+		this.historialCajaOrigen = historialCajaOrigen;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.saldoDisponibleOrigen = saldoDisponibleOrigen;
 		this.observacion = observacion;
-		this.estadoSolicitud = estadoSolicitud;
-		this.estadoConfirmacion = estadoConfirmacion;
+		this.estadoSolicitud = (estadoSolicitud ? 1 : 0);
+		this.estadoConfirmacion = (estadoConfirmacion ? 1 : 0);
 		this.saldoDisponibleDestino = saldoDisponibleDestino;
 	}
 
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_TRANSACCION_CAJA_CAJA", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getIdTransaccionCajaCaja() {
+	public BigInteger getIdTransaccionCajaCaja() {
 		return this.idTransaccionCajaCaja;
 	}
 
-	public void setIdTransaccionCajaCaja(BigDecimal idTransaccionCajaCaja) {
+	public void setIdTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) {
 		this.idTransaccionCajaCaja = idTransaccionCajaCaja;
 	}
 
@@ -94,24 +95,22 @@ public class TransaccionCajaCaja implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CAJA_HISTORIAL_DESTINO", nullable = false)
-	public HistorialCaja getHistorialCajaByIdCajaHistorialDestino() {
-		return this.historialCajaByIdCajaHistorialDestino;
+	public HistorialCaja getHistorialCajaDestino() {
+		return this.historialCajaDestino;
 	}
 
-	public void setHistorialCajaByIdCajaHistorialDestino(
-			HistorialCaja historialCajaByIdCajaHistorialDestino) {
-		this.historialCajaByIdCajaHistorialDestino = historialCajaByIdCajaHistorialDestino;
+	public void setHistorialCajaDestino(HistorialCaja historialCajaDestino) {
+		this.historialCajaDestino = historialCajaDestino;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CAJA_HISTORIAL_ORIGEN", nullable = false)
-	public HistorialCaja getHistorialCajaByIdCajaHistorialOrigen() {
-		return this.historialCajaByIdCajaHistorialOrigen;
+	public HistorialCaja getHistorialCajaOrigen() {
+		return this.historialCajaOrigen;
 	}
 
-	public void setHistorialCajaByIdCajaHistorialOrigen(
-			HistorialCaja historialCajaByIdCajaHistorialOrigen) {
-		this.historialCajaByIdCajaHistorialOrigen = historialCajaByIdCajaHistorialOrigen;
+	public void setHistorialCajaOrigen(HistorialCaja historialCajaOrigen) {
+		this.historialCajaOrigen = historialCajaOrigen;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -125,11 +124,11 @@ public class TransaccionCajaCaja implements java.io.Serializable {
 	}
 
 	@Column(name = "HORA", nullable = false)
-	public Date getDate() {
+	public Date getHora() {
 		return this.hora;
 	}
 
-	public void setDate(Date hora) {
+	public void setHora(Date hora) {
 		this.hora = hora;
 	}
 
@@ -142,7 +141,7 @@ public class TransaccionCajaCaja implements java.io.Serializable {
 		this.saldoDisponibleOrigen = saldoDisponibleOrigen;
 	}
 
-	@Column(name = "OBSERVACION", length = 140,columnDefinition = "nvarchar2")
+	@Column(name = "OBSERVACION", length = 140, columnDefinition = "nvarchar2")
 	public String getObservacion() {
 		return this.observacion;
 	}
@@ -152,21 +151,21 @@ public class TransaccionCajaCaja implements java.io.Serializable {
 	}
 
 	@Column(name = "ESTADO_SOLICITUD", nullable = false, precision = 22, scale = 0)
-	public BigDecimal getEstadoSolicitud() {
-		return this.estadoSolicitud;
+	public boolean getEstadoSolicitud() {
+		return (this.estadoSolicitud == 1 ? true : false);
 	}
 
-	public void setEstadoSolicitud(BigDecimal estadoSolicitud) {
-		this.estadoSolicitud = estadoSolicitud;
+	public void setEstadoSolicitud(boolean estadoSolicitud) {
+		this.estadoSolicitud = (estadoSolicitud ? 1 : 0);
 	}
 
 	@Column(name = "ESTADO_CONFIRMACION", nullable = false, precision = 22, scale = 0)
-	public BigDecimal getEstadoConfirmacion() {
-		return this.estadoConfirmacion;
+	public boolean getEstadoConfirmacion() {
+		return (this.estadoConfirmacion == 1 ? true : false);
 	}
 
-	public void setEstadoConfirmacion(BigDecimal estadoConfirmacion) {
-		this.estadoConfirmacion = estadoConfirmacion;
+	public void setEstadoConfirmacion(boolean estadoConfirmacion) {
+		this.estadoConfirmacion = (estadoConfirmacion ? 1 : 0);
 	}
 
 	@Column(name = "SALDO_DISPONIBLE_DESTINO", nullable = false, precision = 18)
@@ -176,6 +175,15 @@ public class TransaccionCajaCaja implements java.io.Serializable {
 
 	public void setSaldoDisponibleDestino(BigDecimal saldoDisponibleDestino) {
 		this.saldoDisponibleDestino = saldoDisponibleDestino;
+	}
+
+	@Column(name = "MONTO", nullable = false, precision = 18)
+	public BigDecimal getMonto() {
+		return monto;
+	}
+
+	public void setMonto(BigDecimal monto) {
+		this.monto = monto;
 	}
 
 }

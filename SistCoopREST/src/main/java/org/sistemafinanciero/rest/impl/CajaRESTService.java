@@ -38,6 +38,7 @@ import org.sistemafinanciero.entity.dto.ResumenOperacionesCaja;
 import org.sistemafinanciero.entity.dto.VoucherCompraVenta;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBancaria;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
+import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCuentaAporte;
 import org.sistemafinanciero.entity.dto.VoucherTransferenciaBancaria;
 import org.sistemafinanciero.exception.NonexistentEntityException;
@@ -133,7 +134,7 @@ public class CajaRESTService implements CajaREST {
 		if (idHistorial != null)
 			list = cajaServiceNT.getTransaccionesRecibidasCajaCaja(id, idHistorial);
 		else
-			list = cajaServiceNT.getTransaccionesEnviadasCajaCaja(id);
+			list = cajaServiceNT.getTransaccionesRecibidasCajaCaja(id);
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
@@ -226,6 +227,12 @@ public class CajaRESTService implements CajaREST {
 	@Override
 	public Response getVoucherTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
 		VoucherTransaccionBovedaCaja voucher = transaccionInternaServiceNT.getVoucherTransaccionBovedaCaja(idTransaccionBovedaCaja);
+		return Response.status(Response.Status.OK).entity(voucher).build();
+	}
+
+	@Override
+	public Response getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) {
+		VoucherTransaccionCajaCaja voucher = transaccionInternaServiceNT.getVoucherTransaccionCajaCaja(idTransaccionCajaCaja);
 		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
 

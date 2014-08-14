@@ -28,6 +28,11 @@ import javax.persistence.TemporalType;
 @NamedQueries({ @NamedQuery(name = HistorialBoveda.findByHistorialActivo, query = "SELECT h FROM HistorialBoveda h WHERE h.boveda.idBoveda = :idboveda AND h.estado = 1") })
 public class HistorialBoveda implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public final static String findByHistorialActivo = "HistorialBoveda.findByHistorialActivo";
 
 	private BigDecimal idHistorialBoveda;

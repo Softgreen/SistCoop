@@ -244,33 +244,42 @@ public class SessionRESTService implements SessionREST {
 	}
 
 	@Override
-	public Response createTransaccionCajaCaja() {
+	public Response createTransaccionCajaCaja(BigInteger idCaja, BigInteger idMoneda, BigDecimal monto, String observacion) {
+		Response response;
 		try {
-			sessionServiceTS.crearTransaccionCajaCaja(null, null, null, null);
-			return Response.status(Status.CREATED).build();
+			BigInteger idTransaccion = sessionServiceTS.crearTransaccionCajaCaja(idCaja, idMoneda, monto, observacion);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override
 	public Response confirmarTransaccionCajaCaja(BigInteger id) {
+		Response response;
 		try {
 			sessionServiceTS.confirmarTransaccionCajaCaja(id);
-			return Response.status(Status.OK).build();
+			response = Response.status(Response.Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override
 	public Response cancelarTransaccionCajaCaja(BigInteger id) {
+		Response response;
 		try {
 			sessionServiceTS.cancelarTransaccionCajaCaja(id);
-			return Response.status(Status.OK).build();
+			response = Response.status(Response.Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
+		return response;
 	}
 
 	@Override

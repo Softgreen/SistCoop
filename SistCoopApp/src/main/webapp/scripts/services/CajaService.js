@@ -11,6 +11,9 @@ define(['./module'], function (services) {
                 getBovedas: function(idCaja){
                     return Restangular.all(baseUrl+"/"+idCaja+"/bovedas").getList();
                 },
+                getMonedas: function(idCaja){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/monedas").getList();
+                },
                 getPendientes: function(idCaja, idHistorial){
                     if(arguments.length == 1)
                         return Restangular.all(baseUrl+"/"+idCaja+"/pendientes").getList();
@@ -56,6 +59,9 @@ define(['./module'], function (services) {
                 },
                 getVoucherTransaccionBovedaCaja: function(idTransaccionBovedaCaja){
                     return Restangular.one(baseUrl+"/voucherTransaccionBovedaCaja/"+idTransaccionBovedaCaja).get();
+                },
+                getVoucherTransaccionCajaCaja: function(idTransaccionCajaCaja){
+                    return Restangular.one(baseUrl+"/voucherTransaccionCajaCaja/"+idTransaccionCajaCaja).get();
                 }
             }
         }])

@@ -1,7 +1,6 @@
 package org.sistemafinanciero.rest.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Set;

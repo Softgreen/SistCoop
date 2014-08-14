@@ -34,13 +34,11 @@ public interface SessionREST {
 
 	@POST
 	@Path("/caja/abrir")
-	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	public Response abrirCajaOfSession();
 
 	@POST
 	@Path("/caja/cerrar")
-	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	public Response cerrarCajaOfSession(Set<GenericMonedaDetalle> detalle);
 
@@ -99,13 +97,11 @@ public interface SessionREST {
 
 	@POST
 	@Path("/transaccionCajaCaja")
-	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response createTransaccionCajaCaja();
-
+	public Response createTransaccionCajaCaja(@FormParam("idCaja") BigInteger idCaja, @FormParam("idMoneda") BigInteger idMoneda, @FormParam("monto") BigDecimal monto, @FormParam("observacion") String observacion);
+	
 	@POST
 	@Path("/transaccionCajaCaja/{id}/confirmar")
-	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	public Response confirmarTransaccionCajaCaja(@PathParam("id") BigInteger id);
 
@@ -122,7 +118,6 @@ public interface SessionREST {
 
 	@POST
 	@Path("/transaccionBovedaCaja/{id}/confirmar")
-	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	public Response confirmarTransaccionBovedaCaja(@PathParam("id") BigInteger id);
 

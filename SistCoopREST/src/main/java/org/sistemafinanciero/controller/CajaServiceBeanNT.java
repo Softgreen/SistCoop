@@ -291,7 +291,11 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			return null;
 		HistorialCaja historial = getHistorialActivo(idCaja);
 		Set<TransaccionCajaCaja> enviados = historial.getTransaccionCajaCajasForIdCajaHistorialOrigen();
-		Hibernate.initialize(enviados);
+		for (TransaccionCajaCaja ts : enviados) {
+			Moneda moneda = ts.getMoneda();
+			Hibernate.initialize(ts);
+			Hibernate.initialize(moneda);
+		}
 		return enviados;
 	}
 
@@ -301,9 +305,13 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		if (caja == null)
 			return null;
 		HistorialCaja historial = getHistorialActivo(idCaja);
-		Set<TransaccionCajaCaja> enviados = historial.getTransaccionCajaCajasForIdCajaHistorialDestino();
-		Hibernate.initialize(enviados);
-		return enviados;
+		Set<TransaccionCajaCaja> recibidos = historial.getTransaccionCajaCajasForIdCajaHistorialDestino();		
+		for (TransaccionCajaCaja ts : recibidos) {
+			Moneda moneda = ts.getMoneda();
+			Hibernate.initialize(ts);
+			Hibernate.initialize(moneda);
+		}
+		return recibidos;
 	}
 
 	@Override

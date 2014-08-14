@@ -2,6 +2,7 @@ define([
     'angular',
 
     './AgenciaSessionService',
+    './AgenciaService',
     './BeneficiarioService',
     './CajaSessionService',
     './CajaService',

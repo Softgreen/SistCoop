@@ -49,6 +49,7 @@ import org.sistemafinanciero.entity.TransaccionBancaria;
 import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
+import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.TransaccionCompraVenta;
 import org.sistemafinanciero.entity.TransaccionCuentaAporte;
 import org.sistemafinanciero.entity.TransferenciaBancaria;
@@ -96,6 +97,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	private DAO<Object, HistorialBoveda> historialBovedaDAO;
 
 	@Inject
+	private DAO<Object, DetalleHistorialBoveda> detalleHistorialBovedaDAO;
+
+	@Inject
 	private DAO<Object, Caja> cajaDAO;
 
 	@Inject
@@ -124,6 +128,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
 	@Inject
 	private DAO<Object, TransaccionBovedaCaja> transaccionBovedaCajaDAO;
+
+	@Inject
+	private DAO<Object, TransaccionCajaCaja> transaccionCajaCajaDAO;
 
 	@Inject
 	private DAO<Object, TransaccionBovedaCajaDetalle> detalleTransaccionBovedaCajaDAO;
@@ -208,6 +215,18 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return cajaHistorial;
 	}
 
+	private HistorialCaja getHistorialActivo(BigInteger idCaja) {
+		Caja caja = cajaDAO.find(idCaja);
+		HistorialCaja cajaHistorial = null;
+		QueryParameter queryParameter = QueryParameter.with("idcaja", caja.getIdCaja());
+		List<HistorialCaja> list = historialCajaDAO.findByNamedQuery(HistorialCaja.findByHistorialActivo, queryParameter.parameters());
+		for (HistorialCaja c : list) {
+			cajaHistorial = c;
+			break;
+		}
+		return cajaHistorial;
+	}
+
 	private BigInteger getNumeroOperacion() {
 		Agencia agencia = new Agencia();
 		Caja caja = this.getCaja();
@@ -251,6 +270,107 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 				break;
 			}
 		}
+	}
+
+	private void actualizarSaldoCaja(BigInteger idCaja, BigDecimal monto, BigInteger idMoneda) throws RollbackFailureException {
+		Moneda monedaTransaccion = monedaDAO.find(idMoneda);
+		Caja caja = cajaDAO.find(idCaja);
+		if (caja == null)
+			throw new RollbackFailureException("caja no encontrada para realizar la actualizacion de saldos");
+		Set<BovedaCaja> bovedasCajas = caja.getBovedaCajas();
+		for (BovedaCaja bovedaCaja : bovedasCajas) {
+			Moneda monedaBoveda = bovedaCaja.getBoveda().getMoneda();
+			if (monedaTransaccion.equals(monedaBoveda)) {
+				BigDecimal saldoActual = bovedaCaja.getSaldo();
+				BigDecimal saldoFinal = saldoActual.add(monto);
+				if (saldoFinal.compareTo(BigDecimal.ZERO) >= 0) {
+					bovedaCaja.setSaldo(saldoFinal);
+					bovedaCajaDAO.update(bovedaCaja);
+				} else {
+					throw new RollbackFailureException("Saldo menor a cero, no se puede modificar saldo de caja");
+				}
+				break;
+			}
+		}
+	}
+
+	/* el factor indica si se va a sumar o restar al saldo de boveda */
+	private void actualizarSaldoBoveda(BigInteger idBoveda, Set<TransaccionBovedaCajaDetalle> transaccionDetalle, int factor) throws RollbackFailureException {
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		if (boveda == null)
+			throw new RollbackFailureException("Boveda no encotrada");
+		HistorialBoveda historialBoveda = getHistorialActivoBoveda(boveda.getIdBoveda());
+		if (historialBoveda == null)
+			throw new RollbackFailureException("Historial de Boveda no encontrada");
+
+		BigDecimal saldoActual = BigDecimal.ZERO;
+		BigDecimal montoTransaccion = BigDecimal.ZERO;
+
+		Set<DetalleHistorialBoveda> detalleHistorialBoveda = historialBoveda.getDetalleHistorialBovedas();
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			saldoActual.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+		for (TransaccionBovedaCajaDetalle det : transaccionDetalle) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			montoTransaccion.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+
+		// restando los valores
+		for (DetalleHistorialBoveda detBoveda : detalleHistorialBoveda) {
+			Moneda monedaBoveda = detBoveda.getMonedaDenominacion().getMoneda();
+			for (TransaccionBovedaCajaDetalle detTrans : transaccionDetalle) {
+				Moneda monedaTrans = detTrans.getMonedaDenominacion().getMoneda();
+				if (monedaBoveda.equals(monedaTrans)) {
+					// restar los valores de cantidad
+					BigInteger cantidadActual = detBoveda.getCantidad();
+					BigInteger cantidadTrans = detTrans.getCantidad();
+					BigInteger cantidadFinal = null;
+					if (factor == 1)
+						cantidadFinal = cantidadActual.add(cantidadTrans);
+					else if (factor == -1)
+						cantidadFinal = cantidadActual.subtract(cantidadTrans);
+					else
+						throw new RollbackFailureException("factor no valido para transaccion");
+
+					if (cantidadFinal.compareTo(BigInteger.ZERO) == -1)
+						throw new RollbackFailureException("Saldo insuficiente, no se puede modificar el saldo de boveda");
+					detBoveda.setCantidad(cantidadFinal);
+					break;
+				}
+			}
+		}
+
+		// verificando el que saldoActual - montoTransaccion == sumatoria final
+		// de detalleHistorialBoveda
+		BigDecimal saldoFinalConResta = saldoActual.subtract(montoTransaccion);
+		BigDecimal saldoFinalConHistorial = BigDecimal.ZERO;
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			saldoFinalConHistorial.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+
+		if (saldoFinalConResta.compareTo(saldoFinalConHistorial) != 0)
+			throw new RollbackFailureException("No se pudo realizar la transaccion, el detalle de transaccion enviado no coincide con el historial de boveda, verifique que ninguna MONEDA DENOMINACION este inactiva");
+
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			detalleHistorialBovedaDAO.update(det);
+		}
+	}
+
+	private HistorialBoveda getHistorialActivoBoveda(BigInteger idBoveda) {
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		HistorialBoveda bovedaHistorial = null;
+		QueryParameter queryParameter = QueryParameter.with("idboveda", boveda.getIdBoveda());
+		List<HistorialBoveda> list = historialBovedaDAO.findByNamedQuery(HistorialBoveda.findByHistorialActivo, queryParameter.parameters());
+		for (HistorialBoveda c : list) {
+			bovedaHistorial = c;
+			break;
+		}
+		return bovedaHistorial;
 	}
 
 	@AllowedTo(Permission.CERRADO)
@@ -1021,14 +1141,14 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 			BigDecimal valor = detalle.getMonedaDenominacion().getValor();
 			BigDecimal subtotal = valor.multiply(new BigDecimal(cantidad));
 			totalBoveda = totalBoveda.add(subtotal);
-		}		
+		}
 		for (BovedaCaja bovedaCaja : bovedasCajas) {
 			Boveda bovedaCaj = bovedaCaja.getBoveda();
 			if (bovedaCaj.equals(boveda)) {
 				totalCajaByMoneda = bovedaCaja.getSaldo();
 				break;
 			}
-		}		
+		}
 		// verificando los que los saldos sean correctos
 		if (totalTransaccion.compareTo(BigDecimal.ZERO) < 1)
 			throw new RollbackFailureException("Monto de transaccion:" + totalTransaccion.toString() + " invalido");
@@ -1044,7 +1164,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		default:
 			throw new RollbackFailureException("Origen de transaccion no definido");
 		}
-		
+
 		// creando la transaccion
 		TransaccionBovedaCaja transaccionBovedaCaja = new TransaccionBovedaCaja();
 		Calendar calendar = Calendar.getInstance();
@@ -1082,8 +1202,71 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public BigInteger crearTransaccionCajaCaja(BigInteger idCajadestino, BigInteger idMoneda, BigDecimal monto, String observacion) throws RollbackFailureException {
-		// TODO Auto-generated method stub
-		return null;
+		if (monto.compareTo(BigDecimal.ZERO) <= 0)
+			throw new RollbackFailureException("Monto de transaccion no valido, debe de ser mayor que cero");
+
+		Caja cajaDestino = cajaDAO.find(idCajadestino);
+		Caja cajaOrigen = this.getCaja();
+		Moneda monedaTransaccion = monedaDAO.find(idMoneda);
+		
+		if(cajaOrigen.equals(cajaDestino))
+			throw new RollbackFailureException("Caja origen y destino deben de ser diferentes");
+
+		BovedaCaja bovedaCajaOrigen = null;
+		Set<BovedaCaja> bovedaCajasOrigen = cajaOrigen.getBovedaCajas();
+		BovedaCaja bovedaCajaDestino = null;
+		Set<BovedaCaja> bovedaCajasDestino = cajaDestino.getBovedaCajas();
+		for (BovedaCaja bc : bovedaCajasOrigen) {
+			Boveda boveda = bc.getBoveda();
+			Moneda moneda = boveda.getMoneda();
+			if (moneda.equals(monedaTransaccion)) {
+				bovedaCajaOrigen = bc;
+			}
+		}
+		for (BovedaCaja bc : bovedaCajasDestino) {
+			Boveda boveda = bc.getBoveda();
+			Moneda moneda = boveda.getMoneda();
+			if (moneda.equals(monedaTransaccion)) {
+				bovedaCajaDestino = bc;
+			}
+		}
+		if (bovedaCajaOrigen == null)
+			throw new RollbackFailureException("Moneda no encontrada en la caja Origen");
+		if (bovedaCajaDestino == null)
+			throw new RollbackFailureException("Moneda no encontrada en la caja Destino");
+
+		BigDecimal saldoActualCajaOrigen = bovedaCajaOrigen.getSaldo();
+		BigDecimal saldoActualCajaDestino = bovedaCajaDestino.getSaldo();
+		if (saldoActualCajaOrigen.compareTo(monto) == -1)
+			throw new RollbackFailureException("El saldo de caja es:" + saldoActualCajaOrigen.toString() + ";monto de transaccion:" + monto.toString() + ". No se puede realizar la transaccion");
+
+		// saldos disponibles
+		BigDecimal saldoDisponibleOrigen = saldoActualCajaOrigen.subtract(monto);
+		BigDecimal saldoDisponibleDestino = saldoActualCajaDestino.add(monto);
+
+		// creando la transaccion
+		Calendar calendar = Calendar.getInstance();
+
+		HistorialCaja historialCajaOrigen = getHistorialActivo();
+		HistorialCaja historialCajaDestino = getHistorialActivo(cajaDestino.getIdCaja());
+
+		TransaccionCajaCaja transaccion = new TransaccionCajaCaja();
+		transaccion.setMonto(monto);
+		transaccion.setFecha(calendar.getTime());
+		transaccion.setHora(calendar.getTime());
+		transaccion.setEstadoConfirmacion(false);
+		transaccion.setEstadoSolicitud(true);
+		transaccion.setHistorialCajaOrigen(historialCajaOrigen);
+		;
+		transaccion.setHistorialCajaDestino(historialCajaDestino);
+		transaccion.setMoneda(monedaTransaccion);
+		transaccion.setObservacion(observacion);
+		transaccion.setSaldoDisponibleOrigen(saldoDisponibleOrigen);
+		transaccion.setSaldoDisponibleDestino(saldoDisponibleDestino);
+
+		transaccionCajaCajaDAO.create(transaccion);
+
+		return transaccion.getIdTransaccionCajaCaja();
 	}
 
 	@AllowedTo(Permission.ABIERTO)
@@ -1115,10 +1298,22 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		if (!transaccionBovedaCaja.getOrigen().equals(TransaccionBovedaCajaOrigen.BOVEDA))
 			throw new RollbackFailureException("No se puede confirmar una transaccion solicitada por una caja");
 		TransaccionBovedaCajaView view = transaccionBovedaCajaViewDAO.find(idTransaccionBovedaCaja);
+		Boveda boveda = transaccionBovedaCaja.getHistorialBoveda().getBoveda();
 		BigDecimal monto = view.getMonto();
 		Moneda moneda = transaccionBovedaCaja.getHistorialBoveda().getBoveda().getMoneda();
-		this.actualizarSaldoCaja(monto.negate(), moneda.getIdMoneda());
 
+		switch (transaccionBovedaCaja.getOrigen()) {
+		case CAJA:
+			this.actualizarSaldoCaja(monto.negate(), moneda.getIdMoneda());
+			this.actualizarSaldoBoveda(boveda.getIdBoveda(), transaccionBovedaCaja.getTransaccionBovedaCajaDetalls(), 1);
+			break;
+		case BOVEDA:
+			this.actualizarSaldoCaja(monto, moneda.getIdMoneda());
+			this.actualizarSaldoBoveda(boveda.getIdBoveda(), transaccionBovedaCaja.getTransaccionBovedaCajaDetalls(), -1);
+			break;
+		default:
+			throw new RollbackFailureException("Origen de transaccion no valido");
+		}
 		transaccionBovedaCaja.setEstadoConfirmacion(true);
 		transaccionBovedaCajaDAO.update(transaccionBovedaCaja);
 	}
@@ -1126,15 +1321,35 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void cancelarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException {
-		// TODO Auto-generated method stub
-
+		TransaccionCajaCaja transaccion = transaccionCajaCajaDAO.find(idTransaccionCajaCaja);
+		if (transaccion == null)
+			throw new RollbackFailureException("Transaccion no encontrada");
+		if (transaccion.getEstadoConfirmacion() == true)
+			throw new RollbackFailureException("Transaccion ya fue CONFIRMADA, no se puede cancelar");
+		if (transaccion.getEstadoSolicitud() == false)
+			throw new RollbackFailureException("Transaccion ya fue CANCELADA, no se puede cancelar nuevamente");
+		transaccion.setEstadoSolicitud(false);
+		transaccionCajaCajaDAO.update(transaccion);
 	}
 
 	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void confirmarTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) throws RollbackFailureException {
-		// TODO Auto-generated method stub
-
+		TransaccionCajaCaja transaccion = transaccionCajaCajaDAO.find(idTransaccionCajaCaja);
+		if (transaccion == null)
+			throw new RollbackFailureException("Transaccion no encontrada");
+		if (transaccion.getEstadoSolicitud() == false)
+			throw new RollbackFailureException("Transaccion ya fue CANCELADA, no se puede confirmar");
+		if (transaccion.getEstadoConfirmacion() == true)
+			throw new RollbackFailureException("Transaccion ya fue CONFIRMADA, no se puede confirmar nuevamente");
+		Caja cajaOrigen = transaccion.getHistorialCajaOrigen().getCaja();
+		BigInteger idCajaOrigen = cajaOrigen.getIdCaja();
+		BigDecimal monto = transaccion.getMonto();
+		Moneda moneda = transaccion.getMoneda();
+		this.actualizarSaldoCaja(monto, moneda.getIdMoneda());
+		this.actualizarSaldoCaja(idCajaOrigen, monto.negate(), moneda.getIdMoneda());
+		transaccion.setEstadoConfirmacion(true);
+		transaccionCajaCajaDAO.update(transaccion);
 	}
 
 }

@@ -3,8 +3,6 @@ package org.sistemafinanciero.rest.dto;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
