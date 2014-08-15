@@ -64,7 +64,10 @@ define([
     './util/ConfirmPopUpController',
     './util/LoadImageController',
     './util/FirmaPopUpController',
-    './util/UbigeoController'
+    './util/UbigeoController',
+
+    './configuracion/ConfiguracionImpresoraController'
+
 ], function () {
 
 });

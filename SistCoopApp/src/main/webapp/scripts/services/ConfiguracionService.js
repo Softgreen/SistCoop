@@ -6,6 +6,7 @@ define(['./module'], function (services) {
         var restApiUrl = 'http://localhost:8080/SistCoopREST/rest';
 
         var defaultPrinterName = "EPSON TM-U220";
+        var cookiePrinterName = "DefaultPrinterName";
 
         return {
             getRestApiUrl: function(){
@@ -16,6 +17,9 @@ define(['./module'], function (services) {
             },
             getDefaultPrinterName: function(){
                 return defaultPrinterName;
+            },
+            getCookiePrinterName: function(){
+                return cookiePrinterName;
             }
         }
     })

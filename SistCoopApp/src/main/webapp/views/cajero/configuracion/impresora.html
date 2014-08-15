@@ -1,0 +1,31 @@
+<form name="formConfigurarImpresora" ng-submit="guardar()" novalidate>
+    <div class="form-group">
+        <label>Ubicacion</label>
+        <input type="text" value="127.0.0.1" class="form-control" readonly>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error' : formConfigurarImpresora.nombreImpresora.$invalid && formConfigurarImpresora.nombreImpresora.$dirty}">
+        <label>Nombre impresora</label>
+        <div class="input-group">
+            <input focus-on="focusNombreImpresora" type="text" name="nombreImpresora" class="form-control" ng-model="view.defaulPrinterName" ng-minlegth="1" ng-maxlength="50" placeholder="Nombre impresora" autofocus required>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="verificar()" class="btn btn-default">
+                            <span class="glyphicon glyphicon-check"></span>
+                        </button>
+                    </span>
+        </div>
+        <div ng-show="formConfigurarImpresora.nombreImpresora.$invalid && formConfigurarImpresora.nombreImpresora.$dirty">
+            <p class="help-block" ng-show="formConfigurarImpresora.nombreImpresora.$error.required">
+                Ingrese nombre de impresora.
+            </p>
+            <p class="help-block" ng-show="formConfigurarImpresora.nombreImpresora.$error.minlength">
+                Ingrese nombre de impresora.
+            </p>
+            <p class="help-block" ng-show="formConfigurarImpresora.nombreImpresora.$error.maxlength">
+                Maximo 50 Caracteres.
+            </p>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="button" class="btn btn-default">Cancelar</button>
+</form>

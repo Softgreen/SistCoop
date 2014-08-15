@@ -1,19 +1,20 @@
 define(['./app'], function(app) {
     'use strict';
-    return app.config(['$httpProvider','$stateProvider','$urlRouterProvider','RestangularProvider',
-        function($httpProvider, $stateProvider, $urlRouterProvider, RestangularProvider) {
+    return app.config(['$httpProvider','$stateProvider','$urlRouterProvider','RestangularProvider','localStorageServiceProvider',
+        function($httpProvider, $stateProvider, $urlRouterProvider, RestangularProvider, localStorageServiceProvider) {
 
             RestangularProvider.setBaseUrl('http://localhost:8080/SistCoopREST/rest');
 
             $urlRouterProvider.when('', '/app/home');
             $urlRouterProvider.otherwise('/app/home');
 
+            localStorageServiceProvider.setPrefix('softgreen');
+
             $stateProvider
                 .state('app', {
                     abstract: true,
                     url: '/app?redirect',
                     template: '' +
-                        '<div ng-bind-html="cajaNotFound"></div>'+
                         '<div class="container" style="padding-top: 70px;">' +
                         '<div class="navbar navbar-default navbar-fixed-top" role="navigation">' +
                         '<div class="container">' +
@@ -67,10 +68,11 @@ define(['./app'], function(app) {
                         '<span class="caret"></span>'+
                         '</button>'+
                         '<ul class="dropdown-menu" role="menu">'+
-                        '<li><a href="#">Ver perfil</a></li>'+
+                        '<li><a href="/SistCoopApp/ManageAccount">Ver perfil</a></li>'+
                         '<li><a href="#">Configuracion</a></li>'+
+                        '<li><a href="#" ui-sref="app.configuracion.impresora({redirect:true})">Impresora</a></li>'+
                         '<li class="divider"></li>'+
-                        '<li><a href="/SistemaFinancieroVentura-web/logout">Salir</a></li>'+
+                        '<li><a href="/SistCoopApp/logout">Salir</a></li>'+
                         '</ul>'+
                         '</div>'+
 
@@ -156,6 +158,21 @@ define(['./app'], function(app) {
                     url: '/home',
                     template: '</br><div class="center-block"><h2 class="text-center" style="font-weight: bold; color: seagreen;">Bienvenido al Sistema Financiero</h2></div></br></br>' +
                         '<h3 class="text-center"><img alt="Caja Ventura" src="images/logos_coop/logo_coop.png"></h3></br></br></br>'
+                })
+                .state('app.configuracion', {
+                    abstract: true,
+                    url: '/config',
+                    template: '' +
+                        '<div class="container" style="padding-top: 70px; min-height: 400px;">' +
+                            '<div class="row">' +
+                                '<div class="col-md-6 col-md-offset-3" ui-view></div>'+
+                            '</div>'+
+                        '</div>'
+                })
+                .state('app.configuracion.impresora', {
+                    url: "/impresora",
+                    templateUrl: "views/cajero/configuracion/impresora.html",
+                    controller: 'ConfiguracionImpresoraController'
                 })
                 .state('app.caja', {
                     url: "/caja",

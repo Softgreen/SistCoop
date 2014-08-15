@@ -24,6 +24,7 @@ define([
             'ngGrid',
             'ngSanitize',
             'ngAnimate',
+            'LocalStorageModule',
             'ui.utils',
             'blockUI',
             'flow',

@@ -8,6 +8,7 @@ require.config({
         'angular-mocks': '../bower_components/angular-mocks/angular-mocks',
         'angular-sanitize': "../bower_components/angular-sanitize/angular-sanitize",
         'angular-animate': "../bower_components/angular-animate/angular-animate",
+        'angular-local-storage': "../bower_components/angular-local-storage/angular-local-storage",
         'uiRouter': "../bower_components/angular-ui-router/release/angular-ui-router",
         'restangular' : "../bower_components/restangular/dist/restangular",
         'underscore' : "../bower_components/underscore/underscore",
@@ -32,6 +33,9 @@ require.config({
             deps: ['angular']
         },
         'angular-animate':{
+            deps: ['angular']
+        },
+        'angular-local-storage':{
             deps: ['angular']
         },
         'uiRouter' :{
@@ -92,6 +96,7 @@ require([
     'routes',
     'angular-sanitize',
     'angular-animate',
+    'angular-local-storage',
     'restangular',
     'ngProgress',
     'ui.bootstrap',
