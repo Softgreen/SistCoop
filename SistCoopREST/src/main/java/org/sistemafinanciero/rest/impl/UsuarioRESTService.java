@@ -18,6 +18,7 @@ package org.sistemafinanciero.rest.impl;
 
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import org.sistemafinanciero.rest.UsuarioREST;
 import org.sistemafinanciero.service.nt.UsuarioServiceNT;
@@ -28,7 +29,7 @@ public class UsuarioRESTService implements UsuarioREST {
 	private UsuarioServiceNT usuarioServiceNT;
 
 	@Override
-	public Response authenticateAsAdministrator(String username, String password) {
+	public Response authenticateAsAdministrator(SecurityContext context, String username, String password) {
 		boolean result = usuarioServiceNT.authenticateAsAdministrator(username, password);
 		if (result == true)
 			return Response.status(Response.Status.NO_CONTENT).build();

@@ -4,6 +4,23 @@ define(['./app'], function(app) {
         function($httpProvider, $stateProvider, $urlRouterProvider, RestangularProvider, localStorageServiceProvider) {
 
             RestangularProvider.setBaseUrl('http://localhost:8080/SistCoopREST/rest');
+           // var urlToken = 'http://localhost:8080/SistCoopApp/token';
+            //var token = 'Bearer ' + 'eyJhbGciOiJSUzI1NiJ9.eyJuYW1lIjoiIiwianRpIjoiZGE5Y2FhNzYtMjJmZC00Y2FhLWJlYjQtMjRjYWJlMGI3MTBiIiwiZXhwIjoxNDA4MzgyNzQxLCJuYmYiOjAsImlhdCI6MTQwODM4MjQ0MSwiaXNzIjoiU2lzdGVtYUZpbmFuY2llcm8iLCJhdWQiOiJTaXN0ZW1hRmluYW5jaWVybyIsInN1YiI6ImJhMTY1ZjQ2LTliMzktNGE3ZS05NmYzLTIwMzZiMTIyNTUyMyIsImF6cCI6IlNpc3RDb29wQXBwIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiY2FqYSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwic2Vzc2lvbl9zdGF0ZSI6IjlhYTdiMzQxLWNmYTgtNGM2My1iYzk4LTk4MjVlYjYzY2MwMCIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODAiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImNhamVybyJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsidmlldy1wcm9maWxlIiwibWFuYWdlLWFjY291bnQiXX19fQ.Eo65h0ZPyy0p7JHTdE69beh2CtZZ8saaCAhx9pDfw3TYGgAm3-l6EWJViwLkQNDui4_IfZAQ4WU0M4gRymhO1BsZK-wSGi6AWlEP5NWMB1rSZ6C-oF18SNmVe5XPvfxZPCmRBF0tTKJubq3q2yuMVIoHgbq6aAC5j96pWVaGOyU';
+
+           // var request = new XMLHttpRequest();         // Create new request
+           // request.open("GET", urlToken);                   // Specify URL to fetch
+           // request.send(null);                         // Send the request now
+            //var token = request.responseText;
+
+           /* RestangularProvider.setFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+                //headers = ;
+                return {
+                    element: element,
+                    params: params,
+                    headers: _.extend(headers, {'Authorization': 'Bearer ' + token}),
+                    httpConfig: httpConfig
+                };
+            });*/
 
             $urlRouterProvider.when('', '/app/home');
             $urlRouterProvider.otherwise('/app/home');
@@ -68,8 +85,7 @@ define(['./app'], function(app) {
                         '<span class="caret"></span>'+
                         '</button>'+
                         '<ul class="dropdown-menu" role="menu">'+
-                        '<li><a href="/SistCoopApp/ManageAccount">Ver perfil</a></li>'+
-                        '<li><a href="#">Configuracion</a></li>'+
+                        '<li><a href="/SistCoopApp/account">Ver perfil</a></li>'+
                         '<li><a href="#" ui-sref="app.configuracion.impresora({redirect:true})">Impresora</a></li>'+
                         '<li class="divider"></li>'+
                         '<li><a href="/SistCoopApp/logout">Salir</a></li>'+

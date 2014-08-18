@@ -31,6 +31,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
+import org.jboss.resteasy.annotations.cache.NoCache;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.sistemafinanciero.entity.Agencia;
@@ -51,6 +52,7 @@ import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
 import org.sistemafinanciero.service.nt.SessionServiceNT;
 import org.sistemafinanciero.service.ts.SessionServiceTS;
 
+@NoCache
 public class SessionRESTService implements SessionREST {
 
 	@EJB

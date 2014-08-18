@@ -16,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.jboss.resteasy.annotations.cache.NoCache;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
@@ -25,6 +26,7 @@ import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
 
 @Path("/session")
+@NoCache
 public interface SessionREST {
 
 	@GET

@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.commons.io.IOUtils;
+import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.sistemafinanciero.entity.PersonaNatural;
@@ -75,6 +76,7 @@ public class PersonaNaturalRESTService implements PersonaNaturalREST {
 		return response;
 	}
 
+	@NoCache
 	@Override
 	public Response listAll(String filterText, Integer offset, Integer limit) {
 		List<PersonaNatural> list = personaNaturalServiceNT.findAll(filterText, offset, limit);

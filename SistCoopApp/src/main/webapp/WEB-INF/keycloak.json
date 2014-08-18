@@ -4,6 +4,7 @@
   "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "external",
   "resource": "SistCoopApp",
+  "expose-token": true,
   "credentials": {
     "secret": "d84c0ae0-55eb-4c0d-b670-fbdb20a74fb3"
   }
