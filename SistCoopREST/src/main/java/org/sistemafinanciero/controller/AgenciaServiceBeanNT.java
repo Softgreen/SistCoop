@@ -14,6 +14,7 @@ import javax.inject.Named;
 
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.BovedaCaja;
@@ -62,6 +63,22 @@ public class AgenciaServiceBeanNT implements AgenciaServiceNT {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public Agencia findByCodigo(String codigo) {
+		QueryParameter queryParameter = QueryParameter.with("codigo", codigo);
+		List<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo, queryParameter.parameters());
+		if(list.size() <= 1){
+			Agencia agencia = null;
+			for (Agencia ag : list) {
+				Hibernate.initialize(ag);
+				agencia = ag;
+			}
+			return agencia;
+		} else {
+			return null;
+		}		
 	}
 
 }

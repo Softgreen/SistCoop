@@ -38,8 +38,6 @@ define(['../module'], function (controllers) {
             };
 
             $scope.imprimir = function(){
-                var printerName = ConfiguracionService.getDefaultPrinterName();
-                findPrinter(printerName); //Elegir impresora
                 if (notReady()) {return;}
 
                 qz.append("\x1B\x40");															//reset printer

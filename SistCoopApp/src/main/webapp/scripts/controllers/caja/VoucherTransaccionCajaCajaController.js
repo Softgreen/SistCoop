@@ -32,7 +32,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.imprimir = function(){
-                qz.findPrinter("EPSON TM-U220");												//Elegir impresora
+                if (notReady()) {return;}												//Elegir impresora
                 qz.append("\x1B\x40");															//reset printer
 
                 qz.append("\x1B\x21\x08");														//texto en negrita

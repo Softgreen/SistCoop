@@ -1,9 +1,9 @@
 define(['../module'], function (controllers) {
     'use strict';
     controllers.controller('EditarCuentaBancariaController', [ "$scope", "$state", "$location", "$filter", "$window", "focus","$modal",
-        "MaestroService", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "CuentaBancariaService", "BeneficiarioService","TitularService","RedirectService",
+        "MaestroService", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "CuentaBancariaService", "BeneficiarioService","TitularService","RedirectService","ConfiguracionService",
         function($scope, $state, $location, $filter, $window, focus,$modal,
-                 MaestroService, PersonaNaturalService, PersonaJuridicaService, SocioService, CuentaBancariaService, BeneficiarioService,TitularService,RedirectService) {
+                 MaestroService, PersonaNaturalService, PersonaJuridicaService, SocioService, CuentaBancariaService, BeneficiarioService,TitularService,RedirectService,ConfiguracionService) {
 
             $scope.viewState = "app.socio.editarCuentaBancaria";
 
@@ -424,8 +424,8 @@ define(['../module'], function (controllers) {
             };
 
             $scope.imprimirCertificado = function(){
-              $window.open('http://localhost:8080/SistemaFinancieroVentura-web/services/cuentaBancaria/'+
-                  $scope.id+'/certificado');
+                var restApiUrl = ConfiguracionService.getRestApiUrl();
+                $window.open(restApiUrl+'/cuentasBancarias/'+ $scope.id+'/certificado');
             };
 
         }]);

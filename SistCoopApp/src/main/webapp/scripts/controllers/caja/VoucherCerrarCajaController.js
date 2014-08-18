@@ -24,7 +24,7 @@ define(['../module'], function (controllers) {
 
             $scope.imprimirResumen = function(){
 
-                qz.findPrinter("EPSON TM-U220");
+                if (notReady()) {return;}
 
                 qz.append("\x1B\x40"); // 1
                 qz.append("\x1B\x21\x08"); // 2

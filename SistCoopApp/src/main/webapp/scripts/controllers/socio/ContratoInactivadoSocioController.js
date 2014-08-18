@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('ContratoInactivadoSocioController', [ '$scope','$state','SessionService','CajaService','SocioService',
-        function($scope,$state,SessionService,CajaService,SocioService) {
+    controllers.controller('ContratoInactivadoSocioController', [ '$scope','$state','$filter','SessionService','CajaService','SocioService',
+        function($scope,$state,$filter,SessionService,CajaService,SocioService) {
 
             $scope.view = {
                 condiciones: false
@@ -44,6 +44,7 @@ define(['../module'], function (controllers) {
             $scope.imprimir = function(){
                 if(angular.isUndefined($scope.transaccion))
                     return;
+                if (notReady()) {return;}
 
                 qz.findPrinter("EPSON TM-U220");												//Elegir impresora
                 qz.append("\x1B\x40");															//reset printer
@@ -51,25 +52,45 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
                 qz.append("C.A.C. CAJA VENTURA \r\n");											// \r\n salto de linea
-                qz.append("PENDIENTE \r\n");
+
+                qz.append(($scope.transaccion.tipoTransaccion) + " CUENTA " + ($scope.transaccion.tipoCuentaBancaria) + "\r\n");
                 // \t tabulador
                 qz.append("\x1B\x21\x01");														//texto normal (no negrita)
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
 
-                qz.append("AGENCIA:" + "\t" +($scope.pendiente.agenciaAbreviatura) + "\r\n");
-                qz.append("PENDIENTE:" + "\t" +($scope.pendiente.idPendienteCaja) + "\r\n");
-                qz.append("T. PENDIENTE:" + "\t" +($scope.pendiente.tipoPendiente) + "\r\n");
-                qz.append("FECHA:" + "\t\t" +($filter('date')($scope.pendiente.fecha, 'dd/MM/yyyy'))+ " " + ($filter('date')($scope.pendiente.hora, 'HH:mm:ss')) + "\r\n");
-                qz.append("MONEDA:" + "\t\t" +($scope.pendiente.moneda.denominacion) + "\r\n");
-                qz.append("MONTO:" + "\t\t" +($filter('currency')($scope.pendiente.monto, $scope.pendiente.moneda.simbolo)) + "\r\n");
-                qz.append("CAJA:" + "\t\t" +($scope.pendiente.cajaDenominacion) + "(" +($scope.pendiente.cajaAbreviatura) + ")" + "\r\n");
-                qz.append("CAJERO:" + "\t\t" +($scope.pendiente.trabajador) + "\r\n");
-                qz.append("OBSERVACION:" + "\t" +($scope.pendiente.observacion) + "\r\n");
-                qz.append("\r\n");
-                qz.append("\r\n");
-                qz.append("     " + "______________" + "\t" + "__________" + "\r\n");
-                qz.append("     " + " JEFE DE CAJA " + "\t" + "  CAJERO  " + "\r\n");
+                qz.append(($scope.transaccion.agenciaAbreviatura) + "\t\t" + "TRANS:" + "\t" + ($scope.transaccion.idTransaccionBancaria) + "\r\n");
+                qz.append("CAJA:" + "\t" + ($scope.transaccion.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + ($scope.transaccion.numeroOperacion) + "\r\n");
+                qz.append("FECHA:" + "\t" + ($filter('date')($scope.transaccion.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccion.hora, 'HH:mm:ss')) + "\r\n");
+                qz.append("CUENTA:" + "\t" + ($scope.transaccion.numeroCuenta) + "\r\n");
+                qz.append("SOCIO:" + "\t" + ($scope.transaccion.socio) + "\r\n");
+                qz.append("MONEDA:" + "\t" + ($scope.transaccion.moneda.denominacion) + "\r\n");
 
+                if(!angular.isUndefined($scope.transaccion.referencia))
+                    qz.append("REF:" + "\t" + ($scope.transaccion.referencia) + "\r\n");
+                else{
+                    qz.append(" ");
+                }
+
+                if (($scope.transaccion.tipoTransaccion)=="DEPOSITO") {
+                    qz.append("\r\n");
+                    qz.append("IMPORTE RECIBIDO:" + "\t" + ($filter('currency')($scope.transaccion.monto, $scope.transaccion.moneda.simbolo)) + "\r\n");
+                    qz.append("\r\n");
+                    qz.append(String.fromCharCode(27) + "\x61" + "\x31");
+                    qz.append("Verifique su dinero antes  de retirarse de ventanilla" + "\r\n");
+                } else {
+                    qz.append("\r\n");
+                    qz.append("IMPORTE PAGADO:" + "\t\t" + ($filter('currency')($scope.transaccion.monto, $scope.transaccion.moneda.simbolo)) + "\r\n");
+                    qz.append("SALDO DISPONIBLE:" + "\t" + ($filter('currency')($scope.transaccion.saldoDisponible, $scope.transaccion.moneda.simbolo)) + "\r\n");
+                    qz.append("\r\n");
+                    qz.append("\r\n");
+                    qz.append(String.fromCharCode(27) + "\x61" + "\x31");
+                    qz.append("_________________" + "\r\n");
+                    qz.append(String.fromCharCode(27) + "\x61" + "\x31");
+                    qz.append("Firma Titular(es)" + "\r\n");
+                    qz.append("\r\n");
+                    qz.append(String.fromCharCode(27) + "\x61" + "\x31");
+                    qz.append("Verifique su dinero antes de retirarse  de ventanilla" + "\r\n");
+                }
                 qz.append("\x1D\x56\x41");														//cortar papel
                 qz.append("\x1B\x40");
                 qz.print();
