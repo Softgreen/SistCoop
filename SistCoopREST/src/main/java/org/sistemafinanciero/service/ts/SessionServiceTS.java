@@ -12,6 +12,7 @@ import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
@@ -38,7 +39,7 @@ public interface SessionServiceTS {
 
 	public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException;
 
-	public BigInteger[] crearCuentaBancariaPlazoFijoConDeposito(String codigo, BigInteger idMoneda, TipoPersona tipoPersona, BigInteger idPersona, int cantRetirantes, BigDecimal monto, int periodo, BigDecimal tasaInteres, List<BigInteger> titulares, List<Beneficiario> beneficiarios) throws RollbackFailureException;
+	public BigInteger[] crearCuentaBancariaPlazoFijoConDeposito(TipoCuentaBancaria tipoCuentaBancaria, String codigoAgencia, BigInteger idMoneda, BigDecimal monto, BigDecimal tasaInteres, TipoPersona tipoPersona, BigInteger idPersona, Integer periodo, int cantRetirantes, List<BigInteger> titulares, List<Beneficiario> beneficiarios) throws RollbackFailureException;
 
 	public BigInteger cancelarCuentaBancariaConRetiro(BigInteger id) throws RollbackFailureException;
 

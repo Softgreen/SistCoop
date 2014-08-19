@@ -20,6 +20,7 @@ import org.jboss.resteasy.annotations.cache.NoCache;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
+import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
@@ -64,6 +65,12 @@ public interface SessionREST {
 	public Response desactivarSocio(@PathParam("id") BigInteger id);
 
 	@POST
+	@Path("/cuentasBancarias")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response createCuentaPlazoFijo(CuentaBancariaDTO cuentaBancaria);
+
+	@POST
 	@Path("/transaccionPendiente")
 	@Produces({ "application/xml", "application/json" })
 	public Response crearPendiente(@FormParam("idboveda") BigInteger idboveda, @FormParam("monto") BigDecimal monto, @FormParam("observacion") String observacion);
@@ -101,7 +108,7 @@ public interface SessionREST {
 	@Path("/transaccionCajaCaja")
 	@Produces({ "application/xml", "application/json" })
 	public Response createTransaccionCajaCaja(@FormParam("idCaja") BigInteger idCaja, @FormParam("idMoneda") BigInteger idMoneda, @FormParam("monto") BigDecimal monto, @FormParam("observacion") String observacion);
-	
+
 	@POST
 	@Path("/transaccionCajaCaja/{id}/confirmar")
 	@Produces({ "application/xml", "application/json" })

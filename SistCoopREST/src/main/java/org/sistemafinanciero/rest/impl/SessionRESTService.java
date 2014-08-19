@@ -18,6 +18,7 @@ package org.sistemafinanciero.rest.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,20 +36,25 @@ import org.jboss.resteasy.annotations.cache.NoCache;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.sistemafinanciero.entity.Agencia;
+import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
+import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.SessionREST;
+import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
+import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
 import org.sistemafinanciero.service.nt.SessionServiceNT;
 import org.sistemafinanciero.service.ts.SessionServiceTS;
 
@@ -60,6 +66,9 @@ public class SessionRESTService implements SessionREST {
 
 	@EJB
 	private SessionServiceTS sessionServiceTS;
+
+	@EJB
+	private PersonaNaturalServiceNT personaNaturalServiceNT;
 
 	@Override
 	public Response getCajaOfSession() {
@@ -140,6 +149,33 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response createCuentaPlazoFijo(CuentaBancariaDTO cuentaBancaria) {
+		Response response;
+
+		TipoCuentaBancaria tipoCuentaBancaria = cuentaBancaria.getTipoCuenta();
+		BigInteger idMoneda = cuentaBancaria.getIdMoneda();
+		BigDecimal monto = cuentaBancaria.getMonto();
+		BigDecimal tasaInteres = cuentaBancaria.getTasaInteres();
+		TipoPersona tipoPersona = cuentaBancaria.getTipoPersona();
+		int periodo = cuentaBancaria.getPeriodo();
+		int cantRetirantes = cuentaBancaria.getCantRetirantes();
+		List<BigInteger> titulares = cuentaBancaria.getTitulares();
+		List<Beneficiario> beneficiarios = cuentaBancaria.getBeneficiarios();
+
+		Agencia agencia = sessionServiceNT.getAgenciaOfSession();
+		PersonaNatural persona = personaNaturalServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
+		try {
+			BigInteger[] idCuentaAndTransaccion = sessionServiceTS.crearCuentaBancariaPlazoFijoConDeposito(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, monto, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
+			JsonObject model = Json.createObjectBuilder().add("message", "Cuenta creada").add("id", idCuentaAndTransaccion[0]).add("idTransaccion", idCuentaAndTransaccion[1]).build();
+			return Response.status(Response.Status.OK).entity(model).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}

@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearCuentaPlazoFijoController', [ "$scope", "$state", "$filter", "$window", "$timeout", "$location","$modal", "focus", "MaestroService", "MonedaService", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "TasaInteresService", "CuentaBancariaService","RedirectService",
-        function($scope, $state, $filter, $window,$timeout,$location,$modal, focus, MaestroService, MonedaService, PersonaNaturalService, PersonaJuridicaService, SocioService, TasaInteresService, CuentaBancariaService,RedirectService) {
+    controllers.controller('CrearCuentaPlazoFijoController', [ "$scope", "$state", "$filter", "$window", "$timeout", "$location","$modal", "focus", "MaestroService", "MonedaService", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "TasaInteresService", "CuentaBancariaService","SessionService","RedirectService",
+        function($scope,$state,$filter,$window,$timeout,$location,$modal,focus,MaestroService,MonedaService,PersonaNaturalService,PersonaJuridicaService,SocioService,TasaInteresService,CuentaBancariaService,SessionService,RedirectService) {
 
             $scope.viewState = 'app.socio.crearCuentaBancaria';
 
@@ -205,7 +205,7 @@ define(['../module'], function (controllers) {
                         cuenta.titulares.push(idTitular);
                     }
 
-                    CuentaBancariaService.crearCuentaPlazoFijo(cuenta).then(
+                    SessionService.crearCuentaPlazoFijo(cuenta).then(
                         function(data){
                             $scope.control.inProcess = false;
                             $scope.control.success = true;

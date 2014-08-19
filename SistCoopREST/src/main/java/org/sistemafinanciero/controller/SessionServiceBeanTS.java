@@ -999,8 +999,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
 	@AllowedTo(Permission.ABIERTO)
 	@Override
-	public BigInteger[] crearCuentaBancariaPlazoFijoConDeposito(String codigo, BigInteger idMoneda, TipoPersona tipoPersona, BigInteger idPersona, int cantRetirantes, BigDecimal monto, int periodo, BigDecimal tasaInteres, List<BigInteger> titulares, List<Beneficiario> beneficiarios) throws RollbackFailureException {
-		BigInteger idCuentaBancaria = cuentaBancariaServiceTS.create(TipoCuentaBancaria.PLAZO_FIJO, codigo, idMoneda, tasaInteres, tipoPersona, idPersona, new Integer(periodo), cantRetirantes, titulares, beneficiarios);
+	public BigInteger[] crearCuentaBancariaPlazoFijoConDeposito(TipoCuentaBancaria tipoCuentaBancaria, String codigoAgencia, BigInteger idMoneda, BigDecimal monto, BigDecimal tasaInteres, TipoPersona tipoPersona, BigInteger idPersona, Integer periodo, int cantRetirantes, List<BigInteger> titulares, List<Beneficiario> beneficiarios) throws RollbackFailureException {
+		BigInteger idCuentaBancaria = cuentaBancariaServiceTS.create(TipoCuentaBancaria.PLAZO_FIJO, codigoAgencia, idMoneda, tasaInteres, tipoPersona, idPersona, new Integer(periodo), cantRetirantes, titulares, beneficiarios);
 		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuentaBancaria);
 		String numeroCuenta = cuentaBancaria.getNumeroCuenta();
 		BigInteger idTransaccion = crearTransaccionBancaria(numeroCuenta, monto, "APERTURA CUENTA BANCARIA PLAZO FIJO");
@@ -1208,8 +1208,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		Caja cajaDestino = cajaDAO.find(idCajadestino);
 		Caja cajaOrigen = this.getCaja();
 		Moneda monedaTransaccion = monedaDAO.find(idMoneda);
-		
-		if(cajaOrigen.equals(cajaDestino))
+
+		if (cajaOrigen.equals(cajaDestino))
 			throw new RollbackFailureException("Caja origen y destino deben de ser diferentes");
 
 		BovedaCaja bovedaCajaOrigen = null;

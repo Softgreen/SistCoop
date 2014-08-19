@@ -79,6 +79,10 @@ define(['./module'], function (services) {
                 },
                 confirmarTransaccionBovedaCaja: function(id){
                     return Restangular.all(baseUrl+"/transaccionBovedaCaja/"+id+"/confirmar").post();
+                },
+
+                crearCuentaPlazoFijo: function(transaccion){
+                    return Restangular.all(baseUrl+"/cuentasBancarias").post(transaccion);
                 }
             };
         }]);
