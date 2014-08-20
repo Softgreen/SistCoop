@@ -8,7 +8,6 @@
 	<persistence-unit name="OraclePU" transaction-type="JTA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasources/OracleDS</jta-data-source>
-		<mapping-file>META-INF/orm.xml</mapping-file>
 		<properties>
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
