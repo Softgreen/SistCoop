@@ -60,9 +60,11 @@ define(['../module'], function (controllers) {
             $scope.crearTransaccion = function(){
                 if ($scope.formCrearTransaccionCajaCaja.$valid) {
                     $scope.buttonDisableState = true;
+                    $scope.control.inProcess = true;
                     SessionService.crearTransaccionCajaCaja($scope.view.idCaja, $scope.view.idMoneda, $scope.view.monto, $scope.view.observacion).then(
                         function(data){
-                            alert("okkk");
+                            alert("transaccion creada");
+                            $scope.control.inProcess = false;
                         },
                         function error(error){
                             $scope.control.inProcess = false;

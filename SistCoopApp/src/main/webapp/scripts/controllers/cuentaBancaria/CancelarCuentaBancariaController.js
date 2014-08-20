@@ -5,6 +5,12 @@ define(['../module'], function (controllers) {
 
             $scope.viewState = "app.socio.cancelarCuentaBancaria";
 
+            $scope.control = {
+                success: false,
+                inProcess: false,
+                submitted : false
+            };
+
             $scope.view = {
                 condiciones: undefined
             };
@@ -39,8 +45,10 @@ define(['../module'], function (controllers) {
             $scope.cancelarCuentaBancaria = function(){
                 if($scope.view.condiciones == true){
                     if(!angular.isUndefined($scope.cuentaBancaria)){
+                        $scope.control.inProcess = true;
                         SessionService.cancelarCuentaBancariaConRetiro($scope.cuentaBancaria.id).then(
                             function(data){
+                                $scope.control.inProcess = false;
                                 var savedParameters = {
                                     id: $scope.cuentaBancaria.id
                                 };
@@ -49,6 +57,7 @@ define(['../module'], function (controllers) {
                                 RedirectService.addNext(nextState, savedParameters);
                                 $state.transitionTo('app.transaccion.depositoRetiroVoucher', sendParameters);
                             }, function error(error){
+                                $scope.control.inProcess = false;
                                 $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
                                 $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                             }

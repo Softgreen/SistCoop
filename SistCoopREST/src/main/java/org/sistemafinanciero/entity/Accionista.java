@@ -39,6 +39,7 @@ public class Accionista implements java.io.Serializable {
 	private int porcentajeParticipacion;
 
 	public Accionista() {
+
 	}
 
 	public Accionista(BigInteger idAccionista, PersonaNatural personaNatural, PersonaJuridica personaJuridica, int porcentajeParticipacion) {

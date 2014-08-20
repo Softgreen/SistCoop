@@ -89,9 +89,9 @@ define(['../module'], function (controllers) {
                         total = total + ($scope.myDataFinal[index][i].valor * $scope.myDataFinal[index][i].cantidad);
                     }
                     return $filter('currency')(total," ")
-                }
+                };
                 return $scope.gridOptionsFinal[index];
-            }
+            };
 
             //cerrar caja
             $scope.cerrarCaja = function () {

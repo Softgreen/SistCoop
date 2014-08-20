@@ -21,8 +21,6 @@ require.config({
         'focusOn':"../bower_components/ng-focus-on/ng-focus-on",
         'ngProgress':"../bower_components/ngprogress/build/ngProgress",
         'cfp.hotkeys':"../bower_components/angular-hotkeys/build/hotkeys",
-       /* 'spin':"../bower_components/ladda/js/spin",
-        'ladda':"../bower_components/ladda/js/ladda",*/
         'angular-ladda':"../bower_components/angular-ladda/dist/angular-ladda.min"
     },
     shim: {
@@ -77,17 +75,6 @@ require.config({
         'cfp.hotkeys':{
             deps: ['angular']
         },
-       /* 'spin':{
-            deps: [
-                'angular'
-            ]
-        },
-        'ladda':{
-            deps: [
-                'angular',
-                'spin'
-            ]
-        },*/
         'angular-ladda':{
             deps: [
                 'angular'

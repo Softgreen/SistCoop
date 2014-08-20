@@ -214,6 +214,8 @@ define(['../../module'], function (controllers) {
                         return;
                     }
 
+                    $scope.control.inProcess = true;
+
                     //copiando datos
                     var personaJurica = {};
                     personaJurica.tipoDocumento = {
@@ -245,9 +247,9 @@ define(['../../module'], function (controllers) {
                     $scope.control.inProcess = true;
                     PersonaJuridicaService.crear(personaJurica).then(
                         function(persona){
+                            $scope.redireccion();
                             $scope.control.inProcess = false;
                             $scope.control.success = true;
-                            $scope.redireccion();
                         },
                         function error(error){
                             $scope.control.inProcess = false;
@@ -274,10 +276,6 @@ define(['../../module'], function (controllers) {
 
             $scope.cancelar = function () {
                 $scope.redireccion();
-            };
-
-            $scope.buttonDisableState = function(){
-                return $scope.control.inProcess;
             };
 
             //tabs
