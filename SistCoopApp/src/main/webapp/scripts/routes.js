@@ -134,17 +134,7 @@ define(['./app'], function(app) {
                         '<div class="col-sm-6 col-md-9">'+
                         '<div class="thumbnail">'+
 
-                        '<div ng-show="loadingStateProgress" class="row">' +
-                        '<div class="col-md-1 col-md-offset-5">' +
-                        '<br/>'+'<br/>'+'<br/>'+'<br/>'+'<br/>'+
-                        '<span class="navbar-spinner">'+
-                        '<img src="images/loader.gif">'+
-                        '</span>'+
-                        '<br/>'+'<br/>'+'<br/>'+'<br/>'+'<br/>'+
-                        '</div>'+
-                        '</div>'+
-
-                        '<div ui-view="viewContent" ng-hide="loadingStateProgress" class="caption">'+
+                        '<div ui-view="viewContent" class="caption">'+
                         '</div>'+
 
                         '</div>'+
@@ -719,20 +709,6 @@ define(['./app'], function(app) {
             function ($rootScope,   $state,   $stateParams) {
                 $rootScope.$state = $state;
                 $rootScope.$stateParams = $stateParams;
-                $rootScope.$on("$stateChangeStart", function (event, toState, toStateParams, fromState, fromStateParams) {
-                    var isLoading = toState;
-                    if (isLoading) {
-                        $rootScope.loadingStateProgress = true;
-                    }
-                });
-                $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
-                    //hide loading
-                    $rootScope.loadingStateProgress = false;
-                });
-                $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
-                    //hide loading
-                    alert("error al cargar los datos");
-                });
             }
         ]
     );

@@ -20,7 +20,10 @@ require.config({
         'ui-utils':"../bower_components/angular-ui-utils/ui-utils",
         'focusOn':"../bower_components/ng-focus-on/ng-focus-on",
         'ngProgress':"../bower_components/ngprogress/build/ngProgress",
-        'cfp.hotkeys':"../bower_components/angular-hotkeys/build/hotkeys"
+        'cfp.hotkeys':"../bower_components/angular-hotkeys/build/hotkeys",
+       /* 'spin':"../bower_components/ladda/js/spin",
+        'ladda':"../bower_components/ladda/js/ladda",*/
+        'angular-ladda':"../bower_components/angular-ladda/dist/angular-ladda.min"
     },
     shim: {
         angular: {
@@ -74,6 +77,22 @@ require.config({
         'cfp.hotkeys':{
             deps: ['angular']
         },
+       /* 'spin':{
+            deps: [
+                'angular'
+            ]
+        },
+        'ladda':{
+            deps: [
+                'angular',
+                'spin'
+            ]
+        },*/
+        'angular-ladda':{
+            deps: [
+                'angular'
+            ]
+        },
         'angular-mocks': {
             deps: [
                 'angular'
@@ -106,7 +125,8 @@ require([
     'blockUI',
     'flow',
     'focusOn',
-    'cfp.hotkeys'
+    'cfp.hotkeys',
+    'angular-ladda'
 ], function(angular, app) {
     'use strict';
     /* jshint ignore:start */
@@ -115,9 +135,5 @@ require([
     angular.element().ready(function() {
         angular.resumeBootstrap([app.name]);
     });
-    /*$(function () { // using jQuery because it will run this even if DOM load already happened
-        angular.bootstrap(document, ['cajaApp']);
-        //angular.resumeBootstrap([app.name]);
-    });*/
 });
 

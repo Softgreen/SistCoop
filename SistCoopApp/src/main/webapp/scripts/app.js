@@ -29,7 +29,8 @@ define([
             'blockUI',
             'flow',
             'focusOn',
-            'cfp.hotkeys'
+            'cfp.hotkeys',
+            'angular-ladda'
         ]);
     }
 );

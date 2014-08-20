@@ -112,6 +112,7 @@ define(['../../module'], function (controllers) {
             //logic
             $scope.crearTransaccion = function(){
                 if ($scope.formCrearPersonanatural.$valid) {
+                    $scope.control.inProcess = true;
 
                     var personaTransaccion = PersonaNaturalService.getModel();
                     personaTransaccion.id = undefined;
@@ -134,10 +135,10 @@ define(['../../module'], function (controllers) {
                     personaTransaccion.ubigeo = $scope.view.ubigeo;
                     personaTransaccion.codigoPais = $scope.view.codigoPais;
 
-                    $scope.buttonDisableState = true;
                     PersonaNaturalService.crear(personaTransaccion).then(
                         function(data){
                             $scope.redireccion();
+                            $scope.control.inProcess = false;
                         },
                         function error(error){
                             $scope.control.inProcess = false;
@@ -147,7 +148,6 @@ define(['../../module'], function (controllers) {
                             $window.scrollTo(0,0);
                         }
                     );
-                    $scope.buttonDisableState = false;
                 } else {
                     $scope.control.submitted = true;
                 }
@@ -165,9 +165,6 @@ define(['../../module'], function (controllers) {
 
             $scope.cancel = function () {
                 $scope.redireccion();
-            };
-            $scope.buttonDisableState = function(){
-                return $scope.control.inProcess;
             };
 
             $scope.loadParametros();
