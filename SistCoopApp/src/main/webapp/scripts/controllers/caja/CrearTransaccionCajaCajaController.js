@@ -62,9 +62,11 @@ define(['../module'], function (controllers) {
                     $scope.buttonDisableState = true;
                     $scope.control.inProcess = true;
                     SessionService.crearTransaccionCajaCaja($scope.view.idCaja, $scope.view.idMoneda, $scope.view.monto, $scope.view.observacion).then(
-                        function(data){
-                            alert("transaccion creada");
+                        function(data){                      
                             $scope.control.inProcess = false;
+                            $scope.control.success = true;
+                            //redireccion al voucher
+                            $state.transitionTo('app.caja.voucherTransaccionCajaCaja', { id: data.id});
                         },
                         function error(error){
                             $scope.control.inProcess = false;

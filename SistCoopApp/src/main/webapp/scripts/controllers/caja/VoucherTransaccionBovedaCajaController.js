@@ -48,7 +48,7 @@ define(['../module'], function (controllers) {
                 qz.append("FECHA:" + "\t" + ($filter('date')($scope.transaccionBovedaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionBovedaCaja.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("MONEDA:" + "\t" + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
                 qz.append("ORIGEN:" + "\t" + ($scope.transaccionBovedaCaja.origen) + "\r\n");
-                qz.append("MONTO:" + "\t" + ($scope.transaccionBovedaCaja.monto) + "\r\n");
+                qz.append("MONTO:" + "\t" + ($filter('currency')($scope.transaccionBovedaCaja.monto, $scope.transaccionBovedaCaja.moneda.simbolo)) + "\r\n");
 
                 qz.append("\x1D\x56\x41");														//cortar papel
                 qz.append("\x1B\x40");

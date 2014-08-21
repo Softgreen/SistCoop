@@ -728,7 +728,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		transaccionBancaria.setObservacion("Doc:" + natural.getTipoDocumento().getAbreviatura() + "/" + natural.getNumeroDocumento() + "Trabajador:" + natural.getApellidoPaterno() + " " + natural.getApellidoMaterno() + "," + natural.getNombres());
 		transaccionBancaria.setReferencia(referencia);
 		transaccionBancaria.setSaldoDisponible(saldoDisponible);
-		transaccionBancaria.setTipoTransaccion(Tipotransaccionbancaria.RETIRO);
+		transaccionBancaria.setTipoTransaccion(monto.compareTo(BigDecimal.ZERO) >= 0 ? Tipotransaccionbancaria.DEPOSITO : Tipotransaccionbancaria.RETIRO);
 		transaccionBancaria.setMoneda(cuentaBancaria.getMoneda());
 		transaccionBancariaDAO.create(transaccionBancaria);
 		// actualizar saldo caja
@@ -1003,7 +1003,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		BigInteger idCuentaBancaria = cuentaBancariaServiceTS.create(TipoCuentaBancaria.PLAZO_FIJO, codigoAgencia, idMoneda, tasaInteres, tipoPersona, idPersona, new Integer(periodo), cantRetirantes, titulares, beneficiarios);
 		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuentaBancaria);
 		String numeroCuenta = cuentaBancaria.getNumeroCuenta();
-		BigInteger idTransaccion = crearTransaccionBancaria(numeroCuenta, monto, "APERTURA CUENTA BANCARIA PLAZO FIJO");
+		BigInteger idTransaccion = crearTransaccionBancaria(numeroCuenta, monto, "APERTURA CUENTA PLAZO FIJO");
 		return new BigInteger[] { idCuentaBancaria, idTransaccion };
 	}
 
