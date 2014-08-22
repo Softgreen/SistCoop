@@ -179,6 +179,11 @@
 			<version>5.5.1</version>
 		</dependency>
 		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>4.2.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-core</artifactId>
 			<version>1.0-beta-4</version>

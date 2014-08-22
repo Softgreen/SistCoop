@@ -48,8 +48,11 @@ public interface CuentaBancariaREST {
 	public Response getCertificado(@PathParam("id") BigInteger id);
 
 	@GET
+	@Path("{id}/cartilla")
+	public Response getCartillaInformacion(@PathParam("id") BigInteger id);
+	
+	@GET
 	@Path("/{id}/estadoCuenta")
-	@Produces({ "application/xml", "application/json" })
 	public Response getEstadoCuenta(@PathParam("id") BigInteger id, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
 
 	@POST
