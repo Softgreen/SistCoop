@@ -427,6 +427,11 @@ define(['../module'], function (controllers) {
                 var restApiUrl = ConfiguracionService.getRestApiUrl();
                 $window.open(restApiUrl+'/cuentasBancarias/'+ $scope.id+'/certificado');
             };
+            
+            $scope.imprimirCartilla = function(){
+                var restApiUrl = ConfiguracionService.getRestApiUrl();
+                $window.open(restApiUrl+'/cuentasBancarias/'+ $scope.id+'/cartilla');
+            };
 
         }]);
 });

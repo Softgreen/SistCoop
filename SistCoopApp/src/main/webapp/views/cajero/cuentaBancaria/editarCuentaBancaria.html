@@ -84,9 +84,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-6" style="font-weight: bold;">Cuenta Bancaria</div>
-                        <div class="col-md-6">
+                        <div class="col-md-4" style="font-weight: bold;">Cuenta Bancaria</div>
+                        <div class="col-md-8">
                             <div class="text-right">
+                            	<button type="button" ng-click="imprimirCartilla()" class="btn btn-link" style="padding: 0px 12px;">
+                                    Cartilla
+                                </button>
                                 <button ng-if="cuentaBancaria.tipoCuenta == 'PLAZO_FIJO'" type="button" ng-click="imprimirCertificado()" class="btn btn-link" style="padding: 0px 12px;">
                                     Certificado Plazo Fijo
                                 </button>
