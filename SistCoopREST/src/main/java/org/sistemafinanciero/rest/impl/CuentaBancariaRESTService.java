@@ -50,6 +50,7 @@ import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
 import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.SocioView;
 import org.sistemafinanciero.entity.Titular;
@@ -668,10 +669,16 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		List<BigInteger> titulares = cuentaBancaria.getTitulares();
 		List<Beneficiario> beneficiarios = cuentaBancaria.getBeneficiarios();
 
-		Agencia agencia = sessionServiceNT.getAgenciaOfSession();
-		PersonaNatural persona = personaNaturalServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
+		Agencia agencia = sessionServiceNT.getAgenciaOfSession();		
 		try {
-			BigInteger idCuenta = cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
+			BigInteger idCuenta = null;
+			if(tipoPersona.equals(TipoPersona.NATURAL)){
+				PersonaNatural persona = personaNaturalServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
+				idCuenta = cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
+			} else if(tipoPersona.equals(TipoPersona.JURIDICA)){
+				PersonaJuridica persona = personaJuridicaServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
+				idCuenta = cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaJuridica(), periodo, cantRetirantes, titulares, beneficiarios);
+			}			
 			response = Response.status(Response.Status.CREATED).build();
 			URI resource = new URI(baseUrl + "/" + idCuenta.toString());
 			response = Response.created(resource).entity(Jsend.getSuccessJSend(idCuenta)).build();
