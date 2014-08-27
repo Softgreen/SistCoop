@@ -359,4 +359,17 @@ public class SessionRESTService implements SessionREST {
 		return response;
 	}
 
+	@Override
+	public Response extornar(BigInteger id) {
+		Response response = null;
+		try {
+			sessionServiceTS.extornarTransaccion(id);
+			response = Response.status(Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return response;
+	}
+
 }

@@ -94,6 +94,12 @@ public interface SessionREST {
 	public Response crearTransaccionBancaria(TransaccionBancariaDTO transaccion);
 
 	@POST
+	@Path("/transaccion/{id}/extornar")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response extornar(@PathParam("id") BigInteger id);
+	
+	@POST
 	@Path("/transferenciaBancaria")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })

@@ -99,7 +99,7 @@ define(['./module'], function (services) {
                     return Restangular.one("caja/session/cuentaBancaria/"+idCuentaBancaria).remove();
                 },
                 extornarTransaccion: function(idTransaccion){
-                    return Restangular.all("caja/session/transaccionBancaria/"+idTransaccion+"/extornar").post();
+                    return Restangular.all("session/transaccionBancaria/"+idTransaccion+"/extornar").post();
                 }
             };
         }]);
