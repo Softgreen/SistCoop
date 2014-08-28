@@ -170,7 +170,7 @@ define(['../../module'], function (controllers) {
             $scope.loadTasaCambio = function(){
                 if($scope.formCrearCompraVenta.monedaRecibida.$valid && $scope.formCrearCompraVenta.monedaEntregada.$valid){
                     TasaInteresService.getTasaCambio($scope.view.idMonedaRecibida, $scope.view.idMonedaEntregada).then(function(data){
-                        $scope.view.tasaCambio = data;
+                        $scope.view.tasaCambio = data.valor;
                     });
                 } else {
                     $scope.view.tasaCambio = 0;
