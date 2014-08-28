@@ -39,6 +39,7 @@ import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
@@ -54,6 +55,7 @@ import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
+import org.sistemafinanciero.service.nt.PersonaJuridicaServiceNT;
 import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
 import org.sistemafinanciero.service.nt.SessionServiceNT;
 import org.sistemafinanciero.service.ts.SessionServiceTS;
@@ -69,6 +71,9 @@ public class SessionRESTService implements SessionREST {
 
 	@EJB
 	private PersonaNaturalServiceNT personaNaturalServiceNT;
+	
+	@EJB
+	private PersonaJuridicaServiceNT personaJuridicaServiceNT;
 
 	@Override
 	public Response getCajaOfSession() {
@@ -168,9 +173,16 @@ public class SessionRESTService implements SessionREST {
 		List<Beneficiario> beneficiarios = cuentaBancaria.getBeneficiarios();
 
 		Agencia agencia = sessionServiceNT.getAgenciaOfSession();
-		PersonaNatural persona = personaNaturalServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
+		
 		try {
-			BigInteger[] idCuentaAndTransaccion = sessionServiceTS.crearCuentaBancariaPlazoFijoConDeposito(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, monto, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
+			BigInteger[] idCuentaAndTransaccion = null;
+			if(tipoPersona.equals(TipoPersona.NATURAL)){
+				PersonaNatural persona = personaNaturalServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
+				idCuentaAndTransaccion = sessionServiceTS.crearCuentaBancariaPlazoFijoConDeposito(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, monto, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
+			} else if(tipoPersona.equals(TipoPersona.JURIDICA)){
+				PersonaJuridica persona = personaJuridicaServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
+				idCuentaAndTransaccion = sessionServiceTS.crearCuentaBancariaPlazoFijoConDeposito(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, monto, tasaInteres, tipoPersona, persona.getIdPersonaJuridica(), periodo, cantRetirantes, titulares, beneficiarios);
+			}												
 			JsonObject model = Json.createObjectBuilder().add("message", "Cuenta creada").add("id", idCuentaAndTransaccion[0]).add("idTransaccion", idCuentaAndTransaccion[1]).build();
 			return Response.status(Response.Status.OK).entity(model).build();
 		} catch (RollbackFailureException e) {
