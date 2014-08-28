@@ -378,8 +378,8 @@ public class SessionRESTService implements SessionREST {
 			sessionServiceTS.extornarTransaccion(id);
 			response = Response.status(Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}

@@ -956,7 +956,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		}
 
 		if (filterText != null) {
-			QueryParameter queryParameter = QueryParameter.with("filterText", "%" + filterText + "%");
+			QueryParameter queryParameter = QueryParameter.with("filterText", "%" + filterText + "%").and("idHistorialCaja", historial.getIdHistorialCaja());
 			List<HistorialTransaccionCaja> list = historialTransaccionCajaDAO.findByNamedQuery(HistorialTransaccionCaja.findByTransaccion, queryParameter.parameters());
 			return list;
 		} else {

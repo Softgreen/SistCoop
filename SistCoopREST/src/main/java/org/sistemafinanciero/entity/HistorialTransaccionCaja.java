@@ -18,9 +18,8 @@ import java.util.Date;
 @Table(name = "HISTORIAL_TRANSACCION_CAJA")
 @XmlRootElement(name = "moneda")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = HistorialTransaccionCaja.findByHistorialCaja, query = "SELECT h FROM HistorialTransaccionCaja h WHERE h.idHistorialCaja = :idHistorialCaja ORDER BY h.numeroOperacion"),
-				@NamedQuery(name = HistorialTransaccionCaja.findByTransaccion, query = "select h from HistorialTransaccionCaja h where TRIM(h.idTransaccion) like :filterText or TRIM(h.numeroOperacion) like :filterText order by h.idTransaccion")
-})
+@NamedQueries({ @NamedQuery(name = HistorialTransaccionCaja.findByHistorialCaja, query = "SELECT h FROM HistorialTransaccionCaja h WHERE h.idHistorialCaja = :idHistorialCaja ORDER BY h.numeroOperacion"), 
+				@NamedQuery(name = HistorialTransaccionCaja.findByTransaccion, query = "SELECT h from HistorialTransaccionCaja h where h.idHistorialCaja = :idHistorialCaja AND (TRIM(h.idTransaccion) like :filterText or TRIM(h.numeroOperacion) like :filterText) order by h.idTransaccion") })
 public class HistorialTransaccionCaja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +28,7 @@ public class HistorialTransaccionCaja implements Serializable {
 	public final static String findByTransaccion = "HistorialTransaccionCaja.findByTransaccion";
 
 	private BigInteger idTransaccion;
-	
+
 	private BigInteger idHistorialCaja;
 
 	private BigInteger numeroOperacion;
@@ -43,14 +42,14 @@ public class HistorialTransaccionCaja implements Serializable {
 	private String monto;
 
 	private String tipoTransaccion;
-	
+
 	private String tipoCuenta;
 
 	private int estado;
 
 	public HistorialTransaccionCaja() {
 	}
-	
+
 	@XmlElement
 	@Id
 	@Column(name = "ID_TRANSACCION", unique = true, nullable = false)
@@ -123,7 +122,7 @@ public class HistorialTransaccionCaja implements Serializable {
 	public void setTipoTransaccion(String tipoTransaccion) {
 		this.tipoTransaccion = tipoTransaccion;
 	}
-	
+
 	@XmlElement
 	@Column(name = "TIPO_CUENTA", columnDefinition = "nvarchar2")
 	public String getTipoCuenta() {

@@ -83,6 +83,10 @@ define(['./module'], function (services) {
 
                 crearCuentaPlazoFijo: function(transaccion){
                     return Restangular.all(baseUrl+"/cuentasBancarias").post(transaccion);
+                },
+
+                extornarTransaccion: function(idTransaccion){
+                    return Restangular.all(baseUrl+"/transaccion/"+idTransaccion+"/extornar").post();
                 }
             };
         }]);

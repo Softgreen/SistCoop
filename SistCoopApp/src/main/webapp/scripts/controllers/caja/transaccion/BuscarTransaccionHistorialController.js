@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    controllers.controller("BuscarTransaccionHistorialController", ["$scope", "$state", "$modal","ngProgress","focus", "CajaService",
-        function($scope, $state,$modal, ngProgress,focus, CajaService) {
+    controllers.controller("BuscarTransaccionHistorialController", ["$scope", "$state", "$modal","ngProgress","focus", "CajaService","SessionService",
+        function($scope, $state,$modal, ngProgress,focus, CajaService,SessionService) {
 
             $scope.focusElements = {
                 filterText: 'focusFilterText'
@@ -141,7 +141,7 @@ define(['../../module'], function (controllers) {
                     controller: "ConfirmPopUpController"
                 });
                 modalInstance.result.then(function (result) {
-                	CajaSessionService.extornarTransaccion(transaccion.idTransaccion).then(
+                    SessionService.extornarTransaccion(transaccion.idTransaccion).then(
                 			function(data){
                 				$scope.getPagedDataInitial();
                 				$scope.alerts = [{ type: "success", msg: "Extornación Éxitosa..."}];
