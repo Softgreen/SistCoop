@@ -351,18 +351,18 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			titulo.setFont(fontTitulo);
 			parrafoPrincipal.add(titulo);
 
-			Chunk subTitulo = new Chunk("APERTURA DE CUENTA DE AHORRO\n\n", fontBold);
+			Chunk subTitulo = new Chunk("APERTURA DE CUENTA DE " + cuentaBancaria.getTipoCuenta().toString().toUpperCase() + "\n\n", fontBold);
 			Font fontSubTitulo = FontFactory.getFont("Times-Roman", 12f);
 			subTitulo.setFont(fontSubTitulo);
 			subTitulo.setUnderline(0.2f, -2f);
 			parrafoPrincipal.add(subTitulo);
 
 			document.add(parrafoPrincipal);
-		
-			Chunk mensaje01 = new Chunk("La apertura de una cuenta de ahorros generará intereses y demás beneficios complementarios de acuerdo al saldo promedio mensual o saldo diario establecido en la Cartilla de Información. Para estos efectos, se entiende por saldo promedio mensual, la suma del saldo diario dividida entre el número de días del mes. La cuenta de ahorro podrá generar comisiones y gastos de acuerdo a las condiciones aceptadas en la Cartilla de Información.\n\n");
-			mensaje01.setFont(font);			
-			
-			Paragraph parrafo1 = new Paragraph();		
+
+			Chunk mensaje01 = new Chunk("La apertura de una cuenta de " + cuentaBancaria.getTipoCuenta().toString().toLowerCase() + " generará intereses y demás beneficios complementarios de acuerdo al saldo promedio mensual o saldo diario establecido en la Cartilla de Información. Para estos efectos, se entiende por saldo promedio mensual, la suma del saldo diario dividida entre el número de días del mes. La cuenta de ahorro podrá generar comisiones y gastos de acuerdo a las condiciones aceptadas en la Cartilla de Información.\n\n");
+			mensaje01.setFont(font);
+
+			Paragraph parrafo1 = new Paragraph();
 			parrafo1.setLeading(11f);
 			parrafo1.add(mensaje01);
 			parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
@@ -376,7 +376,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			cabecera1.setColspan(4);
 			cabecera1.setBackgroundColor(baseColor);
 
-			PdfPCell cellApellidosNombres = new PdfPCell(new Paragraph("Apellidos y nombres:", font));
+			PdfPCell cellApellidosNombres = new PdfPCell(new Paragraph(cuentaBancaria.getTipoPersona().equals(TipoPersona.NATURAL) ? "Apellidos y nombres:" : "Razón social:", font));
 			cellApellidosNombres.setBorder(Rectangle.NO_BORDER);
 			PdfPCell cellApellidosNombresValue = new PdfPCell(new Paragraph(cuentaBancaria.getSocio(), font));
 			cellApellidosNombresValue.setColspan(3);
@@ -386,11 +386,11 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			table1.addCell(cellApellidosNombres);
 			table1.addCell(cellApellidosNombresValue);
 
-			PdfPCell cellDNI = new PdfPCell(new Paragraph("DNI:", font));
+			PdfPCell cellDNI = new PdfPCell(new Paragraph(socio.getTipoDocumento(), font));
 			cellDNI.setBorder(Rectangle.NO_BORDER);
-			PdfPCell cellDNIValue = new PdfPCell(new Paragraph(cuentaBancaria.getNumeroDocumento(), font));
+			PdfPCell cellDNIValue = new PdfPCell(new Paragraph(socio.getNumeroDocumento(), font));
 			cellDNIValue.setBorder(Rectangle.NO_BORDER);
-			PdfPCell cellFechaNaciemiento = new PdfPCell(new Paragraph("Fecha de nacimiento:", font));
+			PdfPCell cellFechaNaciemiento = new PdfPCell(new Paragraph(cuentaBancaria.getTipoPersona().equals(TipoPersona.NATURAL) ? "Fecha de nacimiento:" : "Fecha de constitución", font));
 			cellFechaNaciemiento.setBorder(Rectangle.NO_BORDER);
 			PdfPCell cellFechaNacimientoValue = new PdfPCell(new Paragraph(DATE_FORMAT.format(socio.getFechaNacimiento()), font));
 			cellFechaNacimientoValue.setBorder(Rectangle.NO_BORDER);
@@ -538,32 +538,32 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			declaraciones.setBorder(Rectangle.NO_BORDER);
 			declaraciones.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
 			table4.addCell(declaraciones);
-			
+
 			document.add(table4);
 
-			//firmas
+			// firmas
 			Chunk firmaP01 = new Chunk("..........................................");
 			Chunk firmaP02 = new Chunk("..........................................\n");
 			Chunk firma01 = new Chunk("Cooperativa");
 			Chunk firma02 = new Chunk("Cliente    ");
 
-			Paragraph firmas = new Paragraph("\n\n\n\n\n\n");	
+			Paragraph firmas = new Paragraph("\n\n\n\n\n\n");
 			firmas.setAlignment(Element.ALIGN_CENTER);
-			
-			firmas.add(firmaP01);			
+
+			firmas.add(firmaP01);
 			firmas.add(Chunk.SPACETABBING);
 			firmas.add(Chunk.SPACETABBING);
-			firmas.add(firmaP02);			
-				
+			firmas.add(firmaP02);
+
 			firmas.add(firma01);
 			firmas.add(Chunk.SPACETABBING);
 			firmas.add(Chunk.SPACETABBING);
 			firmas.add(Chunk.SPACETABBING);
 			firmas.add(Chunk.SPACETABBING);
 			firmas.add(firma02);
-			
+
 			document.add(firmas);
-			
+
 			document.close();
 			file.close();
 		} catch (FileNotFoundException e) {
@@ -669,16 +669,16 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		List<BigInteger> titulares = cuentaBancaria.getTitulares();
 		List<Beneficiario> beneficiarios = cuentaBancaria.getBeneficiarios();
 
-		Agencia agencia = sessionServiceNT.getAgenciaOfSession();		
+		Agencia agencia = sessionServiceNT.getAgenciaOfSession();
 		try {
 			BigInteger idCuenta = null;
-			if(tipoPersona.equals(TipoPersona.NATURAL)){
+			if (tipoPersona.equals(TipoPersona.NATURAL)) {
 				PersonaNatural persona = personaNaturalServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
 				idCuenta = cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaNatural(), periodo, cantRetirantes, titulares, beneficiarios);
-			} else if(tipoPersona.equals(TipoPersona.JURIDICA)){
+			} else if (tipoPersona.equals(TipoPersona.JURIDICA)) {
 				PersonaJuridica persona = personaJuridicaServiceNT.find(cuentaBancaria.getIdTipoDocumento(), cuentaBancaria.getNumeroDocumento());
 				idCuenta = cuentaBancariaServiceTS.create(tipoCuentaBancaria, agencia.getCodigo(), idMoneda, tasaInteres, tipoPersona, persona.getIdPersonaJuridica(), periodo, cantRetirantes, titulares, beneficiarios);
-			}			
+			}
 			response = Response.status(Response.Status.CREATED).build();
 			URI resource = new URI(baseUrl + "/" + idCuenta.toString());
 			response = Response.created(resource).entity(Jsend.getSuccessJSend(idCuenta)).build();

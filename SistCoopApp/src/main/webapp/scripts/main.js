@@ -15,7 +15,7 @@ require.config({
         'ui.bootstrap': "../bower_components/angular-bootstrap/ui-bootstrap-tpls",
         'ngGrid': "../bower_components/ng-grid/build/ng-grid",
         'ng-grid-layout': "../bower_components/ng-grid/plugins/ng-grid-layout",
-        'blockUI': "../bower_components/angular-block-ui/angular-block-ui",
+        'blockUI': "../bower_components/angular-block-ui/dist/angular-block-ui",
         'flow': "../bower_components/ng-flow/dist/ng-flow-standalone",
         'ui-utils':"../bower_components/angular-ui-utils/ui-utils",
         'focusOn':"../bower_components/ng-focus-on/ng-focus-on",
