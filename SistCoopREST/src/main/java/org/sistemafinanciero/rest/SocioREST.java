@@ -79,5 +79,9 @@ public interface SocioREST {
 	@Path("/{id}/desactivar")
 	@Produces({ "application/xml", "application/json" })
 	public Response desactivarSocio(@PathParam("id") BigInteger id);
+	
+	@GET
+	@Path("{id}/cartilla")
+	public Response getCartillaInformacion(@PathParam("id") BigInteger id);	
 
 }

@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('PanelSocioController', ['$scope', '$state','$location','$window','$modal','SocioService','PersonaNaturalService','PersonaJuridicaService','MaestroService','RedirectService',
-        function($scope,$state,$location,$window,$modal,SocioService,PersonaNaturalService,PersonaJuridicaService,MaestroService,RedirectService) {
+    controllers.controller('PanelSocioController', ['$scope', '$state','$location','$window','$modal','SocioService','PersonaNaturalService','PersonaJuridicaService','MaestroService','RedirectService','ConfiguracionService',
+        function($scope,$state,$location,$window,$modal,SocioService,PersonaNaturalService,PersonaJuridicaService,MaestroService,RedirectService,ConfiguracionService) {
 
             $scope.viewState = "app.socio.panelSocio";
 
@@ -211,6 +211,11 @@ define(['../module'], function (controllers) {
                         $state.transitionTo("app.socio.contratoInactivadoSocio", { id: $scope.socio.id });
                     }
                 }
+            };
+            
+            $scope.imprimirCartilla = function(){
+                var restApiUrl = ConfiguracionService.getRestApiUrl();
+                $window.open(restApiUrl+'/socios/'+ $scope.id+'/cartilla');
             };
 
         }]);
