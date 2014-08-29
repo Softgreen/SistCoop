@@ -48,7 +48,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : formCrearCompraVenta.nombreCliente.$invalid && (control.submitted || formCrearCompraVenta.nombreCliente.$dirty)}">
                             <label>Apellidos y Nombres / Raz&oacute;n Social</label>
                             <label style="color: brown;">(*)</label>
-                            <input type="text" name="nombreCliente" ng-model="view.nombreCliente" class="form-control" ng-minlength="1" ng-maxlength="40" placeholder="Apellidos y Nombre / Raz&oacute;n Social" required autofocus/>
+                            <input type="text" name="nombreCliente" ng-model="view.nombreCliente" class="form-control" ng-minlength="1" ng-maxlength="40" placeholder="Apellidos y Nombre / Raz&oacute;n Social" required autofocus capitalize/>
                             <div ng-show="formCrearCompraVenta.nombreCliente.$invalid && (control.submitted || formCrearCompraVenta.nombreCliente.$dirty)">
                                 <p class="help-block" ng-show="formCrearCompraVenta.nombreCliente.$error.required">
                                     Ingrese Numero Documento Valido.

@@ -885,13 +885,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	}
 
 	private void extornarCuentaBancariaDeposito(TransaccionBancaria transaccionBancaria) throws RollbackFailureException {
-		// condicionar si la caja tiene saldo para devolver
 		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(transaccionBancaria.getCuentaBancaria().getIdCuentaBancaria());
-		HistorialCaja historialCajaActivo = new HistorialCaja();
-		for (HistorialCaja historialCaja : getCaja().getHistorialCajas()) {
-			historialCajaActivo = historialCaja;
-		}
-
+		HistorialCaja historialCajaActivo = this.getHistorialActivo();
+		
 		if (transaccionBancaria.getEstado() == true && cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.ACTIVO) && transaccionBancaria.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {
 			if (cuentaBancaria.getSaldo().compareTo(transaccionBancaria.getMonto()) != -1) {
 				Caja caja = this.getCaja();
@@ -919,10 +915,12 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
 	private void extornarCuentaBancariaRetiro(TransaccionBancaria transaccionBancaria) throws RollbackFailureException {
 		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(transaccionBancaria.getCuentaBancaria().getIdCuentaBancaria());
-		HistorialCaja historialCajaActivo = new HistorialCaja();
-		for (HistorialCaja historialCaja : getCaja().getHistorialCajas()) {
-			historialCajaActivo = historialCaja;
-		}
+		HistorialCaja historialCajaActivo = this.getHistorialActivo();
+		
+		System.out.println("transaccion estado " + transaccionBancaria.getEstado());
+		System.out.println("cuenta bancaria estado " + cuentaBancaria.getEstado());
+		System.out.println("idhistorial 1 " + transaccionBancaria.getHistorialCaja().getIdHistorialCaja());
+		System.out.println("idhistorial 2 " + historialCajaActivo.getIdHistorialCaja());
 
 		if (transaccionBancaria.getEstado() == true && cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.ACTIVO) && transaccionBancaria.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {
 			cuentaBancaria.setSaldo(cuentaBancaria.getSaldo().subtract(transaccionBancaria.getMonto()));
@@ -935,10 +933,10 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	private void extornarTransaccionCuentaAporte(BigInteger idTransaccion) throws RollbackFailureException {
 		TransaccionCuentaAporte transaccionCuentaAporte = transaccionCuentaAporteDAO.find(idTransaccion);
 		CuentaAporte cuentaAporte = cuentaAporteDAO.find(transaccionCuentaAporte.getCuentaAporte().getIdCuentaaporte());
-		HistorialCaja historialCajaActivo = new HistorialCaja();
-		for (HistorialCaja historialCaja : getCaja().getHistorialCajas()) {
-			historialCajaActivo = historialCaja;
-		}
+		HistorialCaja historialCajaActivo = this.getHistorialActivo();
+		
+		System.out.println("id 1 " + transaccionCuentaAporte.getHistorialCaja().getIdHistorialCaja());
+		System.out.println("id 2 " + historialCajaActivo.getIdHistorialCaja());
 
 		if (transaccionCuentaAporte.getEstado() == true && cuentaAporte.getEstadoCuenta().equals(EstadoCuentaAporte.ACTIVO) && transaccionCuentaAporte.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {
 			Caja caja = this.getCaja();
@@ -964,10 +962,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
 	private void extornarTransaccionCompraVenta(BigInteger idTransaccion) throws RollbackFailureException {
 		TransaccionCompraVenta transaccionCompraVenta = transaccionCompraVentaDAO.find(idTransaccion);
-		HistorialCaja historialCajaActivo = new HistorialCaja();
-		for (HistorialCaja historialCaja : getCaja().getHistorialCajas()) {
-			historialCajaActivo = historialCaja;
-		}
+		HistorialCaja historialCajaActivo = this.getHistorialActivo();
 
 		if (transaccionCompraVenta.getEstado() == true && transaccionCompraVenta.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {
 			Caja caja = this.getCaja();

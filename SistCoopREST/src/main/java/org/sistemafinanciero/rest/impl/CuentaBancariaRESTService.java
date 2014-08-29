@@ -232,7 +232,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			paragraph4.setFont(font);
 			Chunk socio1 = new Chunk("SOCIO:");
 			Chunk socio2 = new Chunk(cuentaBancaria.getSocio());
-			Chunk codigoSocio1 = new Chunk("CODIGO:");
+			Chunk codigoSocio1 = new Chunk("CODIGO SOCIO:");
 			Chunk codigoSocio2 = new Chunk(cuentaBancaria.getIdSocio().toString());
 			paragraph4.add(socio1);
 			paragraph4.add(Chunk.SPACETABBING);
@@ -250,9 +250,9 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 			Paragraph paragraph6 = new Paragraph();
 			paragraph6.setFont(font);
-			Chunk fechaApertura1 = new Chunk("F. APERTURA:");
+			Chunk fechaApertura1 = new Chunk("FEC. APERTURA:");
 			Chunk fechaApertura2 = new Chunk(fechaAperturaString);
-			Chunk fechaVencimiento1 = new Chunk("F. VENCIMIENTO:");
+			Chunk fechaVencimiento1 = new Chunk("FEC. VENCIMIENTO:");
 			Chunk fechaVencimiento2 = new Chunk(fechaVencimientoString);
 			paragraph6.add(fechaApertura1);
 			paragraph6.add(Chunk.SPACETABBING);
@@ -274,7 +274,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			Paragraph paragraph5 = new Paragraph();
 			paragraph5.setFont(font);
 			Chunk tasa1 = new Chunk("TASA INTERES EFECTIVA:");
-			Chunk tasa2 = new Chunk(cuentaBancaria.getTasaInteres().multiply(new BigDecimal(100)).toString());
+			Chunk tasa2 = new Chunk(cuentaBancaria.getTasaInteres().multiply(new BigDecimal(100)).toString() + "%");
 			Chunk plazo1 = new Chunk("PLAZO:");
 			Chunk plazo2 = new Chunk(days.getDays() + " DIAS");
 			paragraph5.add(tasa1);
