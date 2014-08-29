@@ -98,7 +98,7 @@ define(['../module'], function (controllers) {
                     $scope.view.titularesFinal.push($scope.objetosCargados.socioNatural);
                 }
             });
-            $scope.$watch('socioJuridico', function() {
+            $scope.$watch('objetosCargados.socioJuridico', function() {
                 $scope.view.titularesFinal = angular.copy($scope.view.titulares);
                 if(!angular.isUndefined($scope.objetosCargados.socioJuridico)){
                     $scope.view.titularesFinal.push($scope.objetosCargados.socioJuridico.representanteLegal);
