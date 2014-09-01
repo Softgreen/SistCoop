@@ -259,8 +259,9 @@ public class SocioRESTService implements SocioREST {
 
 		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 		BaseColor baseColor = BaseColor.LIGHT_GRAY;
-		Font font = FontFactory.getFont("Times-Roman", 10f);
-		Font fontBold = FontFactory.getFont("Times-Roman", 10f, Font.BOLD);
+		Font font = FontFactory.getFont("Arial", 10f);
+		Font fontBold = FontFactory.getFont("Arial", 10f, Font.BOLD);
+		
 		try {
 			file = new FileOutputStream(new File(cartillaURL + "\\" + id + ".pdf"));
 			Document document = new Document(PageSize.A4);// *4
@@ -273,30 +274,31 @@ public class SocioRESTService implements SocioREST {
 			document.add(img);
 
 			Paragraph parrafoPrincipal = new Paragraph();
+			
+			parrafoPrincipal.setSpacingAfter(40);
+			parrafoPrincipal.setSpacingBefore(50);
 			parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
-
-			Chunk titulo = new Chunk("\n\n\n\nCARTILLA DE INFORMACION\n", fontBold);
-			Font fontTitulo = FontFactory.getFont("Times-Roman", 14f);
-			titulo.setUnderline(0.2f, -2f);
-			titulo.setFont(fontTitulo);
+			parrafoPrincipal.setIndentationLeft(100);
+			parrafoPrincipal.setIndentationRight(50);
+			
+			Chunk titulo = new Chunk("CARTILLA DE INFORMACIÓN\n");
+			Font fuenteTitulo = new Font();
+			fuenteTitulo.setSize(18);
+			fuenteTitulo.setFamily("Arial");
+			fuenteTitulo.setStyle(Font.BOLD | Font.UNDERLINE);
+			
+			titulo.setFont(fuenteTitulo);
 			parrafoPrincipal.add(titulo);
 
-			Chunk subTitulo = new Chunk("APERTURA DE CUENTA DE APORTES\n\n", fontBold);
-			Font fontSubTitulo = FontFactory.getFont("Times-Roman", 12f);
-			subTitulo.setFont(fontSubTitulo);
-			subTitulo.setUnderline(0.2f, -2f);
+			Chunk subTitulo = new Chunk("APERTURA CUENTA DE APORTES\n");
+			Font fuenteSubtitulo = new Font();
+			fuenteSubtitulo.setSize(13);
+			fuenteSubtitulo.setFamily("Arial");
+			fuenteSubtitulo.setStyle(Font.BOLD | Font.UNDERLINE);
+			
+			subTitulo.setFont(fuenteSubtitulo);
 			parrafoPrincipal.add(subTitulo);
-
 			document.add(parrafoPrincipal);
-
-			Chunk mensaje01 = new Chunk("La apertura de una cuenta de aporte generará intereses y demás beneficios complementarios de acuerdo al saldo promedio mensual o saldo diario establecido en la Cartilla de Información. Para estos efectos, se entiende por saldo promedio mensual, la suma del saldo diario dividida entre el número de días del mes. La cuenta de ahorro podrá generar comisiones y gastos de acuerdo a las condiciones aceptadas en la Cartilla de Información.\n\n");
-			mensaje01.setFont(font);
-
-			Paragraph parrafo1 = new Paragraph();
-			parrafo1.setLeading(11f);
-			parrafo1.add(mensaje01);
-			parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
-			document.add(parrafo1);
 
 			/******************* DATOS BASICOS DEL SOCIO **********************/
 			PdfPTable table1 = new PdfPTable(4);
@@ -306,23 +308,42 @@ public class SocioRESTService implements SocioREST {
 			cabecera1.setColspan(4);
 			cabecera1.setBackgroundColor(baseColor);
 
-			PdfPCell cellApellidosNombres = new PdfPCell(new Paragraph(socio.getTipoPersona().equals(TipoPersona.NATURAL) ? "Apellidos y nombres:" : "Razón social:", font));
+			PdfPCell cellCodigoSocio = new PdfPCell(new Paragraph("Codigo Socio:", font));
+			cellCodigoSocio.setColspan(1);
+			cellCodigoSocio.setBorder(Rectangle.NO_BORDER);
+			
+			PdfPCell cellCodigoSocioValue = new PdfPCell(new Paragraph(socio.getIdsocio().toString(), font));
+			cellCodigoSocioValue.setColspan(3);
+			cellCodigoSocioValue.setBorder(Rectangle.NO_BORDER);
+			
+			PdfPCell cellApellidosNombres = new PdfPCell(new Paragraph(socio.getTipoPersona().equals(TipoPersona.NATURAL) ? "Apellidos y Nombres:" : "Razón Social:", font));
+			cellApellidosNombres.setColspan(1);
 			cellApellidosNombres.setBorder(Rectangle.NO_BORDER);
+			
 			PdfPCell cellApellidosNombresValue = new PdfPCell(new Paragraph(socio.getSocio(), font));
 			cellApellidosNombresValue.setColspan(3);
 			cellApellidosNombresValue.setBorder(Rectangle.NO_BORDER);
 
 			table1.addCell(cabecera1);
+			table1.addCell(cellCodigoSocio);
+			table1.addCell(cellCodigoSocioValue);
 			table1.addCell(cellApellidosNombres);
 			table1.addCell(cellApellidosNombresValue);
 
-			PdfPCell cellDNI = new PdfPCell(new Paragraph(socio.getTipoDocumento(), font));
+			PdfPCell cellDNI = new PdfPCell(new Paragraph(socio.getTipoDocumento()+":", font));
+			cellDNI.setColspan(1);
 			cellDNI.setBorder(Rectangle.NO_BORDER);
+			
 			PdfPCell cellDNIValue = new PdfPCell(new Paragraph(socio.getNumeroDocumento(), font));
+			cellDNIValue.setColspan(1);
 			cellDNIValue.setBorder(Rectangle.NO_BORDER);
-			PdfPCell cellFechaNaciemiento = new PdfPCell(new Paragraph(socio.getTipoPersona().equals(TipoPersona.NATURAL) ? "Fecha de nacimiento:" : "Fecha de constitución", font));
+			
+			PdfPCell cellFechaNaciemiento = new PdfPCell(new Paragraph(socio.getTipoPersona().equals(TipoPersona.NATURAL) ? "Fecha de Nacimiento:" : "Fecha de Constitución", font));
+			cellFechaNaciemiento.setColspan(1);
 			cellFechaNaciemiento.setBorder(Rectangle.NO_BORDER);
+			
 			PdfPCell cellFechaNacimientoValue = new PdfPCell(new Paragraph(DATE_FORMAT.format(socio.getFechaNacimiento()), font));
+			cellFechaNacimientoValue.setColspan(1);
 			cellFechaNacimientoValue.setBorder(Rectangle.NO_BORDER);
 
 			table1.addCell(cellDNI);
@@ -415,8 +436,8 @@ public class SocioRESTService implements SocioREST {
 
 			PdfPCell cellProductoCab = new PdfPCell(new Paragraph("Producto", font));
 			PdfPCell cellMonedaCab = new PdfPCell(new Paragraph("Moneda", font));
-			PdfPCell cellNumeroCuentaCab = new PdfPCell(new Paragraph("Numero cuenta", font));
-			PdfPCell cellFechaAperturaCab = new PdfPCell(new Paragraph("Fecha apertura", font));
+			PdfPCell cellNumeroCuentaCab = new PdfPCell(new Paragraph("Numero Cuenta", font));
+			PdfPCell cellFechaAperturaCab = new PdfPCell(new Paragraph("Fecha Apertura", font));
 			cellProductoCab.setBorder(Rectangle.NO_BORDER);
 			cellMonedaCab.setBorder(Rectangle.NO_BORDER);
 			cellNumeroCuentaCab.setBorder(Rectangle.NO_BORDER);
@@ -451,23 +472,17 @@ public class SocioRESTService implements SocioREST {
 			table4.addCell(cabecera4);
 
 			Paragraph parrafoDeclaraciones = new Paragraph();
+			Chunk parrafo1 = new Chunk("Los aportes individuales serán pagados por los Asociados en forma periódica de conformidad con lo establecido en el Estatuto y el Reglamento de Aportes Sociales de la Cooperativa. El aporte social ordinario de cada Asociado será mínimo de S/. 10.00 Nuevos Soles si es mayor de edad y S/. 5.00 Nuevos Soles si es menor de edad.\n\n", font);
+			parrafo1.setLineHeight(13);
+			parrafoDeclaraciones.add(parrafo1);
 
-			Chunk subTitulo1 = new Chunk("INFORMACIÓN ADICIONAL\n", font);
-			parrafoDeclaraciones.add(subTitulo1);
-
-			// añadiendo las viñetas
-			Paragraph enumeracion01 = new Paragraph("- La Tasa de Rendimiento Efectiva Anual (TREA) de una cuenta de ahorros es igual a la Tasa Efectiva Anual (TEA), descontándole las comisiones o gastos aplicables a la cuenta. Por ejemplo, para un depósito de personas naturales de S/. 1,000.00 a 360 días, considerando que durante dicho plazo no existen transacciones adicionales a la apertura de la cuenta, la TEA de 0.25% es igual a la TREA, pues no hay descuento de comisiones ni gastos.\n", font);
-			Paragraph enumeracion02 = new Paragraph("- El (LOS) CLIENTE(S) tendrán a su disposición en nuestras ventanillas de atención, los estados de cuenta mensuales de las cuentas de ahorro.\n", font);
-			Paragraph enumeracion03 = new Paragraph("- La cancelación de las cuentas de ahorro se efectúa a solicitud del (los) titular(es) de la cuenta, sólo en la Agencia de origen y en casos excepcionales al fallecimiento del titular previa presentación de la documentación legal correspondiente (sucesión intestada o declaratoria de herederos debidamente inscrita en registros públicos), por incapacidad física del titular o por mandato judicial.\n", font);
-
-			parrafoDeclaraciones.add(enumeracion01);
-			parrafoDeclaraciones.add(enumeracion02);
-			parrafoDeclaraciones.add(enumeracion03);
-
-			//
-			Chunk parrafoDeclaracionesFinalesCab = new Chunk("DECLARACIÓN FINAL DEL CLIENTE: ", font);
-			Paragraph parrafoDeclaracionesFinalesValue = new Paragraph("Declaro haber leido previamente las condiciones establecidas en el Contrato de Depósito y la Cartilla de Información, asi como haber sido instruido acerca de los alcances y significados de los términos y condiciones establecidos en dicho documento habiendo sido absueltas y aclaradas a mi satisfacción todas las consultas efectuadas y/o dudas, suscribe el presente documento en duplicado y con pleno y exacto conocimiento de los mismos.\n", font);
-
+			Chunk parrafoDeclaracionesFinalesCab = new Chunk("DECLARACIÓN FINAL DEL CLIENTE: ", fontBold);
+			
+			Paragraph parrafoDeclaracionesFinalesValue = new Paragraph();
+			Chunk parrafo2 = new Chunk("Declaro haber leido previamente las condiciones establecidas en el Contrato de Depósito y la Cartilla de Información, asi como haber sido instruido acerca de los alcances y significados de los términos y condiciones establecidos en dicho documento habiendo sido absueltas y aclaradas a mi satisfacción todas las consultas efectuadas y/o dudas, suscribe el presente documento en duplicado y con pleno y exacto conocimiento de los mismos.\n", font);
+			parrafo2.setLineHeight(13);
+			parrafoDeclaracionesFinalesValue.add(parrafo2);
+			
 			parrafoDeclaraciones.add(parrafoDeclaracionesFinalesCab);
 			parrafoDeclaraciones.add(parrafoDeclaracionesFinalesValue);
 
@@ -481,8 +496,8 @@ public class SocioRESTService implements SocioREST {
 			// firmas
 			Chunk firmaP01 = new Chunk("..........................................");
 			Chunk firmaP02 = new Chunk("..........................................\n");
-			Chunk firma01 = new Chunk("Cooperativa");
-			Chunk firma02 = new Chunk("Cliente    ");
+			Chunk firma01 = new Chunk("La Cooperativa");
+			Chunk firma02 = new Chunk("El Socio     ");
 
 			Paragraph firmas = new Paragraph("\n\n\n\n\n\n");
 			firmas.setAlignment(Element.ALIGN_CENTER);
