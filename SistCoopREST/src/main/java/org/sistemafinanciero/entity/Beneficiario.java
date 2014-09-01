@@ -44,6 +44,8 @@ public class Beneficiario implements java.io.Serializable {
 	private String nombres;
 	private String numeroDocumento;
 	private int porcentajeBeneficio;
+	
+	private CuentaAporte cuentaAporte;
 
 	public Beneficiario() {
 	}
@@ -151,6 +153,17 @@ public class Beneficiario implements java.io.Serializable {
 
 	public void setPorcentajeBeneficio(int porcentajeBeneficio) {
 		this.porcentajeBeneficio = porcentajeBeneficio;
+	}
+
+	@XmlTransient
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_CUENTA_APORTE")
+	public CuentaAporte getCuentaAporte() {
+		return this.cuentaAporte;
+	}
+
+	public void setCuentaAporte(CuentaAporte cuentaAporte) {
+		this.cuentaAporte = cuentaAporte;
 	}
 
 }

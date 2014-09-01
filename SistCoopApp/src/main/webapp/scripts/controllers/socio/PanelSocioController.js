@@ -63,11 +63,25 @@ define(['../module'], function (controllers) {
                 }
             };
 
+            $scope.loadBeneficiarios = function(){
+                if(!angular.isUndefined($scope.id)){
+                    SocioService.getBeneficiarios($scope.id).then(
+                        function(data){
+                            $scope.beneficiarios = data;
+                        }, function error(error){
+                            $scope.beneficiarios = undefined;
+                            $scope.alerts.push({ type: "danger", msg: "Beneficiarios no encontrados."});
+                        }
+                    );
+                };
+            };
+
             $scope.loadRedireccion();
             $scope.loadSocio();
             $scope.loadCuentaAporte();
             $scope.loadApoderado();
             $scope.loadCuentasBancarias();
+            $scope.loadBeneficiarios();
 
             $scope.editarSocioPN = function(){
                 if(!angular.isUndefined($scope.personaNatural)){
@@ -212,7 +226,95 @@ define(['../module'], function (controllers) {
                     }
                 }
             };
-            
+
+            $scope.addBeneficiario = function(){
+                var modalInstance = $modal.open({
+                    templateUrl: 'views/cajero/cuentaBancaria/beneficiarioPopUp.html',
+                    controller: "BeneficiarioPopUpController",
+                    resolve: {
+                        total: function () {
+                            var tot = 0;
+                            if(!angular.isUndefined($scope.beneficiarios))
+                                for(var i = 0; i < $scope.beneficiarios.length; i++)
+                                    tot = tot + $scope.beneficiarios[i].porcentajeBeneficio;
+                            return tot;
+                        },
+                        obj: function(){
+                            return undefined;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (result) {
+                    SocioService.addBeneficiario($scope.id, result).then(
+                        function(data){
+                            SocioService.getBeneficiario($scope.id, data.id).then(function(beneficiario){
+                                $scope.beneficiarios.push(beneficiario);
+                            });
+                            $scope.alerts = [{ type: "success", msg: "Beneficiario creado." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }, function error(error){
+                            $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                            $window.scrollTo(0,0);
+                        }
+                    );
+                }, function () {
+                });
+            };
+            $scope.deleteBeneficiario = function(index){
+                var modalInstance = $modal.open({
+                    templateUrl: 'views/cajero/util/confirmPopUp.html',
+                    controller: "ConfirmPopUpController"
+                });
+                modalInstance.result.then(function (result) {
+                    SocioService.eliminarBeneficiario($scope.id, $scope.beneficiarios[index].id).then(
+                        function(data){
+                            $scope.beneficiarios.splice(index, 1);
+                            $scope.alerts = [{ type: "success", msg: "Beneficiario eliminado." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }, function error(error){
+                            $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                            $window.scrollTo(0,0);
+                        }
+                    );
+                }, function () {
+                });
+            };
+            $scope.editBeneficiario = function(index){
+                var modalInstance = $modal.open({
+                    templateUrl: 'views/cajero/cuentaBancaria/beneficiarioPopUp.html',
+                    controller: "BeneficiarioPopUpController",
+                    resolve: {
+                        total: function () {
+                            var tot = 0;
+                            if(!angular.isUndefined($scope.beneficiarios))
+                                for(var i = 0; i < $scope.beneficiarios.length; i++)
+                                    tot = tot + $scope.beneficiarios[i].porcentajeBeneficio;
+                            return tot;
+                        },
+                        obj: function(){
+                            return $scope.beneficiarios[index];
+                        }
+                    }
+                });
+                modalInstance.result.then(function (result) {
+                    SocioService.actualizarBeneficiario(result).then(
+                        function(data){
+                            $scope.beneficiarios.splice(index, 1);
+                            $scope.beneficiarios.push(result);
+                            $scope.alerts = [{ type: "success", msg: "Beneficiario creado." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }, function error(error){
+                            $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                            $window.scrollTo(0,0);
+                        }
+                    );
+                }, function () {
+                });
+            };
+
             $scope.imprimirCartilla = function(){
                 var restApiUrl = ConfiguracionService.getRestApiUrl();
                 $window.open(restApiUrl+'/socios/'+ $scope.id+'/cartilla');

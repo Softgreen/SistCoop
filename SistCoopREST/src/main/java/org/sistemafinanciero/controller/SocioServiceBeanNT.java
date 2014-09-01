@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJBException;
 import javax.ejb.Remote;
@@ -16,6 +17,7 @@ import javax.inject.Named;
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
+import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.HistorialAportesSP;
@@ -42,6 +44,9 @@ public class SocioServiceBeanNT implements SocioServiceNT {
 	@Inject
 	private DAO<Object, CuentaBancariaView> cuentaBancariaViewDAO;
 
+	@Inject
+	private DAO<Object, Beneficiario> beneficiarioDAO;
+	
 	@Override
 	public SocioView findById(BigInteger id) {
 		return socioViewDAO.find(id);
@@ -183,6 +188,22 @@ public class SocioServiceBeanNT implements SocioServiceNT {
 	public List<HistorialAportesSP> getHistorialAportes(BigInteger idSocio, Date desde, Date hasta, BigInteger offset, BigInteger limit) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Set<Beneficiario> getBeneficiarios(BigInteger idSocio) {
+		Socio socio = socioDAO.find(idSocio);
+		if (socio == null)
+			return null;
+		CuentaAporte cuentaAporte = socio.getCuentaAporte();
+		Set<Beneficiario> result = cuentaAporte.getBeneficiarios();
+		Hibernate.initialize(result);
+		return result;
+	}
+
+	@Override
+	public Beneficiario findBeneficiarioById(BigInteger id) {
+		return beneficiarioDAO.find(id);
 	}
 
 }

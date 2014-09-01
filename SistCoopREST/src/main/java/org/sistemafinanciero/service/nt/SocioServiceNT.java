@@ -3,9 +3,11 @@ package org.sistemafinanciero.service.nt;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Remote;
 
+import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.HistorialAportesSP;
@@ -35,6 +37,10 @@ public interface SocioServiceNT extends AbstractServiceNT<SocioView> {
 	public CuentaAporte getCuentaAporte(BigInteger idSocio);
 
 	public List<CuentaBancariaView> getCuentasBancarias(BigInteger idSocio);
+	
+	public Set<Beneficiario> getBeneficiarios(BigInteger idSocio);
+	
+	public Beneficiario findBeneficiarioById(BigInteger id);
 
 	public List<HistorialAportesSP> getHistorialAportes(BigInteger idSocio, Date desde, Date hasta, BigInteger offset, BigInteger limit);
 

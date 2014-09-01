@@ -79,6 +79,18 @@ define(['./module'], function (services) {
                 descongelarCuentaAporte: function(id){
                     return Restangular.one(baseUrl +"/"+id+"/cuentaAporte/descongelar").customPOST({},'',{},{});
                 },
+                getBeneficiarios: function(id){
+                    return Restangular.all(baseUrl+"/"+id+"/beneficiarios").getList();
+                },
+                getBeneficiario: function(idSocio, idBeneficiario){
+                    return Restangular.one(baseUrl+"/"+idSocio+"/beneficiarios/"+idBeneficiario).get();
+                },
+                addBeneficiario : function(idSocio, beneficiario){
+                    return Restangular.all(baseUrl+"/"+idSocio+"/beneficiarios").post(beneficiario);
+                },
+                eliminarBeneficiario: function(idCuenta, idBeneficiario){
+                    return Restangular.one(baseUrl+"/"+idCuenta+"/beneficiarios/"+idBeneficiario).remove();
+                },
                 inactivarSocio: function(id){
                     return Restangular.one(baseUrl +"/"+id).remove();
                 },

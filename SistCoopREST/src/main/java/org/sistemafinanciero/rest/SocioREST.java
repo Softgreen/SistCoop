@@ -2,6 +2,7 @@ package org.sistemafinanciero.rest;
 
 import java.math.BigInteger;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.rest.dto.ApoderadoDTO;
 import org.sistemafinanciero.rest.dto.SocioDTO;
 
@@ -62,6 +64,26 @@ public interface SocioREST {
 	public Response eliminarApoderado(@PathParam("id") BigInteger idSocio);
 
 	@GET
+	@Path("/{id}/beneficiarios")
+	@Produces({ "application/xml", "application/json" })
+	public Response getBeneficiarios(@PathParam("id") BigInteger id);
+
+	@GET
+	@Path("/{id}/beneficiarios/{idBeneficiario}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getBeneficiario(@PathParam("id") BigInteger id, @PathParam("idBeneficiario") BigInteger idBeneficiario);
+
+	@POST
+	@Path("/{id}/beneficiarios")
+	@Produces({ "application/xml", "application/json" })
+	public Response createBeneficiario(@PathParam("id") BigInteger id, Beneficiario beneficiario);
+
+	@DELETE
+	@Path("/{id}/beneficiarios/{idBeneficiario}")
+	@Produces({ "application/xml", "application/json" })
+	public Response deleteBeneficiario(@PathParam("id") BigInteger id, @PathParam("idBeneficiario") BigInteger idBeneficiario);
+	
+	@GET
 	@Path("/{id}/cuentasBancarias")
 	@Produces({ "application/xml", "application/json" })
 	public Response getCuentasBancarias(@PathParam("id") BigInteger id);
@@ -79,9 +101,9 @@ public interface SocioREST {
 	@Path("/{id}/desactivar")
 	@Produces({ "application/xml", "application/json" })
 	public Response desactivarSocio(@PathParam("id") BigInteger id);
-	
+
 	@GET
 	@Path("{id}/cartilla")
-	public Response getCartillaInformacion(@PathParam("id") BigInteger id);	
+	public Response getCartillaInformacion(@PathParam("id") BigInteger id);
 
 }

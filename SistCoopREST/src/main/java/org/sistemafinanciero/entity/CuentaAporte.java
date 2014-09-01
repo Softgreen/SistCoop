@@ -47,26 +47,25 @@ public class CuentaAporte implements java.io.Serializable {
 	private Moneda moneda;
 	private EstadoCuentaAporte estadoCuenta;
 	private Set socios = new HashSet(0);
+	private Set beneficiarios = new HashSet(0);
 
 	public CuentaAporte() {
 	}
 
-	public CuentaAporte(BigInteger idCuentaaporte, BigDecimal saldo,
-			EstadoCuentaAporte estadoCuenta) {
+	public CuentaAporte(BigInteger idCuentaaporte, BigDecimal saldo, EstadoCuentaAporte estadoCuenta) {
 		this.idCuentaaporte = idCuentaaporte;
 		this.saldo = saldo;
 		this.estadoCuenta = estadoCuenta;
 	}
 
-	public CuentaAporte(BigInteger idCuentaaporte, BigDecimal saldo,
-			EstadoCuentaAporte estadoCuenta, Set socios) {
+	public CuentaAporte(BigInteger idCuentaaporte, BigDecimal saldo, EstadoCuentaAporte estadoCuenta, Set socios) {
 		this.idCuentaaporte = idCuentaaporte;
 		this.saldo = saldo;
 		this.estadoCuenta = estadoCuenta;
 		this.socios = socios;
 	}
 
-	@XmlElement(name = "id")	
+	@XmlElement(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_CUENTAAPORTE", unique = true, nullable = false, precision = 22, scale = 0)
@@ -87,7 +86,7 @@ public class CuentaAporte implements java.io.Serializable {
 	public void setNumeroCuenta(String numeroCuenta) {
 		this.numeroCuenta = numeroCuenta;
 	}
-	
+
 	@XmlElement
 	@Column(name = "SALDO", nullable = false, precision = 18)
 	public BigDecimal getSaldo() {
@@ -128,6 +127,16 @@ public class CuentaAporte implements java.io.Serializable {
 
 	public void setSocios(Set socios) {
 		this.socios = socios;
+	}
+
+	@XmlTransient
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cuentaAporte")
+	public Set<Beneficiario> getBeneficiarios() {
+		return beneficiarios;
+	}
+
+	public void setBeneficiarios(Set beneficiarios) {
+		this.beneficiarios = beneficiarios;
 	}
 
 }

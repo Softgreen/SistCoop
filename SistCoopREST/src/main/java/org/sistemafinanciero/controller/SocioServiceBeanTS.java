@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.ejb.EJB;
@@ -13,10 +14,14 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
+import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.PersonaJuridica;
@@ -54,6 +59,9 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 	private DAO<Object, CuentaAporte> cuentaAporteDAO;
 
 	@Inject
+	private DAO<Object, Beneficiario> beneficiarioDAO;
+
+	@Inject
 	private DAO<Object, PersonaNatural> personaNaturalDAO;
 
 	@EJB
@@ -64,6 +72,9 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 
 	@EJB
 	private PersonaJuridicaServiceNT personaJuridicaServiceNT;
+
+	@Inject
+	private Validator validator;
 
 	@Override
 	public BigInteger create(SocioView t) throws PreexistingEntityException, RollbackFailureException {
@@ -84,7 +95,7 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 		if (agencia == null)
 			throw new RollbackFailureException("Agencia no encontrada");
 
-		if(t.getIdApoderado() != null)
+		if (t.getIdApoderado() != null)
 			apoderado = personaNaturalDAO.find(t.getIdApoderado());
 		if (t.getIdApoderado() != null && apoderado == null)
 			throw new RollbackFailureException("Apoderado no encontrado");
@@ -302,6 +313,54 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 			throw new RollbackFailureException("Socio no encontrado");
 		socio.setApoderado(null);
 		socioDAO.update(socio);
+	}
+
+	@Override
+	public BigInteger addBeneficiario(BigInteger idSocio, Beneficiario beneficiario) throws RollbackFailureException {
+		Socio socio = socioDAO.find(idSocio);
+		if (socio == null)
+			throw new RollbackFailureException("Socio no encotrado");
+		if (!socio.getEstado())
+			throw new RollbackFailureException("Socio INACTIVO, no se puede modificar beneficiarios");
+
+		CuentaAporte cuentaAporte = socio.getCuentaAporte();
+
+		beneficiario.setIdBeneficiario(null);
+		beneficiario.setCuentaAporte(cuentaAporte);
+
+		// validar beneficiario
+		Set<ConstraintViolation<Beneficiario>> violations = validator.validate(beneficiario);
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+		}
+
+		beneficiarioDAO.create(beneficiario);
+		return beneficiario.getIdBeneficiario();
+	}
+
+	@Override
+	public void deleteBeneficiario(BigInteger idBeneficiario) throws NonexistentEntityException, RollbackFailureException {
+		Beneficiario beneficiario = beneficiarioDAO.find(idBeneficiario);
+		if (beneficiario == null)
+			throw new NonexistentEntityException("Beneficiario no encontrado");
+		CuentaAporte cuentaAporte = beneficiario.getCuentaAporte();
+
+		if (cuentaAporte.getEstadoCuenta().equals(EstadoCuentaAporte.INACTIVO))
+			throw new RollbackFailureException("Cuenta INACTIVA, no se puede modificar los beneficiarios");
+
+		Set<Socio> socios = cuentaAporte.getSocios();
+		if (socios.size() != 1)
+			throw new RollbackFailureException("beneficiario asociado a mas de un Socio o a ninguno");
+		
+		Socio socio = null;
+		for (Socio s : socios) {
+			socio = s;
+		}
+		
+		if(!socio.getEstado())
+			throw new RollbackFailureException("Socio inactivo, no se puede modificar beneficiarios");
+		
+		beneficiarioDAO.delete(beneficiario);
 	}
 
 }

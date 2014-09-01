@@ -4,7 +4,9 @@ import java.math.BigInteger;
 
 import javax.ejb.Remote;
 
+import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.SocioView;
+import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 
 @Remote
@@ -22,4 +24,8 @@ public interface SocioServiceTS extends AbstractServiceTS<SocioView> {
 
 	public void deleteApoderado(BigInteger idSocio) throws RollbackFailureException;
 
+	public BigInteger addBeneficiario(BigInteger idSocio, Beneficiario beneficiario) throws RollbackFailureException;
+	
+	public void deleteBeneficiario(BigInteger idBeneficiario) throws NonexistentEntityException, RollbackFailureException;
+	
 }
