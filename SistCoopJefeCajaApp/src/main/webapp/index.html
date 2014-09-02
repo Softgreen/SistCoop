@@ -1,23 +1,118 @@
-<!--
-    JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
-    contributors by the @authors tag. See the copyright.txt in the
-    distribution for a full listing of individual contributors.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
--->
-<!-- Plain HTML page that kicks us into the app -->
-
-<html>
+<!doctype html>
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" id="ng-app" ng-app=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app> <!--<![endif]-->
 <head>
-<meta http-equiv="Refresh" content="0; URL=index.jsf">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css" />
+    <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css">
+    <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css">
+
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <!--  <script type="text/javascript" src="scripts/deployJava.js"></script>
+    <script type="text/javascript" src="scripts/qz.js"></script>
+-->
+    <!-- endbuild -->
 </head>
+<body ng-app="cajaApp">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- Add your site or application content here -->
+<div class="container" style="padding-top: 70px;">
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img alt="Logo Caja Ventura" src="images/logos_coop/logo_coop_header.png">
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{active: $state.includes(&#39;app.home&#39;)}">
+                        <a href="#" ui-sref="home({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;home&#39;)}">Página Principal</a>
+                    </li>
+                    <li ng-class="{active: $state.includes(&#39;app.caja&#39;)}">
+                        <a href="#contact" ui-sref="app.boveda({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.boveda&#39;)}">Boveda</a>
+                    </li>
+                    <li ng-class="{active: $state.includes(&#39;app.transaccion&#39;)}">
+                        <a href="#about" ui-sref="app.transaccion({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.transaccion&#39;)}">Caja</a>
+                    </li>
+                    <li ng-class="{active: $state.includes(&#39;app.socio&#39;)}">
+                        <a href="#contact" ui-sref="app.socio({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.socio&#39;)}">Transaccion</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <div class="btn-group" dropdown style="padding-top: 10px;">
+                            <button type="button" class="btn btn-link dropdown-toggle" style="color:#29465F">
+                                <span class="glyphicon glyphicon-user">&nbsp;</span>
+                                {{usuarioSession}}&nbsp;&nbsp;&nbsp;
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/SistCoopApp/account">Ver perfil</a></li>
+                                <li><a href="#" ui-sref="app.configuracion.impresora({redirect:true})">Impresora</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/SistCoopApp/logout">Salir</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="gwt-Anchor  sf-notification-image" style="padding-right: 30px"></a>
+                    </li>
+                    <li>
+                        <a class="gwt-Anchor  sf-config-image" style="padding-right: 30px"></a>
+                    </li>
+                    <li>
+                        <a class="gwt-Anchor  sf-alert-image" style="padding-right: 30px"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row" ui-view>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="center-block text-center" style="font-size: 11px; padding-bottom: 10px;">
+                    <span class="l3">
+                        <span dir="ltr">©2014&nbsp;Cooperativa de Ahorro y Crédito Caja Ventura</span>
+                        </span>&nbsp;-&nbsp;
+                <a href="#" target="_blank" class="l9">Términos y privacidad</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<![endif]-->
+
+<script src="bower_components/ladda/js/spin.js"></script>
+<script src="bower_components/ladda/js/ladda.js"></script>
+
+<script src="scripts/require.js" data-main="scripts/main.js"></script>
+</body>
 </html>

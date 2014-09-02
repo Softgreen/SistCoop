@@ -1,10 +1,10 @@
 {
   "realm": "SistemaFinanciero",
-  "realm-public-key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCpmDGv9n+lUiJubcYUbkfLE/rxg5sXhbw+hFIVkEhCOM4lnOykehWah+DeYvY5N54/EPMQcGO9e3fgNi34UM44WsQRAW47YuVz7C12tWughAu0kZMUsVeE8bx8tyHCunGwfjwtYmw4dfD32c2VVWI3U+z70lLrVKnK2XQv58fOBwIDAQAB",
+  "realm-public-key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDRJsNtFGKwcm/FiS+ypUB2Vttrp0Fr0CaCTZGPIXTZ5fyRGw8tb+SKdg1+8NVOUPsiqZLwA170ck4YNuagjmw1oPV7zd75TwXULktQwl05lb8iA1PxnhvH2+grWPNKe97RA+MwU3h2bpDHLG4R/zHV7+DrVaBU0EKgTdj2QV0hsQIDAQAB",
   "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "external",
   "resource": "SistCoopApp",
   "credentials": {
-    "secret": "8131eaa4-620e-4ba0-b5e3-e11be89b696e"
+    "secret": "d84c0ae0-55eb-4c0d-b670-fbdb20a74fb3"
   }
 }
