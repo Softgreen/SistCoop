@@ -95,16 +95,16 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-                
-                .state('app.caja.panelControl', {
-                    url: "/panelControl",
+
+                .state('app.boveda.nuevo', {
+                    url: "/nuevo",
                     views: {
                         "viewContent":{
                             templateUrl: "views/cajero/caja/panelCaja.html"
                         }
                     }
                 })
-                .state('app.caja.abrirCaja', {
+                .state('app.boveda.buscar', {
                     url: "/abrir",
                     views: {
                         "viewContent":{
