@@ -329,8 +329,8 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 		BaseColor baseColor = BaseColor.LIGHT_GRAY;
-		Font font = FontFactory.getFont("Times-Roman", 10f);
-		Font fontBold = FontFactory.getFont("Times-Roman", 10f, Font.BOLD);
+		Font font = FontFactory.getFont("Arial", 10f);
+		Font fontBold = FontFactory.getFont("Arial", 10f, Font.BOLD);
 		try {
 			file = new FileOutputStream(new File(cartillaURL + "\\" + id + ".pdf"));
 			Document document = new Document(PageSize.A4);// *4
@@ -343,54 +343,127 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			document.add(img);
 
 			Paragraph parrafoPrincipal = new Paragraph();
+			parrafoPrincipal.setSpacingAfter(30);
+			parrafoPrincipal.setSpacingBefore(50);
 			parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
+			parrafoPrincipal.setIndentationLeft(100);
+			parrafoPrincipal.setIndentationRight(50);
 
-			Chunk titulo = new Chunk("\n\n\n\nCARTILLA DE INFORMACION\n", fontBold);
-			Font fontTitulo = FontFactory.getFont("Times-Roman", 14f);
-			titulo.setUnderline(0.2f, -2f);
-			titulo.setFont(fontTitulo);
+			Chunk titulo = new Chunk("CARTILLA DE INFORMACIÓN\n");
+			Font fuenteTitulo = new Font();
+			fuenteTitulo.setSize(18);
+			fuenteTitulo.setFamily("Arial");
+			fuenteTitulo.setStyle(Font.BOLD | Font.UNDERLINE);
+			titulo.setFont(fuenteTitulo);
 			parrafoPrincipal.add(titulo);
+			
+			if (cuentaBancaria.getTipoCuenta().toString() == "AHORRO") {	
+				
+				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA AHORRO **********************/
+				Chunk subTituloAhorro = new Chunk("APERTURA CUENTA DE AHORRO\n");
+				Font fuenteSubtituloAhorro = new Font();
+				fuenteSubtituloAhorro.setSize(13);
+				fuenteSubtituloAhorro.setFamily("Arial");
+				fuenteSubtituloAhorro.setStyle(Font.BOLD | Font.UNDERLINE);
+				subTituloAhorro.setFont(fuenteSubtituloAhorro);
+				parrafoPrincipal.add(subTituloAhorro);
 
-			Chunk subTitulo = new Chunk("APERTURA DE CUENTA DE " + cuentaBancaria.getTipoCuenta().toString().toUpperCase() + "\n\n", fontBold);
-			Font fontSubTitulo = FontFactory.getFont("Times-Roman", 12f);
-			subTitulo.setFont(fontSubTitulo);
-			subTitulo.setUnderline(0.2f, -2f);
-			parrafoPrincipal.add(subTitulo);
+				document.add(parrafoPrincipal);
 
-			document.add(parrafoPrincipal);
+				Chunk mensajeIntroAhorro = new Chunk("La apertura de una cuenta de ahorro generará intereses y demás beneficios complementarios de acuerdo al saldo promedio mensual o saldo diario establecido en la Cartilla de Información. Para estos efectos, se entiende por saldo promedio mensual, la suma del saldo diario dividida entre el número de días del mes. La cuenta de ahorro podrá generar comisiones y gastos de acuerdo a las condiciones aceptadas en la Cartilla de Información.\n\n", font);
+				mensajeIntroAhorro.setLineHeight(13);
 
-			Chunk mensaje01 = new Chunk("La apertura de una cuenta de " + cuentaBancaria.getTipoCuenta().toString().toLowerCase() + " generará intereses y demás beneficios complementarios de acuerdo al saldo promedio mensual o saldo diario establecido en la Cartilla de Información. Para estos efectos, se entiende por saldo promedio mensual, la suma del saldo diario dividida entre el número de días del mes. La cuenta de ahorro podrá generar comisiones y gastos de acuerdo a las condiciones aceptadas en la Cartilla de Información.\n\n");
-			mensaje01.setFont(font);
+				Paragraph parrafoIntroAhorro = new Paragraph();
+				parrafoIntroAhorro.setLeading(11f);
+				parrafoIntroAhorro.add(mensajeIntroAhorro);
+				parrafoIntroAhorro.setAlignment(Element.ALIGN_JUSTIFIED);
+				document.add(parrafoIntroAhorro);
+			}
+			
+			
+			if (cuentaBancaria.getTipoCuenta().toString() == "PLAZO_FIJO") {	
+				
+				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA AHORRO **********************/
+				Chunk subTituloPF = new Chunk("APERTURA CUENTA A PLAZO FIJO\n");
+				Font fuenteSubtituloPF = new Font();
+				fuenteSubtituloPF.setSize(13);
+				fuenteSubtituloPF.setFamily("Arial");
+				fuenteSubtituloPF.setStyle(Font.BOLD | Font.UNDERLINE);
+				subTituloPF.setFont(fuenteSubtituloPF);
+				parrafoPrincipal.add(subTituloPF);
 
-			Paragraph parrafo1 = new Paragraph();
-			parrafo1.setLeading(11f);
-			parrafo1.add(mensaje01);
-			parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
-			document.add(parrafo1);
+				document.add(parrafoPrincipal);
 
+				Chunk mensajeIntroPF = new Chunk("La presente cartilla de información forma parte integrante de las condiciones aplicables a los contratos de depósitos y servicios complementarios suscritos por las partes y tiene por finalidad establecer el detalle de las tareas de interés que se retribuirá al cliente.\n\n", font);
+				mensajeIntroPF.setLineHeight(12);
+
+				Paragraph parrafoIntroPF = new Paragraph();
+				parrafoIntroPF.setLeading(11f);
+				parrafoIntroPF.add(mensajeIntroPF);
+				parrafoIntroPF.setAlignment(Element.ALIGN_JUSTIFIED);
+				document.add(parrafoIntroPF);
+			}
+			
+			
+			if (cuentaBancaria.getTipoCuenta().toString() == "CORRIENTE") {	
+				
+				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA CORRIENTE **********************/
+				Chunk subTituloCC = new Chunk("APERTURA CUENTA CORRIENTE\n");
+				Font fuenteSubtituloCC = new Font();
+				fuenteSubtituloCC.setSize(13);
+				fuenteSubtituloCC.setFamily("Arial");
+				fuenteSubtituloCC.setStyle(Font.BOLD | Font.UNDERLINE);
+				subTituloCC.setFont(fuenteSubtituloCC);
+				parrafoPrincipal.add(subTituloCC);
+
+				document.add(parrafoPrincipal);
+
+				Chunk mensajeIntroCC = new Chunk("\n", font);
+				mensajeIntroCC.setLineHeight(12);
+
+				Paragraph parrafoIntroCC = new Paragraph();
+				parrafoIntroCC.setLeading(11f);
+				parrafoIntroCC.add(mensajeIntroCC);
+				parrafoIntroCC.setAlignment(Element.ALIGN_JUSTIFIED);
+				document.add(parrafoIntroCC);
+			}
+			
+			
 			/******************* DATOS BASICOS DEL SOCIO **********************/
 			PdfPTable table1 = new PdfPTable(4);
 			table1.setWidthPercentage(100);
 
-			PdfPCell cabecera1 = new PdfPCell(new Paragraph("DATOS BASICOS DEL SOCIO", fontBold));
+			PdfPCell cabecera1 = new PdfPCell(new Paragraph("DATOS BÁSICOS DEL SOCIO", fontBold));
 			cabecera1.setColspan(4);
 			cabecera1.setBackgroundColor(baseColor);
-
-			PdfPCell cellApellidosNombres = new PdfPCell(new Paragraph(cuentaBancaria.getTipoPersona().equals(TipoPersona.NATURAL) ? "Apellidos y nombres:" : "Razón social:", font));
+			
+			PdfPCell cellCodigoSocio = new PdfPCell(new Paragraph("Codigo Socio:", fontBold));
+			cellCodigoSocio.setColspan(1);
+			cellCodigoSocio.setBorder(Rectangle.NO_BORDER);
+			
+			PdfPCell cellCodigoSocioValue = new PdfPCell(new Paragraph(socio.getIdsocio().toString(), font));
+			cellCodigoSocioValue.setColspan(3);
+			cellCodigoSocioValue.setBorder(Rectangle.NO_BORDER);
+			
+			PdfPCell cellApellidosNombres = new PdfPCell(new Paragraph(cuentaBancaria.getTipoPersona().equals(TipoPersona.NATURAL) ? "Apellidos y Nombres:" : "Razón Social:", fontBold));
+			cellApellidosNombres.setColspan(1);
 			cellApellidosNombres.setBorder(Rectangle.NO_BORDER);
+			
 			PdfPCell cellApellidosNombresValue = new PdfPCell(new Paragraph(cuentaBancaria.getSocio(), font));
 			cellApellidosNombresValue.setColspan(3);
 			cellApellidosNombresValue.setBorder(Rectangle.NO_BORDER);
 
 			table1.addCell(cabecera1);
+			table1.addCell(cellCodigoSocio);
+			table1.addCell(cellCodigoSocioValue);
 			table1.addCell(cellApellidosNombres);
 			table1.addCell(cellApellidosNombresValue);
 
-			PdfPCell cellDNI = new PdfPCell(new Paragraph(socio.getTipoDocumento(), font));
+			PdfPCell cellDNI = new PdfPCell(new Paragraph(socio.getTipoDocumento(), fontBold));
 			cellDNI.setBorder(Rectangle.NO_BORDER);
 			PdfPCell cellDNIValue = new PdfPCell(new Paragraph(socio.getNumeroDocumento(), font));
 			cellDNIValue.setBorder(Rectangle.NO_BORDER);
-			PdfPCell cellFechaNaciemiento = new PdfPCell(new Paragraph(cuentaBancaria.getTipoPersona().equals(TipoPersona.NATURAL) ? "Fecha de nacimiento:" : "Fecha de constitución", font));
+			PdfPCell cellFechaNaciemiento = new PdfPCell(new Paragraph(cuentaBancaria.getTipoPersona().equals(TipoPersona.NATURAL) ? "Fecha de Nacimiento:" : "Fecha de Constitución", fontBold));
 			cellFechaNaciemiento.setBorder(Rectangle.NO_BORDER);
 			PdfPCell cellFechaNacimientoValue = new PdfPCell(new Paragraph(DATE_FORMAT.format(socio.getFechaNacimiento()), font));
 			cellFechaNacimientoValue.setBorder(Rectangle.NO_BORDER);
@@ -403,6 +476,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			document.add(table1);
 			document.add(new Paragraph("\n"));
 
+			
 			/******************* TITULARES **********************/
 			PdfPTable table2 = new PdfPTable(7);
 			table2.setWidthPercentage(100);
@@ -412,13 +486,13 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			cabecera2.setBackgroundColor(baseColor);
 			table2.addCell(cabecera2);
 
-			PdfPCell cellTipoDocumentoCab = new PdfPCell(new Paragraph("Tipo doc.", font));
-			PdfPCell cellNumeroDocumentoCab = new PdfPCell(new Paragraph("Nº Doc.", font));
-			PdfPCell cellApellidoPaternoCab = new PdfPCell(new Paragraph("Ap. Paterno", font));
-			PdfPCell cellApellidoMaternoCab = new PdfPCell(new Paragraph("Ap. Materno", font));
-			PdfPCell cellNombresCab = new PdfPCell(new Paragraph("Nombres", font));
-			PdfPCell cellSexoCab = new PdfPCell(new Paragraph("Sexo", font));
-			PdfPCell cellFechaNacimientoCab = new PdfPCell(new Paragraph("Fec.nac.", font));
+			PdfPCell cellTipoDocumentoCab = new PdfPCell(new Paragraph("Tipo Doc.", fontBold));
+			PdfPCell cellNumeroDocumentoCab = new PdfPCell(new Paragraph("Num. Doc.", fontBold));
+			PdfPCell cellApellidoPaternoCab = new PdfPCell(new Paragraph("Ap. Paterno", fontBold));
+			PdfPCell cellApellidoMaternoCab = new PdfPCell(new Paragraph("Ap. Materno", fontBold));
+			PdfPCell cellNombresCab = new PdfPCell(new Paragraph("Nombres", fontBold));
+			PdfPCell cellSexoCab = new PdfPCell(new Paragraph("Sexo", fontBold));
+			PdfPCell cellFechaNacimientoCab = new PdfPCell(new Paragraph("Fec. Nac.", fontBold));
 
 			cellTipoDocumentoCab.setBorder(Rectangle.NO_BORDER);
 			cellNumeroDocumentoCab.setBorder(Rectangle.NO_BORDER);
@@ -465,8 +539,27 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			}
 
 			document.add(table2);
-			document.add(new Paragraph("\n"));
-
+			
+			if (cuentaBancaria.getTipoCuenta().toString() == "AHORRO" || cuentaBancaria.getTipoCuenta().toString() == "CORRIENTE") {
+				Paragraph modalidadCuenta = new Paragraph();
+				String value;
+				Chunk modalidad = new Chunk("Modalidad de la Cuenta: ", fontBold);
+				
+				if (cuentaBancaria.getCantidadRetirantes() == 1)
+					value = "INDIVIDUAL";
+				else
+					value = "CONJUNTA";
+				
+				Chunk modalidadValue = new Chunk(value + "\n\n", font);
+				modalidadCuenta.add(modalidad);
+				modalidadCuenta.add(modalidadValue);
+				document.add(modalidadCuenta);
+			}
+			
+			if (cuentaBancaria.getTipoCuenta().toString() == "PLAZO_FIJO") {
+				document.add(new Paragraph("\n"));
+			}
+			
 			/******************* PRODUCTOS Y SERVICIOS **********************/
 			PdfPTable table3 = new PdfPTable(4);
 			table3.setWidthPercentage(100);
@@ -476,10 +569,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			cabecera3.setBackgroundColor(baseColor);
 			table3.addCell(cabecera3);
 
-			PdfPCell cellProductoCab = new PdfPCell(new Paragraph("Producto", font));
-			PdfPCell cellMonedaCab = new PdfPCell(new Paragraph("Moneda", font));
-			PdfPCell cellNumeroCuentaCab = new PdfPCell(new Paragraph("Numero cuenta", font));
-			PdfPCell cellFechaAperturaCab = new PdfPCell(new Paragraph("Fecha apertura", font));
+			PdfPCell cellProductoCab = new PdfPCell(new Paragraph("Producto", fontBold));
+			PdfPCell cellMonedaCab = new PdfPCell(new Paragraph("Moneda", fontBold));
+			PdfPCell cellNumeroCuentaCab = new PdfPCell(new Paragraph("Número Cuenta", fontBold));
+			PdfPCell cellFechaAperturaCab = new PdfPCell(new Paragraph("Fecha Apertura", fontBold));
 			cellProductoCab.setBorder(Rectangle.NO_BORDER);
 			cellMonedaCab.setBorder(Rectangle.NO_BORDER);
 			cellNumeroCuentaCab.setBorder(Rectangle.NO_BORDER);
@@ -505,6 +598,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			document.add(table3);
 			document.add(new Paragraph("\n"));
 
+			
 			/******************* DECLARACIONES Y FIRMAS **********************/
 			PdfPTable table4 = new PdfPTable(1);
 			table4.setWidthPercentage(100);
@@ -515,22 +609,125 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 			Paragraph parrafoDeclaraciones = new Paragraph();
 
-			Chunk subTitulo1 = new Chunk("INFORMACIÓN ADICIONAL\n", font);
+			Chunk subTitulo1 = new Chunk("\nINFORMACIÓN ADICIONAL\n", fontBold);
 			parrafoDeclaraciones.add(subTitulo1);
 
-			// añadiendo las viñetas
-			Paragraph enumeracion01 = new Paragraph("- La Tasa de Rendimiento Efectiva Anual (TREA) de una cuenta de ahorros es igual a la Tasa Efectiva Anual (TEA), descontándole las comisiones o gastos aplicables a la cuenta. Por ejemplo, para un depósito de personas naturales de S/. 1,000.00 a 360 días, considerando que durante dicho plazo no existen transacciones adicionales a la apertura de la cuenta, la TEA de 0.25% es igual a la TREA, pues no hay descuento de comisiones ni gastos.\n", font);
-			Paragraph enumeracion02 = new Paragraph("- El (LOS) CLIENTE(S) tendrán a su disposición en nuestras ventanillas de atención, los estados de cuenta mensuales de las cuentas de ahorro.\n", font);
-			Paragraph enumeracion03 = new Paragraph("- La cancelación de las cuentas de ahorro se efectúa a solicitud del (los) titular(es) de la cuenta, sólo en la Agencia de origen y en casos excepcionales al fallecimiento del titular previa presentación de la documentación legal correspondiente (sucesión intestada o declaratoria de herederos debidamente inscrita en registros públicos), por incapacidad física del titular o por mandato judicial.\n", font);
-
-			parrafoDeclaraciones.add(enumeracion01);
-			parrafoDeclaraciones.add(enumeracion02);
-			parrafoDeclaraciones.add(enumeracion03);
-
-			//
-			Chunk parrafoDeclaracionesFinalesCab = new Chunk("DECLARACIÓN FINAL DEL CLIENTE: ", font);
-			Paragraph parrafoDeclaracionesFinalesValue = new Paragraph("Declaro haber leido previamente las condiciones establecidas en el Contrato de Depósito y la Cartilla de Información, asi como haber sido instruido acerca de los alcances y significados de los términos y condiciones establecidos en dicho documento habiendo sido absueltas y aclaradas a mi satisfacción todas las consultas efectuadas y/o dudas, suscribe el presente documento en duplicado y con pleno y exacto conocimiento de los mismos.\n", font);
-
+			if(cuentaBancaria.getTipoCuenta().toString() == "AHORRO"){
+				// añadiendo las viñetas
+				Paragraph enumeracionAH01 = new Paragraph();
+				Chunk chunkAH01 = new Chunk("- La Tasa de Rendimiento Efectiva Anual (TREA) de una cuenta de ahorros es igual a la Tasa Efectiva Anual (TEA), descontándole las comisiones o gastos aplicables a la cuenta. Por ejemplo, para un depósito de personas naturales de S/. 1,000.00 a 360 días, considerando que durante dicho plazo no existen transacciones adicionales a la apertura de la cuenta, la TEA de 0.25% es igual a la TREA, pues no hay descuento de comisiones ni gastos.\n", font);
+				chunkAH01.setLineHeight(13);
+				enumeracionAH01.add(chunkAH01);
+				
+				Paragraph enumeracionAH02 = new Paragraph();
+				Chunk chunkAH02 = new Chunk("- El (LOS) CLIENTE(S) tendrán a su disposición en nuestras ventanillas de atención, los estados de cuenta mensuales de las cuentas de ahorro.\n", font);
+				chunkAH02.setLineHeight(13);
+				enumeracionAH02.add(chunkAH02);
+				
+				Paragraph enumeracionAH03 = new Paragraph();
+				Chunk chunkAH03 = new Chunk("- La cancelación de las cuentas de ahorro se efectúa a solicitud del (los) titular(es) de la cuenta, sólo en la Agencia de origen y en casos excepcionales al fallecimiento del titular previa presentación de la documentación legal correspondiente (sucesión intestada o declaratoria de herederos debidamente inscrita en registros públicos), por incapacidad física del titular o por mandato judicial.\n", font);
+				chunkAH03.setLineHeight(13);
+				enumeracionAH03.add(chunkAH03);
+				
+				parrafoDeclaraciones.add(enumeracionAH01);
+				parrafoDeclaraciones.add(enumeracionAH02);
+				parrafoDeclaraciones.add(enumeracionAH03);
+			}
+			
+			if(cuentaBancaria.getTipoCuenta().toString() == "PLAZO_FIJO"){
+				// añadiendo las viñetas
+				Paragraph enumeracionPF01 = new Paragraph();
+				Chunk chunkPF01 = new Chunk("- Para el cálculo de intereses se aplica tasas de Interés Compensatorio Efectiva Fija Anual (TEA 360 días).\n", font);
+				chunkPF01.setLineHeight(12);
+				enumeracionPF01.add(chunkPF01);
+				
+				Paragraph enumeracionPF02 = new Paragraph();
+				Chunk chunkPF02 = new Chunk("- La Fecha de Cancelación del plazo fijo, se realizará al día siguiente de la fecha de vencimiento del PLAZO FIJO.\n", font);
+				chunkPF02.setLineHeight(12);
+				enumeracionPF02.add(chunkPF02);
+				
+				Paragraph enumeracionPF03 = new Paragraph();
+				Chunk chunkPF03 = new Chunk("- La cancelación de la cuenta se realizará en la misma Agencia donde se apertura, en caso de cancelar en otra Agencia se le cobrará la comisión que corresponda a dicha Agencia.\n", font);
+				chunkPF03.setLineHeight(12);
+				enumeracionPF03.add(chunkPF03);
+				
+				Paragraph enumeracionPF04 = new Paragraph();
+				Chunk chunkPF04 = new Chunk("- Al vencimiento de la fecha del depósito a Plazo Fijo, se le otorga 7 días calendarios para su cobro, caso contrario se tomará como renovación automática por el mismo periodo y a la tasa de interés del tarifario vigente.\n", font);
+				chunkPF04.setLineHeight(12);
+				enumeracionPF04.add(chunkPF04);
+				
+				Paragraph enumeracionPF05 = new Paragraph();
+				Chunk chunkPF05 = new Chunk("- Si EL CLIENTE no se apersona a renovar sus depósitos a Plazo Fijo, la renovación es automático por el mismo periodo y a la tasa de interés del tarifario vigente, para todas las modalidades de retiros de intereses.\n", font);
+				chunkPF05.setLineHeight(12);
+				enumeracionPF05.add(chunkPF05);
+				
+				Paragraph enumeracionPF06 = new Paragraph();
+				Chunk chunkPF06 = new Chunk("- Si EL CLIENTE retira el monto del depósito antes del vencimiento del plazo estipulado, los intereses devengados se abonarán de acuerdo a la tasa de interés fijada para el Ahorro Corriente por el periodo de permanencia efectiva del depósito, si fuera el caso, se descontará los pagos adelantados de intereses que se pudieran haberse otorgado.\n", font);
+				chunkPF06.setLineHeight(12);
+				enumeracionPF06.add(chunkPF06);
+				
+				Paragraph enumeracionPF07 = new Paragraph();
+				Chunk chunkPF07 = new Chunk("- LA COOPERATIVA tiene la facultad de modificar las condiciones aplicables, conforme a las disposiciones de la ley 28587 y su reglamento aprobado mediante Resolución SBS 1765-2005.\n", font);
+				chunkPF07.setLineHeight(12);
+				enumeracionPF07.add(chunkPF07);
+				
+				Paragraph enumeracionPF08 = new Paragraph();
+				Chunk chunkPF08 = new Chunk("- EL CLIENTE deberá dar inmediatamente aviso por escrito en caso de pérdida, extravío o sustracción de esta cartilla, caso contrario LA COOPERATIVA no se responsabiliza de las operaciones efectuadas, por falta de aviso previo.\n", font);
+				chunkPF08.setLineHeight(12);
+				enumeracionPF08.add(chunkPF08);
+				
+				Paragraph enumeracionPF09 = new Paragraph();
+				Chunk chunkPF09 = new Chunk("- Tasas de Interés sujetas a variaciones de acuerdo a las condiciones del mercado.", font);
+				chunkPF09.setLineHeight(12);
+				enumeracionPF09.add(chunkPF09);
+				
+				parrafoDeclaraciones.add(enumeracionPF01);
+				parrafoDeclaraciones.add(enumeracionPF02);
+				parrafoDeclaraciones.add(enumeracionPF03);
+				parrafoDeclaraciones.add(enumeracionPF04);
+				parrafoDeclaraciones.add(enumeracionPF05);
+				parrafoDeclaraciones.add(enumeracionPF06);
+				parrafoDeclaraciones.add(enumeracionPF07);
+				parrafoDeclaraciones.add(enumeracionPF08);
+				parrafoDeclaraciones.add(enumeracionPF09);
+			}
+			
+			if(cuentaBancaria.getTipoCuenta().toString() == "CORRIENTE"){
+				// añadiendo las viñetas
+				Paragraph enumeracionCC01 = new Paragraph();
+				Chunk chunkCC01 = new Chunk("- La tasa de rendimiento efectiva anual (trea), es aquella que permite igualar el monto que se ha depositado con el valor actual del monto que efectivamente se recibe al vencimiento del plazo, considerando todos los cargos por comisiones y gastos, incluidos los seguros, cuando corresponda, y bajo el supuesto de cumplimiento de todas las condiciones pactadas. no se incluyen en este cálculo aquellos pagos por servicios provistos por terceros que directamente sean pagados por el cliente ni los tributos que resulten aplicables. como ejemplo corresponde a un saldo inicial de s/.1,000.00 o usd 1,000.00 que se mantiene sin movimientos durante 12 meses.\n", font);
+				chunkCC01.setLineHeight(13);
+				enumeracionCC01.add(chunkCC01);
+				
+				Paragraph enumeracionCC02 = new Paragraph();
+				Chunk chunkCC02 = new Chunk("- Los intereses se capitalizan mensualmente, y para su cálculo se establece que el año base tiene 360 días.\n", font);
+				chunkCC02.setLineHeight(13);
+				enumeracionCC02.add(chunkCC02);
+				
+				Paragraph enumeracionCC03 = new Paragraph();
+				Chunk chunkCC03 = new Chunk("- La fecha de corte para el abono de los intereses generados es el último día calendario de cada mes y se realiza mediante el abono respectivo en la misma cuenta.\n", font);
+				chunkCC03.setLineHeight(13);
+				enumeracionCC03.add(chunkCC03);
+				
+				Paragraph enumeracionCC04 = new Paragraph();
+				Chunk chunkCC04 = new Chunk("- El saldo mínimo de equilibrio es aquel que se requiere mantener en una cuenta en la cual no se realice ninguna operación, y que permita generar intereses suficientes en un mes de 30 días que compensen las comisiones y gastos asociados con el mantenimiento de dicha cuenta, de tal forma que no se pierda ni se gane rendimientos al final del mes.\n", font);
+				chunkCC04.setLineHeight(13);
+				enumeracionCC04.add(chunkCC04);
+				
+				parrafoDeclaraciones.add(enumeracionCC01);
+				parrafoDeclaraciones.add(enumeracionCC02);
+				parrafoDeclaraciones.add(enumeracionCC03);
+				parrafoDeclaraciones.add(enumeracionCC04);
+			}
+			
+			//Declaraciones Finales
+			Chunk parrafoDeclaracionesFinalesCab = new Chunk("\nDECLARACIÓN FINAL DEL CLIENTE: ", fontBold);
+			Paragraph parrafoDeclaracionesFinalesValue = new Paragraph();
+			
+			Chunk declaracionFinal = new Chunk("Declaro haber leido previamente las condiciones establecidas en el Contrato de Depósito y la Cartilla de Información, asi como haber sido instruido acerca de los alcances y significados de los términos y condiciones establecidos en dicho documento habiendo sido absueltas y aclaradas a mi satisfacción todas las consultas efectuadas y/o dudas, suscribe el presente documento en duplicado y con pleno y exacto conocimiento de los mismos.\n", font);
+			declaracionFinal.setLineHeight(13);
+			parrafoDeclaracionesFinalesValue.add(declaracionFinal);
+			
 			parrafoDeclaraciones.add(parrafoDeclaracionesFinalesCab);
 			parrafoDeclaraciones.add(parrafoDeclaracionesFinalesValue);
 
@@ -544,10 +741,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			// firmas
 			Chunk firmaP01 = new Chunk("..........................................");
 			Chunk firmaP02 = new Chunk("..........................................\n");
-			Chunk firma01 = new Chunk("Cooperativa");
-			Chunk firma02 = new Chunk("Cliente    ");
+			Chunk firma01 = new Chunk("Caja Ventura");
+			Chunk firma02 = new Chunk("El Cliente   ");
 
-			Paragraph firmas = new Paragraph("\n\n\n\n\n\n");
+			Paragraph firmas = new Paragraph("\n\n\n");
 			firmas.setAlignment(Element.ALIGN_CENTER);
 
 			firmas.add(firmaP01);
