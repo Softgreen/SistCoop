@@ -263,8 +263,8 @@ public class SocioRESTService implements SocioREST {
 
 		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 		BaseColor baseColor = BaseColor.LIGHT_GRAY;
-		Font font = FontFactory.getFont("Arial", 11f);
-		Font fontBold = FontFactory.getFont("Arial", 11f, Font.BOLD);
+		Font font = FontFactory.getFont("Arial", 10f);
+		Font fontBold = FontFactory.getFont("Arial", 10f, Font.BOLD);
 		
 		try {
 			file = new FileOutputStream(new File(cartillaURL + "\\" + id + ".pdf"));
