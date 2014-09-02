@@ -263,8 +263,8 @@ public class SocioRESTService implements SocioREST {
 
 		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 		BaseColor baseColor = BaseColor.LIGHT_GRAY;
-		Font font = FontFactory.getFont("Arial", 10f);
-		Font fontBold = FontFactory.getFont("Arial", 10f, Font.BOLD);
+		Font font = FontFactory.getFont("Arial", 11f);
+		Font fontBold = FontFactory.getFont("Arial", 11f, Font.BOLD);
 		
 		try {
 			file = new FileOutputStream(new File(cartillaURL + "\\" + id + ".pdf"));
@@ -294,7 +294,7 @@ public class SocioRESTService implements SocioREST {
 			titulo.setFont(fuenteTitulo);
 			parrafoPrincipal.add(titulo);
 
-			Chunk subTitulo = new Chunk("APERTURA CUENTA DE APORTES\n");
+			Chunk subTitulo = new Chunk("APERTURA CUENTA DE APORTE\n");
 			Font fuenteSubtitulo = new Font();
 			fuenteSubtitulo.setSize(13);
 			fuenteSubtitulo.setFamily("Arial");
@@ -312,7 +312,7 @@ public class SocioRESTService implements SocioREST {
 			cabecera1.setColspan(4);
 			cabecera1.setBackgroundColor(baseColor);
 
-			PdfPCell cellCodigoSocio = new PdfPCell(new Paragraph("Codigo Socio:", font));
+			PdfPCell cellCodigoSocio = new PdfPCell(new Paragraph("Codigo Socio:", fontBold));
 			cellCodigoSocio.setColspan(1);
 			cellCodigoSocio.setBorder(Rectangle.NO_BORDER);
 			
@@ -320,7 +320,7 @@ public class SocioRESTService implements SocioREST {
 			cellCodigoSocioValue.setColspan(3);
 			cellCodigoSocioValue.setBorder(Rectangle.NO_BORDER);
 			
-			PdfPCell cellApellidosNombres = new PdfPCell(new Paragraph(socio.getTipoPersona().equals(TipoPersona.NATURAL) ? "Apellidos y Nombres:" : "Razón Social:", font));
+			PdfPCell cellApellidosNombres = new PdfPCell(new Paragraph(socio.getTipoPersona().equals(TipoPersona.NATURAL) ? "Apellidos y Nombres:" : "Razón Social:", fontBold));
 			cellApellidosNombres.setColspan(1);
 			cellApellidosNombres.setBorder(Rectangle.NO_BORDER);
 			
@@ -334,7 +334,7 @@ public class SocioRESTService implements SocioREST {
 			table1.addCell(cellApellidosNombres);
 			table1.addCell(cellApellidosNombresValue);
 
-			PdfPCell cellDNI = new PdfPCell(new Paragraph(socio.getTipoDocumento()+":", font));
+			PdfPCell cellDNI = new PdfPCell(new Paragraph(socio.getTipoDocumento()+":", fontBold));
 			cellDNI.setColspan(1);
 			cellDNI.setBorder(Rectangle.NO_BORDER);
 			
@@ -342,7 +342,7 @@ public class SocioRESTService implements SocioREST {
 			cellDNIValue.setColspan(1);
 			cellDNIValue.setBorder(Rectangle.NO_BORDER);
 			
-			PdfPCell cellFechaNaciemiento = new PdfPCell(new Paragraph(socio.getTipoPersona().equals(TipoPersona.NATURAL) ? "Fecha de Nacimiento:" : "Fecha de Constitución", font));
+			PdfPCell cellFechaNaciemiento = new PdfPCell(new Paragraph(socio.getTipoPersona().equals(TipoPersona.NATURAL) ? "Fecha de Nacimiento:" : "Fecha de Constitución", fontBold));
 			cellFechaNaciemiento.setColspan(1);
 			cellFechaNaciemiento.setBorder(Rectangle.NO_BORDER);
 			
@@ -358,76 +358,6 @@ public class SocioRESTService implements SocioREST {
 			document.add(table1);
 			document.add(new Paragraph("\n"));
 
-			/******************* TITULARES **********************/
-			/*
-			 * PdfPTable table2 = new PdfPTable(7);
-			 * table2.setWidthPercentage(100);
-			 * 
-			 * PdfPCell cabecera2 = new PdfPCell(new Paragraph("TITULARES",
-			 * fontBold)); cabecera2.setColspan(7);
-			 * cabecera2.setBackgroundColor(baseColor);
-			 * table2.addCell(cabecera2);
-			 * 
-			 * PdfPCell cellTipoDocumentoCab = new PdfPCell(new
-			 * Paragraph("Tipo doc.", font)); PdfPCell cellNumeroDocumentoCab =
-			 * new PdfPCell(new Paragraph("Nº Doc.", font)); PdfPCell
-			 * cellApellidoPaternoCab = new PdfPCell(new
-			 * Paragraph("Ap. Paterno", font)); PdfPCell cellApellidoMaternoCab
-			 * = new PdfPCell(new Paragraph("Ap. Materno", font)); PdfPCell
-			 * cellNombresCab = new PdfPCell(new Paragraph("Nombres", font));
-			 * PdfPCell cellSexoCab = new PdfPCell(new Paragraph("Sexo", font));
-			 * PdfPCell cellFechaNacimientoCab = new PdfPCell(new
-			 * Paragraph("Fec.nac.", font));
-			 * 
-			 * cellTipoDocumentoCab.setBorder(Rectangle.NO_BORDER);
-			 * cellNumeroDocumentoCab.setBorder(Rectangle.NO_BORDER);
-			 * cellApellidoPaternoCab.setBorder(Rectangle.NO_BORDER);
-			 * cellApellidoMaternoCab.setBorder(Rectangle.NO_BORDER);
-			 * cellNombresCab.setBorder(Rectangle.NO_BORDER);
-			 * cellSexoCab.setBorder(Rectangle.NO_BORDER);
-			 * cellFechaNacimientoCab.setBorder(Rectangle.NO_BORDER);
-			 * 
-			 * table2.addCell(cellTipoDocumentoCab);
-			 * table2.addCell(cellNumeroDocumentoCab);
-			 * table2.addCell(cellApellidoPaternoCab);
-			 * table2.addCell(cellApellidoMaternoCab);
-			 * table2.addCell(cellNombresCab); table2.addCell(cellSexoCab);
-			 * table2.addCell(cellFechaNacimientoCab);
-			 * 
-			 * for (Titular titular : listTitulares) { PersonaNatural
-			 * personaNatural = titular.getPersonaNatural();
-			 * 
-			 * PdfPCell cellTipoDocumento = new PdfPCell(new
-			 * Paragraph(personaNatural.getTipoDocumento().getAbreviatura(),
-			 * font)); PdfPCell cellNumeroDocumento = new PdfPCell(new
-			 * Paragraph(personaNatural.getNumeroDocumento(), font)); PdfPCell
-			 * cellApellidoPaterno = new PdfPCell(new
-			 * Paragraph(personaNatural.getApellidoPaterno(), font)); PdfPCell
-			 * cellApellidoMaterno = new PdfPCell(new
-			 * Paragraph(personaNatural.getApellidoMaterno(), font)); PdfPCell
-			 * cellNombres = new PdfPCell(new
-			 * Paragraph(personaNatural.getNombres(), font)); PdfPCell cellSexo
-			 * = new PdfPCell(new Paragraph(personaNatural.getSexo().toString(),
-			 * font)); PdfPCell cellFechaNacimiento = new PdfPCell(new
-			 * Paragraph(
-			 * DATE_FORMAT.format(personaNatural.getFechaNacimiento()), font));
-			 * 
-			 * cellTipoDocumento.setBorder(Rectangle.NO_BORDER);
-			 * cellNumeroDocumento.setBorder(Rectangle.NO_BORDER);
-			 * cellApellidoPaterno.setBorder(Rectangle.NO_BORDER);
-			 * cellApellidoMaterno.setBorder(Rectangle.NO_BORDER);
-			 * cellNombres.setBorder(Rectangle.NO_BORDER);
-			 * cellSexo.setBorder(Rectangle.NO_BORDER);
-			 * cellFechaNacimiento.setBorder(Rectangle.NO_BORDER);
-			 * 
-			 * table2.addCell(cellTipoDocumento);
-			 * table2.addCell(cellNumeroDocumento);
-			 * table2.addCell(cellApellidoPaterno);
-			 * table2.addCell(cellApellidoMaterno); table2.addCell(cellNombres);
-			 * table2.addCell(cellSexo); table2.addCell(cellFechaNacimiento); }
-			 * 
-			 * document.add(table2); document.add(new Paragraph("\n"));
-			 */
 
 			/******************* PRODUCTOS Y SERVICIOS **********************/
 			PdfPTable table3 = new PdfPTable(4);
@@ -438,10 +368,10 @@ public class SocioRESTService implements SocioREST {
 			cabecera3.setBackgroundColor(baseColor);
 			table3.addCell(cabecera3);
 
-			PdfPCell cellProductoCab = new PdfPCell(new Paragraph("Producto", font));
-			PdfPCell cellMonedaCab = new PdfPCell(new Paragraph("Moneda", font));
-			PdfPCell cellNumeroCuentaCab = new PdfPCell(new Paragraph("Numero Cuenta", font));
-			PdfPCell cellFechaAperturaCab = new PdfPCell(new Paragraph("Fecha Apertura", font));
+			PdfPCell cellProductoCab = new PdfPCell(new Paragraph("Producto", fontBold));
+			PdfPCell cellMonedaCab = new PdfPCell(new Paragraph("Moneda", fontBold));
+			PdfPCell cellNumeroCuentaCab = new PdfPCell(new Paragraph("Número Cuenta", fontBold));
+			PdfPCell cellFechaAperturaCab = new PdfPCell(new Paragraph("Fecha Apertura", fontBold));
 			cellProductoCab.setBorder(Rectangle.NO_BORDER);
 			cellMonedaCab.setBorder(Rectangle.NO_BORDER);
 			cellNumeroCuentaCab.setBorder(Rectangle.NO_BORDER);
@@ -500,7 +430,7 @@ public class SocioRESTService implements SocioREST {
 			// firmas
 			Chunk firmaP01 = new Chunk("..........................................");
 			Chunk firmaP02 = new Chunk("..........................................\n");
-			Chunk firma01 = new Chunk("La Cooperativa");
+			Chunk firma01 = new Chunk("Caja Ventura");
 			Chunk firma02 = new Chunk("El Socio     ");
 
 			Paragraph firmas = new Paragraph("\n\n\n\n\n\n");
