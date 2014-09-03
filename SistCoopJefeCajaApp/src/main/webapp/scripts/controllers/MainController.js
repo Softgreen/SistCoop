@@ -1,8 +1,8 @@
 define(['./module'], function (controllers) {
     'use strict';
 
-    controllers.controller('MainController', ['$scope','$state','$window','$timeout','localStorageService','hotkeys','SessionService','HotKeysFunctionsService','RedirectService','ConfiguracionService',
-        function($scope,$state,$window,$timeout,localStorageService,hotkeys,SessionService,HotKeysFunctionsService,RedirectService,ConfiguracionService) {
+    controllers.controller('MainController', ['$scope','$state','$window','$timeout','localStorageService','SessionService',
+        function($scope,$state,$window,$timeout,localStorageService,SessionService) {
 
             $scope.$watch('redirect', function(newValue, oldvalue){
                 if(newValue != oldvalue)
@@ -31,7 +31,7 @@ define(['./module'], function (controllers) {
                     function(data){
                         $scope.agenciaSession = data;
                     },
-                    function error(status){
+                    function error(error){
                         $scope.agenciaSession = {
                             "denominacion":"undefined",
                             "abreviatura":"undefined",

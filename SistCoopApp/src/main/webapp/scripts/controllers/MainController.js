@@ -87,7 +87,7 @@ define(['./module'], function (controllers) {
                     function(data){
                         $scope.agenciaSession = data;
                     },
-                    function error(status){
+                    function error(error){
                         $scope.agenciaSession = {
                             "denominacion":"undefined",
                             "abreviatura":"undefined",

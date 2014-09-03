@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -81,6 +83,7 @@ public class Boveda implements java.io.Serializable {
 	@XmlElement(name = "id")
 	@DecimalMin(value = "0", inclusive = false)
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID_BOVEDA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdBoveda() {
 		return this.idBoveda;
@@ -130,8 +133,6 @@ public class Boveda implements java.io.Serializable {
 
 	@XmlElement
 	@NotNull
-	@Min(value = 0)
-	@Max(value = 1)
 	@Column(name = "ESTADO", nullable = false, precision = 22, scale = 0)
 	public boolean getEstado() {
 		return (this.estado == 1 ? true : false);
@@ -143,8 +144,6 @@ public class Boveda implements java.io.Serializable {
 
 	@XmlElement(name = "abierto")
 	@NotNull
-	@Min(value = 0)
-	@Max(value = 1)
 	@Column(name = "ABIERTO", nullable = false, precision = 22, scale = 0)
 	public boolean getAbierto() {
 		return (this.abierto == 1 ? true : false);
@@ -156,8 +155,6 @@ public class Boveda implements java.io.Serializable {
 
 	@XmlElement(name = "estadoMovimiento")
 	@NotNull
-	@Min(value = 0)
-	@Max(value = 1)
 	@Column(name = "ESTADO_MOVIMIENTO", nullable = false, precision = 22, scale = 0)
 	public boolean getCongelado() {
 		return (this.estadoMovimiento == 1 ? true : false);

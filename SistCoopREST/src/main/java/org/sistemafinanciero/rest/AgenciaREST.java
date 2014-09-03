@@ -12,6 +12,11 @@ import javax.ws.rs.core.Response;
 public interface AgenciaREST {
 
 	@GET
+	@Path("/{id}/bovedas")
+	@Produces({ "application/json" })
+	public Response getBovedasOfAgencia(@PathParam("id") BigInteger id);
+	
+	@GET
 	@Path("/{id}/cajas")
 	@Produces({ "application/json" })
 	public Response getCajasOfAgencia(@PathParam("id") BigInteger id);

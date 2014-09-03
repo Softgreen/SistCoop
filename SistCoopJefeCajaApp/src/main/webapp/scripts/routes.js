@@ -137,8 +137,8 @@ define(['./app'], function(app) {
                 })
 
                 .state('app.boveda.nuevaBoveda', {
-                    url: "/nuevo",
-                    templateUrl: "views/jefeCaja/boveda/crearBoveda.html"
+                    url: '/nuevo',
+                    templateUrl: 'views/jefeCaja/boveda/crearBoveda.html'
                 })
                 .state('app.boveda.buscarBoveda', {
                     url: "/abrir",

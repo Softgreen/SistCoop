@@ -61,10 +61,15 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        <a class="gwt-Anchor" style="padding-right: 30px">
+                            <span ng-bind="agenciaSession.denominacion"></span>&nbsp;&nbsp;
+                        </a>
+                    </li>
+                    <li>
                         <div class="btn-group" dropdown style="padding-top: 10px;">
                             <button type="button" class="btn btn-link dropdown-toggle" style="color:#29465F">
                                 <span class="glyphicon glyphicon-user">&nbsp;</span>
-                                {{usuarioSession}}&nbsp;&nbsp;&nbsp;
+                                <span ng-bind="usuarioSession"></span>&nbsp;&nbsp;&nbsp;
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">

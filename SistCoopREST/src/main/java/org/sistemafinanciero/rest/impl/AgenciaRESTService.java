@@ -16,9 +16,16 @@ public class AgenciaRESTService implements AgenciaREST {
 	private AgenciaServiceNT agenciaServiceNT;
 
 	@Override
+	public Response getBovedasOfAgencia(BigInteger id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public Response getCajasOfAgencia(BigInteger id) {
 		Set<Caja> cajas = agenciaServiceNT.getCajasOfAgencia(id);
 		Response response = Response.status(Response.Status.OK).entity(cajas).build();
 		return response;
 	}
+
 }
