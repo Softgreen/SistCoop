@@ -13,6 +13,15 @@
 			<role-name>cajero</role-name>
 		</auth-constraint>
 	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name></web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>jefeCaja</role-name>
+		</auth-constraint>
+	</security-constraint>
 
 	<login-config>
 		<auth-method>KEYCLOAK</auth-method>
@@ -20,5 +29,8 @@
 	</login-config>
 	<security-role>
 		<role-name>cajero</role-name>
+	</security-role>
+	<security-role>
+		<role-name>jefeCaja</role-name>
 	</security-role>
 </web-app>

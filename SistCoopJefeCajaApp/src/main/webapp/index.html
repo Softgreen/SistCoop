@@ -12,6 +12,7 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+
     <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css" />
     <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.min.css" />
     <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css">
@@ -34,7 +35,7 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container" style="padding-top: 70px;">
+<div class="container" ng-controller="MainController" style="padding-top: 70px;">
 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
@@ -45,17 +46,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li ng-class="{active: $state.includes(&#39;app.home&#39;)}">
+                    <li ng-class="{active: $state.includes(&#39;home&#39;)}">
                         <a href="#" ui-sref="home({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;home&#39;)}">Página Principal</a>
                     </li>
-                    <li ng-class="{active: $state.includes(&#39;app.caja&#39;)}">
+                    <li ng-class="{active: $state.includes(&#39;app.boveda&#39;)}">
                         <a href="#contact" ui-sref="app.boveda({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.boveda&#39;)}">Boveda</a>
                     </li>
-                    <li ng-class="{active: $state.includes(&#39;app.transaccion&#39;)}">
-                        <a href="#about" ui-sref="app.transaccion({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.transaccion&#39;)}">Caja</a>
+                    <li ng-class="{active: $state.includes(&#39;app.caja&#39;)}">
+                        <a href="#about" ui-sref="app.caja({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.caja&#39;)}">Caja</a>
                     </li>
-                    <li ng-class="{active: $state.includes(&#39;app.socio&#39;)}">
-                        <a href="#contact" ui-sref="app.socio({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.socio&#39;)}">Transaccion</a>
+                    <li ng-class="{active: $state.includes(&#39;app.transaccion&#39;)}">
+                        <a href="#contact" ui-sref="app.transaccion({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.transaccion&#39;)}">Transaccion</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

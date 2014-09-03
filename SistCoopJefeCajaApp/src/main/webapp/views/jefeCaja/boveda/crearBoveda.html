@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Nueva boveda</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <form role="form">
+            <div class="form-group">
+                <label>Agencia</label>
+                <input type="text" value="Agencia Ayacucho" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+                <label>Moneda</label>
+                <select focus-on="focusTipoOperacion" name="tipoOperacion" ng-options="tipoOperacion as tipoOperacion.denominacion for tipoOperacion in combo.tipoOperacion" ng-model="view.tipoOperacion" class="form-control" required>
+                    <option value="">--Seleccione--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Denominacion</label>
+                <input type="text" class="form-control" placeholder="Denominacion">
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <input type="text" value="Activo, cerrado, congelado" class="form-control" disabled>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-default">Cancelar</button>
+        </form>
+    </div>
+</div>
