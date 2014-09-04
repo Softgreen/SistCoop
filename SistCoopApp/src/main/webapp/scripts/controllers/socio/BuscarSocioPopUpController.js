@@ -129,7 +129,7 @@ define(['../module'], function (controllers) {
 
             $scope.selectSocio = function(row){
                 $scope.socioSelected = row;
-                if ($scope.socioSelected !== undefined && $scope.socioSelected !== null) {
+                if ($scope.socioSelected !== undefined && $scope.socioSelected !== null) {                	
                     $modalInstance.close($scope.socioSelected);
                 }
             }

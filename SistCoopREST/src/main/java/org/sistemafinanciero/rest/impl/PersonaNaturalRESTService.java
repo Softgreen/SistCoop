@@ -40,7 +40,9 @@ public class PersonaNaturalRESTService implements PersonaNaturalREST {
 
 	private final static String baseUrl = "/personas/naturales";
 	private final String UPLOADED_FIRMA_PATH = "d:\\firmas\\";
+	//private final String UPLOADED_FIRMA_PATH = "//usr//share//jboss//archivos//firmas//";
 	private final String UPLOADED_FOTO_PATH = "d:\\fotos\\";
+	//private final String UPLOADED_FOTO_PATH = "//usr//share//jboss//archivos//fotos//";
 
 	@Inject
 	private Validator validator;
