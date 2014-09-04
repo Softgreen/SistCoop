@@ -62,21 +62,7 @@ define(['./app'], function(app) {
                         $scope.redirect = $stateParams.redirect;
                     }
                 })
-                .state('app.configuracion', {
-                    abstract: true,
-                    url: '/config',
-                    template: '' +
-                        '<div class="container" style="padding-top: 70px; min-height: 400px;">' +
-                            '<div class="row">' +
-                                '<div class="col-md-6 col-md-offset-3" ui-view></div>'+
-                            '</div>'+
-                        '</div>'
-                })
-                .state('app.configuracion.impresora', {
-                    url: "/impresora",
-                    templateUrl: "views/cajero/configuracion/impresora.html",
-                    controller: 'ConfiguracionImpresoraController'
-                })
+
                 .state('app.boveda', {
                     url: "/boveda",
                     views: {
@@ -95,50 +81,17 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-                .state('app.caja', {
-                    url: "/caja",
-                    views: {
-                        "viewMenu":{
-                            controller: function($scope){
-                                $scope.menus = [
-                                    {'name':'Caja', submenus:[
-                                        { 'name':'Nuevo' , 'state':'app.caja.nuevaCaja'},
-                                        { 'name':'Buscar' , 'state':'app.caja.buscarCaja'}
-                                    ]}
-                                ];
-                            }
-                        },
-                        "viewContent":{
-                            template: '<div ui-view style="min-height: 472px;"></br></br></div>'
-                        }
-                    }
-                })
-                .state('app.transaccion', {
-                    url: "/transaccion",
-                    views: {
-                        "viewMenu":{
-                            controller: function($scope){
-                                $scope.menus = [
-                                    {'name':'Boveda/caja', submenus:[
-                                        { 'name':'Nuevo' , 'state':'app.transaccion.nuevaTransaccionBovedaCaja'},
-                                        { 'name':'Buscar' , 'state':'app.transaccion.buscarTransaccionBovedaCaja'}
-                                    ]},
-                                    {'name':'Agencia/agencia', submenus:[
-                                        { 'name':'Nuevo' , 'state':'app.transaccion.nuevaTransaccionAgenciaAgencia'},
-                                        { 'name':'Buscar' , 'state':'app.transaccion.buscarTransaccionAgenciaAgencia'}
-                                    ]}
-                                ];
-                            }
-                        },
-                        "viewContent":{
-                            template: '<div ui-view style="min-height: 472px;"></br></br></div>'
-                        }
-                    }
-                })
 
                 .state('app.boveda.nuevaBoveda', {
-                    url: '/nuevo',
-                    templateUrl: 'views/jefeCaja/boveda/crearBoveda.html'
+                    url: '/boveda',
+                    templateUrl: "views/jefeCaja/boveda/crearBoveda.html"
+                })
+                .state('app.boveda.editarBoveda', {
+                    url: "/boveda/:id",
+                    templateUrl: "views/jefeCaja/boveda/editarBoveda.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
                 })
                 .state('app.boveda.buscarBoveda', {
                     url: "/abrir",

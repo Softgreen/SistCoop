@@ -3,12 +3,11 @@ define(['./module'], function (services) {
     services.factory("BovedaService",["Restangular",
         function(Restangular){
 
-            var _monedaService = Restangular.all('monedas');
             var baseUrl = "bovedas";
 
             return {
-                getMonedas: function() {
-                    return Restangular.all(baseUrl).getList();
+                getBovedas: function(idAgencia) {
+                    return Restangular.all(baseUrl).getList({idAgencia: idAgencia});
                 },
                 crear: function(idMoneda, denominacion) {
                     var data = $.param({

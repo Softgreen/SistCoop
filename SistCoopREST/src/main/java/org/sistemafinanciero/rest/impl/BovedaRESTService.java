@@ -17,6 +17,7 @@
 package org.sistemafinanciero.rest.impl;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
@@ -51,9 +52,15 @@ public class BovedaRESTService implements BovedaREST {
 	}
 
 	@Override
-	public Response listAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public Response listAll(BigInteger idAgencia) {
+		List<Boveda> list;
+		if (idAgencia == null)
+			list = bovedaServiceNT.findAll();
+		else
+			list = bovedaServiceNT.findAll(idAgencia);
+
+		Response response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
 	}
 
 	@Override
