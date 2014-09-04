@@ -81,21 +81,55 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.caja', {
+                    url: "/caja",
+                    views: {
+                        "viewMenu":{
+                            controller: function($scope){
+                                $scope.menus = [
+                                    {'name':'Caja', submenus:[
+                                        { 'name':'Nuevo' , 'state':'app.boveda.nuevaCaja'},
+                                        { 'name':'Buscar' , 'state':'app.boveda.buscarCaja'}
+                                    ]}
+                                ];
+                            }
+                        },
+                        "viewContent":{
+                            template: '<div ui-view style="min-height: 472px;"></br></br></div>'
+                        }
+                    }
+                })
 
                 .state('app.boveda.nuevaBoveda', {
-                    url: '/boveda',
+                    url: '/nuevo',
                     templateUrl: "views/jefeCaja/boveda/crearBoveda.html"
                 })
                 .state('app.boveda.editarBoveda', {
-                    url: "/boveda/:id",
+                    url: "/editar/:id",
                     templateUrl: "views/jefeCaja/boveda/editarBoveda.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
                 })
                 .state('app.boveda.buscarBoveda', {
-                    url: "/abrir",
+                    url: "/buscar",
                     templateUrl: "views/jefeCaja/boveda/buscarBoveda.html"
+                })
+
+                .state('app.caja.nuevaCaja', {
+                    url: '/nuevo',
+                    templateUrl: "views/jefeCaja/caja/crearCaja.html"
+                })
+                .state('app.caja.editarCaja', {
+                    url: "/editar/:id",
+                    templateUrl: "views/jefeCaja/caja/editarBoveda.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
+                })
+                .state('app.caja.buscarCaja', {
+                    url: "/buscar",
+                    templateUrl: "views/jefeCaja/caja/buscarCaja.html"
                 })
         }
     ]).run(['$rootScope', '$state', '$stateParams',
