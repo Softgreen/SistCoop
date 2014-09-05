@@ -4,7 +4,7 @@ define(['../module'], function (controllers) {
         function($scope,$state,$location,$window,$modal,SocioService,PersonaNaturalService,PersonaJuridicaService,MaestroService,RedirectService,ConfiguracionService) {
 
             $scope.viewState = "app.socio.panelSocio";
-
+            
             $scope.loadRedireccion = function(){
                 if(RedirectService.haveNext()){
                     var state = RedirectService.getNextState();
@@ -23,6 +23,7 @@ define(['../module'], function (controllers) {
                             if($scope.socio.tipoPersona == 'NATURAL'){
                                 PersonaNaturalService.findByTipoNumeroDocumento($scope.socio.idTipoDocumento, $scope.socio.numeroDocumento).then(function(data){
                                     $scope.personaNatural = data;
+                                    $scope.loadPais();
                                 });
                             } else if ($scope.socio.tipoPersona == 'JURIDICA'){
                                 PersonaJuridicaService.findByTipoNumeroDocumento($scope.socio.idTipoDocumento, $scope.socio.numeroDocumento).then(function(data){
@@ -74,14 +75,22 @@ define(['../module'], function (controllers) {
                         }
                     );
                 };
+            };               
+            
+            $scope.loadPais = function(){
+                MaestroService.getPaisByCodigo($scope.personaNatural.codigoPais).then(function(data){
+                	$scope.pais = data;
+                });
             };
 
+            
             $scope.loadRedireccion();
             $scope.loadSocio();
             $scope.loadCuentaAporte();
             $scope.loadApoderado();
             $scope.loadCuentasBancarias();
             $scope.loadBeneficiarios();
+
 
             $scope.editarSocioPN = function(){
                 if(!angular.isUndefined($scope.personaNatural)){

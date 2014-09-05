@@ -71,7 +71,7 @@ public class MaestroServiceBeanNT implements MaestroServiceNT {
 		if (codigo == null || codigo.isEmpty())
 			return null;
 		QueryParameter namedQueryName = QueryParameter.with("abreviatura", codigo);
-		List<Pais> list = paisDAO.findByNamedQuery(Pais.findByCodigo, namedQueryName.parameters());
+		List<Pais> list = paisDAO.findByNamedQuery(Pais.findByAbreviatura, namedQueryName.parameters());
 		if (list.size() == 1)
 			return list.get(0);
 		else
