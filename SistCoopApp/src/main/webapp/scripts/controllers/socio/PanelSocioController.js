@@ -83,14 +83,12 @@ define(['../module'], function (controllers) {
                 });
             };
 
-            
             $scope.loadRedireccion();
             $scope.loadSocio();
             $scope.loadCuentaAporte();
             $scope.loadApoderado();
             $scope.loadCuentasBancarias();
             $scope.loadBeneficiarios();
-
 
             $scope.editarSocioPN = function(){
                 if(!angular.isUndefined($scope.personaNatural)){
