@@ -30,7 +30,8 @@ define([
             'flow',
             'focusOn',
             'cfp.hotkeys',
-            'angular-ladda'
+            'angular-ladda',
+            'fxpicklist'
         ]);
     }
 );

@@ -21,7 +21,8 @@ require.config({
         'focusOn':"../bower_components/ng-focus-on/ng-focus-on",
         'ngProgress':"../bower_components/ngprogress/build/ngProgress",
         'cfp.hotkeys':"../bower_components/angular-hotkeys/build/hotkeys",
-        'angular-ladda':"../bower_components/angular-ladda/dist/angular-ladda.min"
+        'angular-ladda':"../bower_components/angular-ladda/dist/angular-ladda.min",
+        'picklist':"picklist"
     },
     shim: {
         angular: {
@@ -80,6 +81,11 @@ require.config({
                 'angular'
             ]
         },
+        'picklist':{
+            deps: [
+                'angular'
+            ]
+        },
         'angular-mocks': {
             deps: [
                 'angular'
@@ -113,7 +119,8 @@ require([
     'flow',
     'focusOn',
     'cfp.hotkeys',
-    'angular-ladda'
+    'angular-ladda',
+    'picklist'
 ], function(angular, app) {
     'use strict';
     /* jshint ignore:start */

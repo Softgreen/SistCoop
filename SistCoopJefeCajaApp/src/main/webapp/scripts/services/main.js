@@ -3,7 +3,8 @@ define([
 
     './MonedaService',
     './SessionService',
-    './BovedaService'
+    './BovedaService',
+    './CajaService'
 ], function () {
 
 });

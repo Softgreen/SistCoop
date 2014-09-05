@@ -1,7 +1,9 @@
 package org.sistemafinanciero.controller;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Remote;
@@ -15,6 +17,9 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.entity.Boveda;
+import org.sistemafinanciero.entity.BovedaCaja;
+import org.sistemafinanciero.entity.BovedaCajaId;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
@@ -30,6 +35,12 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 	@Inject
 	private DAO<Object, Caja> cajaDAO;
 
+	@Inject
+	private DAO<Object, Boveda> bovedaDAO;
+	
+	@Inject
+	private DAO<Object, BovedaCaja> bovedaCajaDAO;
+	
 	@Inject
 	private Validator validator;
 
@@ -67,6 +78,38 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 			cajaDAO.delete(caja);
 		} else {
 			throw new NonexistentEntityException("caja no existente, DELETE no ejecutado");
+		}
+	}
+
+	@Override
+	public BigInteger create(Caja caja, List<BigInteger> idBovedas) throws RollbackFailureException {
+		Set<ConstraintViolation<Caja>> violations = validator.validate(caja);
+		if (violations.isEmpty()) {
+			cajaDAO.create(caja);
+			for (BigInteger idBoveda : idBovedas) {
+				Boveda boveda = bovedaDAO.find(idBoveda);
+				if(boveda != null){
+					BovedaCaja bovedaCaja = new BovedaCaja();
+					bovedaCaja.setId(null);
+					bovedaCaja.setBoveda(boveda);
+					bovedaCaja.setCaja(caja);
+					bovedaCaja.setSaldo(BigDecimal.ZERO);
+					
+					BovedaCajaId id = new BovedaCajaId();
+					id.setIdBoveda(boveda.getIdBoveda());
+					id.setIdCaja(caja.getIdCaja());
+					
+					bovedaCaja.setId(id);
+					
+					bovedaCajaDAO.create(bovedaCaja);
+				} else {
+					throw new RollbackFailureException("Boveda no encontrada");
+				}
+			}
+			
+			return caja.getIdCaja();
+		} else {
+			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 		}
 	}
 
