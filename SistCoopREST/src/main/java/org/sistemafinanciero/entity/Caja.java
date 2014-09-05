@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -80,6 +82,7 @@ public class Caja implements java.io.Serializable {
 	@XmlElement(name = "id")
 	@DecimalMin(value = "0", inclusive = false)
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID_CAJA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdCaja() {
 		return this.idCaja;

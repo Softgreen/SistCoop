@@ -13,6 +13,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.rest.dto.CajaDTO;
 
 @Path("/cajas")
 public interface CajaREST {
@@ -88,7 +89,7 @@ public interface CajaREST {
 	@POST
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response create(Caja caja);
+	public Response create(CajaDTO caja);
 
 	@PUT
 	@Path("/{id}")

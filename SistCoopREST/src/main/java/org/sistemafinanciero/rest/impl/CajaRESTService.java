@@ -17,6 +17,7 @@
 package org.sistemafinanciero.rest.impl;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +46,8 @@ import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.CajaREST;
+import org.sistemafinanciero.rest.Jsend;
+import org.sistemafinanciero.rest.dto.CajaDTO;
 import org.sistemafinanciero.service.nt.CajaServiceNT;
 import org.sistemafinanciero.service.nt.TransaccionInternaServiceNT;
 import org.sistemafinanciero.service.ts.CajaServiceTS;
@@ -175,12 +178,18 @@ public class CajaRESTService implements CajaREST {
 	}
 
 	@Override
-	public Response create(Caja caja) {
+	public Response create(CajaDTO cajaDTO) {
 		try {
-			cajaServiceTS.create(caja);
-			return Response.status(Response.Status.CREATED).build();
-		} catch (PreexistingEntityException e) {
-			return Response.status(Response.Status.CONFLICT).build();
+			Caja caja = new Caja();
+			caja.setDenominacion(cajaDTO.getDenominacion());
+			caja.setAbreviatura(cajaDTO.getAbreviatura());
+			
+			List<BigInteger> idBovedas = new ArrayList<BigInteger>();
+			for (BigInteger id : cajaDTO.getBovedas()) {
+				idBovedas.add(id);
+			}
+			BigInteger id = cajaServiceTS.create(caja, idBovedas);
+			return Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(id)).build();
 		} catch (RollbackFailureException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}

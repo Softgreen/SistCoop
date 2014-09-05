@@ -88,8 +88,8 @@ define(['./app'], function(app) {
                             controller: function($scope){
                                 $scope.menus = [
                                     {'name':'Caja', submenus:[
-                                        { 'name':'Nuevo' , 'state':'app.boveda.nuevaCaja'},
-                                        { 'name':'Buscar' , 'state':'app.boveda.buscarCaja'}
+                                        { 'name':'Nuevo' , 'state':'app.caja.nuevaCaja'},
+                                        { 'name':'Buscar' , 'state':'app.caja.buscarCaja'}
                                     ]}
                                 ];
                             }

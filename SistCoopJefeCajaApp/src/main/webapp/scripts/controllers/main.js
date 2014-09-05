@@ -4,7 +4,11 @@ define([
 
     './boveda/CrearBovedaController',
     './boveda/EditarBovedaController',
-    './boveda/BuscarBovedaController'
+    './boveda/BuscarBovedaController',
+
+    './caja/CrearCajaController',
+    './caja/EditarCajaController',
+    './caja/BuscarCajaController'
 
 ], function () {
 
