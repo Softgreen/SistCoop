@@ -47,7 +47,7 @@ public interface BovedaREST {
 	@PUT
 	@Path("/{id}")
 	@Produces({ "application/xml", "application/json" })
-	public Response update(@PathParam("id") BigInteger id, @FormParam("idMoneda") BigInteger idMoneda, @FormParam("denominacion") String denominacion);
+	public Response update(@PathParam("id") BigInteger id, @FormParam("denominacion") String denominacion);
 
 	@POST
 	@Produces({ "application/xml", "application/json" })

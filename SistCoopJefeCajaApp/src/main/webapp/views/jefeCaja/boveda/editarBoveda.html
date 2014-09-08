@@ -1,50 +1,76 @@
 <div ng-controller="EditarBovedaController">
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Nueva boveda</h3>
+    <fieldset>
+        <legend style="padding-bottom: 5px;">
+            <div class="row">
+                <div class="col-sm-3">
+                    Socio
+                    <span ng-if="!view.estado" class="label label-danger">Boveda inactiva</span>
+                </div>
+                <div class="col-sm-3" ng-if="view.estado" style="text-align: right;font-size: 14px;">
+                    <div class="btn-group">
+                        <button type="button" ng-if="!view.abierto" ng-click="cerraBoveda()" popover="Cerrar boveda" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Cerrar</button>
+                        <button type="button" ng-if="view.abierto" ng-click="abrirBoveda()" popover="Abrir boveda" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Abrir</button>
+                    </div>
+                </div>
+            </div>
+        </legend>
+    </fieldset>
+    <div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Editar boveda</h3>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <form name="crearBovedaForm" ng-submit="crearTransaccion()" novalidate>
-                <div class="form-group">
-                    <label>Agencia</label>
-                    <input type="text" ng-model="agenciaSession.denominacion" class="form-control" disabled>
-                </div>
-                <div class="form-group" ng-class="{ 'has-error' : crearBovedaForm.moneda.$invalid && (control.submitted || crearBovedaForm.moneda.$dirty)}">
-                    <label>Moneda</label>
-                    <select focus-on="focusMoneda" name="moneda" ng-options="moneda.id as moneda.denominacion for moneda in combo.moneda" ng-model="view.idMoneda" class="form-control" required>
-                        <option value="">--Seleccione--</option>
-                    </select>
-                    <div ng-show="crearBovedaForm.moneda.$invalid && (control.submitted || crearBovedaForm.moneda.$dirty)">
-                        <p class="help-block" ng-show="crearBovedaForm.moneda.$error.required">
-                            Seleccione moneda.
-                        </p>
+        <div class="row">
+            <div class="col-sm-6">
+                <form name="crearBovedaForm" ng-submit="crearTransaccion()" novalidate>
+                    <div class="form-group">
+                        <label>Agencia</label>
+                        <input type="text" ng-model="agenciaSession.denominacion" class="form-control" disabled>
                     </div>
-                </div>
-                <div class="form-group" ng-class="{ 'has-error' : crearBovedaForm.denominacion.$invalid && (control.submitted || crearBovedaForm.denominacion.$dirty)}">
-                    <label>Denominacion</label>
-                    <input name="denominacion" type="text" ng-model="view.denominacion" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" capitalize required/>
-                    <div ng-show="crearBovedaForm.denominacion.$invalid && (control.submitted || crearBovedaForm.denominacion.$dirty)">
-                        <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.required">
-                            Ingrese denominacion.
-                        </p>
-                        <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.minlength">
-                            Minimo 1 Caracter.
-                        </p>
-                        <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.maxlength">
-                            Maximo 40 Caracteres.
-                        </p>
+                    <div class="form-group" ng-class="{ 'has-error' : crearBovedaForm.moneda.$invalid && (control.submitted || crearBovedaForm.moneda.$dirty)}">
+                        <label>Moneda</label>
+                        <select focus-on="focusMoneda" name="moneda" ng-options="moneda.id as moneda.denominacion for moneda in combo.moneda" ng-model="view.idMoneda" class="form-control" required disabled>
+                            <option value="">--Seleccione--</option>
+                        </select>
+                        <div ng-show="crearBovedaForm.moneda.$invalid && (control.submitted || crearBovedaForm.moneda.$dirty)">
+                            <p class="help-block" ng-show="crearBovedaForm.moneda.$error.required">
+                                Seleccione moneda.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Estado</label>
-                    <input type="text" value="Activo, cerrado, congelado" class="form-control" disabled>
-                </div>
+                    <div class="form-group" ng-class="{ 'has-error' : crearBovedaForm.denominacion.$invalid && (control.submitted || crearBovedaForm.denominacion.$dirty)}">
+                        <label>Denominacion</label>
+                        <input name="denominacion" type="text" ng-model="view.denominacion" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" capitalize required/>
+                        <div ng-show="crearBovedaForm.denominacion.$invalid && (control.submitted || crearBovedaForm.denominacion.$dirty)">
+                            <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.required">
+                                Ingrese denominacion.
+                            </p>
+                            <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.minlength">
+                                Minimo 1 Caracter.
+                            </p>
+                            <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.maxlength">
+                                Maximo 40 Caracteres.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado apertura</label>
+                        <input type="text" ng-value="view.abierto ? 'ABIERTO' : 'CERRADO'" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label></br>
+                        <toggle-switch model="view.estadoMovimiento" on-label="Descongelado" off-label="Congelado"></toggle-switch>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado boveda</label>
+                        <input type="text" ng-value="view.estado ? 'ACTIVO' : 'INACTIVO'" class="form-control" disabled>
+                    </div>
 
-                <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
-                <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
-            </form>
+                    <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
+                    <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

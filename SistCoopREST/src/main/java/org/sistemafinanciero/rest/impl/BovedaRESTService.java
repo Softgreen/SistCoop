@@ -26,6 +26,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.BovedaREST;
@@ -47,8 +48,9 @@ public class BovedaRESTService implements BovedaREST {
 
 	@Override
 	public Response findById(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		Boveda boveda = bovedaServiceNT.findById(id);
+		Response response = Response.status(Response.Status.OK).entity(boveda).build();
+		return response;
 	}
 
 	@Override
@@ -64,9 +66,25 @@ public class BovedaRESTService implements BovedaREST {
 	}
 
 	@Override
-	public Response update(BigInteger id, BigInteger idMoneda, String denominacion) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response update(BigInteger id, String denominacion) {
+		Response response;
+		
+		Boveda boveda = new Boveda();
+		boveda.setDenominacion(denominacion);		
+		try {
+			bovedaServiceTS.update(id, boveda);			
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (PreexistingEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.CONFLICT).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 	@Override

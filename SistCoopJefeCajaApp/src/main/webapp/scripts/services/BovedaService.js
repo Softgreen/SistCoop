@@ -6,6 +6,9 @@ define(['./module'], function (services) {
             var baseUrl = "bovedas";
 
             return {
+                findById: function(id) {
+                    return Restangular.one(baseUrl, id).get();
+                },
                 getBovedas: function(idAgencia) {
                     return Restangular.all(baseUrl).getList({idAgencia: idAgencia});
                 },
@@ -15,6 +18,17 @@ define(['./module'], function (services) {
                         denominacion: denominacion
                     });
                     return Restangular.one(baseUrl).customPOST(
+                        data,
+                        '',{},{
+                            "Content-Type":"application/x-www-form-urlencoded"}
+                    );
+                },
+                actualizar: function(idBoveda, denominacion) {
+                    var data = $.param({
+                        id: idBoveda,
+                        denominacion: denominacion
+                    });
+                    return Restangular.one(baseUrl+"/"+idBoveda).customPUT(
                         data,
                         '',{},{
                             "Content-Type":"application/x-www-form-urlencoded"}

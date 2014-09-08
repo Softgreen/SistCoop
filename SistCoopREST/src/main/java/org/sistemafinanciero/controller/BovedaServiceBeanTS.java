@@ -48,9 +48,10 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 	public void update(BigInteger id, Boveda t) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
 		Boveda boveda = bovedaDAO.find(id);
 		if (boveda != null) {
-			Set<ConstraintViolation<Boveda>> violations = validator.validate(t);
+			Set<ConstraintViolation<Boveda>> violations = validator.validate(boveda);
 			if (violations.isEmpty()) {
-				t.setIdBoveda(id);
+				String denominacioon = t.getDenominacion();
+				boveda.setDenominacion(denominacioon);
 				bovedaDAO.update(boveda);
 			} else {
 				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));

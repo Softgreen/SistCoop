@@ -31,7 +31,8 @@ define([
             'focusOn',
             'cfp.hotkeys',
             'angular-ladda',
-            'fxpicklist'
+            'fxpicklist',
+            'toggle-switch'
         ]);
     }
 );

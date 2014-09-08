@@ -28,7 +28,10 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 
 	@Override
 	public Boveda findById(BigInteger id) {
-		return bovedaDAO.find(id);
+		Boveda boveda =bovedaDAO.find(id);
+		Moneda moneda = boveda.getMoneda();
+		Hibernate.initialize(moneda);
+		return boveda;
 	}
 
 	@Override

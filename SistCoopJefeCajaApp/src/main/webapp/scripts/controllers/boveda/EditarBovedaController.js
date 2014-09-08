@@ -21,8 +21,12 @@ define(['../module'], function (controllers) {
             };
 
             $scope.view = {
+                idBoveda: undefined,
                 idMoneda: undefined,
-                denominacion: undefined
+                denominacion: undefined,
+                abierto: undefined,
+                estadoMovimiento: undefined,
+                estado: undefined
             };
 
             $scope.loadMonedas = function(){
@@ -31,20 +35,37 @@ define(['../module'], function (controllers) {
                 });
             };
 
+            $scope.loadBoveda = function(){
+                if(!angular.isUndefined($scope.id)){
+                    BovedaService.findById($scope.id).then(
+                        function(data){
+                            $scope.view.idBoveda = $scope.id;
+                            $scope.view.idMoneda = data.moneda.id;
+                            $scope.view.denominacion = data.denominacion;
+                            $scope.view.abierto = data.abierto;
+                            $scope.view.estadoMovimiento = data.estadoMovimiento;
+                            $scope.view.estado = data.estado;
+                        }, function error(error){
+                            $scope.alerts = [{ type: "danger", msg: "Error: No se pudo cargar la boveda."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                }
+            };
+
             //logic
             $scope.crearTransaccion = function(){
                 if ($scope.crearBovedaForm.$valid) {
                     $scope.control.inProcess = true;
 
-                    BovedaService.crear($scope.view.idMoneda, $scope.view.denominacion).then(
+                    BovedaService.actualizar($scope.id, $scope.view.denominacion).then(
                         function(data){
                             $scope.redireccion();
-                            $scope.control.inProcess = false;
                         },
                         function error(error){
                             $scope.control.inProcess = false;
                             $scope.control.success = false;
-                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                            $scope.alerts = [{ type: "danger", msg: "Error: No se pudo editar la boveda."}];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
                     );
@@ -62,6 +83,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.loadMonedas();
+            $scope.loadBoveda();
 
         }]);
 });
