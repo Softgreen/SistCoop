@@ -18,6 +18,7 @@ package org.sistemafinanciero.rest.impl;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
@@ -26,6 +27,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
@@ -121,6 +123,30 @@ public class BovedaRESTService implements BovedaREST {
 	public Response delete(BigInteger id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Response getDetalleBoveda(BigInteger id, BigInteger idHistorial) {
+		Set<GenericDetalle> detalle;
+		if (idHistorial == null)
+			detalle = bovedaServiceNT.getDetalleBoveda(id);
+		else
+			detalle = bovedaServiceNT.getDetalleBoveda(id, idHistorial);
+		Response response = Response.status(Response.Status.OK).entity(detalle).build();
+		return response;
+	}
+
+	@Override
+	public Response abrir(BigInteger id) {
+		Response response;
+		try {
+			BigInteger idHistorial = bovedaServiceTS.abrir(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 }

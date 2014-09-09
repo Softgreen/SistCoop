@@ -1,12 +1,7 @@
 <div ng-controller="AbrirBovedaController">
+    <h3>Abrir Boveda</h3>
+    <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); width: 400px; height: 300px;"></div>
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); height: 393px; font-size: 12px;"></div>
-        </div>
-    </div>
-
-    <button type="button" class="btn btn-primary">Guardar</button>
-    <button type="button" class="btn btn-default">Cancelar</button>
-
+    <button type="button" ng-click="abrirBoveda()" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
+    <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
 </div>

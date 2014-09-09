@@ -12,7 +12,7 @@ define(['../module'], function (controllers) {
 
 
             $scope.nuevo = function(){
-                $state.go('app.boveda.nuevaBoveda');
+                $state.transitionTo('app.boveda.nuevaBoveda');
             };
 
             $scope.loadBovedas = function(){
@@ -36,7 +36,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.editar = function(boveda) {
-                $state.go('app.boveda.editarBoveda', { id: boveda.id });
+                $state.transitionTo('app.boveda.editarBoveda', { id: boveda.id });
             };
 
         }]);

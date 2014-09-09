@@ -1,42 +1,62 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('AbrirBovedaController', ['$scope','$state','focus','BovedaService',
-        function($scope,$state,focus,BovedaService) {
+    controllers.controller('AbrirBovedaController', ['$scope','BovedaService',
+        function($scope,BovedaService) {
 
-            $scope.setInitialFocus = function($event){
-                if(!angular.isUndefined($event))
-                    $event.preventDefault();
-                focus('focusFilterText');
-            };
-            $scope.setInitialFocus();
-
-
-            $scope.nuevo = function(){
-                $state.transitionTo('app.boveda.nuevaBoveda');
+            $scope.control = {
+                success:false,
+                inProcess: false,
+                submitted : false
             };
 
-            $scope.loadBovedas = function(){
-                BovedaService.getBovedas($scope.agenciaSession.id).then(function(data){
-                    $scope.bovedas = data;
+            $scope.detalle = [];
+
+            $scope.loadDetalle = function(){
+                BovedaService.getDetalle($scope.id).then(function(data){
+                    angular.forEach(data, function(row){
+                        row.subtotal = function(){
+                            return this.valor * this.cantidad;
+                        }
+                    });
+                    $scope.detalle = data;
                 });
             };
-            $scope.loadBovedas();
+            $scope.loadDetalle();
+
+            $scope.getTotal = function() {
+                var total = 0;
+                if(!angular.isUndefined($scope.detalle)){
+                    for(var i = 0; i < $scope.detalle.length; i++){
+                        total = total + $scope.detalle[i].subtotal();
+                    }
+                }
+                return total;
+            };
 
             $scope.gridOptions = {
-                data: 'bovedas',
+                data: 'detalle',
                 multiSelect: false,
                 columnDefs: [
-                    { field: "denominacion", displayName: "DENOMINACION"},
-                    {displayName: 'ABIERTO/CERRADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.abierto">ABIERTO</span><span ng-hide="row.entity.abierto">CERRADO</span></div>'},
-                    {displayName: 'MOVIMIENTO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoMovimiento">DESCONGELADO</span><span ng-hide="row.entity.estadoMovimiento">CONGELADO</span></div>'},
-                    { field: "moneda.denominacion", displayName: "MONEDA"},
-                    {displayName: 'ESTADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>'},
-                    {displayName: 'EDIT', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}
+                    { field: "valor", displayName: "VALOR" },
+                    { field: "cantidad", displayName: "CANTIDAD" },
+                    { field: "subtotal()", displayName: "SUBTOTAL" }
                 ]
             };
 
-            $scope.editar = function(boveda) {
-                $state.transitionTo('app.boveda.editarBoveda', { id: boveda.id });
+            $scope.abrirBoveda = function(){
+                $scope.control.inProcess = true;
+                BovedaService.abrirBoveda($scope.id).then(
+                    function(data){
+                        alert("abierto");
+                        $scope.control.inProcess = false;
+                    },
+                    function error(error){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = false;
+                        $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
             };
 
         }]);

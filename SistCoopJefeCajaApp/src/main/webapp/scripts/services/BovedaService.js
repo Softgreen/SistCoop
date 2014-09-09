@@ -33,6 +33,12 @@ define(['./module'], function (services) {
                         '',{},{
                             "Content-Type":"application/x-www-form-urlencoded"}
                     );
+                },
+                abrirBoveda: function(idBoveda) {
+                    return Restangular.one(baseUrl+"/"+idBoveda+"/abrir").post();
+                },
+                getDetalle: function(idBoveda) {
+                    return Restangular.all(baseUrl+"/"+idBoveda+"/detalle").getList();
                 }
             }
         }])

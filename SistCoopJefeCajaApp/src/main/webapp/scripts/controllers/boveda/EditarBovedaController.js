@@ -124,7 +124,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.redireccion = function(){
-                $state.go('app.boveda.buscarBoveda');
+                $state.transitionTo('app.boveda.buscarBoveda');
             };
 
             $scope.cancelar = function () {
@@ -132,22 +132,22 @@ define(['../module'], function (controllers) {
             };
 
             $scope.abrirBoveda = function(){
-                $state.go('app.boveda.abrirBoveda', { id: $scope.id });
+                $state.transitionTo('app.boveda.abrirBoveda', { id: $scope.id });
             };
 
             $scope.cerrarBoveda = function(){
-                console.log("cerrando");
-                $state.go('app.boveda.cerrarBoveda', { id: $scope.id });
+               // console.log("cerrando");
+               // $state.go('app.boveda.cerrarBoveda', { id: $scope.id });
             };
 
             $scope.congelarBoveda = function(){
-                console.log("congelando");
+                //console.log("congelando");
             };
             $scope.descongelarBoveda = function(){
-                console.log("descongelando");
+                //console.log("descongelando");
             };
             $scope.inactivarBoveda = function(){
-                console.log("inactivando");
+               // console.log("inactivando");
             };
 
             $scope.loadMonedas();

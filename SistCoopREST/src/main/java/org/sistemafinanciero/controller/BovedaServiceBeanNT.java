@@ -1,7 +1,10 @@
 package org.sistemafinanciero.controller;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -14,7 +17,11 @@ import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Boveda;
+import org.sistemafinanciero.entity.DetalleHistorialBoveda;
+import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.entity.MonedaDenominacion;
+import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.service.nt.BovedaServiceNT;
 
 @Named
@@ -26,9 +33,16 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 	@Inject
 	private DAO<Object, Boveda> bovedaDAO;
 
+	@Inject
+	private DAO<Object, HistorialBoveda> historialBovedaDAO;
+
+	public HistorialBoveda getHistorialActivo(BigInteger idBoveda) {
+		return null;
+	}
+
 	@Override
 	public Boveda findById(BigInteger id) {
-		Boveda boveda =bovedaDAO.find(id);
+		Boveda boveda = bovedaDAO.find(id);
 		Moneda moneda = boveda.getMoneda();
 		Hibernate.initialize(moneda);
 		return boveda;
@@ -55,6 +69,79 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 			Hibernate.initialize(moneda);
 		}
 		return list;
+	}
+
+	@Override
+	public Set<GenericDetalle> getDetalleBoveda(BigInteger idBoveda) {
+		Set<GenericDetalle> result = null;
+
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		if (boveda == null)
+			return null;
+
+		// recuperando el historial activo
+		result = new HashSet<GenericDetalle>();
+		HistorialBoveda bovedaHistorial = this.getHistorialActivo(idBoveda);
+
+		if (bovedaHistorial != null) {
+			Set<DetalleHistorialBoveda> detalle = bovedaHistorial.getDetalleHistorialBovedas();
+			for (DetalleHistorialBoveda det : detalle) {
+				BigInteger cantidad = det.getCantidad();
+				BigDecimal valor = det.getMonedaDenominacion().getValor();
+
+				GenericDetalle gen = new GenericDetalle();
+				gen.setCantidad(cantidad);
+				gen.setValor(valor);
+
+				result.add(gen);
+			}
+		} else {
+			Moneda moneda = boveda.getMoneda();
+			Set<MonedaDenominacion> denominaciones = moneda.getMonedaDenominacions();
+			for (MonedaDenominacion denom : denominaciones) {
+				BigInteger cantidad = BigInteger.ZERO;
+				BigDecimal valor = denom.getValor();
+
+				GenericDetalle gen = new GenericDetalle();
+				gen.setCantidad(cantidad);
+				gen.setValor(valor);
+
+				result.add(gen);
+			}
+
+		}
+		return result;
+	}
+
+	@Override
+	public Set<GenericDetalle> getDetalleBoveda(BigInteger idBoveda, BigInteger idHistorialBoveda) {
+		Set<GenericDetalle> result = null;
+
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		if (boveda == null || idHistorialBoveda == null)
+			return null;
+
+		// recuperando el historial activo
+		HistorialBoveda bovedaHistorial = historialBovedaDAO.find(idHistorialBoveda);
+		if (!bovedaHistorial.getBoveda().equals(boveda))
+			return null;
+
+		// recorrer por todas las bovedas
+		result = new HashSet<GenericDetalle>();
+
+		Set<DetalleHistorialBoveda> detalle = bovedaHistorial.getDetalleHistorialBovedas();
+		for (DetalleHistorialBoveda det : detalle) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+
+			GenericDetalle gen = new GenericDetalle();
+			gen.setCantidad(cantidad);
+			gen.setValor(valor);
+
+			result.add(gen);
+		}
+
+		return result;
 	}
 
 }

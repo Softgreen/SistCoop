@@ -44,6 +44,11 @@ public interface BovedaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response listAll(@QueryParam("idAgencia") BigInteger idAgencia);
 
+	@GET
+	@Path("/{id}/detalle")
+	@Produces({ "application/xml", "application/json" })
+	public Response getDetalleBoveda(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
+
 	@PUT
 	@Path("/{id}")
 	@Produces({ "application/xml", "application/json" })
@@ -53,6 +58,11 @@ public interface BovedaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response create(@Context SecurityContext context, @FormParam("idMoneda") BigInteger idMoneda, @FormParam("denominacion") String denominacion);
 
+	@POST
+	@Path("/{id}/abrir")
+	@Produces({ "application/xml", "application/json" })
+	public Response abrir(@PathParam("id") BigInteger id);
+	
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") BigInteger id);
