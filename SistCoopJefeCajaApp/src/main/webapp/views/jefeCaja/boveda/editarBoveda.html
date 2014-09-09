@@ -2,15 +2,20 @@
     <fieldset>
         <legend style="padding-bottom: 5px;">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     Socio
                     <span ng-if="!view.estado" class="label label-danger">Boveda inactiva</span>
                 </div>
-                <div class="col-sm-3" ng-if="view.estado" style="text-align: right;font-size: 14px;">
+                <div class="col-sm-6" ng-if="view.estado" style="text-align: right;font-size: 14px;">
                     <div class="btn-group">
-                        <button type="button" ng-if="!view.abierto" ng-click="cerraBoveda()" popover="Cerrar boveda" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Cerrar</button>
-                        <button type="button" ng-if="view.abierto" ng-click="abrirBoveda()" popover="Abrir boveda" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Abrir</button>
+                        <label class="btn btn-default" ng-click="abrirBoveda()" ng-model="operaciones.changeEstadoAbierto" btn-radio="true">Abierto</label>
+                        <label class="btn btn-default" ng-click="cerrarBoveda()" ng-model="operaciones.changeEstadoAbierto" btn-radio="false">Cerrado</label>
                     </div>
+                    <div class="btn-group">
+                        <label class="btn btn-default" ng-click="congelarBoveda()" ng-model="operaciones.changeEstadoMovimiento" btn-radio="false">Congelado</label>
+                        <label class="btn btn-default" ng-click="descongelarBoveda()" ng-model="operaciones.changeEstadoMovimiento" btn-radio="true">Descongelado</label>
+                    </div>
+                    <button type="button" class="btn btn-danger">Inactivar</button>
                 </div>
             </div>
         </legend>
@@ -55,16 +60,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Estado apertura</label>
-                        <input type="text" ng-value="view.abierto ? 'ABIERTO' : 'CERRADO'" class="form-control" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Estado</label></br>
-                        <toggle-switch model="view.estadoMovimiento" on-label="Descongelado" off-label="Congelado"></toggle-switch>
-                    </div>
-                    <div class="form-group">
-                        <label>Estado boveda</label>
-                        <input type="text" ng-value="view.estado ? 'ACTIVO' : 'INACTIVO'" class="form-control" disabled>
+                        <label>Estado</label>
+                        <label ng-bind="getEstadoAsString()" class="form-control" disabled></label>
                     </div>
 
                     <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>

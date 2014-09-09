@@ -22,8 +22,7 @@ require.config({
         'ngProgress':"../bower_components/ngprogress/build/ngProgress",
         'cfp.hotkeys':"../bower_components/angular-hotkeys/build/hotkeys",
         'angular-ladda':"../bower_components/angular-ladda/dist/angular-ladda.min",
-        'picklist':"picklist",
-        'toggle-switch': "../bower_components/angular-toggle-switch/angular-toggle-switch"
+        'picklist':"picklist"
     },
     shim: {
         angular: {
@@ -87,11 +86,6 @@ require.config({
                 'angular'
             ]
         },
-        'toggle-switch':{
-            deps: [
-                'angular'
-            ]
-        },
         'angular-mocks': {
             deps: [
                 'angular'
@@ -127,7 +121,7 @@ require([
     'cfp.hotkeys',
     'angular-ladda',
     'picklist',
-    'toggle-switch'
+    'uiRouter'
 ], function(angular, app) {
     'use strict';
     /* jshint ignore:start */

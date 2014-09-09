@@ -1,7 +1,6 @@
 /*jshint unused: vars */
 define([
         'angular',
-        'uiRouter',
         './controllers/main',
         './directives/main',
         './filters/main',
@@ -31,8 +30,7 @@ define([
             'focusOn',
             'cfp.hotkeys',
             'angular-ladda',
-            'fxpicklist',
-            'toggle-switch'
+            'fxpicklist'
         ]);
     }
 );

@@ -5,6 +5,8 @@ define([
     './boveda/CrearBovedaController',
     './boveda/EditarBovedaController',
     './boveda/BuscarBovedaController',
+    './boveda/AbrirBovedaController',
+    './boveda/CerrarBovedaController',
 
     './caja/CrearCajaController',
     './caja/EditarCajaController',

@@ -29,6 +29,55 @@ define(['../module'], function (controllers) {
                 estado: undefined
             };
 
+            $scope.operaciones = {
+                changeEstadoMovimiento: undefined,
+                changeEstadoAbierto: undefined,
+                changeEstado: undefined
+            };
+
+            $scope.$watch("view.abierto",function (newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    if(!angular.isUndefined($scope.view.abierto)){
+                        $scope.operaciones.changeEstadoMovimiento = $scope.view.abierto;
+                    }
+                }
+            },true);
+            $scope.$watch("view.estadoMovimiento",function (newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    if(!angular.isUndefined($scope.view.estadoMovimiento)){
+                        $scope.operaciones.changeEstadoAbierto = $scope.view.estadoMovimiento;
+                    }
+                }
+            },true);
+            $scope.$watch("view.estado",function (newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    if(!angular.isUndefined($scope.view.estado)){
+                        $scope.operaciones.changeEstado = $scope.view.abierto;
+                    }
+                }
+            },true);
+
+            $scope.getEstadoAsString = function(){
+                if(!angular.isUndefined($scope.view.idBoveda)){
+                    var result = '';
+                    if($scope.view.abierto)
+                        result = result + 'ABIERTO, ';
+                    else
+                        result = result + 'CERRADO, ';
+                    if($scope.view.estadoMovimiento)
+                        result = result + 'DESCONGELADO, ';
+                    else
+                        result = result + 'CONGELADO, ';
+                    if($scope.view.estado)
+                        result = result + 'ACTIVO';
+                    else
+                        result = result + 'INACTIVO';
+                    return result;
+                } else {
+                    return undefined;
+                }
+            };
+
             $scope.loadMonedas = function(){
                 MonedaService.getMonedas().then(function(data){
                     $scope.combo.moneda = data;
@@ -75,11 +124,30 @@ define(['../module'], function (controllers) {
             };
 
             $scope.redireccion = function(){
-                $state.transitionTo('app.boveda.buscarBoveda');
+                $state.go('app.boveda.buscarBoveda');
             };
 
             $scope.cancelar = function () {
                 $scope.redireccion();
+            };
+
+            $scope.abrirBoveda = function(){
+                $state.go('app.boveda.abrirBoveda', { id: $scope.id });
+            };
+
+            $scope.cerrarBoveda = function(){
+                console.log("cerrando");
+                $state.go('app.boveda.cerrarBoveda', { id: $scope.id });
+            };
+
+            $scope.congelarBoveda = function(){
+                console.log("congelando");
+            };
+            $scope.descongelarBoveda = function(){
+                console.log("descongelando");
+            };
+            $scope.inactivarBoveda = function(){
+                console.log("inactivando");
             };
 
             $scope.loadMonedas();

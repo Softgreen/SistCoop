@@ -5,14 +5,14 @@ define(['./app'], function(app) {
 
             RestangularProvider.setBaseUrl('http://localhost:8080/SistCoopREST/rest');
 
-            $urlRouterProvider.when('', '/app/home');
-            $urlRouterProvider.otherwise('/app/home');
+            $urlRouterProvider.when('', '/home');
+            $urlRouterProvider.otherwise('/home');
 
             localStorageServiceProvider.setPrefix('softgreen');
 
             $stateProvider
                 .state('home', {
-                    url: '/app?redirect',
+                    url: '/home?redirect',
                     template: '' +
                         '</br><div class="center-block"><h2 class="text-center" style="font-weight: bold; color: seagreen;">Bienvenido al Sistema Financiero</h2></div></br></br>' +
                         '<h3 class="text-center"><img alt="Caja Ventura" src="images/logos_coop/logo_coop.png"></h3></br></br></br>'
@@ -23,7 +23,7 @@ define(['./app'], function(app) {
                 })
                 .state('app', {
                     abstract: true,
-                    url: '/app?redirect',
+                    url: '/app',
                     template: '' +
                         '<div class="row">'+
 
@@ -105,7 +105,7 @@ define(['./app'], function(app) {
                     templateUrl: "views/jefeCaja/boveda/crearBoveda.html"
                 })
                 .state('app.boveda.editarBoveda', {
-                    url: "/editar/:id",
+                    url: "/:id/editar",
                     templateUrl: "views/jefeCaja/boveda/editarBoveda.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
@@ -114,6 +114,20 @@ define(['./app'], function(app) {
                 .state('app.boveda.buscarBoveda', {
                     url: "/buscar",
                     templateUrl: "views/jefeCaja/boveda/buscarBoveda.html"
+                })
+                .state('app.boveda.abrirBoveda', {
+                    url: "/:id/abrir",
+                    templateUrl: "views/jefeCaja/boveda/abrirBoveda.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
+                })
+                .state('app.boveda.cerrarBoveda', {
+                    url: "/:id/cerrar",
+                    templateUrl: "views/jefeCaja/boveda/cerrarBoveda.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
                 })
 
                 .state('app.caja.nuevaCaja', {

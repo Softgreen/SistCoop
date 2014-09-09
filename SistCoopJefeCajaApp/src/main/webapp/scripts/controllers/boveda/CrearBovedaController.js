@@ -54,7 +54,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.redireccion = function(){
-                $state.transitionTo('app.boveda.buscarBoveda');
+                $state.go('app.boveda.buscarBoveda');
             };
 
             $scope.cancelar = function () {
