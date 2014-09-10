@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('AbrirBovedaController', ['$scope','BovedaService',
-        function($scope,BovedaService) {
+    controllers.controller('AbrirBovedaController', ['$scope','$state','BovedaService',
+        function($scope,$state,BovedaService) {
 
             $scope.control = {
                 success:false,
@@ -47,7 +47,7 @@ define(['../module'], function (controllers) {
                 $scope.control.inProcess = true;
                 BovedaService.abrirBoveda($scope.id).then(
                     function(data){
-                        alert("abierto");
+                        $state.go('app.boveda.buscarBoveda');
                         $scope.control.inProcess = false;
                     },
                     function error(error){
@@ -57,6 +57,10 @@ define(['../module'], function (controllers) {
                         $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                     }
                 );
+            };
+
+            $scope.cancelar = function(){
+                $state.go('app.boveda.editarBoveda', {id: $scope.id});
             };
 
         }]);

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -18,19 +19,18 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Boveda;
-import org.sistemafinanciero.entity.BovedaCaja;
-import org.sistemafinanciero.entity.Caja;
-import org.sistemafinanciero.entity.DetalleHistorialCaja;
+import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.HistorialBoveda;
-import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
-import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.ts.BovedaServiceTS;
+import org.sistemafinanciero.util.EntityManagerProducer;
 
 @Named
 @Stateless
@@ -40,10 +40,36 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 
 	@Inject
 	private DAO<Object, Boveda> bovedaDAO;
+	
+	@Inject
+	private DAO<Object, HistorialBoveda> historialBovedaDAO;
 
 	@Inject
+	private DAO<Object, DetalleHistorialBoveda> detalleHistorialBovedaDAO;
+	
+	@Inject
 	private Validator validator;
+	
+	@Inject
+	private EntityManagerProducer em;
 
+	@EJB
+	private MonedaServiceNT monedaServiceNT;
+	
+	public HistorialBoveda getHistorialActivo(BigInteger idBoveda) {
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		if(boveda == null)
+			return null;
+		HistorialBoveda bovedaHistorial = null;
+		QueryParameter queryParameter = QueryParameter.with("idboveda", idBoveda);
+		List<HistorialBoveda> list = historialBovedaDAO.findByNamedQuery(HistorialBoveda.findByHistorialActivo, queryParameter.parameters());
+		for (HistorialBoveda c : list) {
+			bovedaHistorial = c;
+			break;
+		}
+		return bovedaHistorial;
+	}
+	
 	@Override
 	public BigInteger create(Boveda t) throws PreexistingEntityException, RollbackFailureException {
 		Set<ConstraintViolation<Boveda>> violations = validator.validate(t);
@@ -88,84 +114,80 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		//Trabajador trabajador = getTrabajador();
 		/*if (trabajador == null)
 			throw new RollbackFailureException("No se encontró un trabajador para la caja");*/		
-/*
+
 		try {
-			HistorialBoveda historialCajaOld = this.getClass();
+			HistorialBoveda historialBovedaOld = this.getHistorialActivo(id);
 
 			// abriendo caja
 			boveda.setAbierto(true);
 			boveda.setEstadoMovimiento(true);
-			Set<ConstraintViolation<Caja>> violationsCaja = validator.validate(boveda);
+			Set<ConstraintViolation<Boveda>> violationsCaja = validator.validate(boveda);
 			if (!violationsCaja.isEmpty()) {
 				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsCaja));
 			} else {
-				cajaDAO.update(boveda);
+				bovedaDAO.update(boveda);
 			}
 
-			if (historialCajaOld != null) {
-				historialCajaOld.setEstado(false);
-				Set<ConstraintViolation<HistorialCaja>> violationsHistorialOld = validator.validate(historialCajaOld);
+			if (historialBovedaOld != null) {
+				historialBovedaOld.setEstado(false);
+				Set<ConstraintViolation<HistorialBoveda>> violationsHistorialOld = validator.validate(historialBovedaOld);
 				if (!violationsHistorialOld.isEmpty()) {
 					throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialOld));
 				} else {
-					historialCajaDAO.update(historialCajaOld);
+					historialBovedaDAO.update(historialBovedaOld);
 				}
 			}
 
 			Calendar calendar = Calendar.getInstance();
-			HistorialCaja historialCajaNew = new HistorialCaja();
-			historialCajaNew.setCaja(boveda);
-			historialCajaNew.setFechaApertura(calendar.getTime());
-			historialCajaNew.setHoraApertura(calendar.getTime());
-			historialCajaNew.setEstado(true);
-			historialCajaNew.setTrabajador(trabajador.getPersonaNatural().getApellidoPaterno() + " " + trabajador.getPersonaNatural().getApellidoMaterno() + ", " + trabajador.getPersonaNatural().getNombres());
-			Set<ConstraintViolation<HistorialCaja>> violationsHistorialNew = validator.validate(historialCajaNew);
+			HistorialBoveda historialBovedaNew = new HistorialBoveda();
+			historialBovedaNew.setBoveda(boveda);
+			historialBovedaNew.setFechaApertura(calendar.getTime());
+			historialBovedaNew.setHoraApertura(calendar.getTime());
+			historialBovedaNew.setEstado(true);
+			//historialBovedaNew.setTrabajador(trabajador.getPersonaNatural().getApellidoPaterno() + " " + trabajador.getPersonaNatural().getApellidoMaterno() + ", " + trabajador.getPersonaNatural().getNombres());
+			Set<ConstraintViolation<HistorialBoveda>> violationsHistorialNew = validator.validate(historialBovedaNew);
 			if (!violationsHistorialNew.isEmpty()) {
 				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialNew));
 			} else {
-				historialCajaDAO.create(historialCajaNew);
+				historialBovedaDAO.create(historialBovedaNew);
 			}
 
-			if (historialCajaOld != null) {
-				Set<DetalleHistorialCaja> detalleHistorialCajas = historialCajaOld.getDetalleHistorialCajas();
-				for (DetalleHistorialCaja detalleHistorialCaja : detalleHistorialCajas) {
-					this.em.getEm().detach(detalleHistorialCaja);
-					detalleHistorialCaja.setIdDetalleHistorialCaja(null);
-					detalleHistorialCaja.setHistorialCaja(historialCajaNew);
+			if (historialBovedaOld != null) {
+				Set<DetalleHistorialBoveda> detalleHistorialBovedas = historialBovedaOld.getDetalleHistorialBovedas();
+				for (DetalleHistorialBoveda detalleHistorialBoveda : detalleHistorialBovedas) {
+					this.em.getEm().detach(detalleHistorialBoveda);
+					detalleHistorialBoveda.setIdDetalleHistorialBoveda(null);
+					detalleHistorialBoveda.setHistorialBoveda(historialBovedaNew);
 
-					Set<ConstraintViolation<DetalleHistorialCaja>> violationsHistorialDetalle = validator.validate(detalleHistorialCaja);
+					Set<ConstraintViolation<DetalleHistorialBoveda>> violationsHistorialDetalle = validator.validate(detalleHistorialBoveda);
 					if (!violationsHistorialDetalle.isEmpty()) {
 						throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialDetalle));
 					} else {
-						detalleHistorialCajaDAO.create(detalleHistorialCaja);
+						detalleHistorialBovedaDAO.create(detalleHistorialBoveda);
 					}
 				}
 			} else {
-				for (BovedaCaja bovedaCaja : bovedaCajas) {
-					Moneda moneda = bovedaCaja.getBoveda().getMoneda();
-					List<MonedaDenominacion> denominaciones = monedaServiceNT.getDenominaciones(moneda.getIdMoneda());
-					for (MonedaDenominacion monedaDenominacion : denominaciones) {
-						DetalleHistorialCaja detalleHistorialCaja = new DetalleHistorialCaja();
-						detalleHistorialCaja.setCantidad(BigInteger.ZERO);
-						detalleHistorialCaja.setHistorialCaja(historialCajaNew);
-						detalleHistorialCaja.setMonedaDenominacion(monedaDenominacion);
+				Moneda moneda = boveda.getMoneda();
+				List<MonedaDenominacion> denominaciones = monedaServiceNT.getDenominaciones(moneda.getIdMoneda());
+				for (MonedaDenominacion monedaDenominacion : denominaciones) {
+					DetalleHistorialBoveda detalleHistorialBoveda = new DetalleHistorialBoveda();
+					detalleHistorialBoveda.setCantidad(BigInteger.ZERO);
+					detalleHistorialBoveda.setHistorialBoveda(historialBovedaNew);
+					detalleHistorialBoveda.setMonedaDenominacion(monedaDenominacion);
 
-						Set<ConstraintViolation<DetalleHistorialCaja>> violationsHistorialDetalle = validator.validate(detalleHistorialCaja);
-						if (!violationsHistorialDetalle.isEmpty()) {
-							throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialDetalle));
-						} else {
-							detalleHistorialCajaDAO.create(detalleHistorialCaja);
-						}
+					Set<ConstraintViolation<DetalleHistorialBoveda>> violationsHistorialDetalle = validator.validate(detalleHistorialBoveda);
+					if (!violationsHistorialDetalle.isEmpty()) {
+						throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialDetalle));
+					} else {
+						detalleHistorialBovedaDAO.create(detalleHistorialBoveda);
 					}
 				}
 			}
 
-			return historialCajaNew.getIdHistorialCaja();
-		} catch (ConstraintViolationException e) {
-			LOGGER.error(e.getMessage(), e.getCause(), e.getLocalizedMessage());
+			return historialBovedaNew.getIdHistorialBoveda();
+		} catch (ConstraintViolationException e) {			
 			throw new EJBException(e);
-		}*/
-		return null;
+		}
 	}
 
 }

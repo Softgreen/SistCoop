@@ -2,7 +2,7 @@ package org.sistemafinanciero.entity;
 
 // Generated 02-may-2014 11:48:28 by Hibernate Tools 4.0.0
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +10,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +27,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "HISTORIAL_BOVEDA", schema = "BDSISTEMAFINANCIERO")
-@NamedQueries({ @NamedQuery(name = HistorialBoveda.findByHistorialActivo, query = "SELECT h FROM HistorialBoveda h WHERE h.boveda.idBoveda = :idboveda AND h.estado = 1") })
+@NamedQueries({ @NamedQuery(name = HistorialBoveda.findByHistorialActivo, query = "SELECT h FROM HistorialBoveda h INNER JOIN h.boveda b WHERE b.idBoveda = :idboveda AND h.estado = TRUE") })
 public class HistorialBoveda implements java.io.Serializable {
 
 	/**
@@ -35,13 +37,13 @@ public class HistorialBoveda implements java.io.Serializable {
 
 	public final static String findByHistorialActivo = "HistorialBoveda.findByHistorialActivo";
 
-	private BigDecimal idHistorialBoveda;
+	private BigInteger idHistorialBoveda;
 	private Boveda boveda;
 	private Date fechaApertura;
 	private Date fechaCierre;
 	private Date horaApertura;
 	private Date horaCierre;
-	private BigDecimal estado;
+	private int estado;
 	private Set transaccionBovedaCajas = new HashSet(0);
 	private Set detalleHistorialBovedas = new HashSet(0);
 	private Set transaccionBovedaOtros = new HashSet(0);
@@ -49,34 +51,14 @@ public class HistorialBoveda implements java.io.Serializable {
 	public HistorialBoveda() {
 	}
 
-	public HistorialBoveda(BigDecimal idHistorialBoveda, Boveda boveda, Date fechaApertura, Date horaApertura, BigDecimal estado) {
-		this.idHistorialBoveda = idHistorialBoveda;
-		this.boveda = boveda;
-		this.fechaApertura = fechaApertura;
-		this.horaApertura = horaApertura;
-		this.estado = estado;
-	}
-
-	public HistorialBoveda(BigDecimal idHistorialBoveda, Boveda boveda, Date fechaApertura, Date fechaCierre, Date horaApertura, Date horaCierre, BigDecimal estado, Set transaccionBovedaCajas, Set detalleHistorialBovedas, Set transaccionBovedaOtros) {
-		this.idHistorialBoveda = idHistorialBoveda;
-		this.boveda = boveda;
-		this.fechaApertura = fechaApertura;
-		this.fechaCierre = fechaCierre;
-		this.horaApertura = horaApertura;
-		this.horaCierre = horaCierre;
-		this.estado = estado;
-		this.transaccionBovedaCajas = transaccionBovedaCajas;
-		this.detalleHistorialBovedas = detalleHistorialBovedas;
-		this.transaccionBovedaOtros = transaccionBovedaOtros;
-	}
-
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID_HISTORIAL_BOVEDA", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getIdHistorialBoveda() {
+	public BigInteger getIdHistorialBoveda() {
 		return this.idHistorialBoveda;
 	}
 
-	public void setIdHistorialBoveda(BigDecimal idHistorialBoveda) {
+	public void setIdHistorialBoveda(BigInteger idHistorialBoveda) {
 		this.idHistorialBoveda = idHistorialBoveda;
 	}
 
@@ -129,12 +111,12 @@ public class HistorialBoveda implements java.io.Serializable {
 	}
 
 	@Column(name = "ESTADO", nullable = false, precision = 22, scale = 0)
-	public BigDecimal getEstado() {
-		return this.estado;
+	public boolean getEstado() {
+		return (this.estado == 1 ? true : false);
 	}
 
-	public void setEstado(BigDecimal estado) {
-		this.estado = estado;
+	public void setEstado(boolean estado) {
+		this.estado = (estado ? 1 : 0);
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "historialBoveda")

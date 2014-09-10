@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -37,7 +38,17 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 	private DAO<Object, HistorialBoveda> historialBovedaDAO;
 
 	public HistorialBoveda getHistorialActivo(BigInteger idBoveda) {
-		return null;
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		if(boveda == null)
+			return null;
+		HistorialBoveda bovedaHistorial = null;
+		QueryParameter queryParameter = QueryParameter.with("idboveda", idBoveda);
+		List<HistorialBoveda> list = historialBovedaDAO.findByNamedQuery(HistorialBoveda.findByHistorialActivo, queryParameter.parameters());
+		for (HistorialBoveda c : list) {
+			bovedaHistorial = c;
+			break;
+		}
+		return bovedaHistorial;
 	}
 
 	@Override
@@ -80,7 +91,7 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 			return null;
 
 		// recuperando el historial activo
-		result = new HashSet<GenericDetalle>();
+		result = new TreeSet<GenericDetalle>();
 		HistorialBoveda bovedaHistorial = this.getHistorialActivo(idBoveda);
 
 		if (bovedaHistorial != null) {

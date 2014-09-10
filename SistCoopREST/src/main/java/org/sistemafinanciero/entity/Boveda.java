@@ -159,11 +159,11 @@ public class Boveda implements java.io.Serializable {
 	@XmlElement(name = "estadoMovimiento")
 	@NotNull
 	@Column(name = "ESTADO_MOVIMIENTO", nullable = false, precision = 22, scale = 0)
-	public boolean getCongelado() {
+	public boolean getEstadoMovimiento() {
 		return (this.estadoMovimiento == 1 ? true : false);
 	}
 
-	public void setCongelado(boolean estadoMovimiento) {
+	public void setEstadoMovimiento(boolean estadoMovimiento) {
 		this.estadoMovimiento = (estadoMovimiento ? 1 : 0);
 	}
 

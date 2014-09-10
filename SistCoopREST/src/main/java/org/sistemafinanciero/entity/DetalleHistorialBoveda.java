@@ -8,6 +8,8 @@ import java.math.BigInteger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -38,6 +40,7 @@ public class DetalleHistorialBoveda implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID_DETALLE_HISTORIAL_BOVEDA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigDecimal getIdDetalleHistorialBoveda() {
 		return this.idDetalleHistorialBoveda;

@@ -103,7 +103,7 @@ public class BovedaRESTService implements BovedaREST {
 			boveda.setMoneda(moneda);
 			boveda.setAgencia(agencia);
 			boveda.setAbierto(false);
-			boveda.setCongelado(false);
+			boveda.setEstadoMovimiento(false);
 			boveda.setEstado(true);
 
 			bovedaServiceTS.create(boveda);

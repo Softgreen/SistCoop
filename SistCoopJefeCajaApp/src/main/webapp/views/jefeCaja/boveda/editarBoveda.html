@@ -1,4 +1,7 @@
 <div ng-controller="EditarBovedaController">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+        <span ng-bind-html="alert.msg"></span>
+    </alert>
     <fieldset>
         <legend style="padding-bottom: 5px;">
             <div class="row">

@@ -1,4 +1,7 @@
 <div ng-controller="CrearBovedaController">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+        <span ng-bind-html="alert.msg"></span>
+    </alert>
     <div class="row">
         <div class="col-sm-12">
             <h3>Nueva boveda</h3>
