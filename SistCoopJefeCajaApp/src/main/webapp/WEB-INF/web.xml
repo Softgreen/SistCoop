@@ -33,4 +33,15 @@
 			<param-value>class, jar, war</param-value>
 		</init-param>
 	</servlet>
+
+	<error-page>
+		<!-- Forbidden directory listing -->
+		<error-code>403</error-code>
+		<location>/403.html</location>
+	</error-page>
+	<error-page>
+		<!-- Forbidden directory listing -->
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
 </web-app>
