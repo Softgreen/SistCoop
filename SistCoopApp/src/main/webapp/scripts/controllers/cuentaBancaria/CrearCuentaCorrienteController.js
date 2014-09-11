@@ -198,7 +198,7 @@ define(['../module'], function (controllers) {
                         "cantRetirantes":$scope.view.cantRetirantes,
                         "tasaInteres" : $scope.view.tasaInteres,
                         "titulares":[],
-                        "beneficiarios": ($filter('unique')($scope.beneficiarios))
+                        "beneficiarios": ($filter('unique')($scope.view.beneficiarios))
                     };
 
                     for(var i = 0; i < $scope.view.titularesFinal.length ; i++){
