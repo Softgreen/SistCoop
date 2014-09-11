@@ -70,11 +70,11 @@ public class BovedaRESTService implements BovedaREST {
 	@Override
 	public Response update(BigInteger id, String denominacion) {
 		Response response;
-		
+
 		Boveda boveda = new Boveda();
-		boveda.setDenominacion(denominacion);		
+		boveda.setDenominacion(denominacion);
 		try {
-			bovedaServiceTS.update(id, boveda);			
+			bovedaServiceTS.update(id, boveda);
 			response = Response.status(Response.Status.NO_CONTENT).build();
 		} catch (NonexistentEntityException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
@@ -141,6 +141,32 @@ public class BovedaRESTService implements BovedaREST {
 		Response response;
 		try {
 			BigInteger idHistorial = bovedaServiceTS.abrir(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response congelar(BigInteger id) {
+		Response response;
+		try {
+			bovedaServiceTS.congelar(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response descongelar(BigInteger id) {
+		Response response;
+		try {
+			bovedaServiceTS.descongelar(id);
 			response = Response.status(Response.Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());

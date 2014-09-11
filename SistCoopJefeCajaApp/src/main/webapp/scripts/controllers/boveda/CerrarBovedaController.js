@@ -1,42 +1,110 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('AbrirBovedaController', ['$scope','$state','focus','BovedaService',
-        function($scope,$state,focus,BovedaService) {
+    controllers.controller('CerrarBovedaController', ['$scope','$state','$filter','BovedaService',
+        function($scope,$state,$filter,BovedaService) {
 
-            $scope.setInitialFocus = function($event){
-                if(!angular.isUndefined($event))
-                    $event.preventDefault();
-                focus('focusFilterText');
-            };
-            $scope.setInitialFocus();
-
-
-            $scope.nuevo = function(){
-                $state.go('app.boveda.nuevaBoveda');
+            $scope.control = {
+                success:false,
+                inProcess: false,
+                submitted : false
             };
 
-            $scope.loadBovedas = function(){
-                BovedaService.getBovedas($scope.agenciaSession.id).then(function(data){
-                    $scope.bovedas = data;
-                });
-            };
-            $scope.loadBovedas();
+            $scope.boveda = {};
+            $scope.detalleOld = [];
+            $scope.detalleNew = [];
 
-            $scope.gridOptions = {
-                data: 'bovedas',
+            $scope.loadBoveda = function(){
+                if(!angular.isUndefined($scope.id)){
+                    BovedaService.findById($scope.id).then(
+                        function(data){
+                            $scope.boveda = data;
+                        }, function error(error){
+                            $scope.alerts = [{ type: "danger", msg: "Error: No se pudo cargar la boveda."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                }
+            };
+            $scope.loadDetalle = function(){
+                if(!angular.isUndefined($scope.id)){
+                    BovedaService.getDetalle($scope.id).then(function(data){
+                        angular.forEach(data, function(row){
+                            row.subtotal = function(){
+                                return this.valor * this.cantidad;
+                            }
+                        });
+                        $scope.detalleOld = data;
+                        $scope.detalleNew = angular.copy(data);
+                    });
+                }
+            };
+
+            $scope.loadBoveda();
+            $scope.loadDetalle();
+
+            $scope.getTotalOld = function() {
+                var total = 0;
+                if(!angular.isUndefined($scope.detalleOld)){
+                    for(var i = 0; i < $scope.detalleOld.length; i++){
+                        total = total + $scope.detalleOld[i].subtotal();
+                    }
+                }
+                return $filter('currency')(total," ");
+            };
+            $scope.getTotalNew = function() {
+                var total = 0;
+                if(!angular.isUndefined($scope.detalleNew)){
+                    for(var i = 0; i < $scope.detalleNew.length; i++){
+                        total = total + $scope.detalleNew[i].subtotal();
+                    }
+                }
+                return $filter('currency')(total," ");
+            };
+
+            var gridLayoutPluginOld = new ngGridLayoutPlugin();
+            var gridLayoutPluginNew = new ngGridLayoutPlugin();
+            $scope.gridOptionsOld = {
+                plugins: [gridLayoutPluginOld],
+                data: 'detalleOld',
                 multiSelect: false,
                 columnDefs: [
-                    { field: "denominacion", displayName: "DENOMINACION"},
-                    {displayName: 'ABIERTO/CERRADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.abierto">ABIERTO</span><span ng-hide="row.entity.abierto">CERRADO</span></div>'},
-                    {displayName: 'MOVIMIENTO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoMovimiento">DESCONGELADO</span><span ng-hide="row.entity.estadoMovimiento">CONGELADO</span></div>'},
-                    { field: "moneda.denominacion", displayName: "MONEDA"},
-                    {displayName: 'ESTADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>'},
-                    {displayName: 'EDIT', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}
+                    { field: "valor", cellFilter: "currency: ''", displayName: "VALOR" },
+                    { field: "cantidad", displayName: "CANTIDAD" },
+                    { field: "subtotal()", cellFilter: "currency: ''", displayName: "SUBTOTAL" }
+                ]
+            };
+            $scope.gridOptionsNew = {
+                plugins: [gridLayoutPluginNew],
+                data: 'detalleNew',
+                multiSelect: false,
+                enableCellSelection: true,
+                enableRowSelection: false,
+                enableCellEditOnFocus: true,
+                columnDefs: [
+                    { field: "valor", cellFilter: "currency: ''", displayName: "VALOR", enableCellEdit: false  },
+                    { field: "cantidad", displayName: "CANTIDAD", enableCellEdit: true  },
+                    { field: "subtotal()",cellFilter: "currency: ''", displayName: "SUBTOTAL", enableCellEdit: false  }
                 ]
             };
 
-            $scope.editar = function(boveda) {
-                $state.go('app.boveda.editarBoveda', { id: boveda.id });
+            $scope.cerrarBoveda = function(){
+                $scope.control.inProcess = true;
+                BovedaService.cerrarBoveda($scope.id).then(
+                    function(data){
+                        $state.go('app.boveda.buscarBoveda');
+                        $scope.control.inProcess = false;
+                    },
+                    function error(error){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = false;
+                        $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
+            };
+
+            $scope.cancelar = function(){
+                $state.go('app.boveda.editarBoveda', {id: $scope.id});
             };
 
         }]);

@@ -40,25 +40,25 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 
 	@Inject
 	private DAO<Object, Boveda> bovedaDAO;
-	
+
 	@Inject
 	private DAO<Object, HistorialBoveda> historialBovedaDAO;
 
 	@Inject
 	private DAO<Object, DetalleHistorialBoveda> detalleHistorialBovedaDAO;
-	
+
 	@Inject
 	private Validator validator;
-	
+
 	@Inject
 	private EntityManagerProducer em;
 
 	@EJB
 	private MonedaServiceNT monedaServiceNT;
-	
+
 	public HistorialBoveda getHistorialActivo(BigInteger idBoveda) {
 		Boveda boveda = bovedaDAO.find(idBoveda);
-		if(boveda == null)
+		if (boveda == null)
 			return null;
 		HistorialBoveda bovedaHistorial = null;
 		QueryParameter queryParameter = QueryParameter.with("idboveda", idBoveda);
@@ -69,7 +69,7 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		}
 		return bovedaHistorial;
 	}
-	
+
 	@Override
 	public BigInteger create(Boveda t) throws PreexistingEntityException, RollbackFailureException {
 		Set<ConstraintViolation<Boveda>> violations = validator.validate(t);
@@ -111,10 +111,22 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 	@Override
 	public BigInteger abrir(BigInteger id) throws RollbackFailureException {
 		Boveda boveda = bovedaDAO.find(id);
-		//Trabajador trabajador = getTrabajador();
-		/*if (trabajador == null)
-			throw new RollbackFailureException("No se encontró un trabajador para la caja");*/		
+		// Trabajador trabajador = getTrabajador();
+		/*
+		 * if (trabajador == null) throw new
+		 * RollbackFailureException("No se encontró un trabajador para la caja"
+		 * );
+		 */
 
+		if (boveda != null) {
+			if (!boveda.getEstado())
+				throw new RollbackFailureException("Boveda inactiva, no se puede abrir");
+			if (boveda.getAbierto())
+				throw new RollbackFailureException("Boveda abierta, no se puede abrir nuevamente");
+
+		} else {
+			throw new RollbackFailureException("Boveda no encontrada");
+		}
 		try {
 			HistorialBoveda historialBovedaOld = this.getHistorialActivo(id);
 
@@ -144,7 +156,9 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			historialBovedaNew.setFechaApertura(calendar.getTime());
 			historialBovedaNew.setHoraApertura(calendar.getTime());
 			historialBovedaNew.setEstado(true);
-			//historialBovedaNew.setTrabajador(trabajador.getPersonaNatural().getApellidoPaterno() + " " + trabajador.getPersonaNatural().getApellidoMaterno() + ", " + trabajador.getPersonaNatural().getNombres());
+			// historialBovedaNew.setTrabajador(trabajador.getPersonaNatural().getApellidoPaterno()
+			// + " " + trabajador.getPersonaNatural().getApellidoMaterno() +
+			// ", " + trabajador.getPersonaNatural().getNombres());
 			Set<ConstraintViolation<HistorialBoveda>> violationsHistorialNew = validator.validate(historialBovedaNew);
 			if (!violationsHistorialNew.isEmpty()) {
 				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialNew));
@@ -185,9 +199,39 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			}
 
 			return historialBovedaNew.getIdHistorialBoveda();
-		} catch (ConstraintViolationException e) {			
+		} catch (ConstraintViolationException e) {
 			throw new EJBException(e);
 		}
+	}
+
+	@Override
+	public void congelar(BigInteger id) throws RollbackFailureException {
+		Boveda boveda = bovedaDAO.find(id);
+		if (boveda == null)
+			throw new RollbackFailureException("Boveda no encontrada");
+		if (!boveda.getEstado())
+			throw new RollbackFailureException("Boveda inactiva, no se puede congelar");
+		if (!boveda.getAbierto())
+			throw new RollbackFailureException("Boveda cerrada, no se puede congelar");
+		if (boveda.getEstadoMovimiento())
+			throw new RollbackFailureException("Boveda congelada, no se puede congelar nuevamente");
+		boveda.setEstadoMovimiento(false);
+		bovedaDAO.update(boveda);
+	}
+
+	@Override
+	public void descongelar(BigInteger id) throws RollbackFailureException {
+		Boveda boveda = bovedaDAO.find(id);
+		if (boveda == null)
+			throw new RollbackFailureException("Boveda no encontrada");
+		if (!boveda.getEstado())
+			throw new RollbackFailureException("Boveda inactiva, no se puede congelar");
+		if (!boveda.getAbierto())
+			throw new RollbackFailureException("Boveda cerrada, no se puede congelar");
+		if (!boveda.getEstadoMovimiento())
+			throw new RollbackFailureException("Boveda descongelada, no se puede descongelar nuevamente");
+		boveda.setEstadoMovimiento(true);
+		bovedaDAO.update(boveda);
 	}
 
 }

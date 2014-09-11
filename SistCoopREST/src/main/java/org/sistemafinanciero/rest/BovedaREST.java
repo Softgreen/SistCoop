@@ -63,6 +63,16 @@ public interface BovedaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response abrir(@PathParam("id") BigInteger id);
 	
+	@POST
+	@Path("/{id}/congelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response congelar(@PathParam("id") BigInteger id);
+	
+	@POST
+	@Path("/{id}/descongelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response descongelar(@PathParam("id") BigInteger id);
+	
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") BigInteger id);

@@ -5,10 +5,21 @@
         <span ng-bind-html="alert.msg"></span>
     </alert>
 
-    <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); width: 450px; height: 300px;"></div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); width: 100%; height: 450px;"></div>
+            <div class="ngFooterPanel ng-scope" style="border: 1px solid rgb(212,212,212); width: 100%; height: 55px;">
+                <div class="ngTotalSelectContainer">
+                    <div class="ngFooterTotalItems ngNoMultiSelect">
+                        <span class="ngLabel ng-binding">Total: {{getTotal()}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     </br>
-    
+
     <button type="button" ng-click="abrirBoveda()" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
     <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
 </div>

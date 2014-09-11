@@ -136,15 +136,41 @@ define(['../module'], function (controllers) {
             };
 
             $scope.cerrarBoveda = function(){
-               // console.log("cerrando");
-               // $state.go('app.boveda.cerrarBoveda', { id: $scope.id });
+                $state.transitionTo('app.boveda.cerrarBoveda', { id: $scope.id });
             };
 
             $scope.congelarBoveda = function(){
-                //console.log("congelando");
+                $scope.control.inProcess = true;
+                BovedaService.congelar($scope.id).then(
+                    function(data){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = true;
+                        $scope.alerts = [{ type: "success", msg: "Boveda congelada."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    },
+                    function error(error){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = false;
+                        $scope.alerts = [{ type: "danger", msg: "Error:"+error.data.message+"."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
             };
             $scope.descongelarBoveda = function(){
-                //console.log("descongelando");
+                BovedaService.descongelar($scope.id).then(
+                    function(data){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = true;
+                        $scope.alerts = [{ type: "success", msg: "Boveda descongelada."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    },
+                    function error(error){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = false;
+                        $scope.alerts = [{ type: "danger", msg: "Error:"+error.data.message+"."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
             };
             $scope.inactivarBoveda = function(){
                // console.log("inactivando");

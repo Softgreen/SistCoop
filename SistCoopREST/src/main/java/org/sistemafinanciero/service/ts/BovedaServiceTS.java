@@ -12,4 +12,8 @@ public interface BovedaServiceTS extends AbstractServiceTS<Boveda> {
 
 	public BigInteger abrir(BigInteger id) throws RollbackFailureException;
 
+	public void congelar(BigInteger id) throws RollbackFailureException;
+
+	public void descongelar(BigInteger id) throws RollbackFailureException;
+
 }
