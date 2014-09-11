@@ -10,7 +10,9 @@ define([
 
     './caja/CrearCajaController',
     './caja/EditarCajaController',
-    './caja/BuscarCajaController'
+    './caja/BuscarCajaController',
+
+    './voucher/VoucherCerrarBoveda'
 
 ], function () {
 

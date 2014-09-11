@@ -37,6 +37,9 @@ define(['./module'], function (services) {
                 abrirBoveda: function(idBoveda) {
                     return Restangular.one(baseUrl+"/"+idBoveda+"/abrir").post();
                 },
+                cerrarBoveda: function(idBoveda) {
+                    return Restangular.one(baseUrl+"/"+idBoveda+"/cerrar").post();
+                },
                 congelar: function(idBoveda) {
                     return Restangular.one(baseUrl+"/"+idBoveda+"/congelar").post();
                 },
@@ -45,6 +48,9 @@ define(['./module'], function (services) {
                 },
                 getDetalle: function(idBoveda) {
                     return Restangular.all(baseUrl+"/"+idBoveda+"/detalle").getList();
+                },
+                getDetallePenultimo: function(idBoveda) {
+                    return Restangular.all(baseUrl+"/"+idBoveda+"/detalle/penultimo").getList();
                 }
             }
         }])

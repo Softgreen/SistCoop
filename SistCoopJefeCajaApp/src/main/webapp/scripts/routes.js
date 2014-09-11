@@ -105,7 +105,7 @@ define(['./app'], function(app) {
                     templateUrl: "views/jefeCaja/boveda/crearBoveda.html"
                 })
                 .state('app.boveda.editarBoveda', {
-                    url: "/:id/editar",
+                    url: "/editar/:id",
                     templateUrl: "views/jefeCaja/boveda/editarBoveda.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
@@ -116,15 +116,22 @@ define(['./app'], function(app) {
                     templateUrl: "views/jefeCaja/boveda/buscarBoveda.html"
                 })
                 .state('app.boveda.abrirBoveda', {
-                    url: "/:id/abrir",
+                    url: "/abrir/:id",
                     templateUrl: "views/jefeCaja/boveda/abrirBoveda.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
                 })
                 .state('app.boveda.cerrarBoveda', {
-                    url: "/:id/cerrar",
+                    url: "/cerrar/:id",
                     templateUrl: "views/jefeCaja/boveda/cerrarBoveda.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
+                })
+                .state('app.boveda.voucherCerrarBoveda', {
+                    url: "/voucherCerrarBoveda/:id",
+                    templateUrl: "views/jefeCaja/voucher/voucherCerrarBoveda.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }

@@ -540,8 +540,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 			}
 			return historialCaja.getIdHistorialCaja();
 		} catch (ConstraintViolationException e) {
-			LOGGER.error(e.getMessage(), e.getCause(), e.getLocalizedMessage());
-			return BigInteger.ONE.negate();
+			throw new EJBException(e);
 		}
 	}
 

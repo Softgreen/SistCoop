@@ -27,7 +27,10 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "HISTORIAL_BOVEDA", schema = "BDSISTEMAFINANCIERO")
-@NamedQueries({ @NamedQuery(name = HistorialBoveda.findByHistorialActivo, query = "SELECT h FROM HistorialBoveda h INNER JOIN h.boveda b WHERE b.idBoveda = :idboveda AND h.estado = TRUE") })
+@NamedQueries({ 
+		@NamedQuery(name = HistorialBoveda.findByHistorialActivo, query = "SELECT h FROM HistorialBoveda h INNER JOIN h.boveda b WHERE b.idBoveda = :idboveda AND h.estado = TRUE"),
+		@NamedQuery(name = HistorialBoveda.findByHistorialActivoPenultimo, query = "SELECT h FROM HistorialBoveda h INNER JOIN h.boveda b WHERE b.idBoveda = :idboveda AND h.estado = FALSE ORDER BY h.fechaCierre, h.horaCierre DESC")
+	})
 public class HistorialBoveda implements java.io.Serializable {
 
 	/**
@@ -36,6 +39,7 @@ public class HistorialBoveda implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String findByHistorialActivo = "HistorialBoveda.findByHistorialActivo";
+	public final static String findByHistorialActivoPenultimo = "HistorialBoveda.findByHistorialActivoPenultimo";
 
 	private BigInteger idHistorialBoveda;
 	private Boveda boveda;

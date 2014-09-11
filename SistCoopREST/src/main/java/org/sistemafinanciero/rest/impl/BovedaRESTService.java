@@ -129,13 +129,21 @@ public class BovedaRESTService implements BovedaREST {
 	public Response getDetalleBoveda(BigInteger id, BigInteger idHistorial) {
 		Set<GenericDetalle> detalle;
 		if (idHistorial == null)
-			detalle = bovedaServiceNT.getDetalleBoveda(id);
+			detalle = bovedaServiceNT.getDetalle(id);
 		else
-			detalle = bovedaServiceNT.getDetalleBoveda(id, idHistorial);
+			detalle = bovedaServiceNT.getDetalle(id, idHistorial);
 		Response response = Response.status(Response.Status.OK).entity(detalle).build();
 		return response;
 	}
 
+	@Override
+	public Response getDetalleBovedaPenultimo(BigInteger id) {
+		Set<GenericDetalle> detalle;
+		detalle = bovedaServiceNT.getDetallePenultimo(id);
+		Response response = Response.status(Response.Status.OK).entity(detalle).build();
+		return response;
+	}
+	
 	@Override
 	public Response abrir(BigInteger id) {
 		Response response;
@@ -174,5 +182,20 @@ public class BovedaRESTService implements BovedaREST {
 		}
 		return response;
 	}
+
+	@Override
+	public Response cerrar(BigInteger id) {
+		Response response;
+		try {
+			BigInteger idHistorial = bovedaServiceTS.cerrar(id);
+			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idHistorial)).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
+	
 
 }
