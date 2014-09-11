@@ -15,7 +15,7 @@
                     (formTitular.numeroDocumento.$invalid && (control.submitted || formTitular.numeroDocumento.$dirty))}">
                         <label class="col-sm-2 control-label">Documento:</label>
                         <div class="col-sm-4">
-                            <select name="tipoDocumento" ng-options="tipoDocumento as tipoDocumento.abreviatura for tipoDocumento in tipoDocumentos | orderBy : 'id'" ng-model="titular.tipoDocumento" class="form-control" required autofocus>
+                            <select focus-on="focusTipoDocumentoApoderado" name="tipoDocumento" ng-options="tipoDocumento as tipoDocumento.abreviatura for tipoDocumento in tipoDocumentos | orderBy : 'id'" ng-model="titular.tipoDocumento" class="form-control" required autofocus>
                             </select>
                             <div ng-show="formTitular.tipoDocumento.$invalid && (control.submitted || formTitular.tipoDocumento.$dirty)">
                                 <span class="help-block" ng-show="formTitular.numeroDocumento.$error.required">Ingrese Documento.</span>
@@ -51,18 +51,18 @@
                                 <!-- Table -->
                                 <table class="table table-condensed" ng-show="titular.persona">
                                     <tr>
-                                        <td>Documento:</td>
-                                        <td colspan="3"><strong ng-bind-template="{{titular.persona.tipoDocumento.abreviatura}}/{{titular.persona.numeroDocumento}}"></strong></td>
+                                        <td><strong>Documento:</strong></td>
+                                        <td colspan="3"><span ng-bind-template="{{titular.persona.tipoDocumento.abreviatura}}/{{titular.persona.numeroDocumento}}"></span></td>
                                     </tr>
                                     <tr>
-                                        <td>Apellidos y Nombres:</td>
-                                        <td colspan="3"><strong ng-bind-template="{{titular.persona.apellidoPaterno}} {{titular.persona.apellidoMaterno}}, {{titular.persona.nombres}}"></strong></td>
+                                        <td><strong>Apellidos y Nombres:</strong></td>
+                                        <td colspan="3"><span ng-bind-template="{{titular.persona.apellidoPaterno}} {{titular.persona.apellidoMaterno}}, {{titular.persona.nombres}}"></span></td>
                                     </tr>
                                     <tr>
-                                        <td>Fecha Nac.:</td>
-                                        <td><strong ng-bind="titular.persona.fechaNacimiento | date : 'dd/MM/yyyy'"></strong></td>
-                                        <td>Sexo:</td>
-                                        <td><strong ng-bind="titular.persona.sexo"></strong></td>
+                                        <td><strong>Fecha Nacimiento:</strong></td>
+                                        <td><span ng-bind="titular.persona.fechaNacimiento | date : 'dd/MM/yyyy'"></span></td>
+                                        <td><strong>Sexo:</strong></td>
+                                        <td><span ng-bind="titular.persona.sexo"></span></td>
                                     </tr>
                                 </table>
                             </div>

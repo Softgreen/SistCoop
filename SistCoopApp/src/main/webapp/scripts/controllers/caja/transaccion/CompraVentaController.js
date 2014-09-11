@@ -177,6 +177,18 @@ define(['../../module'], function (controllers) {
                 }
             };
 
+            $scope.$watch("view.tipoOperacion",function (newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    if(!angular.isUndefined($scope.view.tipoOperacion)){
+                        $scope.view.idMonedaRecibida = undefined;
+                        $scope.view.idMonedaEntregada = undefined;
+                        $scope.view.tasaCambio = 0;
+                        $scope.view.montoRecibido = 0;
+                        $scope.view.montoEntregado = 0;
+                    }
+                }
+            },true);
+            
             $scope.$watch("view.idMonedaRecibida",function (newVal, oldVal) {
                 if (newVal !== oldVal) {
                     if(!angular.isUndefined($scope.view.idMonedaRecibida) &&

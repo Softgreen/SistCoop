@@ -1,10 +1,22 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('ApoderadoPopUpController', [ "$scope", "MaestroService", "PersonaNaturalService", "$modalInstance",
-        function($scope, MaestroService, PersonaNaturalService, $modalInstance) {
+    controllers.controller('ApoderadoPopUpController', [ "$scope", "$timeout", "focus","MaestroService", "PersonaNaturalService", "$modalInstance",
+        function($scope, $timeout,focus, MaestroService, PersonaNaturalService, $modalInstance) {
 
             $scope.control = {"submitted" : false};
 
+            $scope.focusElements = {
+            	tipoDocumentoApoderado: 'focusTipoDocumentoApoderado'
+            };
+            $scope.setInitialFocus = function($event){
+            	if(!angular.isUndefined($event))
+            		$event.preventDefault();
+                $timeout(function() {
+                    focus($scope.focusElements.tipoDocumentoApoderado);
+                }, 100);
+            };
+            $scope.setInitialFocus();
+            
             $scope.titular = {
                 "id" : undefined,
                 "numeroDocumento" : undefined,
