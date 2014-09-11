@@ -19,6 +19,10 @@ import org.sistemafinanciero.rest.dto.CajaDTO;
 public interface CajaREST {
 
 	@GET
+	@Produces({ "application/xml", "application/json" })
+	public Response findAll(@QueryParam("idAgencia") BigInteger idAgencia);
+
+	@GET
 	@Path("/{id}")
 	@Produces({ "application/xml", "application/json" })
 	public Response findById(@PathParam("id") BigInteger id);

@@ -210,7 +210,8 @@ define(['../module'], function (controllers) {
                         "numeroDocumento": $scope.view.numeroDocumento,
 
                         "cantRetirantes":$scope.view.cantRetirantes,
-                        "titulares":[]
+                        "titulares":[],
+                        "beneficiarios": ($filter('unique')($scope.view.beneficiarios))
                     };
 
                     for(var i = 0; i < $scope.view.titularesFinal.length ; i++){

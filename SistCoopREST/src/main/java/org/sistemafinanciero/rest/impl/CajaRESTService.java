@@ -34,6 +34,7 @@ import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.CajaCierreMoneda;
+import org.sistemafinanciero.entity.dto.CajaView;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.dto.ResumenOperacionesCaja;
 import org.sistemafinanciero.entity.dto.VoucherCompraVenta;
@@ -67,6 +68,13 @@ public class CajaRESTService implements CajaREST {
 	@EJB
 	private TransaccionInternaServiceNT transaccionInternaServiceNT;
 
+	@Override
+	public Response findAll(BigInteger idAgencia) {
+		List<CajaView> list = cajaServiceNT.findAllView(idAgencia);
+		Response response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
+	}
+	
 	@Override
 	public Response findById(BigInteger id) {
 		Caja caja = cajaServiceNT.findById(id);

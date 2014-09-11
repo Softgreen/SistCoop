@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('BuscarCajaController', ['$scope','$state','focus','BovedaService',
-        function($scope,$state,focus,BovedaService) {
+    controllers.controller('BuscarCajaController', ['$scope','$state','focus','CajaService',
+        function($scope,$state,focus,CajaService) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
@@ -12,31 +12,30 @@ define(['../module'], function (controllers) {
 
 
             $scope.nuevo = function(){
-                $state.transitionTo('app.boveda.nuevaBoveda');
+                $state.transitionTo('app.boveda.nuevaCaja');
             };
 
-            $scope.loadBovedas = function(){
-                BovedaService.getBovedas($scope.agenciaSession.id).then(function(data){
-                    $scope.bovedas = data;
+            $scope.loadCajas = function(){
+                CajaService.getCajas($scope.agenciaSession.id).then(function(data){
+                    $scope.cajas = data;
                 });
             };
-            $scope.loadBovedas();
+            $scope.loadCajas();
 
             $scope.gridOptions = {
-                data: 'bovedas',
+                data: 'cajas',
                 multiSelect: false,
                 columnDefs: [
                     { field: "denominacion", displayName: "DENOMINACION"},
                     { field: "abierto", displayName: "ABIERTO/CERRADO"},
                     { field: "estadoMovimiento", displayName: "MOVIMIENTO"},
-                    { field: "moneda.denominacion", displayName: "MONEDA"},
                     { field: "estado", displayName: "ESTADO"},
                     {displayName: 'EDIT', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}
                 ]
             };
 
             $scope.editar = function(boveda) {
-                $state.transitionTo('app.boveda.editarBoveda', { id: boveda.id });
+                $state.transitionTo('app.boveda.editarCaja', { id: boveda.id });
             };
 
         }]);

@@ -16,6 +16,7 @@ import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.CajaCierreMoneda;
+import org.sistemafinanciero.entity.dto.CajaView;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.dto.ResumenOperacionesCaja;
 import org.sistemafinanciero.entity.dto.VoucherCompraVenta;
@@ -26,6 +27,8 @@ import org.sistemafinanciero.entity.dto.VoucherTransferenciaBancaria;
 @Remote
 public interface CajaServiceNT extends AbstractServiceNT<Caja> {
 
+	public List<CajaView> findAllView(BigInteger idAgencia);
+	
 	public Set<Boveda> getBovedas(BigInteger idCaja);
 
 	public Set<Moneda> getMonedas(BigInteger idCaja);

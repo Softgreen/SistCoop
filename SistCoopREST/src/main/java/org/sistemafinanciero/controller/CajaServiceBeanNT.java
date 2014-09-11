@@ -2,6 +2,8 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -44,6 +46,7 @@ import org.sistemafinanciero.entity.TransaccionCuentaAporte;
 import org.sistemafinanciero.entity.TransferenciaBancaria;
 import org.sistemafinanciero.entity.VariableSistema;
 import org.sistemafinanciero.entity.dto.CajaCierreMoneda;
+import org.sistemafinanciero.entity.dto.CajaView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.dto.ResumenOperacionesCaja;
@@ -67,6 +70,9 @@ import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class CajaServiceBeanNT implements CajaServiceNT {
 
+	@Inject
+	private DAO<Object, CajaView> cajaViewDAO;
+	
 	@Inject
 	private DAO<Object, Caja> cajaDAO;
 
@@ -964,6 +970,20 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			List<HistorialTransaccionCaja> list = historialTransaccionCajaDAO.findByNamedQuery(HistorialTransaccionCaja.findByHistorialCaja, queryParameter.parameters());
 			return list;
 		}
+	}
+
+	@Override
+	public List<CajaView> findAllView(BigInteger idAgencia) {
+		List<CajaView> list = null;
+		if(idAgencia == null){
+			list = cajaViewDAO.findAll();	
+		}		 
+		else {			
+			QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
+			Collection<CajaView> a = cajaViewDAO.findByNamedQuery(CajaView.findByIdAgencia);
+			list = new ArrayList<CajaView>(a);
+		}
+		return list;
 	}
 
 }
