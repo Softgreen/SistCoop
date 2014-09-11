@@ -148,21 +148,34 @@ define(['../module'], function (controllers) {
                 if($scope.view.tipoPersona == "NATURAL"){
                     PersonaNaturalService.findByTipoNumeroDocumento(tipoDoc,numDoc).then(function(data){
                         $scope.objetosCargados.socioNatural = data;
-                        $scope.alerts = [{ type: "success", msg: "Persona (Socio) Encontrada."}];
-                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                        if(angular.isUndefined(data) || data === null){
+                        	$scope.objetosCargados.socioNatural = undefined;
+                            $scope.alerts = [{ type: "danger", msg: "Persona No Encontrada."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        } else {
+                        	$scope.alerts = [{ type: "success", msg: "Persona (Socio) Encontrada."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};	
+                        }
+                        
                     },function error(error){
                         $scope.objetosCargados.socioNatural = undefined;
-                        $scope.alerts = [{ type: "danger", msg: "Persona (Socio) No Encontrada."}];
+                        $scope.alerts = [{ type: "danger", msg: "Error al buscar la persona."}];
                         $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                     });
                 }else{if($scope.view.tipoPersona == "JURIDICA"){
                     PersonaJuridicaService.findByTipoNumeroDocumento(tipoDoc,numDoc).then(function(persona){
                         $scope.objetosCargados.socioJuridico = persona;
-                        $scope.alerts = [{ type: "success", msg: "Persona (Socio) Encontrada."}];
-                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                        if(angular.isUndefined(persona) || persona === null){
+                        	$scope.objetosCargados.socioJuridico = undefined;
+                            $scope.alerts = [{ type: "danger", msg: "Persona Jur&iacute;dica No Encontrada."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        } else{
+                        	$scope.alerts = [{ type: "success", msg: "Persona (Socio) Encontrada."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
                     },function error(error){
                         $scope.objetosCargados.socioJuridico = undefined;
-                        $scope.alerts = [{ type: "danger", msg: "Persona (Socio) No Encontrada."}];
+                        $scope.alerts = [{ type: "danger", msg: "Error al buscar la persona."}];
                         $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
                     });
                 }}

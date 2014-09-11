@@ -14,7 +14,7 @@ define(['./app'], function(app) {
             $stateProvider
                 .state('app', {
                     abstract: true,
-                    url: '/app?redirect',
+                    url: '/app',
                     template: '' +
                         '<div class="container" style="padding-top: 70px;">' +
                         '<div class="navbar navbar-default navbar-fixed-top" role="navigation">' +

@@ -166,7 +166,7 @@ define(['../module'], function (controllers) {
                         SocioService.eliminarApoderado($scope.socio.id).then(
                             function(data){
                                 $scope.apoderado = undefined;
-                                $scope.alerts = [{ type: "success", msg: "Socio inactivado eliminado." }];
+                                $scope.alerts = [{ type: "success", msg: "Apoderado eliminado." }];
                                 $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                             }, function error(error){
                                 $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];

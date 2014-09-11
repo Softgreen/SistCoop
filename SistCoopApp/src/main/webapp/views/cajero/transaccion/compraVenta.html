@@ -68,7 +68,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : formCrearCompraVenta.tipoOperacion.$invalid && (control.submitted || formCrearCompraVenta.tipoOperacion.$dirty)}">
                             <label>Tipo Operaci&oacute;n</label>
                             <label style="color: brown;">(*)</label>
-                            <select focus-on="focusTipoOperacion" name="tipoOperacion" ng-options="tipoOperacion as tipoOperacion.denominacion for tipoOperacion in combo.tipoOperacion" ng-model="view.tipoOperacion" class="form-control" required>
+                            <select focus-on="focusTipoOperacion" name="tipoOperacion" ng-options="tipoOperacion as tipoOperacion.denominacion for tipoOperacion in combo.tipoOperacion" ng-model="view.tipoOperacion" ng-change="tipoOperacionChange()" class="form-control" required>
                             	<option value="">--Seleccione--</option>
                             </select>
                             <div ng-show="formCrearCompraVenta.tipoOperacion.$invalid && (control.submitted || formCrearCompraVenta.tipoOperacion.$dirty)">
