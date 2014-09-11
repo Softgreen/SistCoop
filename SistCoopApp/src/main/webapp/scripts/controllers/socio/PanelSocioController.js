@@ -307,7 +307,7 @@ define(['../module'], function (controllers) {
                 });
                 modalInstance.result.then(function (result) {
                     SocioService.actualizarBeneficiario(result).then(
-                        function(data){
+                        function(data){ 
                             $scope.beneficiarios.splice(index, 1);
                             $scope.beneficiarios.push(result);
                             $scope.alerts = [{ type: "success", msg: "Beneficiario creado." }];
