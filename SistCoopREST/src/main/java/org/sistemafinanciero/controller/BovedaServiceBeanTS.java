@@ -25,6 +25,7 @@ import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
+import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
@@ -199,6 +200,41 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			}
 
 			return historialBovedaNew.getIdHistorialBoveda();
+		} catch (ConstraintViolationException e) {
+			throw new EJBException(e);
+		}
+	}
+
+	@Override
+	public BigInteger cerrar(BigInteger id) throws RollbackFailureException {
+		Boveda boveda = bovedaDAO.find(id);
+		if (boveda == null)
+			throw new RollbackFailureException("Boveda no encontrada");
+
+		try {
+			Calendar calendar = Calendar.getInstance();
+			HistorialBoveda historialBoveda = this.getHistorialActivo(id);
+			historialBoveda.setEstado(true);
+			historialBoveda.setFechaCierre(calendar.getTime());
+			historialBoveda.setHoraCierre(calendar.getTime());
+
+			Set<ConstraintViolation<HistorialBoveda>> violationsHistorial = validator.validate(historialBoveda);
+			if (!violationsHistorial.isEmpty()) {
+				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorial));
+			} else {
+				historialBovedaDAO.update(historialBoveda);
+			}
+
+			// cerrando caja
+			boveda.setAbierto(false);
+			boveda.setEstadoMovimiento(false);
+			Set<ConstraintViolation<Boveda>> violationsCaja = validator.validate(boveda);
+			if (!violationsHistorial.isEmpty()) {
+				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsCaja));
+			} else {
+				bovedaDAO.update(boveda);
+			}
+			return historialBoveda.getIdHistorialBoveda();
 		} catch (ConstraintViolationException e) {
 			throw new EJBException(e);
 		}

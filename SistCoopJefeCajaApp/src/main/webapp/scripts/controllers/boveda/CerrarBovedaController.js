@@ -27,14 +27,21 @@ define(['../module'], function (controllers) {
             };
             $scope.loadDetalle = function(){
                 if(!angular.isUndefined($scope.id)){
-                    BovedaService.getDetalle($scope.id).then(function(data){
+                    BovedaService.getDetallePenultimo($scope.id).then(function(data){
                         angular.forEach(data, function(row){
                             row.subtotal = function(){
                                 return this.valor * this.cantidad;
                             }
                         });
                         $scope.detalleOld = data;
-                        $scope.detalleNew = angular.copy(data);
+                    });
+                    BovedaService.getDetalle($scope.id).then(function(data){
+                        angular.forEach(data, function(row){
+                            row.subtotal = function(){
+                                return this.valor * this.cantidad;
+                            }
+                        });
+                        $scope.detalleNew = data;
                     });
                 }
             };
@@ -91,7 +98,7 @@ define(['../module'], function (controllers) {
                 $scope.control.inProcess = true;
                 BovedaService.cerrarBoveda($scope.id).then(
                     function(data){
-                        $state.go('app.boveda.buscarBoveda');
+                        $state.go('app.boveda.voucherCerrarBoveda', {id: data.id})
                         $scope.control.inProcess = false;
                     },
                     function error(error){

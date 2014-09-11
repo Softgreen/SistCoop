@@ -13,9 +13,11 @@ import org.sistemafinanciero.entity.dto.GenericDetalle;
 public interface BovedaServiceNT extends AbstractServiceNT<Boveda> {
 
 	public List<Boveda> findAll(BigInteger idAgencia);
-	
-	public Set<GenericDetalle> getDetalleBoveda(BigInteger idBoveda);
 
-	public Set<GenericDetalle> getDetalleBoveda(BigInteger idBoveda, BigInteger idHistorialBoveda);
-	
+	public Set<GenericDetalle> getDetallePenultimo(BigInteger idBoveda);
+
+	public Set<GenericDetalle> getDetalle(BigInteger idBoveda);
+
+	public Set<GenericDetalle> getDetalle(BigInteger idBoveda, BigInteger idHistorialBoveda);
+
 }

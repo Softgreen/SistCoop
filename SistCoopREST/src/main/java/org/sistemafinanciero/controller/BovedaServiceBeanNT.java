@@ -39,7 +39,7 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 
 	public HistorialBoveda getHistorialActivo(BigInteger idBoveda) {
 		Boveda boveda = bovedaDAO.find(idBoveda);
-		if(boveda == null)
+		if (boveda == null)
 			return null;
 		HistorialBoveda bovedaHistorial = null;
 		QueryParameter queryParameter = QueryParameter.with("idboveda", idBoveda);
@@ -83,7 +83,57 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 	}
 
 	@Override
-	public Set<GenericDetalle> getDetalleBoveda(BigInteger idBoveda) {
+	public Set<GenericDetalle> getDetallePenultimo(BigInteger idBoveda) {
+		Set<GenericDetalle> result = null;
+
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		if (boveda == null)
+			return null;
+
+		// recuperando el historial activo
+		result = new TreeSet<GenericDetalle>();
+		
+		//recuperando el historial penultimo		
+		HistorialBoveda bovedaHistorial = null;
+		QueryParameter queryParameter = QueryParameter.with("idboveda", idBoveda);
+		List<HistorialBoveda> list = historialBovedaDAO.findByNamedQuery(HistorialBoveda.findByHistorialActivoPenultimo, queryParameter.parameters(), 1);
+		for (HistorialBoveda c : list) {
+			bovedaHistorial = c;
+			break;
+		}				
+
+		if (bovedaHistorial != null) {
+			Set<DetalleHistorialBoveda> detalle = bovedaHistorial.getDetalleHistorialBovedas();
+			for (DetalleHistorialBoveda det : detalle) {
+				BigInteger cantidad = det.getCantidad();
+				BigDecimal valor = det.getMonedaDenominacion().getValor();
+
+				GenericDetalle gen = new GenericDetalle();
+				gen.setCantidad(cantidad);
+				gen.setValor(valor);
+
+				result.add(gen);
+			}
+		} else {
+			Moneda moneda = boveda.getMoneda();
+			Set<MonedaDenominacion> denominaciones = moneda.getMonedaDenominacions();
+			for (MonedaDenominacion denom : denominaciones) {
+				BigInteger cantidad = BigInteger.ZERO;
+				BigDecimal valor = denom.getValor();
+
+				GenericDetalle gen = new GenericDetalle();
+				gen.setCantidad(cantidad);
+				gen.setValor(valor);
+
+				result.add(gen);
+			}
+
+		}
+		return result;
+	}
+
+	@Override
+	public Set<GenericDetalle> getDetalle(BigInteger idBoveda) {
 		Set<GenericDetalle> result = null;
 
 		Boveda boveda = bovedaDAO.find(idBoveda);
@@ -125,7 +175,7 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 	}
 
 	@Override
-	public Set<GenericDetalle> getDetalleBoveda(BigInteger idBoveda, BigInteger idHistorialBoveda) {
+	public Set<GenericDetalle> getDetalle(BigInteger idBoveda, BigInteger idHistorialBoveda) {
 		Set<GenericDetalle> result = null;
 
 		Boveda boveda = bovedaDAO.find(idBoveda);
