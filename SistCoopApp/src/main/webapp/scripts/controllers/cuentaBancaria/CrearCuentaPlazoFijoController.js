@@ -164,6 +164,7 @@ define(['../module'], function (controllers) {
                         	$scope.alerts = [{ type: "success", msg: "Persona (Socio) Encontrada."}];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
+                        
                     },function error(error){
                         $scope.objetosCargados.socioNatural = undefined;
                         $scope.alerts = [{ type: "danger", msg: "Error al buscar la persona."}];
@@ -175,15 +176,15 @@ define(['../module'], function (controllers) {
                         if(angular.isUndefined(persona) || persona === null){
                         	$scope.objetosCargados.socioJuridico = undefined;
                             $scope.alerts = [{ type: "danger", msg: "Persona Jur&iacute;dica No Encontrada."}];
-                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }else{
                         	$scope.alerts = [{ type: "success", msg: "Persona (Socio) Encontrada."}];
-                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
                     },function error(error){
                         $scope.objetosCargados.socioJuridico = undefined;
                         $scope.alerts = [{ type: "danger", msg: "Error al buscar la persona."}];
-                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                     });
                 }}
                 if($event !== undefined)

@@ -21,18 +21,24 @@ define(['../../module'], function (controllers) {
                     $scope.control.inProcess = true;
                     PersonaNaturalService.findByTipoNumeroDocumento($scope.$parent.view.idTipoDocumentoAccionista, $scope.$parent.view.numeroDocumentoAccionista).then(
                         function(data){
-                            $scope.control.inProcess = false;
-                            var obj = {
-                                "porcentajeParticipacion" : "0",
-                                "personaNatural" : data
-                            };
-                            $scope.$parent.view.accionistas.push(obj);
-                            $scope.$parent.view.accionistas = $filter('unique')($scope.$parent.view.accionistas);
-                            $scope.resetFocus();
-                            $scope.alertsAccionistas = [];
+                        	if(angular.isUndefined(data) || data === null){
+                        		$scope.control.inProcess = false;
+                                $scope.alertsAccionistas = [{ type: 'danger', msg: 'Persona No Registrado' }];
+                                $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        	}else{
+                        		$scope.control.inProcess = false;
+                                var obj = {
+                                    "porcentajeParticipacion" : "0",
+                                    "personaNatural" : data
+                                };
+                                $scope.$parent.view.accionistas.push(obj);
+                                $scope.$parent.view.accionistas = $filter('unique')($scope.$parent.view.accionistas);
+                                $scope.resetFocus();
+                                $scope.alertsAccionistas = [{ type: 'success', msg: 'Persona Registrado' }];
+                        	}
                         }, function error(error){
                             $scope.control.inProcess = false;
-                            $scope.alertsAccionistas = [{ type: 'danger', msg: 'Error: persona no encontrada' }];
+                            $scope.alertsAccionistas = [{ type: 'danger', msg: 'Error al buscar la persona' }];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
                     );
