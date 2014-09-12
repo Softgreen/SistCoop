@@ -127,31 +127,86 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title" style="font-weight: bold;">Socio</h3></div>
-                        <table class="table">
-                            <tr>
-                                <td><strong>Socio:</strong></td>
-                                <td><span ng-bind="objetosCargados.socio.socio"></span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Documento:</strong></td>
-                                <td><span ng-bind-template="{{objetosCargados.socio.tipoDocumento}}/{{objetosCargados.socio.numeroDocumento}}"></span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Fecha Asociado:</strong></td>
-                                <td><span ng-cloak>{{objetosCargados.socio.fechaAsociado}}</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Estado Socio:</strong></td>
-                                <td><span ng-cloak>{{objetosCargados.socio.estado ? 'ACTIVO' : 'INACTIVO'}}</span></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
+				<div class="col-sm-6">
+					<div class="panel panel-default">
+						<!-- Default panel contents -->
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-md-4" style="font-weight: bold;">Datos del
+									Socio</div>
+							</div>
+						</div>
+						<table class="table table-condensed">
+							<tr>
+								<td colspan="1" style="font-size: 12px; width: 130px;"><strong>Codigo
+										Socio:</strong></td>
+								<td colspan="1" style="font-size: 12px; width: 120px;"><span
+									ng-bind="objetosCargados.socio.id"></span></td>
+								<td colspan="1" style="font-size: 12px; width: 110px;"><strong>Fecha Asociado:</strong></td>
+								<td colspan="1" style="font-size: 12px;"><span
+									ng-bind="objetosCargados.socio.fechaAsociado | date : 'dd/MM/yyyy'"></span></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-size: 12px;"><strong>Documento:</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span ng-bind-template="{{objetosCargados.socio.tipoDocumento}}/{{objetosCargados.socio.numeroDocumento}}"></span></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-size: 12px;"><strong>{{objetosCargados.socio.tipoPersona == "NATURAL" ? 'Apellidos y Nombres:' : 'Raz&oacute;n Social:'}}</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span
+									ng-bind="objetosCargados.socio.socio"></span></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-size: 12px;"><strong>{{objetosCargados.socio.tipoPersona == "NATURAL" ? 'Fecha Nacimiento:' : 'Fecha Constituci&oacute;n:'}}</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span ng-bind="objetosCargados.socio.fechaNacimiento | date : 'dd/MM/yyyy'"></span></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-size: 12px;"><strong>Estado:</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span>{{objetosCargados.socio.estado ? 'ACTIVO' : 'INACTIVO'}}</span></td>
+							</tr>
+							
+							<tr>
+								<td colspan="1" style="font-size: 12px;"><strong>{{objetosCargados.socio.tipoPersona == "NATURAL" ? 'Edad:' : ''}}</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span ng-class="'has-error' : edad < 18">{{objetosCargados.socio.tipoPersona == "NATURAL" ? edad : ''}}</span></td>
+							</tr>
+						</table>
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-md-4" style="font-weight: bold;">
+									Apoderado</div>
+							</div>
+						</div>
+						<div class="panel-body" ng-show="!apoderado">
+							<p>Apoderado no Encontrado.</p>
+						</div>
+						<table class="table table-condensed" ng-show="apoderado">
+							<tr>
+								<td colspan="1" style="font-size: 12px;  width: 130px;"><strong>Documento:</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span
+									ng-bind-template="{{apoderado.tipoDocumento.abreviatura}}/{{apoderado.numeroDocumento}}"></span></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-size: 12px;"><strong>Apellidos y
+										Nombres:</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span
+									ng-bind-template="{{apoderado.apellidoPaterno}} {{apoderado.apellidoMaterno}}, {{apoderado.nombres}}"></span></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-size: 12px;"><strong>Fecha
+										Nacimiento:</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span
+									ng-bind="apoderado.fechaNacimiento | date : 'dd/MM/yyyy'"></span></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-size: 12px;"><strong>Sexo:</strong></td>
+								<td colspan="3" style="font-size: 12px;"><span
+									ng-bind="apoderado.sexo"></span></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+			</div>
         </form>
     </fieldset>
 </div>

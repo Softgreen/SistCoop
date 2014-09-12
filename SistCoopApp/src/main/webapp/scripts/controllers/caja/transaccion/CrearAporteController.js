@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearAporteController', ["$scope", "$state", "$window", "$filter", "$modal","focus", "SessionService",
-        function($scope, $state, $window, $filter, $modal,focus,SessionService) {
+    controllers.controller('CrearAporteController', ["$scope", "$state", "$window", "$filter", "$modal","focus", "SessionService", "SocioService",
+        function($scope, $state, $window, $filter, $modal, focus, SessionService, SocioService) {
 
             $scope.viewState = "app.transaccion.aporte";
 
@@ -70,9 +70,41 @@ define(['../../module'], function (controllers) {
                 modalInstance.result.then(function (socio) {
                     $scope.objetosCargados.socio = socio;
                     focus($scope.focusElements.monto);
+                    
+                    SocioService.getApoderado(socio.id).then(function(data){
+                    	$scope.apoderado = data;
+                    });
+                    
+                    $scope.calcularEdad(socio.fechaNacimiento);
+                    
                 }, function () {
                     $scope.setInitialFocus();
                 });
+            };
+            
+            $scope.calcularEdad = function(fechaNacimiento){
+            	var fechaActual = new Date();
+            	
+            	var diaActual = fechaActual.getDate();
+            	var mesActual = fechaActual.getMonth() + 1;
+            	var anioActual = fechaActual.getFullYear();
+            	
+            	var fechaNac = fechaNacimiento.split("-");
+            	var anioCumple = fechaNac[0];
+            	var mesCumple = fechaNac[1];
+            	var diaCumple = fechaNac[2];
+            	
+            	if (mesCumple.substr(0,1) == 0) {
+            		mesCumple = mesCumple.substring(1, 2);
+            	}
+            	if (diaCumple.substr(0, 1) == 0) {
+            		diaCumple = diaCumple.substring(1, 2);
+            	}
+            	
+            	$scope.edad = anioActual - anioCumple;
+            	if ((mesActual < mesCumple) || (mesActual == mesCumple && diaActual < diaCumple)) {
+            		$scope.edad--;
+            	}     
             };
 
             $scope.openCalculadora = function () {
@@ -94,7 +126,7 @@ define(['../../module'], function (controllers) {
                     controller: "HistorialAportesPopUpController",
                     resolve: {
                         idSocio: function () {
-                            return $scope.objetosCargados.socio.id
+                            return $scope.objetosCargados.socio.id;
                         }
                     }
                 });
