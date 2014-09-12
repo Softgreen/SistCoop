@@ -1,12 +1,12 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('EditarCajaController', ['$scope','$state','focus','MonedaService','BovedaService',
-        function($scope,$state,focus,MonedaService,BovedaService) {
+    controllers.controller('EditarCajaController', ['$scope','$state','focus','BovedaService','CajaService',
+        function($scope,$state,focus,BovedaService,CajaService) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
                     $event.preventDefault();
-                focus('focusMoneda');
+                focus('focusDenominacion');
             };
             $scope.setInitialFocus();
 
@@ -16,27 +16,34 @@ define(['../module'], function (controllers) {
                 submitted : false
             };
 
-            $scope.combo = {
-                moneda: undefined
+            $scope.picklist = {
+                boveda: undefined
             };
 
             $scope.view = {
-                idMoneda: undefined,
-                denominacion: undefined
+                denominacion: undefined,
+                abreviatura: undefined,
+                bovedas: []
             };
 
-            $scope.loadMonedas = function(){
-                MonedaService.getMonedas().then(function(data){
-                    $scope.combo.moneda = data;
+            $scope.loadBovedas = function(){
+                BovedaService.getBovedas($scope.agenciaSession.id).then(function(data){
+                    $scope.picklist.boveda = data;
                 });
             };
 
             //logic
             $scope.crearTransaccion = function(){
-                if ($scope.crearBovedaForm.$valid) {
+                if ($scope.crearCajaForm.$valid) {
                     $scope.control.inProcess = true;
 
-                    BovedaService.crear($scope.view.idMoneda, $scope.view.denominacion).then(
+                    var caja = {
+                        denominacion: $scope.view.denominacion,
+                        abreviatura: $scope.view.abreviatura,
+                        bovedas: $scope.view.bovedas
+                    };
+
+                    CajaService.crear(caja).then(
                         function(data){
                             $scope.redireccion();
                             $scope.control.inProcess = false;
@@ -54,14 +61,14 @@ define(['../module'], function (controllers) {
             };
 
             $scope.redireccion = function(){
-                $state.transitionTo('app.boveda.buscarBoveda');
+                $state.transitionTo('app.caja.buscarCaja');
             };
 
             $scope.cancelar = function () {
                 $scope.redireccion();
             };
 
-            $scope.loadMonedas();
+            $scope.loadBovedas();
 
         }]);
 });

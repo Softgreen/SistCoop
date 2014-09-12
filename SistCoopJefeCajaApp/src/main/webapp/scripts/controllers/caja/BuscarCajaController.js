@@ -27,15 +27,16 @@ define(['../module'], function (controllers) {
                 multiSelect: false,
                 columnDefs: [
                     { field: "denominacion", displayName: "DENOMINACION"},
-                    { field: "abierto", displayName: "ABIERTO/CERRADO"},
-                    { field: "estadoMovimiento", displayName: "MOVIMIENTO"},
-                    { field: "estado", displayName: "ESTADO"},
+                    {displayName: 'ABIERTO/CERRADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.abierto">ABIERTO</span><span ng-hide="row.entity.abierto">CERRADO</span></div>'},
+                    {displayName: 'MOVIMIENTO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoMovimiento">DESCONGELADO</span><span ng-hide="row.entity.estadoMovimiento">CONGELADO</span></div>'},
+                    { field: "bovedas", displayName: "BOVEDAS", width: 380},
+                    {displayName: 'ESTADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>'},
                     {displayName: 'EDIT', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}
                 ]
             };
 
             $scope.editar = function(boveda) {
-                $state.transitionTo('app.boveda.editarCaja', { id: boveda.id });
+                $state.transitionTo('app.caja.editarCaja', { id: boveda.id });
             };
 
         }]);
