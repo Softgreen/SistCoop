@@ -99,7 +99,7 @@ public interface CajaREST {
 	@Path("/{id}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response update(@PathParam("id") BigInteger id, Caja caja);
+	public Response update(@PathParam("id") BigInteger id, CajaDTO caja);
 
 	@GET
 	@Path("/voucherCuentaAporte/{id}")

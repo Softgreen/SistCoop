@@ -204,8 +204,13 @@ public class CajaRESTService implements CajaREST {
 	}
 
 	@Override
-	public Response update(BigInteger idCaja, Caja caja) {
+	public Response update(BigInteger idCaja, CajaDTO cajaDTO) {
 		try {
+			Caja caja = new Caja();
+			caja.setIdCaja(idCaja);
+			caja.setDenominacion(cajaDTO.getDenominacion());
+			caja.setAbreviatura(cajaDTO.getAbreviatura());
+			
 			cajaServiceTS.update(idCaja, caja);
 			return Response.status(Response.Status.OK).build();
 		} catch (NonexistentEntityException e) {

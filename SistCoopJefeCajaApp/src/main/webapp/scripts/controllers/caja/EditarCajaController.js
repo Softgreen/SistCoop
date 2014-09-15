@@ -21,6 +21,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.view = {
+                id: undefined,
                 denominacion: undefined,
                 abreviatura: undefined,
                 bovedas: []
@@ -29,7 +30,47 @@ define(['../module'], function (controllers) {
             $scope.loadBovedas = function(){
                 BovedaService.getBovedas($scope.agenciaSession.id).then(function(data){
                     $scope.picklist.boveda = data;
+                    $scope.loadBovedasOfCaja();
                 });
+            };
+
+            $scope.loadCaja = function(){
+                if(!angular.isUndefined($scope.id)){
+                    CajaService.getCaja($scope.id).then(
+                        function(data){
+                            $scope.view.id= data.id;
+                            $scope.view.denominacion = data.denominacion;
+                            $scope.view.abreviatura = data.abreviatura;
+                        },
+                        function error(error){
+                            $scope.control.inProcess = false;
+                            $scope.control.success = false;
+                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                }
+            };
+            $scope.loadBovedasOfCaja = function(){
+              if(!angular.isUndefined($scope.id)){
+                  CajaService.getBovedas($scope.id).then(
+                      function(data){
+                          for(var i = 0; i<data.length; i++){
+                              for(var j = 0; j<$scope.picklist.boveda.length; j++){
+                                  if(data[i].id == $scope.picklist.boveda[j].id){
+                                      $scope.view.bovedas.push($scope.picklist.boveda[j].id);
+                                  }
+                              }
+                          }
+                      },
+                      function error(error){
+                          $scope.control.inProcess = false;
+                          $scope.control.success = false;
+                          $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                          $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                      }
+                  );
+              }
             };
 
             //logic
@@ -43,7 +84,7 @@ define(['../module'], function (controllers) {
                         bovedas: $scope.view.bovedas
                     };
 
-                    CajaService.crear(caja).then(
+                    CajaService.actualizar($scope.id, caja).then(
                         function(data){
                             $scope.redireccion();
                             $scope.control.inProcess = false;
@@ -69,6 +110,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.loadBovedas();
+            $scope.loadCaja();
 
         }]);
 });

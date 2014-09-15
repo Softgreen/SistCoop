@@ -7,14 +7,30 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Subselect;
 
 @Entity
-@Subselect(value = "SELECT c.ID_CAJA as idCaja, c.denominacion, c.abreviatura, c.estado, c.abierto, c.ESTADO_MOVIMIENTO as estadoMovimiento FROM Caja c")
-@NamedQueries({ 
-	@NamedQuery(name = CajaView.findByIdAgencia, query = "SELECT c FROM CajaView c")	
-})
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@Subselect(value = "SELECT c.ID_CAJA as idCaja, "
+		+ "c.denominacion, "
+		+ "c.abreviatura, "
+		+ "c.estado, "
+		+ "c.abierto, "
+		+ "c.ESTADO_MOVIMIENTO as estadoMovimiento, "
+		+ "listagg(b.denominacion || ',') WITHIN GROUP (ORDER BY c.ID_CAJA) AS bovedas "
+		//+ "a.id_agencia as idAgencia"
+		+ "FROM Caja c "
+		+ "INNER JOIN BOVEDA_CAJA bc ON C.id_caja = bc.id_caja "
+		+ "INNER JOIN BOVEDA b ON B.id_boveda = bc.id_boveda "
+		//+ "INNER JOIN AGENCIA a ON a.id_agencia = b.id_agencia "
+		+ "GROUP BY c.ID_CAJA, c.denominacion, c.abreviatura, c.estado, c.abierto, c.ESTADO_MOVIMIENTO")
+@NamedQueries({ @NamedQuery(name = CajaView.findByIdAgencia, query = "SELECT c FROM CajaView c") })
 public class CajaView implements Serializable {
 
 	/**
@@ -23,19 +39,25 @@ public class CajaView implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String findByIdAgencia = "CajaView.findByIdAgencia";
-	
+
 	private BigInteger idCaja;
 	private String denominacion;
 	private String abreviatura;
 	private int estado;
 	private int abierto;
-	private int estadomovimiento;
-	//private Set bovedaCajas = new HashSet(0);
+	private int estadoMovimiento;
 	
+	private String bovedas;
+	
+	//private BigInteger idAgencia;
+
+	// private Set bovedaCajas = new HashSet(0);
+
 	public CajaView() {
 		// TODO Auto-generated constructor stub
 	}
 
+	@XmlElement(name = "id")
 	@Id
 	public BigInteger getIdCaja() {
 		return idCaja;
@@ -77,22 +99,28 @@ public class CajaView implements Serializable {
 		this.abierto = abierto;
 	}
 
-	public int getEstadomovimiento() {
-		return estadomovimiento;
+	public int getEstadoMovimiento() {
+		return estadoMovimiento;
 	}
 
-	public void setEstadomovimiento(int estadomovimiento) {
-		this.estadomovimiento = estadomovimiento;
+	public void setEstadoMovimiento(int estadomovimiento) {
+		this.estadoMovimiento = estadomovimiento;
 	}
 
-	/*@XmlTransient
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "caja")
-	public Set<BovedaCaja> getBovedaCajas() {
-		return this.bovedaCajas;
+	public String getBovedas() {
+		return bovedas;
 	}
 
-	public void setBovedaCajas(Set bovedaCajas) {
-		this.bovedaCajas = bovedaCajas;
+	public void setBovedas(String bovedas) {
+		this.bovedas = bovedas;
+	}
+
+	/*public BigInteger getIdAgencia() {
+		return idAgencia;
+	}
+
+	public void setIdAgencia(BigInteger idAgencia) {
+		this.idAgencia = idAgencia;
 	}*/
 
 }

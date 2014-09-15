@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label>Bovedas</label>
-                    <picklist name="pkl" size="10" data-pick-options="v.id as v.denominacion for v in picklist.boveda" data-picklist="" data-pick-model="view.bovedas" required>
+                    <picklist name="pkl" size="10" data-pick-options="v.id as v.denominacion for v in picklist.boveda" data-picklist="view.bovedas" data-pick-model="view.bovedas" required>
                     </picklist>
                     <div ng-show="crearCajaForm.pkl.$invalid && (control.submitted || crearCajaForm.pkl.$dirty)">
                         <p class="help-block" ng-show="crearCajaForm.pkl.$error.required">
