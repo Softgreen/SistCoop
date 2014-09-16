@@ -331,7 +331,7 @@ define(['../module'], function (controllers) {
                             CuentaBancariaService.getBeneficiario($scope.id, data.id).then(function(beneficiario){
                                 $scope.beneficiarios.push(beneficiario);
                             });
-                            $scope.alerts = [{ type: "success", msg: "Beneficiario creado." }];
+                            $scope.alerts = [{ type: "success", msg: "Beneficiario Creado." }];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                             $scope.control.beneficiario.success = true;
                             $scope.control.beneficiario.message = '<span class="label label-success">Creado</span>';
@@ -354,7 +354,7 @@ define(['../module'], function (controllers) {
                 modalInstance.result.then(function (result) {
                     CuentaBancariaService.eliminarBeneficiario($scope.id, $scope.beneficiarios[index].id).then(
                         function(data){
-                            $scope.alerts = [{ type: "success", msg: "Beneficiario eliminado." }];
+                            $scope.alerts = [{ type: "success", msg: "Beneficiario Eliminado." }];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                             $scope.control.beneficiario.success = true;
                             $scope.beneficiarios.splice(index, 1);
@@ -388,11 +388,11 @@ define(['../module'], function (controllers) {
                     }
                 });
                 modalInstance.result.then(function (result) {
-                    BeneficiarioService.actualizarBeneficiario(result).then(
+                	CuentaBancariaService.actualizarBeneficiario($scope.id, $scope.beneficiarios[index].id, result).then(
                         function(data){
                             $scope.beneficiarios.splice(index, 1);
                             $scope.beneficiarios.push(result);
-                            $scope.alerts = [{ type: "success", msg: "Beneficiario creado." }];
+                            $scope.alerts = [{ type: "success", msg: "Beneficiario Actualizado." }];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                             $scope.control.beneficiario.success = true;
                             $scope.control.beneficiario.message = '<span class="label label-success">Actualizado</span>';

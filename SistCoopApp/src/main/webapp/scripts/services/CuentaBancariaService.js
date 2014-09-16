@@ -68,19 +68,22 @@ define(['./module'], function (services) {
                     return Restangular.all(baseUrl+"/"+idCuenta+"/titulares").post(titular);
                 },
                 eliminarTitular: function(idCuenta, idTitular){
-                    return Restangular.one(baseUrl+"/"+idCuenta+"/titulares/"+idTitular).remove();
+                    return Restangular.one(baseUrl + "/"+idCuenta+"/titulares/"+idTitular).remove();
                 },
                 getBeneficiarios: function(idCuenta){
-                    return Restangular.all(baseUrl+"/"+idCuenta+"/beneficiarios").getList();
+                    return Restangular.all(baseUrl + "/" + idCuenta + "/beneficiarios").getList();
                 },
                 getBeneficiario: function(idCuenta, idBeneficiario){
-                    return Restangular.one(baseUrl+"/"+idCuenta+"/beneficiarios/"+idBeneficiario).get();
+                    return Restangular.one(baseUrl + "/" + idCuenta + "/beneficiarios/"+idBeneficiario).get();
                 },
                 addBeneficiario : function(idCuenta, beneficiario){
-                    return Restangular.all(baseUrl+"/"+idCuenta+"/beneficiarios").post(beneficiario);
+                    return Restangular.all(baseUrl + "/" + idCuenta + "/beneficiarios").post(beneficiario);
+                },
+                actualizarBeneficiario : function(idCuenta, idBeneficiario, beneficiario){
+                    return Restangular.one(baseUrl + "/" + idCuenta + "/beneficiarios/" + idBeneficiario).customPUT(beneficiario,'',{},{});
                 },
                 eliminarBeneficiario: function(idCuenta, idBeneficiario){
-                    return Restangular.one(baseUrl+"/"+idCuenta+"/beneficiarios/"+idBeneficiario).remove();
+                    return Restangular.one(baseUrl + "/"+idCuenta+"/beneficiarios/"+idBeneficiario).remove();
                 },
                 getVoucherCuentaBancaria: function(id) {
                     return Restangular.one("cuentaBancaria/"+id+"/voucherCuentaBancaria").get();

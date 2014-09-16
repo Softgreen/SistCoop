@@ -306,15 +306,19 @@ define(['../module'], function (controllers) {
                     }
                 });
                 modalInstance.result.then(function (result) {
-                    SocioService.actualizarBeneficiario(result).then(
+                	SocioService.actualizarBeneficiario($scope.id, $scope.beneficiarios[index].id, result).then(
                         function(data){ 
                             $scope.beneficiarios.splice(index, 1);
                             $scope.beneficiarios.push(result);
-                            $scope.alerts = [{ type: "success", msg: "Beneficiario creado." }];
+                            $scope.alerts = [{ type: "success", msg: "Beneficiario Actualizado." }];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                            $scope.control.beneficiario.success = true;
+                            $scope.control.beneficiario.message = '<span class="label label-success">Actualizado</span>';
                         }, function error(error){
                             $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                            $scope.control.beneficiario.success = false;
+                            $scope.control.beneficiario.message = '';
                             $window.scrollTo(0,0);
                         }
                     );

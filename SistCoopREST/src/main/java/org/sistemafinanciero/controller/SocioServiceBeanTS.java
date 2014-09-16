@@ -359,8 +359,30 @@ public class SocioServiceBeanTS implements SocioServiceTS {
 		
 		if(!socio.getEstado())
 			throw new RollbackFailureException("Socio inactivo, no se puede modificar beneficiarios");
-		
+
 		beneficiarioDAO.delete(beneficiario);
+	}
+
+	@Override
+	public void updateBeneficiario(BigInteger idBeneficiario,
+			Beneficiario beneficiario) throws NonexistentEntityException,
+			PreexistingEntityException, RollbackFailureException {
+		
+		Beneficiario beneficiarioDB = beneficiarioDAO.find(idBeneficiario);
+		if (beneficiarioDB == null)
+			throw new NonexistentEntityException("Beneficiario no encontrado");
+		
+		CuentaAporte cuentaAporte = beneficiarioDB.getCuentaAporte();
+		if (cuentaAporte.getEstadoCuenta().equals(EstadoCuentaAporte.INACTIVO))
+			throw new NonexistentEntityException("Cuenta INACTIVA, no se puede modificar los beneficiarios");
+		
+		if (cuentaAporte.getEstadoCuenta() == null)
+			throw new NonexistentEntityException("Error modificar los beneficiarios");
+		
+		beneficiario.setIdBeneficiario(idBeneficiario);
+		beneficiario.setCuentaAporte(cuentaAporte);
+		beneficiarioDAO.update(beneficiario);
+		
 	}
 
 }

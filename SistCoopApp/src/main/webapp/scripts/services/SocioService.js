@@ -88,6 +88,9 @@ define(['./module'], function (services) {
                 addBeneficiario : function(idSocio, beneficiario){
                     return Restangular.all(baseUrl+"/"+idSocio+"/beneficiarios").post(beneficiario);
                 },
+                actualizarBeneficiario : function(idSocio, idBeneficiario, beneficiario){
+                    return Restangular.one(baseUrl + "/" + idSocio + "/beneficiarios/" + idBeneficiario).customPUT(beneficiario,'',{},{});
+                },
                 eliminarBeneficiario: function(idCuenta, idBeneficiario){
                     return Restangular.one(baseUrl+"/"+idCuenta+"/beneficiarios/"+idBeneficiario).remove();
                 },

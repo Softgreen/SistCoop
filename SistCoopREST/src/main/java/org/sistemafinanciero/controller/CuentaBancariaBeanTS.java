@@ -453,8 +453,11 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 		CuentaBancaria cuentaBancaria = beneficiarioDB.getCuentaBancaria();
 		if (cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.INACTIVO))
 			throw new NonexistentEntityException("Cuenta INACTIVA, no se puede modificar los beneficiarios");
+		if (cuentaBancaria.getEstado()== null)
+			throw new NonexistentEntityException("Error al modificar los beneficiarios");
 
 		beneficiario.setIdBeneficiario(idBeneficiario);
+		beneficiario.setCuentaBancaria(cuentaBancaria);
 		beneficiarioDAO.update(beneficiario);
 	}
 

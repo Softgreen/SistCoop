@@ -2,9 +2,11 @@ package org.sistemafinanciero.rest;
 
 import java.math.BigInteger;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -78,6 +80,12 @@ public interface SocioREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response createBeneficiario(@PathParam("id") BigInteger id, Beneficiario beneficiario);
 
+	@PUT
+	@Path("/{id}/beneficiarios/{idBeneficiario}")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response updateBeneficiario(@PathParam("id") BigInteger id, @PathParam("idBeneficiario") BigInteger idBeneficiario, Beneficiario beneficiario);
+	
 	@DELETE
 	@Path("/{id}/beneficiarios/{idBeneficiario}")
 	@Produces({ "application/xml", "application/json" })
