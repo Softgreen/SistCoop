@@ -28,6 +28,7 @@ define(['../module'], function (controllers) {
                             } else if ($scope.socio.tipoPersona == 'JURIDICA'){
                                 PersonaJuridicaService.findByTipoNumeroDocumento($scope.socio.idTipoDocumento, $scope.socio.numeroDocumento).then(function(data){
                                     $scope.personaJuridica = data;
+                                    $scope.loadPais();
                                 });
                             }
                         }, function error(error){
@@ -37,6 +38,19 @@ define(['../module'], function (controllers) {
                     );
                 }
             };
+            
+            $scope.loadPais = function(){
+            	if ($scope.socio.tipoPersona == 'NATURAL') {
+            		MaestroService.getPaisByCodigo($scope.personaNatural.codigoPais).then(function(data){
+                    	$scope.pais = data;
+                    });
+				} else {
+					MaestroService.getPaisByCodigo($scope.personaJuridica.representanteLegal.codigoPais).then(function(data){
+                    	$scope.pais = data;
+                    });
+				}
+            };
+            
             $scope.loadCuentaAporte = function(){
                 if(!angular.isUndefined($scope.id)){
                     SocioService.getCuentaAporte($scope.id).then(
@@ -76,12 +90,6 @@ define(['../module'], function (controllers) {
                     );
                 };
             };               
-            
-            $scope.loadPais = function(){
-                MaestroService.getPaisByCodigo($scope.personaNatural.codigoPais).then(function(data){
-                	$scope.pais = data;
-                });
-            };
 
             $scope.loadRedireccion();
             $scope.loadSocio();
