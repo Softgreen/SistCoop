@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -26,6 +27,7 @@ import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.service.nt.BovedaServiceNT;
 import org.sistemafinanciero.service.ts.CajaServiceTS;
 
 @Named
@@ -45,7 +47,7 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 
 	@Inject
 	private Validator validator;
-
+	
 	@Override
 	public BigInteger create(Caja t) throws PreexistingEntityException, RollbackFailureException {
 		Set<ConstraintViolation<Caja>> violations = validator.validate(t);
@@ -123,27 +125,29 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 			Set<ConstraintViolation<Caja>> violations = validator.validate(t);
 			if (violations.isEmpty()) {
 
+				//List<Boveda> bovedasOfAgencia = bovedaServiceNT.findAll(idAgencia);
 				Set<BovedaCaja> bovedaCajas = caja.getBovedaCajas();
-
-				Map<BigInteger, Boveda> total = new HashMap<BigInteger, Boveda>();
-				for (BovedaCaja bovedaCaja : bovedaCajas) {
-					Boveda boveda = bovedaCaja.getBoveda();
-					BigInteger idBoveda = boveda.getIdBoveda();
-					total.put(idBoveda, boveda);
+				
+				//A=bovedas de la vista; B=bovedas de la BD
+				Set<BigInteger> A = new HashSet<BigInteger>();
+				A.addAll(idBovedas);				
+				Set<BigInteger> B = new HashSet<BigInteger>();
+				for (BovedaCaja bc : bovedaCajas) {
+					Boveda boveda = bc.getBoveda();
+					B.add(boveda.getIdBoveda());
 				}
-
-				Set<BigInteger> union = new HashSet<BigInteger>(total.keySet());
-				union.addAll(idBovedas);
-
-				Set<BigInteger> restDelete = new HashSet<BigInteger>(union);
-				restDelete.removeAll(idBovedas);
-
-				Set<BigInteger> restCreate = new HashSet<BigInteger>(union);
-				restCreate.removeAll(total.keySet());
-
-				// operaciones
-				for (BigInteger idDel : restDelete) {
-					Boveda boveda = total.get(idDel);
+				
+				//A-B
+				Set<BigInteger> bovedasParaCrear = new HashSet<BigInteger>(A);
+				bovedasParaCrear.removeAll(B);
+				
+				//B-A
+				Set<BigInteger> bovedasParaEliminar = new HashSet<BigInteger>(B);
+				bovedasParaEliminar.removeAll(A);
+				
+				//elimando bovedas
+				for (BigInteger idBoveda : bovedasParaEliminar) {
+					Boveda boveda = bovedaDAO.find(idBoveda);
 
 					BovedaCajaId pk = new BovedaCajaId();
 					pk.setIdBoveda(boveda.getIdBoveda());
@@ -151,13 +155,13 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 					BovedaCaja bovedaCaja = bovedaCajaDAO.find(pk);
 
 					if (bovedaCaja.getSaldo().compareTo(BigDecimal.ZERO) != 0)
-						throw new RollbackFailureException("Boveda con saldo diferente de cero, no se puede quitar de la caja");
+						throw new RollbackFailureException("Boveda:"+boveda.getDenominacion()+" con saldo diferente de cero, no se puede quitar de la caja");
 					else
 						bovedaCajaDAO.delete(bovedaCaja);
 				}
-
-				for (BigInteger idDel : restCreate) {
-					Boveda boveda = total.get(idDel);
+				//creando bovedas
+				for (BigInteger idBoveda : bovedasParaCrear) {
+					Boveda boveda = bovedaDAO.find(idBoveda);
 
 					BovedaCaja bovedaCaja = new BovedaCaja();
 					bovedaCaja.setId(null);
@@ -172,7 +176,7 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 					bovedaCaja.setId(idCre);
 
 					bovedaCajaDAO.create(bovedaCaja);
-				}
+				}						
 
 				caja.setDenominacion(t.getDenominacion());
 				caja.setAbreviatura(t.getAbreviatura());
