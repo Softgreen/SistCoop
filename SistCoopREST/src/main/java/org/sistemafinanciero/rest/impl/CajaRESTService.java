@@ -211,14 +211,14 @@ public class CajaRESTService implements CajaREST {
 			caja.setDenominacion(cajaDTO.getDenominacion());
 			caja.setAbreviatura(cajaDTO.getAbreviatura());
 			
-			cajaServiceTS.update(idCaja, caja);
+			cajaServiceTS.update(idCaja, caja, cajaDTO.getBovedas());
 			return Response.status(Response.Status.OK).build();
 		} catch (NonexistentEntityException e) {
-			return Response.status(Response.Status.NOT_FOUND).build();
+			return Response.status(Response.Status.NOT_FOUND).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		} catch (PreexistingEntityException e) {
-			return Response.status(Response.Status.CONFLICT).build();
+			return Response.status(Response.Status.CONFLICT).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		} catch (RollbackFailureException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		}
 	}
 

@@ -692,6 +692,13 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		}
 
 		switch (cuentaBancaria.getEstado()) {
+		case ACTIVO:
+			if(cuentaBancaria.getTipoCuentaBancaria().equals(TipoCuentaBancaria.PLAZO_FIJO)){
+				if(monto.compareTo(BigDecimal.ZERO)>=0){
+					cuentaBancaria.setEstado(EstadoCuentaBancaria.CONGELADO);
+				}
+			}
+			break;
 		case CONGELADO:
 			throw new RollbackFailureException("Cuenta CONGELADA, no se pueden realizar transacciones");
 		case INACTIVO:
