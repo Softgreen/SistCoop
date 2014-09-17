@@ -185,7 +185,7 @@ define(['./app'], function(app) {
                 .state('app.transaccion.nuevaTransaccionBovedaCaja', {
                     url: "/buscar",
                     templateUrl: "views/jefeCaja/transaccion/nuevaTransaccionBovedaCaja.html"
-                })
+                })                
         }
     ]).run(['$rootScope', '$state', '$stateParams',
             function ($rootScope,   $state,   $stateParams) {
