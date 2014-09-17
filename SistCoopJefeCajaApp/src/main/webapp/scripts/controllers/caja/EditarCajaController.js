@@ -108,10 +108,9 @@ define(['../module'], function (controllers) {
                     size: 'lg'
                 });
                 modalInstance.result.then(function (trabajador) {
-                    $scope.objetosCargados.cuentaBancaria = cuenta;
-                    $scope.view.numeroCuenta = $scope.objetosCargados.cuentaBancaria.numeroCuenta;
-                    focus($scope.focusElements.tipoTransaccion);
+                    console.log("trabajador cargado:"+trabajador);
                 }, function () {
+
                 });
             };
 
