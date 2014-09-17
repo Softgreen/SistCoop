@@ -17,8 +17,6 @@
     <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.min.css" />
     <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css">
     <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css">
-    <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css">
-    <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch-bootstrap.css">
 
     <!-- endbower -->
     <!-- endbuild -->
@@ -58,13 +56,13 @@
                         <a href="#about" ui-sref="app.caja({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.caja&#39;)}">Caja</a>
                     </li>
                     <li ng-class="{active: $state.includes(&#39;app.transaccion&#39;)}">
-                        <a href="#contact" ui-sref="app.transaccion({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.transaccion&#39;)}">Transaccion</a>
+                        <a href="#contact" ui-sref="app.transaccion({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.transaccion&#39;)}">Transacción</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="gwt-Anchor" style="padding-right: 30px">
-                            <span ng-bind="agenciaSession.denominacion"></span>&nbsp;&nbsp;
+                        <a class="gwt-Anchor" style="padding-right: 30px; color: blue;">
+                            <strong><span ng-bind="agenciaSession.abreviatura"></span></strong>
                         </a>
                     </li>
                     <li>
@@ -75,7 +73,7 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="/SistCoopApp/account">Ver perfil</a></li>
+                                <li><a href="/SistCoopApp/account">Mi Perfil</a></li>
                                 <li><a href="#" ui-sref="app.configuracion.impresora({redirect:true})">Impresora</a></li>
                                 <li class="divider"></li>
                                 <li><a href="/SistCoopApp/logout">Salir</a></li>

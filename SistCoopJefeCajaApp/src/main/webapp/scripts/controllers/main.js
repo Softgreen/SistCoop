@@ -12,6 +12,12 @@ define([
     './caja/EditarCajaController',
     './caja/BuscarCajaController',
 
+    './trabajador/BuscarTrabajadorPopUpController',
+
+    './transaccion/CrearTransaccionEntidadBovedaController',
+    './transaccion/CrearTransaccionBovedaBovedaController',
+    './transaccion/CrearTransaccionBovedaCajaController',
+
     './voucher/VoucherCerrarBoveda'
 
 ], function () {

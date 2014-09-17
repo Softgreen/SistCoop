@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('EditarCajaController', ['$scope','$state','focus','BovedaService','CajaService',
-        function($scope,$state,focus,BovedaService,CajaService) {
+    controllers.controller('EditarCajaController', ['$scope','$state','$modal','focus','BovedaService','CajaService',
+        function($scope,$state,$modal,focus,BovedaService,CajaService) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
@@ -99,6 +99,20 @@ define(['../module'], function (controllers) {
                 } else {
                     $scope.control.submitted = true;
                 }
+            };
+
+            $scope.openBuscarTrabajador = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: 'views/jefeCaja/trabajador/buscarTrabajadorPopUp.html',
+                    controller: "BuscarTrabajadorPopUpController",
+                    size: 'lg'
+                });
+                modalInstance.result.then(function (trabajador) {
+                    $scope.objetosCargados.cuentaBancaria = cuenta;
+                    $scope.view.numeroCuenta = $scope.objetosCargados.cuentaBancaria.numeroCuenta;
+                    focus($scope.focusElements.tipoTransaccion);
+                }, function () {
+                });
             };
 
             $scope.redireccion = function(){

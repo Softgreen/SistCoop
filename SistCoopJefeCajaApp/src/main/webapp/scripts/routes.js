@@ -99,6 +99,27 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.transaccion', {
+                    url: "/transaccion",
+                    views: {
+                        "viewMenu":{
+                            controller: function($scope){
+                                $scope.menus = [
+                                    {'name':'Externo', submenus:[
+                                        { 'name':'Entidad/Boveda' , 'state':'app.transaccion.nuevaTransaccionEntidadBoveda'}
+                                    ]},
+                                    {'name':'Interno', submenus:[
+                                        { 'name':'Boveda/Boveda' , 'state':'app.transaccion.nuevaTransaccionBovedaBoveda'},
+                                        { 'name':'Boveda/Caja' , 'state':'app.transaccion.nuevaTransaccionBovedaCaja'}
+                                    ]}
+                                ];
+                            }
+                        },
+                        "viewContent":{
+                            template: '<div ui-view style="min-height: 472px;"></br></br></div>'
+                        }
+                    }
+                })
 
                 .state('app.boveda.nuevaBoveda', {
                     url: '/nuevo',
@@ -151,6 +172,19 @@ define(['./app'], function(app) {
                 .state('app.caja.buscarCaja', {
                     url: "/buscar",
                     templateUrl: "views/jefeCaja/caja/buscarCaja.html"
+                })
+
+                .state('app.transaccion.nuevaTransaccionEntidadBoveda', {
+                    url: "/buscar",
+                    templateUrl: "views/jefeCaja/transaccion/nuevaTransaccionEntidadBoveda.html"
+                })
+                .state('app.transaccion.nuevaTransaccionBovedaBoveda', {
+                    url: "/buscar",
+                    templateUrl: "views/jefeCaja/transaccion/nuevaTransaccionBovedaBoveda.html"
+                })
+                .state('app.transaccion.nuevaTransaccionBovedaCaja', {
+                    url: "/buscar",
+                    templateUrl: "views/jefeCaja/transaccion/nuevaTransaccionBovedaCaja.html"
                 })
         }
     ]).run(['$rootScope', '$state', '$stateParams',
