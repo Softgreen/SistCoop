@@ -5,7 +5,8 @@ define([
     './SessionService',
     './BovedaService',
     './CajaService',
-    './TrabajadorService'
+    './TrabajadorService',
+    './EntidadService'
 ], function () {
 
 });
