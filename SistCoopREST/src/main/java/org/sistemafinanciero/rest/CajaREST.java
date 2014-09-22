@@ -3,6 +3,7 @@ package org.sistemafinanciero.rest;
 import java.math.BigInteger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -12,7 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.rest.dto.CajaDTO;
 
 @Path("/cajas")
@@ -140,4 +141,18 @@ public interface CajaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response getHistorialTransaccionCaja(@PathParam("id") BigInteger idCaja, @QueryParam("idHistorial") BigInteger idHistorial, @QueryParam("filterText") String filterText);
 
+	@GET
+	@Path("/{id}/trabajadores")
+	@Produces({ "application/xml", "application/json" })
+	public Response getTrabajadores(@PathParam("id") BigInteger id);
+
+	@POST
+	@Path("/{id}/trabajadores")
+	@Produces({ "application/xml", "application/json" })
+	public Response createTrabajador(@PathParam("id") BigInteger idCaja, Trabajador trabajador);
+
+	@DELETE
+	@Path("/{id}/trabajadores/{idTrabajador}")
+	@Produces({ "application/xml", "application/json" })
+	public Response deleteTrabajador(@PathParam("id") BigInteger idCaja, @PathParam("idTrabajador") BigInteger idTrabajador);
 }

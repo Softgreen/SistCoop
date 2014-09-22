@@ -73,6 +73,20 @@ define(['../module'], function (controllers) {
               }
             };
 
+            $scope.loadTrabajadoresCaja = function(){
+                CajaService.getTrabajadorse($scope.id).then(
+                    function(data){
+                        $scope.trabajadores = data;
+                    },
+                    function error(error){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = false;
+                        $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
+            };
+
             //logic
             $scope.crearTransaccion = function(){
                 if ($scope.crearCajaForm.$valid) {
@@ -105,13 +119,49 @@ define(['../module'], function (controllers) {
                 var modalInstance = $modal.open({
                     templateUrl: 'views/jefeCaja/trabajador/buscarTrabajadorPopUp.html',
                     controller: "BuscarTrabajadorPopUpController",
-                    size: 'lg'
+                    size: 'lg',
+                    resolve: {
+                        idAgencia: function () {
+                            return $scope.agenciaSession.id;
+                        }
+                    }
                 });
                 modalInstance.result.then(function (trabajador) {
-                    console.log("trabajador cargado:"+trabajador);
+                    CajaService.crearTrabajador($scope.id, trabajador).then(
+                        function(data){
+                            $scope.trabajadores.push(trabajador);
+
+                            $scope.control.inProcess = false;
+                            $scope.alerts = [{ type: "success", msg: "Trabajador asignado."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        },
+                        function error(error){
+                            $scope.control.inProcess = false;
+                            $scope.control.success = false;
+                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
                 }, function () {
 
                 });
+            };
+
+            $scope.eliminarTrabajador = function(index){
+                CajaService.eliminarTrabajador($scope.id, $scope.trabajadores[index].id).then(
+                    function(data){
+                        $scope.trabajadores.splice(index, 1);
+                        $scope.control.inProcess = false;
+                        $scope.alerts = [{ type: "success", msg: "Trabajador eliminado."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    },
+                    function error(error){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = false;
+                        $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
             };
 
             $scope.redireccion = function(){
@@ -124,6 +174,7 @@ define(['../module'], function (controllers) {
 
             $scope.loadBovedas();
             $scope.loadCaja();
+            $scope.loadTrabajadoresCaja();
 
         }]);
 });

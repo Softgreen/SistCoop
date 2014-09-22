@@ -16,7 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.sun.istack.NotNull;
 
@@ -25,7 +26,9 @@ import com.sun.istack.NotNull;
  */
 @Entity
 @Table(name = "TRABAJADOR", schema = "BDSISTEMAFINANCIERO")
-@NamedQueries({ @NamedQuery(name = Trabajador.findByUsername, query = "SELECT t FROM Trabajador t WHERE t.usuario = :username") })
+@NamedQueries({ @NamedQuery(name = Trabajador.findByUsername, query = "SELECT t FROM Trabajador t WHERE t.usuario = :username"), 
+	@NamedQuery(name = Trabajador.findByFilterText, query = "SELECT t FROM Trabajador t INNER JOIN t.personaNatural p WHERE CONCAT(p.apellidoPaterno,' ', p.apellidoMaterno,' ',p.nombres) LIKE :filterText"), 
+	@NamedQuery(name = Trabajador.findByFilterTextAndIdAgencia, query = "SELECT t FROM Trabajador t INNER JOIN t.agencia a INNER JOIN t.personaNatural p WHERE a.idAgencia = :idAgencia AND CONCAT(p.apellidoPaterno,' ', p.apellidoMaterno,' ',p.nombres) LIKE :filterText") })
 public class Trabajador implements java.io.Serializable {
 
 	/**
@@ -34,6 +37,8 @@ public class Trabajador implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String findByUsername = "Trabajador.findByUsername";
+	public final static String findByFilterText = "Trabajador.findByFilterText";
+	public final static String findByFilterTextAndIdAgencia = "Trabajador.findByFilterTextAndIdAgencia";
 
 	private BigInteger idTrabajador;
 	private PersonaNatural personaNatural;
@@ -60,7 +65,7 @@ public class Trabajador implements java.io.Serializable {
 		this.trabajadorCajas = trabajadorCajas;
 	}
 
-	@DecimalMin(value = "0", inclusive = false)
+	@XmlElement(name = "id")
 	@Id
 	@Column(name = "ID_TRABAJADOR", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdTrabajador() {
@@ -82,6 +87,7 @@ public class Trabajador implements java.io.Serializable {
 		this.personaNatural = personaNatural;
 	}
 
+	@XmlTransient
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_AGENCIA", nullable = false)
@@ -112,6 +118,7 @@ public class Trabajador implements java.io.Serializable {
 		this.usuario = usuario;
 	}
 
+	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "trabajador")
 	public Set<TrabajadorCaja> getTrabajadorCajas() {
 		return this.trabajadorCajas;

@@ -256,6 +256,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		Moneda monedaTransaccion = monedaDAO.find(idMoneda);
 		Caja caja = this.getCaja();
 		Set<BovedaCaja> bovedasCajas = caja.getBovedaCajas();
+		
+		boolean commit = false;
+		
 		for (BovedaCaja bovedaCaja : bovedasCajas) {
 			Moneda monedaBoveda = bovedaCaja.getBoveda().getMoneda();
 			if (monedaTransaccion.equals(monedaBoveda)) {
@@ -264,11 +267,16 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 				if (saldoFinal.compareTo(BigDecimal.ZERO) >= 0) {
 					bovedaCaja.setSaldo(saldoFinal);
 					bovedaCajaDAO.update(bovedaCaja);
+					commit = true;
 				} else {
 					throw new RollbackFailureException("Saldo menor a cero, no se puede modificar saldo de caja");
 				}
 				break;
 			}
+		}
+		
+		if(!commit){
+			throw new RollbackFailureException("La caja no tiene la moneda indicada, no se puede realizar la transaccion");
 		}
 	}
 

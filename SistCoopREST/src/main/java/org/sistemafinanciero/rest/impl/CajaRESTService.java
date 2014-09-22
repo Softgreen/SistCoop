@@ -31,6 +31,7 @@ import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PendienteCaja;
+import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.CajaCierreMoneda;
@@ -74,7 +75,7 @@ public class CajaRESTService implements CajaREST {
 		Response response = Response.status(Response.Status.OK).entity(list).build();
 		return response;
 	}
-	
+
 	@Override
 	public Response findById(BigInteger id) {
 		Caja caja = cajaServiceNT.findById(id);
@@ -191,7 +192,7 @@ public class CajaRESTService implements CajaREST {
 			Caja caja = new Caja();
 			caja.setDenominacion(cajaDTO.getDenominacion());
 			caja.setAbreviatura(cajaDTO.getAbreviatura());
-			
+
 			List<BigInteger> idBovedas = new ArrayList<BigInteger>();
 			for (BigInteger id : cajaDTO.getBovedas()) {
 				idBovedas.add(id);
@@ -210,7 +211,7 @@ public class CajaRESTService implements CajaREST {
 			caja.setIdCaja(idCaja);
 			caja.setDenominacion(cajaDTO.getDenominacion());
 			caja.setAbreviatura(cajaDTO.getAbreviatura());
-			
+
 			cajaServiceTS.update(idCaja, caja, cajaDTO.getBovedas());
 			return Response.status(Response.Status.OK).build();
 		} catch (NonexistentEntityException e) {
@@ -262,6 +263,44 @@ public class CajaRESTService implements CajaREST {
 	public Response getHistorialTransaccionCaja(BigInteger idCaja, BigInteger idHistorial, String filterText) {
 		List<HistorialTransaccionCaja> list = cajaServiceNT.getHistorialTransaccion(idCaja, idHistorial, filterText);
 		return Response.status(Response.Status.OK).entity(list).build();
+	}
+
+	@Override
+	public Response getTrabajadores(BigInteger id) {
+		List<Trabajador> list = cajaServiceNT.getTrabajadores(id);
+		return Response.status(Response.Status.OK).entity(list).build();
+	}
+
+	@Override
+	public Response createTrabajador(BigInteger idCaja, Trabajador trabajador) {
+		Response response;
+
+		BigInteger idTrabajador = trabajador.getIdTrabajador();
+		try {
+			BigInteger id = cajaServiceTS.createTrabajadorCaja(idCaja, idTrabajador);
+			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(id)).build();
+		} catch (NonexistentEntityException e) {
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		} catch (PreexistingEntityException e) {
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		} catch (RollbackFailureException e) {
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response deleteTrabajador(BigInteger idCaja, BigInteger idTrabajador) {
+		Response response;
+		try {
+			cajaServiceTS.deleteTrabajadorCaja(idCaja, idTrabajador);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (NonexistentEntityException e) {
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		} catch (RollbackFailureException e) {
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		}
+		return response;
 	}
 
 }

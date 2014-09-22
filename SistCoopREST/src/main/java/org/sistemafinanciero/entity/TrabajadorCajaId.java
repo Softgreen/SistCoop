@@ -3,6 +3,8 @@ package org.sistemafinanciero.entity;
 // Generated 02-may-2014 11:48:28 by Hibernate Tools 4.0.0
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -12,32 +14,32 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TrabajadorCajaId implements java.io.Serializable {
 
-	private BigDecimal idTrabajador;
-	private BigDecimal idCaja;
+	private BigInteger idTrabajador;
+	private BigInteger idCaja;
 
 	public TrabajadorCajaId() {
 	}
 
-	public TrabajadorCajaId(BigDecimal idTrabajador, BigDecimal idCaja) {
+	public TrabajadorCajaId(BigInteger idTrabajador, BigInteger idCaja) {
 		this.idTrabajador = idTrabajador;
 		this.idCaja = idCaja;
 	}
 
 	@Column(name = "ID_TRABAJADOR", nullable = false, precision = 22, scale = 0)
-	public BigDecimal getIdTrabajador() {
+	public BigInteger getIdTrabajador() {
 		return this.idTrabajador;
 	}
 
-	public void setIdTrabajador(BigDecimal idTrabajador) {
+	public void setIdTrabajador(BigInteger idTrabajador) {
 		this.idTrabajador = idTrabajador;
 	}
 
 	@Column(name = "ID_CAJA", nullable = false, precision = 22, scale = 0)
-	public BigDecimal getIdCaja() {
+	public BigInteger getIdCaja() {
 		return this.idCaja;
 	}
 
-	public void setIdCaja(BigDecimal idCaja) {
+	public void setIdCaja(BigInteger idCaja) {
 		this.idCaja = idCaja;
 	}
 
@@ -50,24 +52,14 @@ public class TrabajadorCajaId implements java.io.Serializable {
 			return false;
 		TrabajadorCajaId castOther = (TrabajadorCajaId) other;
 
-		return ((this.getIdTrabajador() == castOther.getIdTrabajador()) || (this
-				.getIdTrabajador() != null
-				&& castOther.getIdTrabajador() != null && this
-				.getIdTrabajador().equals(castOther.getIdTrabajador())))
-				&& ((this.getIdCaja() == castOther.getIdCaja()) || (this
-						.getIdCaja() != null && castOther.getIdCaja() != null && this
-						.getIdCaja().equals(castOther.getIdCaja())));
+		return ((this.getIdTrabajador() == castOther.getIdTrabajador()) || (this.getIdTrabajador() != null && castOther.getIdTrabajador() != null && this.getIdTrabajador().equals(castOther.getIdTrabajador()))) && ((this.getIdCaja() == castOther.getIdCaja()) || (this.getIdCaja() != null && castOther.getIdCaja() != null && this.getIdCaja().equals(castOther.getIdCaja())));
 	}
 
 	public int hashCode() {
 		int result = 17;
 
-		result = 37
-				* result
-				+ (getIdTrabajador() == null ? 0 : this.getIdTrabajador()
-						.hashCode());
-		result = 37 * result
-				+ (getIdCaja() == null ? 0 : this.getIdCaja().hashCode());
+		result = 37 * result + (getIdTrabajador() == null ? 0 : this.getIdTrabajador().hashCode());
+		result = 37 * result + (getIdCaja() == null ? 0 : this.getIdCaja().hashCode());
 		return result;
 	}
 

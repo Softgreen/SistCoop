@@ -16,6 +16,8 @@ import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.PersonaNatural;
+import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TrabajadorCaja;
 import org.sistemafinanciero.exception.IllegalResultException;
@@ -98,6 +100,29 @@ public class TrabajadorServiceBeanNT implements TrabajadorServiceNT {
 	@Override
 	public int count() {
 		return trabajadorDAO.count();
+	}
+
+	@Override
+	public List<Trabajador> findAllByFilterTextAndAgencia(String filterText, BigInteger idAgencia) {
+		if(filterText == null)
+			filterText = "";
+		List<Trabajador> list = null;
+		if(idAgencia != null){
+			QueryParameter queryParameter = QueryParameter.with("filterText", "%" + filterText + "%").and("idAgencia", idAgencia);
+			list = trabajadorDAO.findByNamedQuery(Trabajador.findByFilterTextAndIdAgencia, queryParameter.parameters());
+		} else {
+			QueryParameter queryParameter = QueryParameter.with("filterText", "%" + filterText + "%");
+			list = trabajadorDAO.findByNamedQuery(Trabajador.findByFilterText, queryParameter.parameters());
+		}
+		if(list != null){
+			for (Trabajador trabajador : list) {
+				PersonaNatural personaNatural = trabajador.getPersonaNatural();
+				TipoDocumento tipoDocumento = personaNatural.getTipoDocumento();
+				Hibernate.initialize(personaNatural);
+				Hibernate.initialize(tipoDocumento);				
+			}
+		}
+		return list;
 	}
 
 }

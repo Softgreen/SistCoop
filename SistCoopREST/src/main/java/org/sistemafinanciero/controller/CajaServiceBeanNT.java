@@ -37,6 +37,9 @@ import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Socio;
+import org.sistemafinanciero.entity.TipoDocumento;
+import org.sistemafinanciero.entity.Trabajador;
+import org.sistemafinanciero.entity.TrabajadorCaja;
 import org.sistemafinanciero.entity.TransaccionBancaria;
 import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
@@ -72,7 +75,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 	@Inject
 	private DAO<Object, CajaView> cajaViewDAO;
-	
+
 	@Inject
 	private DAO<Object, Caja> cajaDAO;
 
@@ -311,7 +314,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		if (caja == null)
 			return null;
 		HistorialCaja historial = getHistorialActivo(idCaja);
-		Set<TransaccionCajaCaja> recibidos = historial.getTransaccionCajaCajasForIdCajaHistorialDestino();		
+		Set<TransaccionCajaCaja> recibidos = historial.getTransaccionCajaCajasForIdCajaHistorialDestino();
 		for (TransaccionCajaCaja ts : recibidos) {
 			Moneda moneda = ts.getMoneda();
 			Hibernate.initialize(ts);
@@ -975,15 +978,34 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 	@Override
 	public List<CajaView> findAllView(BigInteger idAgencia) {
 		List<CajaView> list = null;
-		if(idAgencia == null){
-			list = cajaViewDAO.findAll();	
-		}		 
-		else {			
+		if (idAgencia == null) {
+			list = cajaViewDAO.findAll();
+		} else {
 			QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
 			Collection<CajaView> a = cajaViewDAO.findByNamedQuery(CajaView.findByIdAgencia);
 			list = new ArrayList<CajaView>(a);
 		}
 		return list;
+	}
+
+	@Override
+	public List<Trabajador> getTrabajadores(BigInteger idCaja) {
+		Caja caja = cajaDAO.find(idCaja);
+		if (caja != null) {
+			Set<TrabajadorCaja> trabajadorCajas = caja.getTrabajadorCajas();
+			List<Trabajador> trabajadores = new ArrayList<Trabajador>();
+			for (TrabajadorCaja trabajadorCaja : trabajadorCajas) {
+				Trabajador trabajador = trabajadorCaja.getTrabajador();
+				PersonaNatural personaNatural = trabajador.getPersonaNatural();
+				TipoDocumento tipoDocumento = personaNatural.getTipoDocumento();
+				Hibernate.initialize(personaNatural);
+				Hibernate.initialize(tipoDocumento);
+				trabajadores.add(trabajador);
+			}
+			return trabajadores;
+		} else {
+			return null;
+		}
 	}
 
 }

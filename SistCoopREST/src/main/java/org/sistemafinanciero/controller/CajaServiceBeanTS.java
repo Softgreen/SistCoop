@@ -2,13 +2,10 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -24,10 +21,12 @@ import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.BovedaCaja;
 import org.sistemafinanciero.entity.BovedaCajaId;
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.Trabajador;
+import org.sistemafinanciero.entity.TrabajadorCaja;
+import org.sistemafinanciero.entity.TrabajadorCajaId;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
-import org.sistemafinanciero.service.nt.BovedaServiceNT;
 import org.sistemafinanciero.service.ts.CajaServiceTS;
 
 @Named
@@ -46,8 +45,14 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 	private DAO<Object, BovedaCaja> bovedaCajaDAO;
 
 	@Inject
+	private DAO<Object, TrabajadorCaja> trabajadorCajaDAO;
+
+	@Inject
+	private DAO<Object, Trabajador> trabajadorDAO;
+
+	@Inject
 	private Validator validator;
-	
+
 	@Override
 	public BigInteger create(Caja t) throws PreexistingEntityException, RollbackFailureException {
 		Set<ConstraintViolation<Caja>> violations = validator.validate(t);
@@ -125,27 +130,28 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 			Set<ConstraintViolation<Caja>> violations = validator.validate(t);
 			if (violations.isEmpty()) {
 
-				//List<Boveda> bovedasOfAgencia = bovedaServiceNT.findAll(idAgencia);
+				// List<Boveda> bovedasOfAgencia =
+				// bovedaServiceNT.findAll(idAgencia);
 				Set<BovedaCaja> bovedaCajas = caja.getBovedaCajas();
-				
-				//A=bovedas de la vista; B=bovedas de la BD
+
+				// A=bovedas de la vista; B=bovedas de la BD
 				Set<BigInteger> A = new HashSet<BigInteger>();
-				A.addAll(idBovedas);				
+				A.addAll(idBovedas);
 				Set<BigInteger> B = new HashSet<BigInteger>();
 				for (BovedaCaja bc : bovedaCajas) {
 					Boveda boveda = bc.getBoveda();
 					B.add(boveda.getIdBoveda());
 				}
-				
-				//A-B
+
+				// A-B
 				Set<BigInteger> bovedasParaCrear = new HashSet<BigInteger>(A);
 				bovedasParaCrear.removeAll(B);
-				
-				//B-A
+
+				// B-A
 				Set<BigInteger> bovedasParaEliminar = new HashSet<BigInteger>(B);
 				bovedasParaEliminar.removeAll(A);
-				
-				//elimando bovedas
+
+				// elimando bovedas
 				for (BigInteger idBoveda : bovedasParaEliminar) {
 					Boveda boveda = bovedaDAO.find(idBoveda);
 
@@ -155,11 +161,11 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 					BovedaCaja bovedaCaja = bovedaCajaDAO.find(pk);
 
 					if (bovedaCaja.getSaldo().compareTo(BigDecimal.ZERO) != 0)
-						throw new RollbackFailureException("Boveda:"+boveda.getDenominacion()+" con saldo diferente de cero, no se puede quitar de la caja");
+						throw new RollbackFailureException("Boveda:" + boveda.getDenominacion() + " con saldo diferente de cero, no se puede quitar de la caja");
 					else
 						bovedaCajaDAO.delete(bovedaCaja);
 				}
-				//creando bovedas
+				// creando bovedas
 				for (BigInteger idBoveda : bovedasParaCrear) {
 					Boveda boveda = bovedaDAO.find(idBoveda);
 
@@ -176,7 +182,7 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 					bovedaCaja.setId(idCre);
 
 					bovedaCajaDAO.create(bovedaCaja);
-				}						
+				}
 
 				caja.setDenominacion(t.getDenominacion());
 				caja.setAbreviatura(t.getAbreviatura());
@@ -184,7 +190,7 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 			} else {
 				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 			}
-		}		
+		}
 	}
 
 	@Override
@@ -199,6 +205,54 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 		caja.setEstadoMovimiento(false);
 		caja.setAbierto(false);
 		cajaDAO.update(caja);
+	}
+
+	@Override
+	public BigInteger createTrabajadorCaja(BigInteger idCaja, BigInteger idTrabajador) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
+		Caja caja = cajaDAO.find(idCaja);
+		Trabajador trabajador = trabajadorDAO.find(idTrabajador);
+		if (caja != null && trabajador != null) {
+			//verificando que el trabajador no exista
+			TrabajadorCajaId id = new TrabajadorCajaId();
+			id.setIdCaja(caja.getIdCaja());
+			id.setIdTrabajador(trabajador.getIdTrabajador());
+			TrabajadorCaja trabajadorCaja = trabajadorCajaDAO.find(id);
+			if(trabajadorCaja != null)
+				throw new RollbackFailureException("El trabajador ya fue asignado a la caja");
+			
+			//creanndo trabajador caja
+			trabajadorCaja = new TrabajadorCaja();			
+			trabajadorCaja.setId(id);
+			trabajadorCaja.setCaja(caja);
+			trabajadorCaja.setTrabajador(trabajador);
+			trabajadorCajaDAO.create(trabajadorCaja);
+
+			return idTrabajador;
+		} else {
+			throw new NonexistentEntityException("Caja o trabajador no encontrado");
+		}
+	}
+
+	@Override
+	public void deleteTrabajadorCaja(BigInteger idCaja, BigInteger idTrabajador) throws NonexistentEntityException, RollbackFailureException {
+		Caja caja = cajaDAO.find(idCaja);
+		Trabajador trabajador = trabajadorDAO.find(idTrabajador);
+		if (caja != null && trabajador != null) {
+			
+			TrabajadorCajaId id = new TrabajadorCajaId();
+			id.setIdCaja(caja.getIdCaja());
+			id.setIdTrabajador(trabajador.getIdTrabajador());
+
+			TrabajadorCaja trabajadorCaja = trabajadorCajaDAO.find(id);
+			if(trabajadorCaja != null){
+				trabajadorCajaDAO.delete(trabajadorCaja);
+			} else {
+				throw new NonexistentEntityException("No existe el trabajador para la caja indicada");
+			}
+			
+		} else {
+			throw new NonexistentEntityException("Caja o trabajador no encontrado");
+		}
 	}
 
 }

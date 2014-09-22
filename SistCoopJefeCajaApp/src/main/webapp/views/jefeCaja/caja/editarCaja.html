@@ -65,6 +65,7 @@
             </form>
         </div>
         <div class="col-sm-6">
+            </br>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -82,10 +83,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Mark</td>
+                        <tr ng-repeat="trabajador in trabajadores">
+                            <td>
+                                <span ng-bind="trabajador.personaNatural.apellidoPaterno"></span>&nbsp;
+                                <span ng-bind="trabajador.personaNatural.apellidoMaterno"></span>,&nbsp;
+                                <span ng-bind="trabajador.personaNatural.nombres"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="trabajador.usuario"></span>
+                            </td>
+                            <td>
+                                <button type="button" ng-click="eliminarTrabajador($index)" class="btn btn-danger btn-xs">Del</button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

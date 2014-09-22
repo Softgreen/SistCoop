@@ -8,6 +8,9 @@ define(['./module'], function (services) {
             return {
                 getTrabajador: function(idTrabajador) {
                     return Restangular.one(baseUrl+"/"+idTrabajador).get();
+                },
+                getTrabajadores: function(idAgencia, filterText) {
+                    return Restangular.one(baseUrl).get({idAgencia: idAgencia, filterText: filterText});
                 }
             }
         }])

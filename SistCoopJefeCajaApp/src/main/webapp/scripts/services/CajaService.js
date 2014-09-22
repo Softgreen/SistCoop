@@ -20,7 +20,17 @@ define(['./module'], function (services) {
                 },
                 actualizar: function(idCaja, caja) {
                     return Restangular.one(baseUrl+"/"+idCaja).customPUT(caja,'',{},{});
+                },
+                crearTrabajador: function(idCaja, trabajador){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/trabajadores").post(trabajador);
+                },
+                getTrabajadorse: function(idCaja){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/trabajadores").getList();
+                },
+                eliminarTrabajador: function(idCaja, idTrabajador){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/trabajadores/"+idTrabajador).remove();
                 }
+
             }
         }])
 });
