@@ -63,15 +63,15 @@ define(['./app'], function(app) {
                     }
                 })
 
-                .state('app.boveda', {
-                    url: "/boveda",
+                .state('app.sucursal', {
+                    url: "/sucursal",
                     views: {
                         "viewMenu":{
                             controller: function($scope){
                                 $scope.menus = [
-                                    {'name':'Boveda', submenus:[
-                                        { 'name':'Nuevo' , 'state':'app.boveda.nuevaBoveda'},
-                                        { 'name':'Buscar' , 'state':'app.boveda.buscarBoveda'}
+                                    {'name':'Sucursal', submenus:[
+                                        { 'name':'Nuevo' , 'state':'app.sucursal.nuevaSucursal'},
+                                        { 'name':'Buscar' , 'state':'app.sucursal.buscarSucursal'}
                                     ]}
                                 ];
                             }
@@ -121,42 +121,23 @@ define(['./app'], function(app) {
                     }
                 })
 
-                .state('app.boveda.nuevaBoveda', {
+
+                .state('app.sucursal.nuevaSucursal', {
                     url: '/nuevo',
-                    templateUrl: "views/jefeCaja/boveda/crearBoveda.html"
+                    templateUrl: "views/administrador/sucursal/crearSucursal.html"
                 })
-                .state('app.boveda.editarBoveda', {
+                .state('app.sucursal.editarSucursal', {
                     url: "/editar/:id",
-                    templateUrl: "views/jefeCaja/boveda/editarBoveda.html",
+                    templateUrl: "views/administrador/sucursal/editarBoveda.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
                 })
-                .state('app.boveda.buscarBoveda', {
+                .state('app.sucursal.buscarSucursal', {
                     url: "/buscar",
                     templateUrl: "views/jefeCaja/boveda/buscarBoveda.html"
                 })
-                .state('app.boveda.abrirBoveda', {
-                    url: "/abrir/:id",
-                    templateUrl: "views/jefeCaja/boveda/abrirBoveda.html",
-                    controller: function($scope, $stateParams) {
-                        $scope.id = $stateParams.id;
-                    }
-                })
-                .state('app.boveda.cerrarBoveda', {
-                    url: "/cerrar/:id",
-                    templateUrl: "views/jefeCaja/boveda/cerrarBoveda.html",
-                    controller: function($scope, $stateParams) {
-                        $scope.id = $stateParams.id;
-                    }
-                })
-                .state('app.boveda.voucherCerrarBoveda', {
-                    url: "/voucherCerrarBoveda/:id",
-                    templateUrl: "views/jefeCaja/voucher/voucherCerrarBoveda.html",
-                    controller: function($scope, $stateParams) {
-                        $scope.id = $stateParams.id;
-                    }
-                })
+
 
                 .state('app.caja.nuevaCaja', {
                     url: '/nuevo',

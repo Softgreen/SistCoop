@@ -10,10 +10,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.sistemafinanciero.entity.Agencia;
+import org.sistemafinanciero.entity.Sucursal;
 
-@Path("/agencias")
-public interface AgenciaREST {
+@Path("/sucursales")
+public interface SucursalREST {
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
@@ -26,21 +26,16 @@ public interface AgenciaREST {
 	
 	@POST
 	@Produces({ "application/xml", "application/json" })
-	public Response create(Agencia agencia);
+	public Response create(Sucursal sucursal);
 	
 	@PUT
 	@Path("/{id}")
 	@Produces({ "application/xml", "application/json" })
-	public Response update(@PathParam("id") BigInteger id, Agencia agencia);
+	public Response update(@PathParam("id") BigInteger id, Sucursal sucursal);
 	
 	@GET
-	@Path("/{id}/bovedas")
+	@Path("/{id}/agencias")
 	@Produces({ "application/json" })
-	public Response getBovedasOfAgencia(@PathParam("id") BigInteger id);
-	
-	@GET
-	@Path("/{id}/cajas")
-	@Produces({ "application/json" })
-	public Response getCajasOfAgencia(@PathParam("id") BigInteger id);
+	public Response getAgenciasOfSucursales(@PathParam("id") BigInteger id);	
 
 }

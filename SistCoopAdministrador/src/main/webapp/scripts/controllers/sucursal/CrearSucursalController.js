@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearCajaController', ['$scope','$state','focus','BovedaService','CajaService',
-        function($scope,$state,focus,BovedaService,CajaService) {
+    controllers.controller('CrearSucursalController', ['$scope','$state','focus','SucursalService',
+        function($scope,$state,focus,SucursalService) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
@@ -16,34 +16,22 @@ define(['../module'], function (controllers) {
                 submitted : false
             };
 
-            $scope.picklist = {
-                boveda: undefined
-            };
-
             $scope.view = {
                 denominacion: undefined,
-                abreviatura: undefined,
-                bovedas: []
-            };
-
-            $scope.loadBovedas = function(){
-                BovedaService.getBovedas($scope.agenciaSession.id).then(function(data){
-                    $scope.picklist.boveda = data;
-                });
+                abreviatura: undefined
             };
 
             //logic
             $scope.crearTransaccion = function(){
-                if ($scope.crearCajaForm.$valid) {
+                if ($scope.crearSucursalForm.$valid) {
                     $scope.control.inProcess = true;
 
-                    var caja = {
+                    var sucursal = {
                         denominacion: $scope.view.denominacion,
-                        abreviatura: $scope.view.abreviatura,
-                        bovedas: $scope.view.bovedas
+                        abreviatura: $scope.view.abreviatura
                     };
 
-                    CajaService.crear(caja).then(
+                    SucursalService.crear(sucursal).then(
                         function(data){
                             $scope.redireccion();
                             $scope.control.inProcess = false;
@@ -61,14 +49,13 @@ define(['../module'], function (controllers) {
             };
 
             $scope.redireccion = function(){
-                $state.transitionTo('app.caja.buscarCaja');
+                $state.transitionTo('app.sucursal.buscarSucursal');
             };
 
             $scope.cancelar = function () {
                 $scope.redireccion();
             };
 
-            $scope.loadBovedas();
 
         }]);
 });

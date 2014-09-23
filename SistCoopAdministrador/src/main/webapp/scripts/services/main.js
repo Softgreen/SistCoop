@@ -1,12 +1,9 @@
 define([
     'angular',
 
-    './MonedaService',
     './SessionService',
-    './BovedaService',
-    './CajaService',
     './TrabajadorService',
-    './EntidadService'
+    './SucursalService'
 ], function () {
 
 });

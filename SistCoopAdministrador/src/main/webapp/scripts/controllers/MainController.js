@@ -4,12 +4,6 @@ define(['./module'], function (controllers) {
     controllers.controller('MainController', ['$scope','$state','$window','$timeout','localStorageService','SessionService',
         function($scope,$state,$window,$timeout,localStorageService,SessionService) {
 
-            $scope.$watch('redirect', function(newValue, oldvalue){
-                if(newValue != oldvalue)
-                    if($scope.redirect == true)
-                        RedirectService.limpiar();
-            }, true);
-
             $scope.agenciaSession = {};
             $scope.usuarioSession = undefined;
 
