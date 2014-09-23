@@ -10,6 +10,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,7 +33,7 @@ public class Sucursal implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private BigInteger idSucursal;
 	private String denominacion;
 	private String abreviatura;
@@ -41,6 +43,7 @@ public class Sucursal implements java.io.Serializable {
 	public Sucursal() {
 	}
 
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_SUCURSAL", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdSucursal() {
@@ -51,7 +54,7 @@ public class Sucursal implements java.io.Serializable {
 		this.idSucursal = idSucursal;
 	}
 
-	@Column(name = "DENOMINACION", nullable = false, length = 100,columnDefinition = "nvarchar2")
+	@Column(name = "DENOMINACION", nullable = false, length = 100, columnDefinition = "nvarchar2")
 	public String getDenominacion() {
 		return this.denominacion;
 	}
@@ -60,7 +63,7 @@ public class Sucursal implements java.io.Serializable {
 		this.denominacion = denominacion;
 	}
 
-	@Column(name = "ABREVIATURA", length = 20,columnDefinition = "nvarchar2")
+	@Column(name = "ABREVIATURA", length = 20, columnDefinition = "nvarchar2")
 	public String getAbreviatura() {
 		return this.abreviatura;
 	}
