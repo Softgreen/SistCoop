@@ -1,0 +1,64 @@
+<div ng-controller="CrearCajaController">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Nueva caja</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <form name="crearCajaForm" ng-submit="crearTransaccion()" novalidate>
+                <div class="form-group">
+                    <label>Agencia</label>
+                    <input type="text" ng-model="agenciaSession.denominacion" class="form-control" disabled>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : crearCajaForm.denominacion.$invalid && (control.submitted || crearCajaForm.denominacion.$dirty)}">
+                    <label>Denominacion</label>
+                    <input focus-on="focusDenominacion" name="denominacion" type="text" ng-model="view.denominacion" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" capitalize required/>
+                    <div ng-show="crearCajaForm.denominacion.$invalid && (control.submitted || crearCajaForm.denominacion.$dirty)">
+                        <p class="help-block" ng-show="crearCajaForm.denominacion.$error.required">
+                            Ingrese denominacion.
+                        </p>
+                        <p class="help-block" ng-show="crearCajaForm.denominacion.$error.minlength">
+                            Minimo 1 Caracter.
+                        </p>
+                        <p class="help-block" ng-show="crearCajaForm.denominacion.$error.maxlength">
+                            Maximo 40 Caracteres.
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : crearCajaForm.abreviatura.$invalid && (control.submitted || crearCajaForm.abreviatura.$dirty)}">
+                    <label>Abreviatura</label>
+                    <input name="abreviatura" type="text" ng-model="view.abreviatura" ng-minlength="1" ng-maxlength="10" class="form-control" placeholder="Abreviatura" capitalize required/>
+                    <div ng-show="crearCajaForm.abreviatura.$invalid && (control.submitted || crearCajaForm.abreviatura.$dirty)">
+                        <p class="help-block" ng-show="crearCajaForm.abreviatura.$error.required">
+                            Ingrese denominacion.
+                        </p>
+                        <p class="help-block" ng-show="crearCajaForm.abreviatura.$error.minlength">
+                            Minimo 1 Caracter.
+                        </p>
+                        <p class="help-block" ng-show="crearCajaForm.abreviatura.$error.maxlength">
+                            Maximo 10 Caracteres.
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <input type="text" value="Activo, cerrado, congelado" class="form-control" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Bovedas</label>
+                    <picklist name="pkl" size="10" data-pick-options="v.id as v.denominacion for v in picklist.boveda" data-picklist="" data-pick-model="view.bovedas" required>
+                    </picklist>
+                    <div ng-show="crearCajaForm.pkl.$invalid && (control.submitted || crearCajaForm.pkl.$dirty)">
+                        <p class="help-block" ng-show="crearCajaForm.pkl.$error.required">
+                            Seleccione por lo menos una boveda.
+                        </p>
+                    </div>
+                </div>
+
+                <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
+                <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
+            </form>
+        </div>
+    </div>
+</div>

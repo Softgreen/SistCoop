@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.sun.xml.txw2.annotation.XmlElement;
 
@@ -25,7 +26,7 @@ import com.sun.xml.txw2.annotation.XmlElement;
 @Entity
 @Table(name = "ENTIDAD", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.NONE)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Entidad implements java.io.Serializable {
 
 	/**
@@ -80,6 +81,7 @@ public class Entidad implements java.io.Serializable {
 		this.estado = estado;
 	}
 
+	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entidad")
 	public Set<TransaccionBovedaOtro> getTransaccionBovedaOtros() {
 		return this.transaccionBovedaOtros;
