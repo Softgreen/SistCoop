@@ -37,7 +37,7 @@ public class Sucursal implements java.io.Serializable {
 	private BigInteger idSucursal;
 	private String denominacion;
 	private String abreviatura;
-	private BigDecimal estado;
+	private int estado;
 	private Set agencias = new HashSet(0);
 
 	public Sucursal() {
@@ -73,12 +73,12 @@ public class Sucursal implements java.io.Serializable {
 	}
 
 	@Column(name = "ESTADO", nullable = false, precision = 22, scale = 0)
-	public BigDecimal getEstado() {
-		return this.estado;
+	public boolean getEstado() {
+		return this.estado == 1;
 	}
 
-	public void setEstado(BigDecimal estado) {
-		this.estado = estado;
+	public void setEstado(boolean estado) {
+		this.estado = (estado == true ? 1 : 0);
 	}
 
 	@XmlTransient

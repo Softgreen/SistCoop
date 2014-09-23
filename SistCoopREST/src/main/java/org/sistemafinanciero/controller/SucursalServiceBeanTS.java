@@ -37,7 +37,10 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 	public BigInteger create(Sucursal t) throws PreexistingEntityException, RollbackFailureException {
 		Set<ConstraintViolation<Sucursal>> violations = validator.validate(t);
 		if (violations.isEmpty()) {
-			sucursalDAO.create(t);
+			t.setIdSucursal(null);
+			t.setEstado(true);
+			t.setAgencias(null);
+			sucursalDAO.create(t);					
 			return t.getIdSucursal();
 		} else {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
