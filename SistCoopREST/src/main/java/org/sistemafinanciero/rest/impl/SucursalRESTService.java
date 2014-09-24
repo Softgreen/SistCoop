@@ -80,4 +80,32 @@ public class SucursalRESTService implements SucursalREST {
 		return response;
 	}
 
+	@Override
+	public Response getAgenciaById(BigInteger id, BigInteger idAgencia) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response createAgencia(BigInteger id, Agencia agencia) {
+		Response response;
+		try {
+			BigInteger idAgencia = sucursalServiceTS.createAgencia(id, agencia);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idAgencia)).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response updateAgencia(BigInteger id, BigInteger idAgencia, Agencia agencia) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

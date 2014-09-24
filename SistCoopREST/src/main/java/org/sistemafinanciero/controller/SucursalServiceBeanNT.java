@@ -1,7 +1,9 @@
 package org.sistemafinanciero.controller;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -41,8 +43,9 @@ public class SucursalServiceBeanNT implements SucursalServiceNT {
 
 	@Override
 	public List<Agencia> getAgencias(BigInteger idSucursal) {
-		// TODO Auto-generated method stub
-		return null;
+		Sucursal sucursal = sucursalDAO.find(idSucursal);
+		Set<Agencia> agencias = sucursal.getAgencias();
+		return new ArrayList<Agencia>(agencias);
 	}
 
 }

@@ -56,30 +56,9 @@ public class Agencia implements java.io.Serializable {
 	private Set trabajadores = new HashSet(0);
 
 	public Agencia() {
-	}
-
-	public Agencia(BigInteger idAgencia, Sucursal sucursal, String denominacion, boolean estado, String abreviatura, String ubigeo) {
-		this.idAgencia = idAgencia;
-		this.sucursal = sucursal;
-		this.denominacion = denominacion;
-		this.estado = (estado ? 1 : 0);
-		this.abreviatura = abreviatura;
-		this.ubigeo = ubigeo;
-	}
-
-	public Agencia(BigInteger idAgencia, Sucursal sucursal, String denominacion, boolean estado, String abreviatura, String ubigeo, Set bovedas, Set trabajadors) {
-		this.idAgencia = idAgencia;
-		this.sucursal = sucursal;
-		this.denominacion = denominacion;
-		this.estado = (estado ? 1 : 0);
-		this.abreviatura = abreviatura;
-		this.ubigeo = ubigeo;
-		this.bovedas = bovedas;
-		this.trabajadores = trabajadors;
-	}
+	}	
 
 	@XmlElement(name = "id")
-	@DecimalMin(value = "0", inclusive = false)
 	@Id
 	@Column(name = "ID_AGENCIA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdAgencia() {
@@ -93,8 +72,6 @@ public class Agencia implements java.io.Serializable {
 	@XmlElement(name = "codigo")
 	@NotNull
 	@Size(min = 1, max = 3)
-	@NotEmpty
-	@NotBlank
 	@Column(name = "CODIGO", nullable = false, length = 3, columnDefinition = "nvarchar2")
 	public String getCodigo() {
 		return this.codigo;
@@ -107,8 +84,6 @@ public class Agencia implements java.io.Serializable {
 	@XmlElement(name = "denominacion")
 	@NotNull
 	@Size(min = 1, max = 100)
-	@NotEmpty
-	@NotBlank
 	@Column(name = "DENOMINACION", nullable = false, length = 100, columnDefinition = "nvarchar2")
 	public String getDenominacion() {
 		return this.denominacion;
@@ -121,8 +96,6 @@ public class Agencia implements java.io.Serializable {
 	@XmlElement(name = "abreviatura")
 	@NotNull
 	@Size(min = 1, max = 20)
-	@NotEmpty
-	@NotBlank
 	@Column(name = "ABREVIATURA", nullable = false, length = 20, columnDefinition = "nvarchar2")
 	public String getAbreviatura() {
 		return this.abreviatura;
@@ -135,8 +108,6 @@ public class Agencia implements java.io.Serializable {
 	@XmlElement(name = "ubigeo")
 	@NotNull
 	@Size(min = 1, max = 6)
-	@NotEmpty
-	@NotBlank
 	@Column(name = "UBIGEO", nullable = false, length = 12, columnDefinition = "nvarchar2")
 	public String getUbigeo() {
 		return this.ubigeo;
@@ -147,9 +118,7 @@ public class Agencia implements java.io.Serializable {
 	}
 
 	@XmlElement(name = "estado")
-	@NotNull
-	@Min(value = 0)
-	@Max(value = 1)
+	@NotNull	
 	@Column(name = "ESTADO", nullable = false, precision = 22, scale = 0)
 	public boolean getEstado() {
 		return (this.estado == 1 ? true : false);

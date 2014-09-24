@@ -128,14 +128,14 @@ define(['./app'], function(app) {
                 })
                 .state('app.sucursal.editarSucursal', {
                     url: "/editar/:id",
-                    templateUrl: "views/administrador/sucursal/editarBoveda.html",
+                    templateUrl: "views/administrador/sucursal/editarSucursal.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
                 })
                 .state('app.sucursal.buscarSucursal', {
                     url: "/buscar",
-                    templateUrl: "views/jefeCaja/boveda/buscarBoveda.html"
+                    templateUrl: "views/administrador/sucursal/buscarSucursal.html"
                 })
 
 

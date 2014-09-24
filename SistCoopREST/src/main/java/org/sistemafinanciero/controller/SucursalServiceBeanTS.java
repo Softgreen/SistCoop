@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Sucursal;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
@@ -30,6 +31,9 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 	@Inject
 	private DAO<Object, Sucursal> sucursalDAO;
 
+	@Inject
+	private DAO<Object, Agencia> agenciaDAO;
+	
 	@Inject
 	private Validator validator;
 
@@ -71,6 +75,22 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 		} else {
 			throw new NonexistentEntityException("Sucursal no existente, DELETE no ejecutado");
 		}
+	}
+
+	@Override
+	public BigInteger createAgencia(BigInteger idSucursal, Agencia agencia) throws NonexistentEntityException, RollbackFailureException {
+		Sucursal sucursal = sucursalDAO.find(idSucursal);
+		if(sucursal == null)
+			throw new NonexistentEntityException("Sucursal no encontrada");
+		
+		agencia.setIdAgencia(null);
+		agencia.setBovedas(null);		
+		agencia.setTrabajadores(null);
+		
+		agencia.setEstado(true);
+		agencia.setSucursal(sucursal);
+		agenciaDAO.create(agencia);
+		return agencia.getIdAgencia();
 	}
 
 }

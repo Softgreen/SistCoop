@@ -3,7 +3,8 @@ define([
 
     './SessionService',
     './TrabajadorService',
-    './SucursalService'
+    './SucursalService',
+    './AgenciaService'
 ], function () {
 
 });
