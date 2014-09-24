@@ -22,12 +22,13 @@ define(['../module'], function (controllers) {
                 data: 'transaccionesEnviadas',
                 multiSelect: false,
                 columnDefs: [
-                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha'},
-                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora'},
-                    {field:"estadoSolicitud | date : 'dd/MM/yyyy'", displayName:'Estado solicitud'},
-                    {field:"estadoConfirmacion | date : 'hh:mm:ss'", displayName:'Estado cierre'},
+                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: "80"},
+                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: "65"},
+                    {displayName:'Estado Solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
+                    {displayName:'Estado Confirmación', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
                     {field:"origen", displayName:'Origen'},
-                    {field:"monto | currency :''", displayName:'Monto'},
+                    {field:'moneda.denominacion', displayName:'Moneda'},
+                    {field:"monto | currency : ''", displayName:'Monto'},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button></div>'}]
             };
 
@@ -35,11 +36,12 @@ define(['../module'], function (controllers) {
                 data: 'transaccionesRecibidas',
                 multiSelect: false,
                 columnDefs: [
-                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha'},
-                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora'},
-                    {field:"estadoSolicitud | date : 'dd/MM/yyyy'", displayName:'Estado solicitud'},
-                    {field:"estadoConfirmacion | date : 'hh:mm:ss'", displayName:'Estado cierre'},
+                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: "80"},
+                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: "65"},
+                    {displayName:'Estado Solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
+                    {displayName:'Estado Confirmación', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
                     {field:"origen", displayName:'Origen'},
+                    {field:'moneda.denominacion', displayName:'Moneda'},
                     {field:"monto | currency :''", displayName:'Monto'},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button></div>'}]
             };
@@ -47,6 +49,5 @@ define(['../module'], function (controllers) {
             $scope.getVoucher = function(row){
                 $state.transitionTo('app.caja.voucherTransaccionCajaCaja', { id: row.id });
             };
-
         }]);
 });

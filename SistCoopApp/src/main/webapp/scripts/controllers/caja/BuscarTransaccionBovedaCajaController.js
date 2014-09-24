@@ -28,11 +28,11 @@ define(['../module'], function (controllers) {
                 data: 'transaccionesRecibidas',
                 multiSelect: false,
                 columnDefs: [
-                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha'},
-                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora'},
+                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: "10%"},
+                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: "10%"},
                     {displayName: 'Estado solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
                     {displayName: 'Estado confirmacion', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
-                    {field:"origen", displayName:'Origen'},
+                    {field:"origen", displayName:'Origen', width: "12%"},
                     {field:"monto | currency :''", displayName:'Monto'},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="confirmarTransaccion(row.entity)"><span class="glyphicon glyphicon-remove"></span>Confirmar</button></div>'}]
             };
@@ -41,11 +41,11 @@ define(['../module'], function (controllers) {
                 data: 'transaccionesEnviadas',
                 multiSelect: false,
                 columnDefs: [
-                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: "10%"},
-                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: "10%"},
-                    {displayName: 'Estado solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
-                    {displayName: 'Estado confirmacion', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
-                    {field:"origen", displayName:'Origen', width: "12%"},
+                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: "80"},
+                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: "65"},
+                    {displayName: 'Estado Solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
+                    {displayName: 'Estado Confirmacion', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
+                    {field:"caja", displayName:'Origen'},
                     {field:"monto | currency :''", displayName:'Monto'},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="cancelarTransaccion(row.entity)" ng-disabled="getDisabledStateExtornar(row.entity)"><span class="glyphicon glyphicon-remove"></span>Cancelar</button></div>'}]
             };
