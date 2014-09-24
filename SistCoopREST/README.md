@@ -9,6 +9,8 @@ keycloack configuration
 8. crear un nuevo Rol "cajero".
 9. crear un nuevo Usuarrio "caja" y cambiar el password.
 10. asignar el Rol "cajero" al usuario "caja".
+
+SistCoopApp
 11. crear una nueva aplicacion "SistCoopApp" con los datos:
 	access type: confidential
 	redirect url: http://localhost:8080/SistCoopApp/*
@@ -16,13 +18,18 @@ keycloack configuration
 	admin url: http://localhost:8080/SistCoopApp/index.caja.html
 	web origin: http://localhost:8080
 	scope: "cajero".
-	
+
+SistCoopREST	
 	access type: confidential
 	redirect url: http://localhost:8080/SistCoopREST/*
 	base url: 	
 	admin url: 
 	web origin: http://localhost:8080
 	scope: "cajero".
+	
+SistCoopJefeCajaApp
+redirect url: /SistCoopJefeCajaApp/*
+base url: /SistCoopJefeCajaApp/index.html
 	
 12. crear web.xml y poner el contenido siguiente:
 
