@@ -1,0 +1,41 @@
+package org.sistemafinanciero.rest;
+
+import java.math.BigInteger;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
+import org.sistemafinanciero.entity.Sucursal;
+
+@Path("/sucursales")
+public interface SucursalREST {
+
+	@GET
+	@Produces({ "application/xml", "application/json" })
+	public Response findAll();
+	
+	@GET
+	@Path("/{id}")
+	@Produces({ "application/xml", "application/json" })
+	public Response findById(@PathParam("id") BigInteger id);
+	
+	@POST
+	@Produces({ "application/xml", "application/json" })
+	public Response create(Sucursal sucursal);
+	
+	@PUT
+	@Path("/{id}")
+	@Produces({ "application/xml", "application/json" })
+	public Response update(@PathParam("id") BigInteger id, Sucursal sucursal);
+	
+	@GET
+	@Path("/{id}/agencias")
+	@Produces({ "application/json" })
+	public Response getAgenciasOfSucursales(@PathParam("id") BigInteger id);	
+
+}
