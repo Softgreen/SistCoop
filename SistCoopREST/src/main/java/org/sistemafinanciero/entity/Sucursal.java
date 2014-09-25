@@ -93,4 +93,29 @@ public class Sucursal implements java.io.Serializable {
 		this.agencias = agencias;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idSucursal == null) ? 0 : idSucursal.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Sucursal))
+			return false;
+		Sucursal other = (Sucursal) obj;
+		if (idSucursal == null) {
+			if (other.idSucursal != null)
+				return false;
+		} else if (!idSucursal.equals(other.idSucursal))
+			return false;
+		return true;
+	}
+
 }

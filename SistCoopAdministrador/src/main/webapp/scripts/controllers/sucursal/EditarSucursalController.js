@@ -35,7 +35,7 @@ define(['../module'], function (controllers) {
             };
             $scope.loadAgencias = function(){
                 if(!angular.isUndefined($scope.id)){
-                    SucursalService.getAgencias($scope.id).then(function(){
+                    SucursalService.getAgencias($scope.id).then(function(data){
                         $scope.agencias = data;
                     });
                 }
@@ -51,7 +51,7 @@ define(['../module'], function (controllers) {
                         abreviatura: $scope.view.abreviatura
                     };
 
-                    SucursalService.crear(sucursal).then(
+                    SucursalService.actualizar($scope.id, sucursal).then(
                         function(data){
                             $scope.redireccion();
                             $scope.control.inProcess = false;
@@ -79,6 +79,35 @@ define(['../module'], function (controllers) {
                             $scope.agencias.push(agencia);
                             $scope.control.inProcess = false;
                             $scope.alerts = [{ type: "success", msg: "Agencia añadida."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        },
+                        function error(error){
+                            $scope.control.inProcess = false;
+                            $scope.control.success = false;
+                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                }, function () {
+
+                });
+            };
+            $scope.editarAgencia = function (index) {
+                var modalInstance = $modal.open({
+                    templateUrl: 'views/administrador/agencia/editarAgenciaPopUp.html',
+                    controller: "EditarAgenciaPopUpController",
+                    resolve: {
+                        agencia: function () {
+                            return $scope.agencias[index];
+                        }
+                    }
+                });
+                modalInstance.result.then(function (agencia) {
+                    SucursalService.actualizarAgencia($scope.id, agencia.id, agencia).then(
+                        function(data){
+                            $scope.agencias[index] = agencia;
+                            $scope.control.inProcess = false;
+                            $scope.alerts = [{ type: "success", msg: "Agencia actualizada."}];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         },
                         function error(error){

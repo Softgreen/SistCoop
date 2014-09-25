@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearAgenciaPopUpController', ['$scope','$state','$timeout','$modalInstance','focus',
-        function($scope,$state,$timeout,$modalInstance,focus) {
+    controllers.controller('EditarAgenciaPopUpController', ['$scope','$state','$timeout','$modalInstance','agencia','focus',
+        function($scope,$state,$timeout,$modalInstance,agencia,focus) {
 
             $scope.focusElements = {
                 codigo: 'focusCodigo'
@@ -18,11 +18,11 @@ define(['../module'], function (controllers) {
             $scope.control = {"submitted" : false};
 
             $scope.agencia = {
-                "id" : undefined,
-                "codigo" : undefined,
-                "denominacion" : undefined,
-                "abreviatura": undefined,
-                "estado": undefined
+                "id" : agencia.id,
+                "codigo" : agencia.codigo,
+                "denominacion" : agencia.denominacion,
+                "abreviatura": agencia.abreviatura,
+                "estado": agencia.estado
             };
 
             $scope.formCrearAgencia = {};

@@ -35,7 +35,7 @@ public interface SucursalREST {
 	public Response update(@PathParam("id") BigInteger id, Sucursal sucursal);
 
 	@GET
-	@Path("/{id}/agencias/agencias")
+	@Path("/{id}/agencias")
 	@Produces({ "application/json" })
 	public Response getAgenciasOfSucursales(@PathParam("id") BigInteger id);
 

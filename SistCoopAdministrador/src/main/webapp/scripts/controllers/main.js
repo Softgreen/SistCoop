@@ -5,7 +5,8 @@ define([
     './sucursal/BuscarSucursalController',
     './sucursal/EditarSucursalController',
 
-    './agencia/CrearAgenciaPopUpController'
+    './agencia/CrearAgenciaPopUpController',
+    './agencia/EditarAgenciaPopUpController'
 
 
 ], function () {

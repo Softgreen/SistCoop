@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -56,9 +58,10 @@ public class Agencia implements java.io.Serializable {
 	private Set trabajadores = new HashSet(0);
 
 	public Agencia() {
-	}	
+	}
 
 	@XmlElement(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_AGENCIA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdAgencia() {
@@ -106,9 +109,7 @@ public class Agencia implements java.io.Serializable {
 	}
 
 	@XmlElement(name = "ubigeo")
-	@NotNull
-	@Size(min = 1, max = 6)
-	@Column(name = "UBIGEO", nullable = false, length = 12, columnDefinition = "nvarchar2")
+	@Column(name = "UBIGEO", nullable = true, length = 12, columnDefinition = "nvarchar2")
 	public String getUbigeo() {
 		return this.ubigeo;
 	}
@@ -118,7 +119,7 @@ public class Agencia implements java.io.Serializable {
 	}
 
 	@XmlElement(name = "estado")
-	@NotNull	
+	@NotNull
 	@Column(name = "ESTADO", nullable = false, precision = 22, scale = 0)
 	public boolean getEstado() {
 		return (this.estado == 1 ? true : false);
