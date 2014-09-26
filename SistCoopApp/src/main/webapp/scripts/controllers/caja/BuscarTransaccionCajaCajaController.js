@@ -26,9 +26,10 @@ define(['../module'], function (controllers) {
                     {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: "65"},
                     {displayName:'Estado Solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
                     {displayName:'Estado Confirmación', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
-                    {field:"origen", displayName:'Origen'},
+                    {field:"historialCajaOrigen.caja.denominacion", displayName:'Origen', width: "80"},
+                    {field:"historialCajaDestino.caja.denominacion", displayName:'Destino', width: "80"},
                     {field:'moneda.denominacion', displayName:'Moneda'},
-                    {field:"monto | currency : ''", displayName:'Monto'},
+                    {field:"monto | currency : ''", displayName:'Monto', width: "80"},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button></div>'}]
             };
 
@@ -40,9 +41,10 @@ define(['../module'], function (controllers) {
                     {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: "65"},
                     {displayName:'Estado Solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
                     {displayName:'Estado Confirmación', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
-                    {field:"origen", displayName:'Origen'},
+                    {field:"historialCajaOrigen.caja.denominacion", displayName:'Origen', width: "80"},
+                    {field:"historialCajaDestino.caja.denominacion", displayName:'Destino', width: "80"},
                     {field:'moneda.denominacion', displayName:'Moneda'},
-                    {field:"monto | currency :''", displayName:'Monto'},
+                    {field:"monto | currency :''", displayName:'Monto', width: "80"},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button></div>'}]
             };
 

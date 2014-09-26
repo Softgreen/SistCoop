@@ -1266,7 +1266,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		transaccion.setEstadoConfirmacion(false);
 		transaccion.setEstadoSolicitud(true);
 		transaccion.setHistorialCajaOrigen(historialCajaOrigen);
-		;
+		
 		transaccion.setHistorialCajaDestino(historialCajaDestino);
 		transaccion.setMoneda(monedaTransaccion);
 		transaccion.setObservacion(observacion);

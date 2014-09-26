@@ -115,7 +115,7 @@ public class HistorialCaja implements java.io.Serializable {
 		this.idHistorialCaja = idHistorialCaja;
 	}
 
-	@XmlTransient
+	@XmlElement(name = "caja")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CAJA", nullable = false)
 	public Caja getCaja() {

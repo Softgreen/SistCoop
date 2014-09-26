@@ -21,6 +21,7 @@ import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
+import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
 import org.sistemafinanciero.service.nt.TransaccionInternaServiceNT;
@@ -33,14 +34,73 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 	@Inject
 	private DAO<Object, TransaccionBovedaCaja> transaccionBovedaCajaDAO;
+	@Inject
+	private DAO<Object, TransaccionCajaCaja> transaccionCajaCajaDAO;
 
+	@Override
+	public VoucherTransaccionCajaCaja getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) {
+		TransaccionCajaCaja transaccion = transaccionCajaCajaDAO.find(idTransaccionCajaCaja);
+		if (transaccion == null) {
+			return null;
+		}
+		
+		//recuperando datos
+		Caja cajaOrigen = transaccion.getHistorialCajaOrigen().getCaja();
+		Caja cajaDestino = transaccion.getHistorialCajaDestino().getCaja();
+		Moneda moneda = transaccion.getMoneda();
+		BigDecimal montoTransaccion = transaccion.getMonto();
+		
+		Set<BovedaCaja> listCO = cajaOrigen.getBovedaCajas();
+		Agencia agenciaCajaOrigen = null;
+		for (BovedaCaja bovedaCaja : listCO) {
+			agenciaCajaOrigen = bovedaCaja.getBoveda().getAgencia();
+			break;
+		}
+		
+		Set<BovedaCaja> listCD = cajaDestino.getBovedaCajas();
+		Agencia agenciaCajaDestino = null;
+		for (BovedaCaja bovedaCaja : listCD) {
+			agenciaCajaDestino = bovedaCaja.getBoveda().getAgencia();
+			break;
+		}
+		
+		Hibernate.initialize(moneda);
+		VoucherTransaccionCajaCaja voucherTransaccionCajaCaja = new VoucherTransaccionCajaCaja();
+		
+		if (agenciaCajaOrigen == agenciaCajaDestino) {
+			voucherTransaccionCajaCaja.setId(transaccion.getIdTransaccionCajaCaja());//18
+			voucherTransaccionCajaCaja.setEstadoConfirmacion(transaccion.getEstadoConfirmacion());
+			voucherTransaccionCajaCaja.setEstadoSolicitud(transaccion.getEstadoSolicitud());
+			voucherTransaccionCajaCaja.setFecha(transaccion.getFecha());
+			voucherTransaccionCajaCaja.setHora(transaccion.getHora());
+			voucherTransaccionCajaCaja.setObservacion(transaccion.getObservacion());
+			voucherTransaccionCajaCaja.setCajaOrigenDenominacion(cajaOrigen.getDenominacion());
+			voucherTransaccionCajaCaja.setCajaOrigenAbreviatura(cajaOrigen.getAbreviatura());
+			voucherTransaccionCajaCaja.setCajaDestinoDenominacion(cajaDestino.getDenominacion());
+			voucherTransaccionCajaCaja.setCajaDestinoAbrevitura(cajaDestino.getAbreviatura());
+			voucherTransaccionCajaCaja.setSaldoDisponibleOrigen(transaccion.getSaldoDisponibleOrigen());
+			voucherTransaccionCajaCaja.setSaldoDisponibleDestino(transaccion.getSaldoDisponibleDestino());
+			voucherTransaccionCajaCaja.setMoneda(moneda);
+			voucherTransaccionCajaCaja.setMonto(montoTransaccion);
+			voucherTransaccionCajaCaja.setTrabajadorCajaOrigen(transaccion.getHistorialCajaOrigen().getTrabajador());
+			voucherTransaccionCajaCaja.setTrabajadorCajaDestino(transaccion.getHistorialCajaDestino().getTrabajador());
+			voucherTransaccionCajaCaja.setAgenciaDenominacion(agenciaCajaOrigen.getDenominacion());
+			voucherTransaccionCajaCaja.setAgenciaAbreviatura(agenciaCajaOrigen.getAbreviatura());
+
+			
+		}else {
+			voucherTransaccionCajaCaja = null;
+		}
+		return voucherTransaccionCajaCaja;
+	}
+	
 	@Override
 	public VoucherTransaccionBovedaCaja getVoucherTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
 		TransaccionBovedaCaja transaccion = transaccionBovedaCajaDAO.find(idTransaccionBovedaCaja);
 		if (transaccion == null)
 			return null;
 
-		// recuperando transaccion
+		// recuperando datos
 		Caja caja = transaccion.getHistorialCaja().getCaja();
 		Boveda boveda = transaccion.getHistorialBoveda().getBoveda();
 		Moneda moneda = boveda.getMoneda();
@@ -81,11 +141,4 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 		return voucher;
 	}
-
-	@Override
-	public VoucherTransaccionCajaCaja getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) {
-		VoucherTransaccionCajaCaja voucherTransaccionCajaCaja = new VoucherTransaccionCajaCaja();
-		return voucherTransaccionCajaCaja;
-	}
-
 }

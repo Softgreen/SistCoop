@@ -132,7 +132,7 @@ public interface CajaREST {
 	public Response getVoucherTransaccionBovedaCaja(@PathParam("id") BigInteger idTransaccionBovedaCaja);
 
 	@GET
-	@Path("/voucherTransaccionBovedaCaja/{id}")
+	@Path("/voucherTransaccionCajaCaja/{id}")
 	@Produces({ "application/xml", "application/json" })
 	public Response getVoucherTransaccionCajaCaja(@PathParam("id") BigInteger idTransaccionCajaCaja);
 

@@ -302,6 +302,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		Set<TransaccionCajaCaja> enviados = historial.getTransaccionCajaCajasForIdCajaHistorialOrigen();
 		for (TransaccionCajaCaja ts : enviados) {
 			Moneda moneda = ts.getMoneda();
+			
+			Hibernate.initialize(ts.getHistorialCajaDestino().getCaja());
 			Hibernate.initialize(ts);
 			Hibernate.initialize(moneda);
 		}
@@ -317,6 +319,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		Set<TransaccionCajaCaja> recibidos = historial.getTransaccionCajaCajasForIdCajaHistorialDestino();
 		for (TransaccionCajaCaja ts : recibidos) {
 			Moneda moneda = ts.getMoneda();
+			
+			Hibernate.initialize(ts.getHistorialCajaOrigen().getCaja());
 			Hibernate.initialize(ts);
 			Hibernate.initialize(moneda);
 		}

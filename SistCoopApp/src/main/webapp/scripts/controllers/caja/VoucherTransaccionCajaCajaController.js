@@ -32,23 +32,31 @@ define(['../module'], function (controllers) {
             };
 
             $scope.imprimir = function(){
-                if (notReady()) {return;}												//Elegir impresora
+                if (notReady()) {return;}														//Elegir impresora
                 qz.append("\x1B\x40");															//reset printer
 
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
                 qz.append("C.A.C. CAJA VENTURA \r\n");											// \r\n salto de linea
-                qz.append("TRANSACCION BOVEDA/CAJA " + "\r\n");
+                qz.append("TRANSACCION CAJA/CAJA " + "\r\n");
                 // \t tabulador
                 qz.append("\x1B\x21\x01");														//texto normal (no negrita)
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
 
-                qz.append(($scope.transaccionCajaCaja.agenciaAbreviatura) + "\t\t" + "TRANS:" + "\t" + ($scope.transaccionCajaCaja.id) + "\r\n");
-                qz.append("CAJA:" + "\t" + ($scope.transaccionCajaCaja.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + "\r\n");
+                qz.append("AGENCIA:" + ($scope.transaccionCajaCaja.agenciaAbreviatura) + "\r\n");
+                qz.append("TRANS:" + "\t" + ($scope.transaccionCajaCaja.id) + "\r\n");
+                qz.append("ORIGEN:" + "\t" + ($scope.transaccionCajaCaja.cajaOrigenDenominacion) + "(" + $scope.transaccionCajaCaja.cajaOrigenAbreviatura + ")" + "\r\n");
+                qz.append("DESTINO:" + ($scope.transaccionCajaCaja.cajaDestinoDenominacion) + "(" + $scope.transaccionCajaCaja.cajaDestinoAbrevitura + ")" + "\r\n");
                 qz.append("FECHA:" + "\t" + ($filter('date')($scope.transaccionCajaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionCajaCaja.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("MONEDA:" + "\t" + ($scope.transaccionCajaCaja.moneda.denominacion) + "(" + $scope.transaccionCajaCaja.moneda.simbolo + ")" + "\r\n");
-                qz.append("ORIGEN:" + "\t" + ($scope.transaccionCajaCaja.origen) + "\r\n");
                 qz.append("MONTO:" + "\t" + ($filter('currency')($scope.transaccionCajaCaja.monto, $scope.transaccionCajaCaja.moneda.simbolo)) + "\r\n");
+                qz.append("\r\n");
+                qz.append("\r\n");
+                qz.append("\r\n");
+                qz.append(String.fromCharCode(27) + "\x61" + "\x30");
+				qz.append("_______________" + "\t\t" + "_______________" + "\r\n");
+				qz.append(String.fromCharCode(27) + "\x61" + "\x30");
+                qz.append("Firma Caja Origen" + "\t\t" + "Firma Caja Destino" + "\r\n");
 
                 qz.append("\x1D\x56\x41");														//cortar papel
                 qz.append("\x1B\x40");

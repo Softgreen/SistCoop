@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
     controllers.controller('VoucherTransaccionBovedaCajaController', ['$scope', "$state", '$filter','CajaService','RedirectService',
-        function($scope, $state, $filter, CajaService,RedirectService) {
+        function($scope, $state, $filter, CajaService, RedirectService) {
 
             $scope.loadVoucher = function(){
                 if(!angular.isUndefined($scope.id)){
@@ -32,7 +32,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.imprimir = function(){
-                if (notReady()) {return;}												//Elegir impresora
+                if (notReady()) {return;}														//Elegir impresora
                 qz.append("\x1B\x40");															//reset printer
 
                 qz.append("\x1B\x21\x08");														//texto en negrita

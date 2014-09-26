@@ -19,24 +19,26 @@ public class VoucherTransaccionCajaCaja implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private BigInteger id;
 	private Boolean estadoConfirmacion;
 	private Boolean estadoSolicitud;
 	private Date fecha;
 	private Date hora;
-	private BigInteger id;
 	private String observacion;
-	private String origen;
-	private BigDecimal saldoDisponibleDestino;
+	private String cajaOrigenDenominacion;
+	private String cajaOrigenAbreviatura;
+	private String cajaDestinoDenominacion;
+	private String cajaDestinoAbrevitura;
 	private BigDecimal saldoDisponibleOrigen;
+	private BigDecimal saldoDisponibleDestino;
 	private Moneda moneda;
 	private BigDecimal monto;
-	private String trabajador;
-
-	private String agenciaAbreviatura;
+	private String trabajadorCajaOrigen;
+	private String trabajadorCajaDestino;
 	private String agenciaDenominacion;
-	private String cajaDenominacion;
-	private String cajaAbreviatura;
-
+	private String agenciaAbreviatura;
+	
+	
 	public Boolean getEstadoConfirmacion() {
 		return estadoConfirmacion;
 	}
@@ -85,14 +87,6 @@ public class VoucherTransaccionCajaCaja implements java.io.Serializable {
 		this.observacion = observacion;
 	}
 
-	public String getOrigen() {
-		return origen;
-	}
-
-	public void setOrigen(String origen) {
-		this.origen = origen;
-	}
-
 	public BigDecimal getSaldoDisponibleDestino() {
 		return saldoDisponibleDestino;
 	}
@@ -125,14 +119,6 @@ public class VoucherTransaccionCajaCaja implements java.io.Serializable {
 		this.monto = monto;
 	}
 
-	public String getTrabajador() {
-		return trabajador;
-	}
-
-	public void setTrabajador(String trabajador) {
-		this.trabajador = trabajador;
-	}
-
 	public String getAgenciaAbreviatura() {
 		return agenciaAbreviatura;
 	}
@@ -149,20 +135,52 @@ public class VoucherTransaccionCajaCaja implements java.io.Serializable {
 		this.agenciaDenominacion = agenciaDenominacion;
 	}
 
-	public String getCajaDenominacion() {
-		return cajaDenominacion;
+	public String getCajaOrigenDenominacion() {
+		return cajaOrigenDenominacion;
 	}
 
-	public void setCajaDenominacion(String cajaDenominacion) {
-		this.cajaDenominacion = cajaDenominacion;
+	public void setCajaOrigenDenominacion(String cajaOrigenDenominacion) {
+		this.cajaOrigenDenominacion = cajaOrigenDenominacion;
 	}
 
-	public String getCajaAbreviatura() {
-		return cajaAbreviatura;
+	public String getCajaOrigenAbreviatura() {
+		return cajaOrigenAbreviatura;
 	}
 
-	public void setCajaAbreviatura(String cajaAbreviatura) {
-		this.cajaAbreviatura = cajaAbreviatura;
+	public void setCajaOrigenAbreviatura(String cajaOrigenAbreviatura) {
+		this.cajaOrigenAbreviatura = cajaOrigenAbreviatura;
 	}
 
+	public String getCajaDestinoDenominacion() {
+		return cajaDestinoDenominacion;
+	}
+
+	public void setCajaDestinoDenominacion(String cajaDestinoDenominacion) {
+		this.cajaDestinoDenominacion = cajaDestinoDenominacion;
+	}
+
+	public String getCajaDestinoAbrevitura() {
+		return cajaDestinoAbrevitura;
+	}
+
+	public void setCajaDestinoAbrevitura(String cajaDestinoAbrevitura) {
+		this.cajaDestinoAbrevitura = cajaDestinoAbrevitura;
+	}
+
+	public String getTrabajadorCajaOrigen() {
+		return trabajadorCajaOrigen;
+	}
+
+	public void setTrabajadorCajaOrigen(String trabajadorCajaOrigen) {
+		this.trabajadorCajaOrigen = trabajadorCajaOrigen;
+	}
+
+	public String getTrabajadorCajaDestino() {
+		return trabajadorCajaDestino;
+	}
+
+	public void setTrabajadorCajaDestino(String trabajadorCajaDestino) {
+		this.trabajadorCajaDestino = trabajadorCajaDestino;
+	}
+	
 }

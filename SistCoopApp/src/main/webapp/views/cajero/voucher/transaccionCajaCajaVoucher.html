@@ -1,5 +1,80 @@
-<div>
-    Voucher de transaccion Boveda caja
+<div ng-controller="VoucherTransaccionCajaCajaController">
+    <div class="row">
+        <div class="col-md-5" id="voucher">
+            <div>
+                <fieldset>
+                    <legend style="text-align: center; font-size: 18px;">VOUCHER TRANSACCION CAJA/CAJA</legend>
+                </fieldset>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading" style="text-align: center;">
+                        <label><strong>C.A.C. CAJA VENTURA</strong></label><br />
+                        <label>&nbsp;TRANSACCION CAJA/CAJA&nbsp;</label>
+                    </div>
+                    <!-- Table -->
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>AGENCIA:</td>
+                            <td>
+                                <span ng-bind="transaccionCajaCaja.agenciaAbreviatura"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>N&deg; TRANS:</td>
+                            <td>
+                                <span ng-bind="transaccionCajaCaja.id"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ORIGEN:</td>
+                            <td colspan="3">
+                                <span ng-bind="transaccionCajaCaja.cajaOrigenDenominacion"/>
+                                <span ng-bind="'(' + transaccionCajaCaja.cajaOrigenAbreviatura + ')'"/>
+                            </td >
+                        </tr>
+                        <tr>
+                            <td>DESTINO:</td>
+                            <td colspan="3">
+                                <span ng-bind="transaccionCajaCaja.cajaDestinoDenominacion"/>
+                                <span ng-bind="'(' + transaccionCajaCaja.cajaDestinoAbrevitura + ')'"/>
+                            </td >
+                        </tr>
+                        <tr>
+                            <td>FECHA:</td>
+                            <td colspan="3">
+                                <span ng-bind="transaccionCajaCaja.fecha | date : 'dd/MM/yyyy'"/>
+                                <span ng-bind="transaccionCajaCaja.hora | date : 'HH:mm:ss'"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MONEDA:</td>
+                            <td colspan="3">
+                                <span ng-bind="transaccionCajaCaja.moneda.denominacion"/>
+                                <span ng-bind="'(' + transaccionCajaCaja.moneda.simbolo + ')'"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MONTO:</td>
+                            <td colspan="3" style="text-align: left;">
+                                <span ng-bind="transaccionCajaCaja.moneda.simbolo"></span>
+                                <span ng-bind="transaccionCajaCaja.monto | number : 2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: center; font-size: 12px">
+                                <p>&nbsp;</p>
+                                <p>Verifique su dinero antes de retirarse de ventanilla.</p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-success" ng-click="imprimir()">Imprimir</button>
+                <button type="button" class="btn btn-primary" ng-click="salir()">Continuar »</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
