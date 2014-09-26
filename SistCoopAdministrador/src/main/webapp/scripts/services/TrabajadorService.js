@@ -11,6 +11,9 @@ define(['./module'], function (services) {
                 },
                 getTrabajadores: function(idAgencia, filterText) {
                     return Restangular.one(baseUrl).get({idAgencia: idAgencia, filterText: filterText});
+                },
+                crear: function(trabajador) {
+                    return Restangular.one(baseUrl).get({idAgencia: idAgencia, filterText: filterText});
                 }
             }
         }])

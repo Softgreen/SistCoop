@@ -24,12 +24,17 @@ import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.rest.TrabajadorREST;
+import org.sistemafinanciero.rest.dto.TrabajadorDTO;
 import org.sistemafinanciero.service.nt.TrabajadorServiceNT;
+import org.sistemafinanciero.service.ts.TrabajadorServiceTS;
 
 public class TrabajadorRESTService implements TrabajadorREST {
 
 	@EJB
 	private TrabajadorServiceNT trabajadorServiceNT;
+	
+	@EJB
+	private TrabajadorServiceTS trabajadorServiceTS;
 	
 	@Override
 	public Response listAll(String filterText, BigInteger idAgencia) {
@@ -40,6 +45,12 @@ public class TrabajadorRESTService implements TrabajadorREST {
 
 	@Override
 	public Response findById(BigInteger id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response create(TrabajadorDTO trabajadorDTO) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -81,15 +81,15 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-                .state('app.caja', {
-                    url: "/caja",
+                .state('app.trabajador', {
+                    url: "/trabajador",
                     views: {
                         "viewMenu":{
                             controller: function($scope){
                                 $scope.menus = [
-                                    {'name':'Caja', submenus:[
-                                        { 'name':'Nuevo' , 'state':'app.caja.nuevaCaja'},
-                                        { 'name':'Buscar' , 'state':'app.caja.buscarCaja'}
+                                    {'name':'Trabajador', submenus:[
+                                        { 'name':'Nuevo' , 'state':'app.trabajador.nuevoTrabajador'},
+                                        { 'name':'Buscar' , 'state':'app.trabajador.buscarTrabajador'}
                                     ]}
                                 ];
                             }
@@ -139,21 +139,22 @@ define(['./app'], function(app) {
                 })
 
 
-                .state('app.caja.nuevaCaja', {
+                .state('app.trabajador.nuevoTrabajador', {
                     url: '/nuevo',
-                    templateUrl: "views/jefeCaja/caja/crearCaja.html"
+                    templateUrl: "views/administrador/trabajador/crearTrabajador.html"
                 })
-                .state('app.caja.editarCaja', {
+                .state('app.trabajador.editarTrabajador', {
                     url: "/editar/:id",
-                    templateUrl: "views/jefeCaja/caja/editarCaja.html",
+                    templateUrl: "views/administrador/trabajador/editarTrabajador.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
                 })
-                .state('app.caja.buscarCaja', {
+                .state('app.trabajador.buscarTrabajador', {
                     url: "/buscar",
-                    templateUrl: "views/jefeCaja/caja/buscarCaja.html"
+                    templateUrl: "views/administrador/trabajador/buscarTrabajador.html"
                 })
+
 
                 .state('app.transaccion.nuevaTransaccionEntidadBoveda', {
                     url: "/buscar",
