@@ -4,7 +4,7 @@
     </alert>
     <div class="row">
         <div class="col-sm-12">
-            <h3>Nueva boveda</h3>
+            <h3>Registrar Bóveda</h3>
         </div>
     </div>
     <div class="row">
@@ -21,7 +21,7 @@
                     </select>
                     <div ng-show="crearBovedaForm.moneda.$invalid && (control.submitted || crearBovedaForm.moneda.$dirty)">
                         <p class="help-block" ng-show="crearBovedaForm.moneda.$error.required">
-                            Seleccione moneda.
+                            Seleccione Moneda.
                         </p>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                     <input name="denominacion" type="text" ng-model="view.denominacion" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" capitalize required/>
                     <div ng-show="crearBovedaForm.denominacion.$invalid && (control.submitted || crearBovedaForm.denominacion.$dirty)">
                         <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.required">
-                            Ingrese denominacion.
+                            Ingrese Denominacion.
                         </p>
                         <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.minlength">
                             Minimo 1 Caracter.

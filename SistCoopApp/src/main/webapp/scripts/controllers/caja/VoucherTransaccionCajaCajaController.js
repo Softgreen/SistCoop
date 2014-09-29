@@ -54,9 +54,9 @@ define(['../module'], function (controllers) {
                 qz.append("\r\n");
                 qz.append("\r\n");
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");
-				qz.append("_______________" + "\t\t" + "_______________" + "\r\n");
+				qz.append("_________________  " + "  __________________" + "\r\n");
 				qz.append(String.fromCharCode(27) + "\x61" + "\x30");
-                qz.append("Firma Caja Origen" + "\t\t" + "Firma Caja Destino" + "\r\n");
+                qz.append("Firma Caja Origen  " + "  Firma Caja Destino" + "\r\n");
 
                 qz.append("\x1D\x56\x41");														//cortar papel
                 qz.append("\x1B\x40");
