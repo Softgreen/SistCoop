@@ -13,7 +13,7 @@ define(['./module'], function (services) {
                     return Restangular.one(baseUrl).get({idAgencia: idAgencia, filterText: filterText});
                 },
                 crear: function(trabajador) {
-                    return Restangular.one(baseUrl).get({idAgencia: idAgencia, filterText: filterText});
+                    return Restangular.all(baseUrl).post(trabajador);
                 }
             }
         }])

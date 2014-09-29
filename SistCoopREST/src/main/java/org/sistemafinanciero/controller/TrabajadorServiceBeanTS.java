@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
@@ -31,10 +32,16 @@ public class TrabajadorServiceBeanTS implements TrabajadorServiceTS {
 	private DAO<Object, Trabajador> trabajadorDAO;
 
 	@Inject
+	private DAO<Object, Agencia> agenciaDAO;
+	
+	@Inject
 	private Validator validator;		
 
 	@Override
 	public BigInteger create(Trabajador t) throws PreexistingEntityException, RollbackFailureException {
+		Agencia agencia = agenciaDAO.find(t.getAgencia().getIdAgencia());
+		t.setAgencia(agencia);
+		
 		Set<ConstraintViolation<Trabajador>> violations = validator.validate(t);
 		if (violations.isEmpty()) {
 			trabajadorDAO.create(t);

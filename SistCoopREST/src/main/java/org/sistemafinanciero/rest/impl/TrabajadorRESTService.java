@@ -22,9 +22,15 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
 
+import org.sistemafinanciero.entity.Agencia;
+import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Trabajador;
+import org.sistemafinanciero.exception.PreexistingEntityException;
+import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.TrabajadorREST;
 import org.sistemafinanciero.rest.dto.TrabajadorDTO;
+import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
 import org.sistemafinanciero.service.nt.TrabajadorServiceNT;
 import org.sistemafinanciero.service.ts.TrabajadorServiceTS;
 
@@ -32,10 +38,13 @@ public class TrabajadorRESTService implements TrabajadorREST {
 
 	@EJB
 	private TrabajadorServiceNT trabajadorServiceNT;
-	
+
 	@EJB
 	private TrabajadorServiceTS trabajadorServiceTS;
-	
+
+	@EJB
+	private PersonaNaturalServiceNT personaNaturalServiceNT;
+
 	@Override
 	public Response listAll(String filterText, BigInteger idAgencia) {
 		List<Trabajador> list = trabajadorServiceNT.findAllByFilterTextAndAgencia(filterText, idAgencia);
@@ -51,8 +60,30 @@ public class TrabajadorRESTService implements TrabajadorREST {
 
 	@Override
 	public Response create(TrabajadorDTO trabajadorDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		Response response;
+
+		Agencia agencia = new Agencia();
+		agencia.setIdAgencia(trabajadorDTO.getIdAgencia());
+
+		PersonaNatural personaNatural = personaNaturalServiceNT.find(trabajadorDTO.getIdTipoDocumento(), trabajadorDTO.getNumeroDocumento());
+
+		Trabajador trabajador = new Trabajador();
+		trabajador.setIdTrabajador(null);
+		trabajador.setAgencia(agencia);
+		trabajador.setEstado(true);
+		trabajador.setPersonaNatural(personaNatural);
+		trabajador.setUsuario(trabajadorDTO.getUsuario());
+
+		try {
+			trabajadorServiceTS.create(trabajador);
+
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (PreexistingEntityException e) {
+			response = Response.status(Response.Status.CONFLICT).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		} catch (RollbackFailureException e) {
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		}
+		return response;
 	}
 
 }

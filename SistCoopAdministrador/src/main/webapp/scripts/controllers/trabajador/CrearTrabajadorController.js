@@ -89,7 +89,6 @@ define(['../module'], function (controllers) {
 
                     TrabajadorService.crear(trabajador).then(
                         function(data){
-                            alert("creado");
                             $scope.redireccion();
                             $scope.control.inProcess = false;
                         },
@@ -138,7 +137,7 @@ define(['../module'], function (controllers) {
             $scope.loadTipoDocumento();
 
             $scope.redireccion = function(){
-                $state.transitionTo('app.sucursal.buscarSucursal');
+                $state.transitionTo('app.trabajador.buscarTrabajador');
             };
 
             $scope.cancelar = function () {
