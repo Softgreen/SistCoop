@@ -182,8 +182,8 @@ define(['./app'], function(app) {
                                     ]},
                                     {
                                         'name':'Transacciones Internas', submenus:[
-                                        { 'name':'Transaccion con Boveda' , 'state':'app.caja.buscarTransaccionBovedaCaja'},
-                                        { 'name':'Transaccion con Caja' , 'state':'app.caja.buscarTransaccionCajaCaja'}
+                                        { 'name':'Transacción con Boveda' , 'state':'app.caja.buscarTransaccionBovedaCaja'},
+                                        { 'name':'Transacción con Caja' , 'state':'app.caja.buscarTransaccionCajaCaja'}
                                     ]}
                                 ];
                             }
