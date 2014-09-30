@@ -99,28 +99,6 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-                .state('app.transaccion', {
-                    url: "/transaccion",
-                    views: {
-                        "viewMenu":{
-                            controller: function($scope){
-                                $scope.menus = [
-                                    {'name':'Externo', submenus:[
-                                        { 'name':'Entidad/Boveda' , 'state':'app.transaccion.nuevaTransaccionEntidadBoveda'}
-                                    ]},
-                                    {'name':'Interno', submenus:[
-                                        { 'name':'Boveda/Boveda' , 'state':'app.transaccion.nuevaTransaccionBovedaBoveda'},
-                                        { 'name':'Boveda/Caja' , 'state':'app.transaccion.nuevaTransaccionBovedaCaja'}
-                                    ]}
-                                ];
-                            }
-                        },
-                        "viewContent":{
-                            template: '<div ui-view style="min-height: 472px;"></br></br></div>'
-                        }
-                    }
-                })
-
 
                 .state('app.sucursal.nuevaSucursal', {
                     url: '/nuevo',
