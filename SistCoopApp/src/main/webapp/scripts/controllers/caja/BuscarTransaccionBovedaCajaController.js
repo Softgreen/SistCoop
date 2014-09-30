@@ -21,6 +21,7 @@ define(['../module'], function (controllers) {
                     }
                 );
             };
+            
             $scope.loadTransaccionEnviadas();
             $scope.loadTransaccionRecibidas();
 
@@ -49,10 +50,10 @@ define(['../module'], function (controllers) {
                     {field:"caja", displayName:'Origen', width: 80},
                     {field:'boveda', displayName:'Destino'},
                     {field:"monto | currency :''", displayName:'Monto', width: 80},
-                    {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="cancelarTransaccion(row.entity)" ng-disabled="getDisabledStateExtornar(row.entity)"><span class="glyphicon glyphicon-remove"></span>Cancelar</button></div>'}]
+                    {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="cancelarTransaccion(row.entity)" ng-disabled="getDisabledStateCancelar(row.entity)"><span class="glyphicon glyphicon-remove"></span>Cancelar</button></div>'}]
             };
 
-            $scope.getDisabledStateExtornar = function(row){
+            $scope.getDisabledStateCancelar = function(row){
                 if(row.estadoSolicitud == false)
                     return true;
                 if(row.estadoConfirmacion == true)
@@ -84,6 +85,7 @@ define(['../module'], function (controllers) {
                     });
                 }
             };
+            
             $scope.confirmarTransaccion = function(row){
                 if(!angular.isUndefined(row)){
                     var modalInstance = $modal.open({
@@ -94,6 +96,7 @@ define(['../module'], function (controllers) {
                         SessionService.confirmarTransaccionBovedaCaja(row.id).then(
                             function(data){
                                 $scope.loadTransaccionRecibidas();
+                                $scope.loadTransaccionEnviadas();
                             }
                             ,function error(error){
                                 $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];

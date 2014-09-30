@@ -1360,5 +1360,4 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		transaccion.setEstadoConfirmacion(true);
 		transaccionCajaCajaDAO.update(transaccion);
 	}
-
 }

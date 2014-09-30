@@ -43,13 +43,23 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x21\x01");														//texto normal (no negrita)
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
 
-                qz.append("AGENCIA:" + ($scope.transaccionCajaCaja.agenciaAbreviatura) + "\r\n");
-                qz.append("TRANS:" + "\t" + ($scope.transaccionCajaCaja.id) + "\r\n");
-                qz.append("ORIGEN:" + "\t" + ($scope.transaccionCajaCaja.cajaOrigenDenominacion) + "(" + $scope.transaccionCajaCaja.cajaOrigenAbreviatura + ")" + "\r\n");
-                qz.append("DESTINO:" + ($scope.transaccionCajaCaja.cajaDestinoDenominacion) + "(" + $scope.transaccionCajaCaja.cajaDestinoAbrevitura + ")" + "\r\n");
-                qz.append("FECHA:" + "\t" + ($filter('date')($scope.transaccionCajaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionCajaCaja.hora, 'HH:mm:ss')) + "\r\n");
-                qz.append("MONEDA:" + "\t" + ($scope.transaccionCajaCaja.moneda.denominacion) + "(" + $scope.transaccionCajaCaja.moneda.simbolo + ")" + "\r\n");
-                qz.append("MONTO:" + "\t" + ($filter('currency')($scope.transaccionCajaCaja.monto, $scope.transaccionCajaCaja.moneda.simbolo)) + "\r\n");
+                qz.append("AGENCIA:" + " " + ($scope.transaccionCajaCaja.agenciaAbreviatura) + "\r\n");
+                qz.append("TRANS:" + "\t" + " " + ($scope.transaccionCajaCaja.id) + "\r\n");
+                qz.append("ORIGEN:" + "\t" + " " + ($scope.transaccionCajaCaja.cajaOrigenDenominacion) + "(" + $scope.transaccionCajaCaja.cajaOrigenAbreviatura + ")" + "\r\n");
+                qz.append("DESTINO:" + " " + ($scope.transaccionCajaCaja.cajaDestinoDenominacion) + "(" + $scope.transaccionCajaCaja.cajaDestinoAbrevitura + ")" + "\r\n");
+                qz.append("FECHA:" + "\t" + " " + ($filter('date')($scope.transaccionCajaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionCajaCaja.hora, 'HH:mm:ss')) + "\r\n");
+                qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionCajaCaja.moneda.denominacion) + "(" + $scope.transaccionCajaCaja.moneda.simbolo + ")" + "\r\n");
+                qz.append("MONTO:" + "\t" + " " + ($filter('currency')($scope.transaccionCajaCaja.monto, $scope.transaccionCajaCaja.moneda.simbolo)) + "\r\n");
+                if ($scope.transaccionCajaCaja.estadoSolicitud) {
+                	qz.append("ESTADO SOLICTUD:" + " " + "SOLICITADO" + "\r\n");
+				}else{
+					qz.append("ESTADO SOLICTUD:" + " " + "CANCELADO" + "\r\n");
+				}
+                if ($scope.transaccionCajaCaja.estadoConfirmacion) {
+                	qz.append("ESTADO CONFIRMACION:" + " " + "CONFIRMADO" + "\r\n");
+				}else{
+					qz.append("ESTADO CONFIRMACION:" + " " + "NO CONFIRMADO" + "\r\n");
+				}
                 qz.append("\r\n");
                 qz.append("\r\n");
                 qz.append("\r\n");

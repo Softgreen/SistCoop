@@ -80,11 +80,15 @@ define(['./module'], function (services) {
                 confirmarTransaccionBovedaCaja: function(id){
                     return Restangular.all(baseUrl+"/transaccionBovedaCaja/"+id+"/confirmar").post();
                 },
-
+                cancelarTransaccionCajaCaja: function(id){
+                    return Restangular.all(baseUrl+"/transaccionCajaCaja/"+id+"/cancelar").post();
+                },
+                confirmarTransaccionCajaCaja: function(id){
+                    return Restangular.all(baseUrl+"/transaccionCajaCaja/"+id+"/confirmar").post();
+                },
                 crearCuentaPlazoFijo: function(transaccion){
                     return Restangular.all(baseUrl+"/cuentasBancarias").post(transaccion);
                 },
-
                 extornarTransaccion: function(idTransaccion){
                     return Restangular.all(baseUrl+"/transaccion/"+idTransaccion+"/extornar").post();
                 }
