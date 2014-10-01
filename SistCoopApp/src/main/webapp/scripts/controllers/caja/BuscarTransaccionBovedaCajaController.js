@@ -29,14 +29,14 @@ define(['../module'], function (controllers) {
                 data: 'transaccionesRecibidas',
                 multiSelect: false,
                 columnDefs: [
-                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: 80},
-                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: 65},
-                    {displayName: 'Estado solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
-                    {displayName: 'Estado confirmacion', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
-                    {field:"origen", displayName:'Origen', width: 80},
-                    {field:'boveda', displayName:'Destino'},
+                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: 70},
+                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: 60},
+                    {displayName: 'Estado solicitud', width: 100, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 85px;"><span ng-show="row.entity.estadoSolicitud" style="color: blue; font-weight: bold;">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud" style="color: red; font-weight: bold;">CANCELADO</span></div>'},
+                    {displayName: 'Estado confirmación',  width: 125, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 110px;"><span ng-show="row.entity.estadoConfirmacion" style="color: blue; font-weight: bold;">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion" style="color: red; font-weight: bold;">NO CONFIRMADO</span></div>'},
+                    {field:"boveda", displayName:'Origen'},
+                    {field:'caja', displayName:'Destino', width: 80},
                     {field:"monto | currency :''", displayName:'Monto', width: 80},
-                    {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="confirmarTransaccion(row.entity)"><span class="glyphicon glyphicon-remove"></span>Confirmar</button></div>'}]
+                    {displayName: 'Edit', width: 170, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)" ng-disabled="getDisabledStateVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-success btn-xs" ng-click="confirmarTransaccion(row.entity)" ng-disabled="getDisabledStateButton(row.entity)"><span class="glyphicon glyphicon-ok"></span>Confirmar</button></div>'}]
             };
 
             $scope.gridOptionsEnviados = {
@@ -44,16 +44,24 @@ define(['../module'], function (controllers) {
                 multiSelect: false,
                 columnDefs: [
                     {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: 80},
-                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: 65},
-                    {displayName: 'Estado Solicitud', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 110px;"><span ng-show="row.entity.estadoSolicitud">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud">NO SOLICITADO</span></div>'},
-                    {displayName: 'Estado Confirmacion', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 120px;"><span ng-show="row.entity.estadoConfirmacion">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion">NO CONFIRMADO</span></div>'},
-                    {field:"caja", displayName:'Origen', width: 80},
+                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: 70},
+                    {displayName: 'Estado Solicitud', width: 100, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 85px;"><span ng-show="row.entity.estadoSolicitud" style="color: blue; font-weight: bold;">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud" style="color: red; font-weight: bold;">CANCELADO</span></div>'},
+                    {displayName: 'Estado Confirmación', width: 125, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 110px;"><span ng-show="row.entity.estadoConfirmacion" style="color: blue; font-weight: bold;">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion" style="color: red; font-weight: bold;">NO CONFIRMADO</span></div>'},
+                    {field:"caja", displayName:'Origen', width: 90},
                     {field:'boveda', displayName:'Destino'},
-                    {field:"monto | currency :''", displayName:'Monto', width: 80},
-                    {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="cancelarTransaccion(row.entity)" ng-disabled="getDisabledStateCancelar(row.entity)"><span class="glyphicon glyphicon-remove"></span>Cancelar</button></div>'}]
+                    {field:"monto | currency :''", displayName:'Monto', width: 90},
+                    {displayName: 'Edit', width: 180, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)" ng-disabled="getDisabledStateVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="cancelarTransaccion(row.entity)" ng-disabled="getDisabledStateButton(row.entity)"><span class="glyphicon glyphicon-remove"></span>Cancelar</button></div>'}]
+            };
+            
+            $scope.getDisabledStateVoucher = function(row){
+                if(row.estadoSolicitud == false)
+                    return true;
+                if(row.estadoConfirmacion == false)
+                    return true;
+                return false;
             };
 
-            $scope.getDisabledStateCancelar = function(row){
+            $scope.getDisabledStateButton = function(row){
                 if(row.estadoSolicitud == false)
                     return true;
                 if(row.estadoConfirmacion == true)
@@ -74,7 +82,8 @@ define(['../module'], function (controllers) {
                     modalInstance.result.then(function (result) {
                         SessionService.cancelarTransaccionBovedaCaja(row.id).then(
                             function(data){
-                                $scope.loadTransaccionEnviadas();
+                            	$scope.loadTransaccionEnviadas();
+                                $scope.loadTransaccionRecibidas();
                             }
                             ,function error(error){
                                 $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];

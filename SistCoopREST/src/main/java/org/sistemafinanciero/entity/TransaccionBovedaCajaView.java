@@ -35,7 +35,7 @@ import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({
 		@NamedQuery(name = TransaccionBovedaCajaView.findByHistorialCajaEnviados, query = "SELECT c FROM TransaccionBovedaCajaView c WHERE c.idHistorialCaja = :idHistorialCaja AND c.origen = :origen"),
-		@NamedQuery(name = TransaccionBovedaCajaView.findByHistorialCajaRecibidos, query = "SELECT c FROM TransaccionBovedaCajaView c WHERE c.idHistorialCaja = :idHistorialCaja AND c.origen = :origen AND c.estadoConfirmacion = true AND c.estadoSolicitud = true") })
+		@NamedQuery(name = TransaccionBovedaCajaView.findByHistorialCajaRecibidos, query = "SELECT c FROM TransaccionBovedaCajaView c WHERE c.idHistorialCaja = :idHistorialCaja AND c.origen = :origen AND c.estadoConfirmacion = false AND c.estadoSolicitud = true") })
 public class TransaccionBovedaCajaView implements java.io.Serializable {
 
 	/**

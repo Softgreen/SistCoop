@@ -35,6 +35,9 @@ public class VoucherTransaccionBovedaCaja implements java.io.Serializable {
 	private String agenciaDenominacion;
 	private String cajaDenominacion;
 	private String cajaAbreviatura;
+	
+	private String origenTransaccion;
+	private String destinoTransaccion;
 
 	
 	public Boolean getEstadoConfirmacion() {
@@ -147,6 +150,22 @@ public class VoucherTransaccionBovedaCaja implements java.io.Serializable {
 
 	public void setCajaAbreviatura(String cajaAbreviatura) {
 		this.cajaAbreviatura = cajaAbreviatura;
+	}
+
+	public String getOrigenTransaccion() {
+		return origenTransaccion;
+	}
+
+	public void setOrigenTransaccion(String origenTransaccion) {
+		this.origenTransaccion = origenTransaccion;
+	}
+
+	public String getDestinoTransaccion() {
+		return destinoTransaccion;
+	}
+
+	public void setDestinoTransaccion(String destinoTransaccion) {
+		this.destinoTransaccion = destinoTransaccion;
 	}
 
 }

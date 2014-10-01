@@ -86,8 +86,6 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 			voucherTransaccionCajaCaja.setTrabajadorCajaDestino(transaccion.getHistorialCajaDestino().getTrabajador());
 			voucherTransaccionCajaCaja.setAgenciaDenominacion(agenciaCajaOrigen.getDenominacion());
 			voucherTransaccionCajaCaja.setAgenciaAbreviatura(agenciaCajaOrigen.getAbreviatura());
-
-			
 		}else {
 			voucherTransaccionCajaCaja = null;
 		}
@@ -137,8 +135,18 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		voucher.setOrigen(transaccion.getOrigen());
 		voucher.setCajaDenominacion(caja.getDenominacion());
 		voucher.setCajaAbreviatura(caja.getAbreviatura());
-		// voucher.setTrabajador(transaccion.get);
-
+		voucher.setTrabajador(transaccion.getHistorialCaja().getTrabajador());
+		
+		if (voucher.getOrigen().toString().equals("CAJA")) {
+			voucher.setOrigenTransaccion(caja.getDenominacion() + " (" + caja.getAbreviatura() + ")");
+			voucher.setDestinoTransaccion(boveda.getDenominacion());
+		}else{
+			if (voucher.getOrigen().toString().equals("BOVEDA")) {
+				voucher.setOrigenTransaccion(boveda.getDenominacion());
+				voucher.setDestinoTransaccion(caja.getDenominacion() + " (" + caja.getAbreviatura() + ")");
+			}
+		}
+			
 		return voucher;
 	}
 }
