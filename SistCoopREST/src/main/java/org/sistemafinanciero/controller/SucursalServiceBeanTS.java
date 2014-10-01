@@ -33,7 +33,7 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 
 	@Inject
 	private DAO<Object, Agencia> agenciaDAO;
-	
+
 	@Inject
 	private Validator validator;
 
@@ -44,7 +44,7 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 			t.setIdSucursal(null);
 			t.setEstado(true);
 			t.setAgencias(null);
-			sucursalDAO.create(t);					
+			sucursalDAO.create(t);
 			return t.getIdSucursal();
 		} else {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
@@ -59,7 +59,7 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 			if (violations.isEmpty()) {
 				t.setIdSucursal(id);
 				sucursal.setDenominacion(t.getDenominacion());
-				sucursal.setAbreviatura(t.getAbreviatura());				
+				sucursal.setAbreviatura(t.getAbreviatura());
 				sucursalDAO.update(sucursal);
 			} else {
 				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
@@ -68,7 +68,7 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 			throw new NonexistentEntityException("Sucursal no existente, UPDATE no ejecutado");
 		}
 	}
-	
+
 	@Override
 	public void delete(BigInteger id) throws NonexistentEntityException, RollbackFailureException {
 		Sucursal agencia = sucursalDAO.find(id);
@@ -80,15 +80,37 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 	}
 
 	@Override
+	public void desactivar(BigInteger idSucursal) throws NonexistentEntityException, RollbackFailureException {
+		Sucursal sucursal = sucursalDAO.find(idSucursal);
+		if (sucursal == null)
+			throw new NonexistentEntityException("Sucursal no encontrada");
+		if (!sucursal.getEstado()) {
+			throw new RollbackFailureException("Sucursal inactiva, no se puede desactivar nuevamente");
+		}
+
+		Set<Agencia> agencias = sucursal.getAgencias();
+		for (Agencia agencia : agencias) {
+			if (agencia.getEstado())
+				throw new RollbackFailureException("Agencia:" + agencia.getDenominacion() + " activa, desactive todas las agencias");
+		}
+
+		sucursal.setEstado(false);
+		sucursalDAO.update(sucursal);
+	}
+
+	@Override
 	public BigInteger createAgencia(BigInteger idSucursal, Agencia agencia) throws NonexistentEntityException, RollbackFailureException {
 		Sucursal sucursal = sucursalDAO.find(idSucursal);
-		if(sucursal == null)
+		if (sucursal == null)
 			throw new NonexistentEntityException("Sucursal no encontrada");
-		
+		if (!sucursal.getEstado()) {
+			throw new RollbackFailureException("Sucursal inactiva, no se puede hacer modificaciones");
+		}
+
 		agencia.setIdAgencia(null);
-		agencia.setBovedas(null);		
+		agencia.setBovedas(null);
 		agencia.setTrabajadores(null);
-		
+
 		agencia.setEstado(true);
 		agencia.setSucursal(sucursal);
 		agenciaDAO.create(agencia);
@@ -99,18 +121,18 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 	public void updateAgencia(BigInteger idSucursal, BigInteger idAgencia, Agencia agencia) throws NonexistentEntityException, RollbackFailureException {
 		Sucursal sucursal = sucursalDAO.find(idSucursal);
 		Agencia agenciaDB = agenciaDAO.find(idAgencia);
-		if(sucursal == null)
+		if (sucursal == null)
 			throw new NonexistentEntityException("Sucursal no encontrada");
-		if(agenciaDB == null)
+		if (agenciaDB == null)
 			throw new NonexistentEntityException("Agencia no encontrada");
-		if(!sucursal.equals(agenciaDB.getSucursal()))
+		if (!sucursal.equals(agenciaDB.getSucursal()))
 			throw new RollbackFailureException("Agencia no pertenece a sucursal indicada");
-		
+
 		agenciaDB.setAbreviatura(agencia.getAbreviatura());
 		agenciaDB.setDenominacion(agencia.getDenominacion());
 		agenciaDB.setCodigo(agencia.getCodigo());
 		agenciaDB.setUbigeo(agencia.getUbigeo());
-		
+
 		agenciaDAO.update(agenciaDB);
 	}
 

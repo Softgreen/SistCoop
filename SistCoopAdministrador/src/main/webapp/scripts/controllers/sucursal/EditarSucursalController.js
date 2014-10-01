@@ -68,6 +68,26 @@ define(['../module'], function (controllers) {
                 }
             };
 
+            $scope.eliminarSucursal = function(){
+                var modalInstance = $modal.open({
+                    templateUrl: 'views/util/confirmPopUp.html',
+                    controller: "ConfirmPopUpController"
+                });
+                modalInstance.result.then(function (result) {
+                    SucursalService.eliminar($scope.id).then(
+                        function(data){
+                            $scope.alerts = [{ type: "success", msg: "Sucursal desactivada." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                            $scope.redireccion();
+                        }, function error(error){
+                            $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                }, function () {
+                });
+            };
+
             $scope.openNuevaAgencia = function () {
                 var modalInstance = $modal.open({
                     templateUrl: 'views/administrador/agencia/crearAgenciaPopUp.html',

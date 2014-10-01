@@ -3,6 +3,9 @@
         <div class="col-sm-6">
             <h3>Editar sucursal</h3>
         </div>
+        <div class="col-sm-6">
+            <button type="button" ng-click="eliminarSucursal()" class="btn btn-danger">Eliminar</button>
+        </div>
     </div>
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
         <span ng-bind="alert.msg"></span>

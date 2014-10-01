@@ -12,6 +12,9 @@ define(['./module'], function (services) {
                 actualizar: function(idSucursal, sucursal) {
                     return Restangular.one(baseUrl + "/" + idSucursal).customPUT(sucursal,'',{},{});
                 },
+                eliminar: function(idSucursal) {
+                    return Restangular.all(baseUrl + "/" + idSucursal+"/desactivar").post();
+                },
                 getSucursal: function(idSucursal) {
                     return Restangular.one(baseUrl+"/"+idSucursal).get();
                 },

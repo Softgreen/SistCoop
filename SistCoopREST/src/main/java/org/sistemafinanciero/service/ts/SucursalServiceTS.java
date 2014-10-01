@@ -12,7 +12,9 @@ import org.sistemafinanciero.exception.RollbackFailureException;
 @Remote
 public interface SucursalServiceTS extends AbstractServiceTS<Sucursal> {
 
+	public void desactivar(BigInteger idSucursal) throws NonexistentEntityException, RollbackFailureException;
+
 	public BigInteger createAgencia(BigInteger idSucursal, Agencia agencia) throws NonexistentEntityException, RollbackFailureException;
-	
+
 	public void updateAgencia(BigInteger idSucursal, BigInteger idAgencia, Agencia agencia) throws NonexistentEntityException, RollbackFailureException;
 }

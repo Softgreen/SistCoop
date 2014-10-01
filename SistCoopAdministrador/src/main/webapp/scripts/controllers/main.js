@@ -10,7 +10,9 @@ define([
 
     './trabajador/CrearTrabajadorController',
     './trabajador/BuscarTrabajadorController',
-    './trabajador/EditarTrabajadorController'
+    './trabajador/EditarTrabajadorController',
+
+    './util/ConfirmPopUpController'
 
 ], function () {
 

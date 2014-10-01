@@ -74,6 +74,22 @@ public class SucursalRESTService implements SucursalREST {
 	}
 
 	@Override
+	public Response desactivar(BigInteger id) {
+		Response response;
+		try {
+			sucursalServiceTS.desactivar(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+	
+	@Override
 	public Response getAgenciasOfSucursales(BigInteger id) {
 		List<Agencia> list = sucursalServiceNT.getAgencias(id);
 		Response response = Response.status(Response.Status.OK).entity(list).build();
@@ -117,5 +133,7 @@ public class SucursalRESTService implements SucursalREST {
 		}
 		return response;
 	}
+
+	
 
 }

@@ -34,6 +34,11 @@ public interface SucursalREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response update(@PathParam("id") BigInteger id, Sucursal sucursal);
 
+	@POST
+	@Path("/{id}/desactivar")
+	@Produces({ "application/xml", "application/json" })
+	public Response desactivar(@PathParam("id") BigInteger id);
+	
 	@GET
 	@Path("/{id}/agencias")
 	@Produces({ "application/json" })
