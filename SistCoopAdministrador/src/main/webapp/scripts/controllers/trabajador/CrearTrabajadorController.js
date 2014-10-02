@@ -76,7 +76,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.crearTransaccion = function(){
-                if ($scope.crearTrabajadorForm.$valid) {
+                if ($scope.crearTrabajadorForm.$valid && !angular.isUndefined($scope.view.persona)) {
                     $scope.control.inProcess = true;
 
                     var trabajador = {

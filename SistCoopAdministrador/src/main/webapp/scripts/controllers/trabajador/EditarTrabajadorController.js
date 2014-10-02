@@ -1,12 +1,12 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('EditarTrabajadorController', ['$scope','$state','$modal','focus','SucursalService',
-        function($scope,$state,$modal,focus,SucursalService) {
+    controllers.controller('CrearTrabajadorController', ['$scope','$state','focus','TrabajadorService','SucursalService','PersonaNaturalService',
+        function($scope,$state,focus,TrabajadorService,SucursalService,PersonaNaturalService) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
                     $event.preventDefault();
-                focus('focusDenominacion');
+                focus('focusSucursal');
             };
             $scope.setInitialFocus();
 
@@ -16,42 +16,78 @@ define(['../module'], function (controllers) {
                 submitted : false
             };
 
-            $scope.view = {
-                id: undefined,
-                denominacion: undefined,
-                abreviatura: undefined,
-                estado: undefined
+            $scope.combo = {
+                sucursal: undefined,
+                agencia: undefined,
+                tipoDocumento: undefined
             };
 
-            $scope.loadSucursal = function(){
-                if(!angular.isUndefined($scope.id)){
-                    SucursalService.getSucursal($scope.id).then(function(){
-                        $scope.view.id = data.id;
-                        $scope.view.denominacion = data.denominacion;
-                        $scope.view.abreviatura = data.abreviatura;
-                        $scope.view.estado = data.estado;
-                    });
-                }
+            $scope.view = {
+                idSucursal: undefined,
+                idAgencia: undefined,
+                idTipoDocumento: undefined,
+                numeroDocumento: undefined,
+                usuario: undefined,
+
+                persona: undefined
+            };
+
+            $scope.loadSucursales = function(){
+                SucursalService.getSucursales().then(function(data){
+                    $scope.combo.sucursal = data;
+                });
             };
             $scope.loadAgencias = function(){
-                if(!angular.isUndefined($scope.id)){
-                    SucursalService.getAgencias($scope.id).then(function(data){
-                        $scope.agencias = data;
+                if(!angular.isUndefined($scope.view.idSucursal)){
+                    SucursalService.getAgencias($scope.view.idSucursal).then(function(data){
+                        $scope.combo.agencia = data;
                     });
                 }
             };
+            $scope.loadTipoDocumento = function(){
+                PersonaNaturalService.getTipoDocumentos().then(function(data){
+                    $scope.combo.tipoDocumento = data;
+                });
+            };
 
-            //logic
+            $scope.buscarTrabajador = function(){
+                if($scope.crearTrabajadorForm.numeroDocumento.$valid && $scope.crearTrabajadorForm.tipoDocumento.$valid){
+                    $scope.control.inProcess = true;
+                    PersonaNaturalService.findByTipoNumeroDocumento($scope.view.idTipoDocumento, $scope.view.numeroDocumento).then(
+                        function(data){
+                            if(angular.isUndefined(data) || data === null){
+                                $scope.control.inProcess = false;
+                                $scope.alertsAccionistas = [{ type: 'danger', msg: 'Persona No Registrado' }];
+                                $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                            } else{
+                                $scope.control.inProcess = false;
+                                $scope.view.persona = data;
+                                $scope.alertsAccionistas = [{ type: 'success', msg: 'Persona Registrado' }];
+                            }
+                        }, function error(error){
+                            $scope.control.inProcess = false;
+                            $scope.alertsAccionistas = [{ type: 'danger', msg: 'Error al buscar la persona' }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                } else {
+                    $scope.control.submitted = true;
+                }
+            };
+
             $scope.crearTransaccion = function(){
-                if ($scope.crearSucursalForm.$valid) {
+                if ($scope.crearTrabajadorForm.$valid && !angular.isUndefined($scope.view.persona)) {
                     $scope.control.inProcess = true;
 
-                    var sucursal = {
-                        denominacion: $scope.view.denominacion,
-                        abreviatura: $scope.view.abreviatura
+                    var trabajador = {
+                        idSucursal: $scope.view.idSucursal,
+                        idAgencia: $scope.view.idAgencia,
+                        idTipoDocumento: $scope.view.idTipoDocumento,
+                        numeroDocumento: $scope.view.numeroDocumento,
+                        usuario: $scope.view.usuario
                     };
 
-                    SucursalService.actualizar($scope.id, sucursal).then(
+                    TrabajadorService.crear(trabajador).then(
                         function(data){
                             $scope.redireccion();
                             $scope.control.inProcess = false;
@@ -68,65 +104,40 @@ define(['../module'], function (controllers) {
                 }
             };
 
-            $scope.openNuevaAgencia = function () {
-                var modalInstance = $modal.open({
-                    templateUrl: 'views/administrador/agencia/crearAgenciaPopUp.html',
-                    controller: "CrearAgenciaPopUpController"
-                });
-                modalInstance.result.then(function (agencia) {
-                    SucursalService.crearAgencia($scope.id, agencia).then(
-                        function(data){
-                            $scope.agencias.push(agencia);
-                            $scope.control.inProcess = false;
-                            $scope.alerts = [{ type: "success", msg: "Agencia añadida."}];
-                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
-                        },
-                        function error(error){
-                            $scope.control.inProcess = false;
-                            $scope.control.success = false;
-                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
-                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
-                        }
-                    );
-                }, function () {
-
-                });
+            $scope.$watch("view.numeroDocumento", function(){
+                $scope.validarNumeroDocumento();
+            });
+            $scope.$watch("view.idTipoDocumento", function(){
+                $scope.validarNumeroDocumento();
+            });
+            $scope.validarNumeroDocumento = function(){
+                if(!angular.isUndefined($scope.crearTrabajadorForm.numeroDocumento)){
+                    if(!angular.isUndefined($scope.view.numeroDocumento)){
+                        if(!angular.isUndefined($scope.view.idTipoDocumento)){
+                            var tipoDoc = $scope.getTipoDocumento();
+                            if(!angular.isUndefined(tipoDoc)) {
+                                if($scope.view.numeroDocumento.length == tipoDoc.numeroCaracteres) {
+                                    $scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",true);
+                                } else {$scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",false);}
+                            } else {$scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",false);}
+                        } else{$scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",false);}
+                    } else {$scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",false);}}
             };
-            $scope.editarAgencia = function (index) {
-                var modalInstance = $modal.open({
-                    templateUrl: 'views/administrador/agencia/editarAgenciaPopUp.html',
-                    controller: "EditarAgenciaPopUpController",
-                    resolve: {
-                        agencia: function () {
-                            return $scope.agencias[index];
-                        }
+            $scope.getTipoDocumento = function(){
+                if(!angular.isUndefined($scope.combo.tipoDocumento)){
+                    for(var i = 0; i < $scope.combo.tipoDocumento.length; i++){
+                        if($scope.view.idTipoDocumento == $scope.combo.tipoDocumento[i].id)
+                            return $scope.combo.tipoDocumento[i];
                     }
-                });
-                modalInstance.result.then(function (agencia) {
-                    SucursalService.actualizarAgencia($scope.id, agencia.id, agencia).then(
-                        function(data){
-                            $scope.agencias[index] = agencia;
-                            $scope.control.inProcess = false;
-                            $scope.alerts = [{ type: "success", msg: "Agencia actualizada."}];
-                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
-                        },
-                        function error(error){
-                            $scope.control.inProcess = false;
-                            $scope.control.success = false;
-                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
-                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
-                        }
-                    );
-                }, function () {
-
-                });
+                }
+                return undefined;
             };
 
-            $scope.loadSucursal();
-            $scope.loadAgencias();
+            $scope.loadSucursales();
+            $scope.loadTipoDocumento();
 
             $scope.redireccion = function(){
-                $state.transitionTo('app.sucursal.buscarSucursal');
+                $state.transitionTo('app.trabajador.buscarTrabajador');
             };
 
             $scope.cancelar = function () {

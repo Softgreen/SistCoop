@@ -30,7 +30,9 @@ import com.sun.istack.NotNull;
 @Table(name = "TRABAJADOR", schema = "BDSISTEMAFINANCIERO")
 @NamedQueries({ @NamedQuery(name = Trabajador.findByUsername, query = "SELECT t FROM Trabajador t WHERE t.usuario = :username"), 
 	@NamedQuery(name = Trabajador.findByFilterText, query = "SELECT t FROM Trabajador t INNER JOIN t.personaNatural p WHERE CONCAT(p.apellidoPaterno,' ', p.apellidoMaterno,' ',p.nombres) LIKE :filterText"), 
-	@NamedQuery(name = Trabajador.findByFilterTextAndIdAgencia, query = "SELECT t FROM Trabajador t INNER JOIN t.agencia a INNER JOIN t.personaNatural p WHERE a.idAgencia = :idAgencia AND CONCAT(p.apellidoPaterno,' ', p.apellidoMaterno,' ',p.nombres) LIKE :filterText") })
+	@NamedQuery(name = Trabajador.findByFilterTextAndIdAgencia, query = "SELECT t FROM Trabajador t INNER JOIN t.agencia a INNER JOIN t.personaNatural p WHERE a.idAgencia = :idAgencia AND CONCAT(p.apellidoPaterno,' ', p.apellidoMaterno,' ',p.nombres) LIKE :filterText"),
+	@NamedQuery(name = Trabajador.findByIdPersonaAndEstado, query = "SELECT t FROM Trabajador t INNER JOIN t.personaNatural p WHERE p.idPersonaNatural = :idPersonaNatural AND t.estado = :estado"),
+	@NamedQuery(name = Trabajador.findByUsuarioAndEstado, query = "SELECT t FROM Trabajador t WHERE t.usuario = :usuario AND t.estado = :estado ")})
 public class Trabajador implements java.io.Serializable {
 
 	/**
@@ -41,6 +43,8 @@ public class Trabajador implements java.io.Serializable {
 	public final static String findByUsername = "Trabajador.findByUsername";
 	public final static String findByFilterText = "Trabajador.findByFilterText";
 	public final static String findByFilterTextAndIdAgencia = "Trabajador.findByFilterTextAndIdAgencia";
+	public final static String findByIdPersonaAndEstado = "Trabajador.findByIdPersonaAndEstado";
+	public final static String findByUsuarioAndEstado = "Trabajador.findByUsuarioAndEstado";
 
 	private BigInteger idTrabajador;
 	private PersonaNatural personaNatural;

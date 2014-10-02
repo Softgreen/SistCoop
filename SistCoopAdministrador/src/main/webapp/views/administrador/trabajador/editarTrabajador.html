@@ -1,89 +1,139 @@
-<div ng-controller="EditarSucursalController">
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Editar sucursal</h3>
+<div ng-controller="EditarTrabajadorController">
+    <form name="crearTrabajadorForm" ng-submit="crearTransaccion()" novalidate>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Nuevo trabajador</h3>
+            </div>
         </div>
-    </div>
-    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
-        <span ng-bind="alert.msg"></span>
-    </alert>
-    <div class="row">
-        <div class="col-sm-6">
-            <form name="crearSucursalForm" ng-submit="crearTransaccion()" novalidate>
-                <div class="form-group" ng-class="{ 'has-error' : crearSucursalForm.denominacion.$invalid && (control.submitted || crearSucursalForm.denominacion.$dirty)}">
-                    <label>Denominacion</label>
-                    <input focus-on="focusDenominacion" name="denominacion" type="text" ng-model="view.denominacion" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" capitalize required/>
-                    <div ng-show="crearSucursalForm.denominacion.$invalid && (control.submitted || crearSucursalForm.denominacion.$dirty)">
-                        <p class="help-block" ng-show="crearSucursalForm.denominacion.$error.required">
-                            Ingrese denominacion.
-                        </p>
-                        <p class="help-block" ng-show="crearSucursalForm.denominacion.$error.minlength">
-                            Minimo 1 Caracter.
-                        </p>
-                        <p class="help-block" ng-show="crearSucursalForm.denominacion.$error.maxlength">
-                            Maximo 40 Caracteres.
-                        </p>
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+            <span ng-bind="alert.msg"></span>
+        </alert>
+        <div class="panel panel-default">
+            <div class="panel-heading">Agencia</div>
+            <div class="panel-body">
+                <div class=row>
+                    <div class="col-sm-4">
+                        <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.sucursal.$invalid && (control.submitted || crearTrabajadorForm.sucursal.$dirty)}">
+                            <label>Sucursal</label>
+                            <select focus-on="focusSucursal" name="sucursal" ng-change="loadAgencias()" ng-options="sucursal.id as sucursal.denominacion for sucursal in combo.sucursal" ng-model="view.idSucursal" class="form-control" required>
+                                <option value="">--Seleccione--</option>
+                            </select>
+                            <div ng-show="crearTrabajadorForm.sucursal.$invalid && (control.submitted || crearTrabajadorForm.sucursal.$dirty)">
+                                <p class="help-block" ng-show="crearTrabajadorForm.sucursal.$error.required">
+                                    Ingrese sucursal.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group" ng-class="{ 'has-error' : crearSucursalForm.abreviatura.$invalid && (control.submitted || crearSucursalForm.abreviatura.$dirty)}">
-                    <label>Abreviatura</label>
-                    <input name="abreviatura" type="text" ng-model="view.abreviatura" ng-minlength="1" ng-maxlength="10" class="form-control" placeholder="Abreviatura" capitalize required/>
-                    <div ng-show="crearSucursalForm.abreviatura.$invalid && (control.submitted || crearSucursalForm.abreviatura.$dirty)">
-                        <p class="help-block" ng-show="crearSucursalForm.abreviatura.$error.required">
-                            Ingrese denominacion.
-                        </p>
-                        <p class="help-block" ng-show="crearSucursalForm.abreviatura.$error.minlength">
-                            Minimo 1 Caracter.
-                        </p>
-                        <p class="help-block" ng-show="crearSucursalForm.abreviatura.$error.maxlength">
-                            Maximo 10 Caracteres.
-                        </p>
+                    <div class="col-sm-4">
+                        <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.agencia.$invalid && (control.submitted || crearTrabajadorForm.agencia.$dirty)}">
+                            <label>Agencia</label>
+                            <select name="agencia" ng-options="agencia.id as agencia.denominacion for agencia in combo.agencia" ng-model="view.idAgencia" class="form-control" required>
+                                <option value="">--Seleccione--</option>
+                            </select>
+                            <div ng-show="crearTrabajadorForm.agencia.$invalid && (control.submitted || crearTrabajadorForm.agencia.$dirty)">
+                                <p class="help-block" ng-show="crearTrabajadorForm.agencia.$error.required">
+                                    Ingrese agencia.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Estado</label>
-                    <input type="text" value="Activo" class="form-control" disabled>
-                </div>
-
-                <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
-                <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
-            </form>
-        </div>
-        <div class="col-sm-6">
-            </br>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Agencias asignadas
-                        <button type="button" ng-click="openNuevaAgencia()" class="btn btn-link">Nuevo</button>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <table class="table table-striped table-bordered table-condensed">
-                        <thead>
-                        <tr>
-                            <th>Agencia</th>
-                            <th>Codigo</th>
-                            <th>Edit</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="agencia in agencias">
-                            <td>
-                                <span ng-bind="agencia.denominacion"></span>&nbsp;
-                            </td>
-                            <td>
-                                <span ng-bind="agencia.codigo"></span>
-                            </td>
-                            <td>
-                                <button type="button" ng-click="editarAgencia($index)" class="btn btn-info btn-xs">Edit</button>
-                                <button type="button" ng-click="eliminarAgencia($index)" class="btn btn-danger btn-xs">Del</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Identicacion</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.tipoDocumento.$invalid && (control.submitted || crearTrabajadorForm.tipoDocumento.$dirty)}">
+                            <label>Tipo Documento</label>
+                            <select name="tipoDocumento" ng-options="tipoDocumento.id as tipoDocumento.abreviatura for tipoDocumento in combo.tipoDocumento | orderBy : 'id'" ng-model="view.idTipoDocumento" class="form-control" required>
+                                <option value="">--Seleccione--</option>
+                            </select>
+                            <div ng-show="crearTrabajadorForm.tipoDocumento.$invalid && (control.submitted || crearTrabajadorForm.tipoDocumento.$dirty)">
+                                <p class="help-block" ng-show="crearTrabajadorForm.tipoDocumento.$error.required">
+                                    Ingrese Tipo Documento.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.numeroDocumento.$invalid && (control.submitted || crearTrabajadorForm.numeroDocumento.$dirty)}">
+                            <label>Numero Documento</label>
+                            <div class="input-group">
+                                <input type="text" ui-keypress="{13:'buscarTrabajador($event)'}" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Numero documento" required/>
+                                 <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="buscarTrabajador()" >
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                 </span>
+                            </div>
+                            <div ng-show="crearTrabajadorForm.numeroDocumento.$invalid && (control.submitted || crearTrabajadorForm.numeroDocumento.$dirty)">
+                                <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.required">
+                                    Ingrese Numero Documento Valido.
+                                </p>
+                                <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.minlength">
+                                    Minimo 1 Caracter.
+                                </p>
+                                <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.maxlength">
+                                    Maximo 20 Caracteres.
+                                </p>
+                                <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.pattern">
+                                    Numero Documento Invalido.
+                                </p>
+                                <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.sgmaxlength">
+                                    Debe tener <span ng-bind="getTipoDocumento().numeroCaracteres"></span> caracteres.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <div>
+                                <button type="button" class="btn btn-link" ng-click="buscarTrabajador()">Registrar Persona</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="view.persona">
+                    <div class="col-sm-12">
+                        <pre ng-cloak>{{view.persona.tipoDocumento.abreviatura}}:{{view.persona.numeroDocumento}}&nbsp;{{view.persona.apellidoPaterno}}&nbsp;{{view.persona.apellidoMaterno}},{{view.persona.nombres}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Acceso al sistema</div>
+            <div class="panel-body">
+                <div class=row>
+                    <div class="col-sm-4">
+                        <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.usuario.$invalid && (control.submitted || crearTrabajadorForm.usuario.$dirty)}">
+                            <label>Usuario</label>
+                            <input name="usuario" type="text" ng-model="view.usuario" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" required/>
+                            <div ng-show="crearTrabajadorForm.usuario.$invalid && (control.submitted || crearTrabajadorForm.usuario.$dirty)">
+                                <p class="help-block" ng-show="crearTrabajadorForm.usuario.$error.required">
+                                    Ingrese usuario.
+                                </p>
+                                <p class="help-block" ng-show="crearTrabajadorForm.usuario.$error.minlength">
+                                    Minimo usuario.
+                                </p>
+                                <p class="help-block" ng-show="crearTrabajadorForm.usuario.$error.maxlength">
+                                    Maximo usuario.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
+        <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
+
+    </form>
+
 </div>
