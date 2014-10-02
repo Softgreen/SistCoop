@@ -11,6 +11,14 @@ define(['../module'], function (controllers) {
 
             $scope.detalle = [];
 
+            $scope.loadCajasOfAgencia = function(){
+                AgenciaService.getCajas($scope.agenciaSession.id).then(
+                    function(cajas){
+                        $scope.combo.cajas = cajas;
+                    }
+                );
+            };
+            
             $scope.loadDetalle = function(){
                 BovedaService.getDetalle($scope.id).then(function(data){
                     angular.forEach(data, function(row){
@@ -21,6 +29,8 @@ define(['../module'], function (controllers) {
                     $scope.detalle = data;
                 });
             };
+            
+            $scope.loadCajasOfAgencia();
             $scope.loadDetalle();
 
             $scope.getTotal = function() {

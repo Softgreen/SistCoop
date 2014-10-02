@@ -176,15 +176,15 @@ define(['./app'], function(app) {
 
                 .state('app.transaccion.nuevaTransaccionEntidadBoveda', {
                     url: "/buscar",
-                    templateUrl: "views/jefeCaja/transaccion/nuevaTransaccionEntidadBoveda.html"
+                    templateUrl: "views/jefeCaja/transaccion/crearTransaccionEntidadBoveda.html"
                 })
                 .state('app.transaccion.nuevaTransaccionBovedaBoveda', {
                     url: "/buscar",
-                    templateUrl: "views/jefeCaja/transaccion/nuevaTransaccionBovedaBoveda.html"
+                    templateUrl: "views/jefeCaja/transaccion/crearTransaccionBovedaBoveda.html"
                 })
                 .state('app.transaccion.nuevaTransaccionBovedaCaja', {
                     url: "/buscar",
-                    templateUrl: "views/jefeCaja/transaccion/nuevaTransaccionBovedaCaja.html"
+                    templateUrl: "views/jefeCaja/transaccion/crearTransaccionBovedaCaja.html"
                 })                
         }
     ]).run(['$rootScope', '$state', '$stateParams',
