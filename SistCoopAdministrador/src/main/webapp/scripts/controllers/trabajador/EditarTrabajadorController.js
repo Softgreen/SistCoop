@@ -1,6 +1,6 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTrabajadorController', ['$scope','$state','focus','TrabajadorService','SucursalService','PersonaNaturalService',
+    controllers.controller('EditarTrabajadorController', ['$scope','$state','focus','TrabajadorService','SucursalService','PersonaNaturalService',
         function($scope,$state,focus,TrabajadorService,SucursalService,PersonaNaturalService) {
 
             $scope.setInitialFocus = function($event){
