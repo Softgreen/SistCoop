@@ -59,4 +59,8 @@ public interface SucursalREST {
 	@Produces({ "application/json" })
 	public Response updateAgencia(@PathParam("id") BigInteger id, @PathParam("idAgencia") BigInteger idAgencia, Agencia agencia);
 
+	@POST
+	@Path("/{id}/agencias/{idAgencia}/desactivar")
+	@Produces({ "application/xml", "application/json" })
+	public Response desactivarAgencia(@PathParam("id") BigInteger id, @PathParam("idAgencia") BigInteger idAgencia);
 }

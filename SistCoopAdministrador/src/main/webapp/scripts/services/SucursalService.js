@@ -12,7 +12,7 @@ define(['./module'], function (services) {
                 actualizar: function(idSucursal, sucursal) {
                     return Restangular.one(baseUrl + "/" + idSucursal).customPUT(sucursal,'',{},{});
                 },
-                eliminar: function(idSucursal) {
+                desactivar: function(idSucursal) {
                     return Restangular.all(baseUrl + "/" + idSucursal+"/desactivar").post();
                 },
                 getSucursal: function(idSucursal) {
@@ -29,6 +29,9 @@ define(['./module'], function (services) {
                 },
                 actualizarAgencia: function(idSucursal, idAgencia, agencia) {
                     return Restangular.one(baseUrl + "/" + idSucursal + "/agencias/" + idAgencia).customPUT(agencia,'',{},{});
+                },
+                desactivarAgencia: function(idSucursal, idAgencia) {
+                    return Restangular.all(baseUrl + "/" + idSucursal + "/agencias/" + idAgencia+"/desactivar").post();
                 }
             }
         }])

@@ -17,4 +17,6 @@ public interface SucursalServiceTS extends AbstractServiceTS<Sucursal> {
 	public BigInteger createAgencia(BigInteger idSucursal, Agencia agencia) throws NonexistentEntityException, RollbackFailureException;
 
 	public void updateAgencia(BigInteger idSucursal, BigInteger idAgencia, Agencia agencia) throws NonexistentEntityException, RollbackFailureException;
+	
+	public void desactivarAgencia(BigInteger idSucursal, BigInteger idAgencia) throws NonexistentEntityException, RollbackFailureException;
 }

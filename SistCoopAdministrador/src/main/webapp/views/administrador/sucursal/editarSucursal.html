@@ -1,12 +1,17 @@
 <div ng-controller="EditarSucursalController">
-    <div class="row">
-        <div class="col-sm-6">
-            <h3>Editar sucursal</h3>
-        </div>
-        <div class="col-sm-6">
-            <button type="button" ng-click="eliminarSucursal()" class="btn btn-danger">Eliminar</button>
-        </div>
-    </div>
+    <fieldset>
+        <legend style="padding-bottom: 5px;">
+            <div class="row">
+                <div class="col-sm-6">
+                    Editar sucursal
+                    <span ng-if="!sucursal.estado" class="label label-danger">Sucursal inactiva</span>
+                </div>
+                <div class="col-sm-6" ng-if="sucursal.estado" style="text-align: right;font-size: 14px;">
+                    <button type="button" ng-click="eliminarSucursal()" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </legend>
+    </fieldset>
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
         <span ng-bind="alert.msg"></span>
     </alert>
@@ -67,6 +72,7 @@
                         <tr>
                             <th>Agencia</th>
                             <th>Codigo</th>
+                            <th>Estado</th>
                             <th>Edit</th>
                         </tr>
                         </thead>
@@ -77,6 +83,9 @@
                             </td>
                             <td>
                                 <span ng-bind="agencia.codigo"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="agencia.estado ? 'Activo' : 'Inactivo'"></span>
                             </td>
                             <td>
                                 <button type="button" ng-click="editarAgencia($index)" class="btn btn-info btn-xs">Edit</button>

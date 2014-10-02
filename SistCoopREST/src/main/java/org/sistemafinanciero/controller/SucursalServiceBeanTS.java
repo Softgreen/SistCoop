@@ -2,6 +2,7 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigInteger;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Remote;
@@ -15,6 +16,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Sucursal;
 import org.sistemafinanciero.exception.NonexistentEntityException;
@@ -55,6 +57,8 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 	public void update(BigInteger id, Sucursal t) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
 		Sucursal sucursal = sucursalDAO.find(id);
 		if (sucursal != null) {
+			if (!sucursal.getEstado())
+				throw new RollbackFailureException("Sucursal inactiva, no se puede editar");
 			Set<ConstraintViolation<Sucursal>> violations = validator.validate(t);
 			if (violations.isEmpty()) {
 				t.setIdSucursal(id);
@@ -107,6 +111,11 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 			throw new RollbackFailureException("Sucursal inactiva, no se puede hacer modificaciones");
 		}
 
+		QueryParameter queryParameter = QueryParameter.with("codigo", agencia.getCodigo());
+		List<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo, queryParameter.parameters());
+		if (list.size() != 0)
+			throw new RollbackFailureException("Codigo de agencia ya registrado, no se puede crear");
+
 		agencia.setIdAgencia(null);
 		agencia.setBovedas(null);
 		agencia.setTrabajadores(null);
@@ -125,14 +134,44 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 			throw new NonexistentEntityException("Sucursal no encontrada");
 		if (agenciaDB == null)
 			throw new NonexistentEntityException("Agencia no encontrada");
+		if (!sucursal.getEstado())
+			throw new RollbackFailureException("Sucursal inactiva, no se puede hacer modificaciones");
+		if (!agenciaDB.getEstado())
+			throw new RollbackFailureException("Agencia inactiva, no se puede hacer modificaciones");
+		
 		if (!sucursal.equals(agenciaDB.getSucursal()))
 			throw new RollbackFailureException("Agencia no pertenece a sucursal indicada");
+
+		QueryParameter queryParameter = QueryParameter.with("codigo", agencia.getCodigo());
+		List<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo, queryParameter.parameters());
+		if (list.size() != 0)
+			throw new RollbackFailureException("Codigo de agencia ya registrado, no se puede crear");
 
 		agenciaDB.setAbreviatura(agencia.getAbreviatura());
 		agenciaDB.setDenominacion(agencia.getDenominacion());
 		agenciaDB.setCodigo(agencia.getCodigo());
 		agenciaDB.setUbigeo(agencia.getUbigeo());
 
+		agenciaDAO.update(agenciaDB);
+	}
+
+	@Override
+	public void desactivarAgencia(BigInteger idSucursal, BigInteger idAgencia) throws NonexistentEntityException, RollbackFailureException {
+		Sucursal sucursal = sucursalDAO.find(idSucursal);
+		Agencia agenciaDB = agenciaDAO.find(idAgencia);
+		if (sucursal == null)
+			throw new NonexistentEntityException("Sucursal no encontrada");
+		if (agenciaDB == null)
+			throw new NonexistentEntityException("Agencia no encontrada");
+		if (!sucursal.getEstado())
+			throw new RollbackFailureException("Sucursal inactiva, no se puede hacer modificaciones");
+		if (!agenciaDB.getEstado())
+			throw new RollbackFailureException("Agencia inactiva, no se puede desactivar nuevamente");
+		
+		if (!sucursal.equals(agenciaDB.getSucursal()))
+			throw new RollbackFailureException("Agencia no pertenece a sucursal indicada");
+
+		agenciaDB.setEstado(false);		
 		agenciaDAO.update(agenciaDB);
 	}
 
