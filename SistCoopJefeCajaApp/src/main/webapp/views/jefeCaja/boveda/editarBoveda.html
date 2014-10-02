@@ -6,8 +6,8 @@
         <legend style="padding-bottom: 5px;">
             <div class="row">
                 <div class="col-sm-6">
-                    Socio
-                    <span ng-if="!view.estado" class="label label-danger">Boveda inactiva</span>
+                    Boveda
+                    <span ng-if="!view.estado" class="label label-danger">Boveda Inactiva</span>
                 </div>
                 <div class="col-sm-6" ng-if="view.estado" style="text-align: right;font-size: 14px;">
                     <div class="btn-group">
@@ -26,7 +26,7 @@
     <div>
         <div class="row">
             <div class="col-sm-12">
-                <h3>Editar boveda</h3>
+                <h3>Editar Boveda</h3>
             </div>
         </div>
         <div class="row">
@@ -48,11 +48,11 @@
                         </div>
                     </div>
                     <div class="form-group" ng-class="{ 'has-error' : crearBovedaForm.denominacion.$invalid && (control.submitted || crearBovedaForm.denominacion.$dirty)}">
-                        <label>Denominacion</label>
+                        <label>Denominaci&oacute;n</label>
                         <input name="denominacion" type="text" ng-model="view.denominacion" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" capitalize required/>
                         <div ng-show="crearBovedaForm.denominacion.$invalid && (control.submitted || crearBovedaForm.denominacion.$dirty)">
                             <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.required">
-                                Ingrese denominacion.
+                                Ingrese Denominaci&oacute;n.
                             </p>
                             <p class="help-block" ng-show="crearBovedaForm.denominacion.$error.minlength">
                                 Minimo 1 Caracter.

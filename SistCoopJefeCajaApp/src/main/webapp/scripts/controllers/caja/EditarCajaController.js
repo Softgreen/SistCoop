@@ -146,6 +146,7 @@ define(['../module'], function (controllers) {
 
                 });
             };
+            
 
             $scope.eliminarTrabajador = function(index){
                 CajaService.eliminarTrabajador($scope.id, $scope.trabajadores[index].id).then(
