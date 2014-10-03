@@ -17,6 +17,7 @@ import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.PersonaNatural;
+import org.sistemafinanciero.entity.Sucursal;
 import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TrabajadorCaja;
@@ -89,7 +90,19 @@ public class TrabajadorServiceBeanNT implements TrabajadorServiceNT {
 
 	@Override
 	public Trabajador findById(BigInteger id) {
-		return trabajadorDAO.find(id);
+		Trabajador trabajador = trabajadorDAO.find(id);
+		PersonaNatural personaNatural = trabajador.getPersonaNatural();
+		TipoDocumento tipoDocumento = personaNatural.getTipoDocumento();
+		
+		Agencia agencia = trabajador.getAgencia();
+		Sucursal sucursal = agencia.getSucursal();
+		
+		Hibernate.initialize(personaNatural);
+		Hibernate.initialize(tipoDocumento);
+		Hibernate.initialize(agencia);
+		Hibernate.initialize(sucursal);
+		
+		return trabajador;
 	}
 
 	@Override

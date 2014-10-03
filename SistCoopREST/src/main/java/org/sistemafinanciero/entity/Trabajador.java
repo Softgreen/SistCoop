@@ -135,4 +135,29 @@ public class Trabajador implements java.io.Serializable {
 		this.trabajadorCajas = trabajadorCajas;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idTrabajador == null) ? 0 : idTrabajador.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Trabajador))
+			return false;
+		Trabajador other = (Trabajador) obj;
+		if (idTrabajador == null) {
+			if (other.idTrabajador != null)
+				return false;
+		} else if (!idTrabajador.equals(other.idTrabajador))
+			return false;
+		return true;
+	}
+
 }

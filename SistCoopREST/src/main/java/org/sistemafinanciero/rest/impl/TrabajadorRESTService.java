@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Trabajador;
+import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.Jsend;
@@ -54,8 +55,17 @@ public class TrabajadorRESTService implements TrabajadorREST {
 
 	@Override
 	public Response findById(BigInteger id) {
-		// TODO Auto-generated method stub
-		return null;
+		Trabajador trabajador = trabajadorServiceNT.findById(id);
+
+		TrabajadorDTO result = new TrabajadorDTO();
+		result.setId(trabajador.getIdTrabajador());
+		result.setIdAgencia(trabajador.getAgencia().getIdAgencia());
+		result.setIdSucursal(trabajador.getAgencia().getSucursal().getIdSucursal());
+		result.setIdTipoDocumento(trabajador.getPersonaNatural().getTipoDocumento().getIdTipoDocumento());
+		result.setNumeroDocumento(trabajador.getPersonaNatural().getNumeroDocumento());
+		result.setUsuario(trabajador.getUsuario());
+
+		return Response.ok().entity(result).build();
 	}
 
 	@Override
@@ -78,6 +88,35 @@ public class TrabajadorRESTService implements TrabajadorREST {
 			trabajadorServiceTS.create(trabajador);
 
 			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (PreexistingEntityException e) {
+			response = Response.status(Response.Status.CONFLICT).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		} catch (RollbackFailureException e) {
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response update(BigInteger id, TrabajadorDTO trabajadorDTO) {
+		Response response;
+
+		Agencia agencia = new Agencia();
+		agencia.setIdAgencia(trabajadorDTO.getIdAgencia());
+
+		PersonaNatural personaNatural = personaNaturalServiceNT.find(trabajadorDTO.getIdTipoDocumento(), trabajadorDTO.getNumeroDocumento());
+
+		Trabajador trabajador = new Trabajador();
+		trabajador.setIdTrabajador(null);
+		trabajador.setAgencia(agencia);
+		trabajador.setEstado(true);
+		trabajador.setPersonaNatural(personaNatural);
+		trabajador.setUsuario(trabajadorDTO.getUsuario());
+
+		try {
+			trabajadorServiceTS.update(id, trabajador);
+			response = Response.noContent().build();
+		} catch (NonexistentEntityException e) {
+			response = Response.status(Response.Status.NOT_FOUND).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		} catch (PreexistingEntityException e) {
 			response = Response.status(Response.Status.CONFLICT).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		} catch (RollbackFailureException e) {

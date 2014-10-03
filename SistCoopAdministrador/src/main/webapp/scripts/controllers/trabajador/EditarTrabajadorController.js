@@ -23,6 +23,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.view = {
+                id: undefined,
                 idSucursal: undefined,
                 idAgencia: undefined,
                 idTipoDocumento: undefined,
@@ -31,6 +32,20 @@ define(['../module'], function (controllers) {
 
                 persona: undefined
             };
+
+            $scope.loadTrabajador = function(){
+                TrabajadorService.getTrabajador($scope.id).then(function(data){
+                    $scope.trabajador = data;
+
+                    $scope.view.id = data.id;
+                    $scope.view.idSucursal = data.idSucursal;
+                    $scope.view.idAgencia = data.idAgencia;
+                    $scope.view.idTipoDocumento = data.idTipoDocumento;
+                    $scope.view.numeroDocumento = data.numeroDocumento;
+                    $scope.view.usuario = data.usuario;
+                });
+            };
+            $scope.loadTrabajador();
 
             $scope.loadSucursales = function(){
                 SucursalService.getSucursales().then(function(data){
@@ -49,6 +64,10 @@ define(['../module'], function (controllers) {
                     $scope.combo.tipoDocumento = data;
                 });
             };
+
+            $scope.$watch('view.idSucursal', function(){
+                $scope.loadAgencias();
+            });
 
             $scope.buscarTrabajador = function(){
                 if($scope.crearTrabajadorForm.numeroDocumento.$valid && $scope.crearTrabajadorForm.tipoDocumento.$valid){
@@ -76,7 +95,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.crearTransaccion = function(){
-                if ($scope.crearTrabajadorForm.$valid && !angular.isUndefined($scope.view.persona)) {
+                if ($scope.crearTrabajadorForm.$valid) {
                     $scope.control.inProcess = true;
 
                     var trabajador = {
@@ -87,7 +106,7 @@ define(['../module'], function (controllers) {
                         usuario: $scope.view.usuario
                     };
 
-                    TrabajadorService.crear(trabajador).then(
+                    TrabajadorService.actualizar($scope.view.id, trabajador).then(
                         function(data){
                             $scope.redireccion();
                             $scope.control.inProcess = false;
@@ -102,35 +121,6 @@ define(['../module'], function (controllers) {
                 } else {
                     $scope.control.submitted = true;
                 }
-            };
-
-            $scope.$watch("view.numeroDocumento", function(){
-                $scope.validarNumeroDocumento();
-            });
-            $scope.$watch("view.idTipoDocumento", function(){
-                $scope.validarNumeroDocumento();
-            });
-            $scope.validarNumeroDocumento = function(){
-                if(!angular.isUndefined($scope.crearTrabajadorForm.numeroDocumento)){
-                    if(!angular.isUndefined($scope.view.numeroDocumento)){
-                        if(!angular.isUndefined($scope.view.idTipoDocumento)){
-                            var tipoDoc = $scope.getTipoDocumento();
-                            if(!angular.isUndefined(tipoDoc)) {
-                                if($scope.view.numeroDocumento.length == tipoDoc.numeroCaracteres) {
-                                    $scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",true);
-                                } else {$scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",false);}
-                            } else {$scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",false);}
-                        } else{$scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",false);}
-                    } else {$scope.crearTrabajadorForm.numeroDocumento.$setValidity("sgmaxlength",false);}}
-            };
-            $scope.getTipoDocumento = function(){
-                if(!angular.isUndefined($scope.combo.tipoDocumento)){
-                    for(var i = 0; i < $scope.combo.tipoDocumento.length; i++){
-                        if($scope.view.idTipoDocumento == $scope.combo.tipoDocumento[i].id)
-                            return $scope.combo.tipoDocumento[i];
-                    }
-                }
-                return undefined;
             };
 
             $scope.loadSucursales();

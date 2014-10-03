@@ -15,7 +15,7 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.sucursal.$invalid && (control.submitted || crearTrabajadorForm.sucursal.$dirty)}">
                             <label>Sucursal</label>
-                            <select focus-on="focusSucursal" name="sucursal" ng-change="loadAgencias()" ng-options="sucursal.id as sucursal.denominacion for sucursal in combo.sucursal" ng-model="view.idSucursal" class="form-control" required>
+                            <select focus-on="focusSucursal" name="sucursal" ng-options="sucursal.id as sucursal.denominacion for sucursal in combo.sucursal" ng-model="view.idSucursal" class="form-control" required>
                                 <option value="">--Seleccione--</option>
                             </select>
                             <div ng-show="crearTrabajadorForm.sucursal.$invalid && (control.submitted || crearTrabajadorForm.sucursal.$dirty)">
@@ -49,7 +49,7 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.tipoDocumento.$invalid && (control.submitted || crearTrabajadorForm.tipoDocumento.$dirty)}">
                             <label>Tipo Documento</label>
-                            <select name="tipoDocumento" ng-options="tipoDocumento.id as tipoDocumento.abreviatura for tipoDocumento in combo.tipoDocumento | orderBy : 'id'" ng-model="view.idTipoDocumento" class="form-control" required>
+                            <select name="tipoDocumento" ng-options="tipoDocumento.id as tipoDocumento.abreviatura for tipoDocumento in combo.tipoDocumento | orderBy : 'id'" ng-model="view.idTipoDocumento" class="form-control" disabled>
                                 <option value="">--Seleccione--</option>
                             </select>
                             <div ng-show="crearTrabajadorForm.tipoDocumento.$invalid && (control.submitted || crearTrabajadorForm.tipoDocumento.$dirty)">
@@ -63,7 +63,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.numeroDocumento.$invalid && (control.submitted || crearTrabajadorForm.numeroDocumento.$dirty)}">
                             <label>Numero Documento</label>
                             <div class="input-group">
-                                <input type="text" ui-keypress="{13:'buscarTrabajador($event)'}" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Numero documento" required/>
+                                <input type="text" ui-keypress="{13:'buscarTrabajador($event)'}" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Numero documento" disabled/>
                                  <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="buscarTrabajador()" >
                                         <span class="glyphicon glyphicon-search"></span>
@@ -83,17 +83,6 @@
                                 <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.pattern">
                                     Numero Documento Invalido.
                                 </p>
-                                <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.sgmaxlength">
-                                    Debe tener <span ng-bind="getTipoDocumento().numeroCaracteres"></span> caracteres.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>&nbsp;</label>
-                            <div>
-                                <button type="button" class="btn btn-link" ng-click="buscarTrabajador()">Registrar Persona</button>
                             </div>
                         </div>
                     </div>

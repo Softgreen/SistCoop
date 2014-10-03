@@ -14,6 +14,9 @@ define(['./module'], function (services) {
                 },
                 crear: function(trabajador) {
                     return Restangular.all(baseUrl).post(trabajador);
+                },
+                actualizar: function(idTrabajador, trabajador) {
+                    return Restangular.one(baseUrl + "/" + idTrabajador).customPUT(trabajador,'',{},{});
                 }
             }
         }])
