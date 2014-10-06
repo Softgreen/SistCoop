@@ -110,7 +110,8 @@ define(['./app'], function(app) {
                                     ]},
                                     {'name':'Interno', submenus:[
                                         { 'name':'Boveda/Boveda' , 'state':'app.transaccion.nuevaTransaccionBovedaBoveda'},
-                                        { 'name':'Boveda/Caja' , 'state':'app.transaccion.nuevaTransaccionBovedaCaja'}
+                                        //{ 'name':'Boveda/Caja' , 'state':'app.transaccion.nuevaTransaccionBovedaCaja'}
+                                        { 'name':'Boveda/Caja' , 'state':'app.transaccion.buscarTransaccionBovedaCaja'}
                                     ]}
                                 ];
                             }
@@ -185,7 +186,22 @@ define(['./app'], function(app) {
                 .state('app.transaccion.nuevaTransaccionBovedaCaja', {
                     url: "/buscar",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionBovedaCaja.html"
-                })                
+                })
+                .state('app.transaccion.voucherTransaccionBovedaCaja', {
+                    url: "/voucherTransaccionBovedaCaja/:id",
+                    templateUrl: "views/jefeCaja/voucher/transaccionBovedaCajaVoucher.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
+                })
+                .state('app.transaccion.buscarTransaccionBovedaCaja', {
+                    url: "/buscarBovedaCaja",
+                    views: {
+                        "viewContent":{
+                            templateUrl: "views/jefeCaja/transaccion/buscarTransaccionBovedaCaja.html"
+                        }
+                    }
+                });  
         }
     ]).run(['$rootScope', '$state', '$stateParams',
             function ($rootScope,   $state,   $stateParams) {

@@ -48,6 +48,8 @@ public interface SessionServiceTS {
 	public BigInteger crearPendiente(BigInteger idBoveda, BigDecimal monto, String observacion) throws RollbackFailureException;
 
 	public BigInteger crearTransaccionBovedaCaja(BigInteger idBoveda, Set<GenericDetalle> detalleTransaccion, TransaccionBovedaCajaOrigen origen) throws RollbackFailureException;
+	
+	public BigInteger crearTransaccionBovedaCajaOrigenBoveda(BigInteger idBoveda, BigInteger idCaja, Set<GenericDetalle> detalleTransaccion, TransaccionBovedaCajaOrigen origen) throws RollbackFailureException;
 
 	public BigInteger crearTransaccionCajaCaja(BigInteger idCajadestino, BigInteger idMoneda, BigDecimal monto, String observacion) throws RollbackFailureException;
 

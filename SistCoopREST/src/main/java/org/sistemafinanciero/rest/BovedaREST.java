@@ -86,5 +86,10 @@ public interface BovedaREST {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") BigInteger id);
+	
+	@GET
+	@Path("/voucherTransaccionBovedaCaja/{id}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getVoucherTransaccionBovedaCaja(@PathParam("id") BigInteger idTransaccionBovedaCaja);
 
 }

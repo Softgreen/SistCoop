@@ -333,10 +333,15 @@ public class SessionRESTService implements SessionREST {
 	}
 
 	@Override
-	public Response createTransaccionBovedaCaja(TransaccionBovedaCajaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idboveda) {
+	public Response createTransaccionBovedaCaja(TransaccionBovedaCajaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idboveda, BigInteger idcaja) {
 		Response response;
+		BigInteger idTransaccion;
 		try {
-			BigInteger idTransaccion = sessionServiceTS.crearTransaccionBovedaCaja(idboveda, detalleTransaccion, origen);
+			if(origen.equals(TransaccionBovedaCajaOrigen.CAJA)){
+				idTransaccion = sessionServiceTS.crearTransaccionBovedaCaja(idboveda, detalleTransaccion, origen);
+			} else {
+				idTransaccion = sessionServiceTS.crearTransaccionBovedaCajaOrigenBoveda(idboveda, idcaja, detalleTransaccion, origen);
+			}
 			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());

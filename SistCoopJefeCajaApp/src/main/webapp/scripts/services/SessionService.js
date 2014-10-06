@@ -54,9 +54,9 @@ define(['./module'], function (services) {
                     var copy = Restangular.copy(detalle);
                     return Restangular.all(baseUrl+"/transaccionBovedaCaja/CAJA").post(copy ,{"boveda":boveda});
                 },
-                crearTransaccionBovedaCajaOrigenBoveda: function(boveda, detalle){
+                crearTransaccionBovedaCajaOrigenBoveda: function(boveda, detalle, caja){
                     var copy = Restangular.copy(detalle);
-                    return Restangular.all(baseUrl+"/transaccionBovedaCaja/BOVEDA").post(copy ,{"boveda":boveda});
+                    return Restangular.all(baseUrl+"/transaccionBovedaCaja/BOVEDA").post(copy ,{"boveda":boveda, "caja":caja});
                 },
                 crearTransaccionCajaCaja: function(idCaja, idMoneda, monto, observacion){
                     var data = $.param({idCaja:idCaja,idMoneda:idMoneda,monto:monto,observacion:observacion});

@@ -129,7 +129,7 @@ public interface SessionREST {
 	@Path("/transaccionBovedaCaja/{origen}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response createTransaccionBovedaCaja(@PathParam("origen") TransaccionBovedaCajaOrigen origen, Set<GenericDetalle> detalleTransaccion, @QueryParam("boveda") BigInteger idboveda);
+	public Response createTransaccionBovedaCaja(@PathParam("origen") TransaccionBovedaCajaOrigen origen, Set<GenericDetalle> detalleTransaccion, @QueryParam("boveda") BigInteger idboveda, @QueryParam("caja") BigInteger idcaja);
 
 	@POST
 	@Path("/transaccionBovedaCaja/{id}/confirmar")

@@ -51,7 +51,10 @@ define(['./module'], function (services) {
                 },
                 getDetallePenultimo: function(idBoveda) {
                     return Restangular.all(baseUrl+"/"+idBoveda+"/detalle/penultimo").getList();
+                },
+                getVoucherTransaccionBovedaCaja: function(idTransaccionBovedaCaja){
+                    return Restangular.one(baseUrl+"/voucherTransaccionBovedaCaja/"+idTransaccionBovedaCaja).get();
                 }
-            }
-        }])
+            };
+        }]);
 });

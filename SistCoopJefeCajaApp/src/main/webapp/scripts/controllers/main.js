@@ -18,7 +18,8 @@ define([
     './transaccion/CrearTransaccionBovedaBovedaController',
     './transaccion/CrearTransaccionBovedaCajaController',
 
-    './voucher/VoucherCerrarBoveda'
+    './voucher/VoucherCerrarBoveda',
+    './voucher/VoucherTransaccionBovedaCajaController'
 
 ], function () {
 
