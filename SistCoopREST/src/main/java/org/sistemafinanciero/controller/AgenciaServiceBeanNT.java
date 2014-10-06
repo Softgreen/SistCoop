@@ -69,7 +69,7 @@ public class AgenciaServiceBeanNT implements AgenciaServiceNT {
 	public Agencia findByCodigo(String codigo) {
 		QueryParameter queryParameter = QueryParameter.with("codigo", codigo);
 		List<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo, queryParameter.parameters());
-		if(list.size() <= 1){
+		if(list.size() <= 1) {
 			Agencia agencia = null;
 			for (Agencia ag : list) {
 				Hibernate.initialize(ag);
