@@ -110,7 +110,6 @@ define(['./app'], function(app) {
                                     ]},
                                     {'name':'Interno', submenus:[
                                         { 'name':'Boveda/Boveda' , 'state':'app.transaccion.nuevaTransaccionBovedaBoveda'},
-                                        //{ 'name':'Boveda/Caja' , 'state':'app.transaccion.nuevaTransaccionBovedaCaja'}
                                         { 'name':'Boveda/Caja' , 'state':'app.transaccion.buscarTransaccionBovedaCaja'}
                                     ]}
                                 ];
@@ -176,15 +175,15 @@ define(['./app'], function(app) {
                 })
 
                 .state('app.transaccion.nuevaTransaccionEntidadBoveda', {
-                    url: "/buscar",
+                    url: "/buscar1",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionEntidadBoveda.html"
                 })
                 .state('app.transaccion.nuevaTransaccionBovedaBoveda', {
-                    url: "/buscar",
+                    url: "/buscar2",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionBovedaBoveda.html"
                 })
                 .state('app.transaccion.nuevaTransaccionBovedaCaja', {
-                    url: "/buscar",
+                    url: "/crearTransaccionBovedaCaja",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionBovedaCaja.html"
                 })
                 .state('app.transaccion.buscarTransaccionBovedaCaja', {
