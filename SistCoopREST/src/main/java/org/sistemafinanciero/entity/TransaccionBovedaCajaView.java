@@ -35,7 +35,9 @@ import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({
 		@NamedQuery(name = TransaccionBovedaCajaView.findByHistorialCajaEnviados, query = "SELECT c FROM TransaccionBovedaCajaView c WHERE c.idHistorialCaja = :idHistorialCaja AND c.origen = :origen"),
-		@NamedQuery(name = TransaccionBovedaCajaView.findByHistorialCajaRecibidos, query = "SELECT c FROM TransaccionBovedaCajaView c WHERE c.idHistorialCaja = :idHistorialCaja AND c.origen = :origen AND c.estadoConfirmacion = false AND c.estadoSolicitud = true") })
+		@NamedQuery(name = TransaccionBovedaCajaView.findByHistorialCajaRecibidos, query = "SELECT c FROM TransaccionBovedaCajaView c WHERE c.idHistorialCaja = :idHistorialCaja AND c.origen = :origen AND c.estadoConfirmacion = false AND c.estadoSolicitud = true"),
+		@NamedQuery(name = TransaccionBovedaCajaView.findByAgenciaBovedaEnviados, query = "SELECT c FROM TransaccionBovedaCajaView c WHERE c.idAgencia = :idAgencia AND c.origen = :origen"),
+		@NamedQuery(name = TransaccionBovedaCajaView.findByAgenciaBovedaRecibidos, query = "SELECT c FROM TransaccionBovedaCajaView c WHERE c.idAgencia = :idAgencia AND c.origen = :origen")})
 public class TransaccionBovedaCajaView implements java.io.Serializable {
 
 	/**
@@ -45,6 +47,8 @@ public class TransaccionBovedaCajaView implements java.io.Serializable {
 
 	public final static String findByHistorialCajaEnviados = "TransaccionBovedaCajaView.findByHistorialCajaEnviados";
 	public final static String findByHistorialCajaRecibidos = "TransaccionBovedaCajaView.findByHistorialCajaRecibidos";
+	public final static String findByAgenciaBovedaEnviados = "TransaccionBovedaCajaView.findByAgenciaBovedaEnviados";
+	public final static String findByAgenciaBovedaRecibidos = "TransaccionBovedaCajaView.findByAgenciaBovedaRecibidos";
 
 	private BigInteger idTransaccionBovedaCaja;
 	private Date fecha;
@@ -56,7 +60,10 @@ public class TransaccionBovedaCajaView implements java.io.Serializable {
 	private String observacion;
 	private String boveda;
 	private String caja;
+	private String denominacionMoneda;
+	private String simboloMoneda;
 
+	private BigInteger idAgencia;
 	private BigInteger idCaja;
 	private BigInteger idBoveda;
 	private BigInteger idHistorialCaja;
@@ -207,6 +214,36 @@ public class TransaccionBovedaCajaView implements java.io.Serializable {
 
 	public void setIdHistorialBoveda(BigInteger idHistorialBoveda) {
 		this.idHistorialBoveda = idHistorialBoveda;
+	}
+
+	@XmlElement
+	@Column(name = "ID_AGENCIA")
+	public BigInteger getIdAgencia() {
+		return idAgencia;
+	}
+
+	public void setIdAgencia(BigInteger idAgencia) {
+		this.idAgencia = idAgencia;
+	}
+
+	@XmlElement
+	@Column(name = "DENOMINACION_MONEDA", columnDefinition = "nvarchar2")
+	public String getDenominacionMoneda() {
+		return denominacionMoneda;
+	}
+
+	public void setDenominacionMoneda(String denominacionMoneda) {
+		this.denominacionMoneda = denominacionMoneda;
+	}
+
+	@XmlElement
+	@Column(name = "SIMBOLO_MONEDA", columnDefinition = "nvarchar2")
+	public String getSimboloMoneda() {
+		return simboloMoneda;
+	}
+
+	public void setSimboloMoneda(String simboloMoneda) {
+		this.simboloMoneda = simboloMoneda;
 	}
 
 }

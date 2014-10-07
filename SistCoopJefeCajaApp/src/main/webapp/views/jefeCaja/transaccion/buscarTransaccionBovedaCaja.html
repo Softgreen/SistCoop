@@ -1,8 +1,26 @@
-<html>
-<head>
-<title>Título</title>
-</head>
-<body>
-Texto del documento, menciones a gráficos, enlaces, etc.
-</body>
-</html>
+<div ng-controller="BuscarTransaccionBovedaCajaController">
+    
+    <fieldset>
+        <legend>Transacci&oacute;n Caja - Boveda</legend>
+        <button type="button" class="btn btn-primary" ng-click="nuevo()">Nuevo</button>
+    </fieldset>
+    <br/>
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}"
+		close="closeAlert($index)"> <span ng-bind-html="alert.msg"></span>
+	</alert>
+	<div class="row">
+        <div class="col-sm-12">
+            <tabset>
+                <tab heading="Enviados">
+                    <div ng-grid="gridOptionsEnviados" style="border: 1px solid rgb(212,212,212); width: 100%; height: 300px; font-size: 11px;"></div>
+                </tab>
+                <tab heading="Recibidos">
+                    <div ng-grid="gridOptionsRecibidos" style="border: 1px solid rgb(212,212,212); width: 100%; height: 300px; font-size: 11px;"></div>
+                </tab>
+            </tabset>
+            <div class="form-group">
+
+            </div>
+        </div>
+    </div>
+</div>

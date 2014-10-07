@@ -17,9 +17,12 @@ define([
     './transaccion/CrearTransaccionEntidadBovedaController',
     './transaccion/CrearTransaccionBovedaBovedaController',
     './transaccion/CrearTransaccionBovedaCajaController',
+    './transaccion/BuscarTransaccionBovedaCajaController',
 
     './voucher/VoucherCerrarBoveda',
-    './voucher/VoucherTransaccionBovedaCajaController'
+    './voucher/VoucherTransaccionBovedaCajaController',
+    
+    './util/ConfirmPopUpController'
 
 ], function () {
 

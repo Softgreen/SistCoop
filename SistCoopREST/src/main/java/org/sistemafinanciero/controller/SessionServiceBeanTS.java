@@ -1357,34 +1357,30 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		return transaccion.getIdTransaccionCajaCaja();
 	}
 
-	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void cancelarTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) throws RollbackFailureException {
 		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO.find(idTransaccionBovedaCaja);
 		if (transaccionBovedaCaja == null)
 			throw new RollbackFailureException("Transaccion no encontrada");
 		if (transaccionBovedaCaja.getEstadoConfirmacion() == true)
-			throw new RollbackFailureException("Transaccion ya fue CONFIRMADA, no se puede cancelar");
+			throw new RollbackFailureException("La transaccion ya fue CONFIRMADA, no se puede cancelar");
 		if (transaccionBovedaCaja.getEstadoSolicitud() == false)
-			throw new RollbackFailureException("Transaccion ya fue CANCELADA, no se puede cancelar nuevamente");
-		if (!transaccionBovedaCaja.getOrigen().equals(TransaccionBovedaCajaOrigen.CAJA))
-			throw new RollbackFailureException("No se puede cancelar una transaccion solicitada por una boveda");
+			throw new RollbackFailureException("La transaccion ya fue CANCELADA, no se puede cancelar nuevamente");
 		transaccionBovedaCaja.setEstadoSolicitud(false);
 		transaccionBovedaCajaDAO.update(transaccionBovedaCaja);
 	}
 
-	@AllowedTo(Permission.ABIERTO)
 	@Override
 	public void confirmarTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) throws RollbackFailureException {
 		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO.find(idTransaccionBovedaCaja);
+		
 		if (transaccionBovedaCaja == null)
 			throw new RollbackFailureException("Transaccion no encontrada");
 		if (transaccionBovedaCaja.getEstadoSolicitud() == false)
-			throw new RollbackFailureException("Transaccion ya fue CANCELADA, no se puede confirmar");
+			throw new RollbackFailureException("La transaccion ya fue CANCELADA, no se puede confirmar");
 		if (transaccionBovedaCaja.getEstadoConfirmacion() == true)
-			throw new RollbackFailureException("Transaccion ya fue CONFIRMADA, no se puede confirmar nuevamente");
-		if (!transaccionBovedaCaja.getOrigen().equals(TransaccionBovedaCajaOrigen.BOVEDA))
-			throw new RollbackFailureException("No se puede confirmar una transaccion solicitada por una caja");
+			throw new RollbackFailureException("La transaccion ya fue CONFIRMADA, no se puede confirmar nuevamente");
+		
 		TransaccionBovedaCajaView view = transaccionBovedaCajaViewDAO.find(idTransaccionBovedaCaja);
 		Boveda boveda = transaccionBovedaCaja.getHistorialBoveda().getBoveda();
 		BigDecimal monto = view.getMonto();
@@ -1392,7 +1388,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
 		switch (transaccionBovedaCaja.getOrigen()) {
 		case CAJA:
-			this.actualizarSaldoCaja(monto.negate(), moneda.getIdMoneda());
+			this.actualizarSaldoCaja(transaccionBovedaCaja.getHistorialCaja().getCaja().getIdCaja(), monto.negate(), moneda.getIdMoneda());
 			this.actualizarSaldoBoveda(boveda.getIdBoveda(), transaccionBovedaCaja.getTransaccionBovedaCajaDetalls(), 1);
 			break;
 		case BOVEDA:

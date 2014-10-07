@@ -106,7 +106,7 @@ define(['../module'], function (controllers) {
                         transaccion[i] = {
                             valor: $scope.objetosCargados.detalles[i].valor,
                             cantidad: $scope.objetosCargados.detalles[i].cantidad
-                        }
+                        };
                     }
 
                     SessionService.crearTransaccionBovedaCajaOrigenBoveda($scope.view.idBoveda, transaccion, $scope.view.idCaja).then(
@@ -132,7 +132,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.cancelar = function(){
-                $state.transitionTo('app.caja.buscarTransaccionBovedaCaja');
+                $state.transitionTo('app.transaccion.buscarTransaccionBovedaCaja');
             };
 
         }]);

@@ -17,12 +17,15 @@ import javax.inject.Named;
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
+import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
+import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
+import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.service.nt.BovedaServiceNT;
 
 @Named
@@ -33,9 +36,15 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 
 	@Inject
 	private DAO<Object, Boveda> bovedaDAO;
+	
+	@Inject
+	private DAO<Object, Agencia> agenciaDAO;
 
 	@Inject
 	private DAO<Object, HistorialBoveda> historialBovedaDAO;
+	
+	@Inject
+	private DAO<Object, TransaccionBovedaCajaView> transaccionBovedaCajaViewDAO;
 
 	public HistorialBoveda getHistorialActivo(BigInteger idBoveda) {
 		Boveda boveda = bovedaDAO.find(idBoveda);
@@ -205,4 +214,25 @@ public class BovedaServiceBeanNT implements BovedaServiceNT {
 		return result;
 	}
 
+	@Override
+	public List<TransaccionBovedaCajaView> getTransaccionesEnviadasBovedaCaja(BigInteger idAgencia) {
+		Agencia agencia = agenciaDAO.find(idAgencia);
+		if (agencia == null) {
+			return null;
+		}
+		QueryParameter queryParameter = QueryParameter.with("idAgencia", agencia.getIdAgencia()).and("origen", TransaccionBovedaCajaOrigen.BOVEDA);
+		List<TransaccionBovedaCajaView> list = transaccionBovedaCajaViewDAO.findByNamedQuery(TransaccionBovedaCajaView.findByAgenciaBovedaEnviados, queryParameter.parameters());
+		return list;
+	}
+
+	@Override
+	public List<TransaccionBovedaCajaView> getTransaccionesRecibidasBovedaCaja(BigInteger idAgencia) {
+		Agencia agencia = agenciaDAO.find(idAgencia);
+		if (agencia == null) {
+			return null;
+		}
+		QueryParameter queryParameter = QueryParameter.with("idAgencia", agencia.getIdAgencia()).and("origen", TransaccionBovedaCajaOrigen.CAJA);
+		List<TransaccionBovedaCajaView> list = transaccionBovedaCajaViewDAO.findByNamedQuery(TransaccionBovedaCajaView.findByAgenciaBovedaRecibidos, queryParameter.parameters());
+		return list;
+	}
 }

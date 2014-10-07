@@ -335,11 +335,12 @@ public class SessionRESTService implements SessionREST {
 	@Override
 	public Response createTransaccionBovedaCaja(TransaccionBovedaCajaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idboveda, BigInteger idcaja) {
 		Response response;
-		BigInteger idTransaccion;
+		BigInteger idTransaccion = null;
 		try {
-			if(origen.equals(TransaccionBovedaCajaOrigen.CAJA)){
+			if (origen.equals(TransaccionBovedaCajaOrigen.CAJA)){
 				idTransaccion = sessionServiceTS.crearTransaccionBovedaCaja(idboveda, detalleTransaccion, origen);
-			} else {
+			} 
+			if (origen.equals(TransaccionBovedaCajaOrigen.BOVEDA)) {
 				idTransaccion = sessionServiceTS.crearTransaccionBovedaCajaOrigenBoveda(idboveda, idcaja, detalleTransaccion, origen);
 			}
 			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();

@@ -27,6 +27,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.exception.NonexistentEntityException;
@@ -207,4 +208,21 @@ public class BovedaRESTService implements BovedaREST {
 		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
 
+	@Override
+	public Response getTransaccionesBovedaCajaOfBovedaEnviados(BigInteger idAgencia) {
+		List<TransaccionBovedaCajaView> list = null;
+		if (idAgencia != null)
+			list = bovedaServiceNT.getTransaccionesEnviadasBovedaCaja(idAgencia);
+		
+		return Response.status(Response.Status.OK).entity(list).build();
+	}
+
+	@Override
+	public Response getTransaccionesBovedaCajaOfBovedaRecibidos(BigInteger idAgencia) {
+		List<TransaccionBovedaCajaView> list = null;
+		if (idAgencia != null)
+			list = bovedaServiceNT.getTransaccionesRecibidasBovedaCaja(idAgencia);
+		
+		return Response.status(Response.Status.OK).entity(list).build();
+	}
 }
