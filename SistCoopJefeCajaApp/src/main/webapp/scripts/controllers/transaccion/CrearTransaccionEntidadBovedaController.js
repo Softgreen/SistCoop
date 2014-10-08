@@ -24,6 +24,9 @@ define(['../module'], function (controllers) {
                     $scope.combo.boveda = data;
                 });
             };
+            $scope.loadDetalleBoveda = function(){
+                console.log("cargando");
+            };
 
             $scope.loadEntidades();
             $scope.loadBovedas();

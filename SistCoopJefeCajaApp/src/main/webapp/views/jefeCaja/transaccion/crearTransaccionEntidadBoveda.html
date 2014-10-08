@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : crearTransaccionBovedaCajaForm.boveda.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.boveda.$dirty)}">
                     <label>Boveda</label>
-                    <select name="boveda" ng-options="boveda.id as boveda.denominacion for boveda in combo.boveda" ng-model="view.idBoveda" class="form-control" required>
+                    <select name="boveda" ng-change="loadDetalleBoveda()" ng-options="boveda.id as boveda.denominacion for boveda in combo.boveda" ng-model="view.idBoveda" class="form-control" required>
                         <option value="">--Seleccione--</option>
                     </select>
                     <div ng-show="crearTransaccionBovedaCajaForm.boveda.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.boveda.$dirty)">
