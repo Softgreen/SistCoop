@@ -328,9 +328,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
 		// restando los valores
 		for (DetalleHistorialBoveda detBoveda : detalleHistorialBoveda) {
-			Moneda monedaBoveda = detBoveda.getMonedaDenominacion().getMoneda();
+			MonedaDenominacion monedaBoveda = detBoveda.getMonedaDenominacion();
 			for (TransaccionBovedaCajaDetalle detTrans : transaccionDetalle) {
-				Moneda monedaTrans = detTrans.getMonedaDenominacion().getMoneda();
+				MonedaDenominacion monedaTrans = detTrans.getMonedaDenominacion();
 				if (monedaBoveda.equals(monedaTrans)) {
 					// restar los valores de cantidad
 					BigInteger cantidadActual = detBoveda.getCantidad();

@@ -47,6 +47,35 @@ public class MonedaDenominacion implements java.io.Serializable {
 	public final static String allActive = "allActive";
 
 	private BigInteger idMonedaDenominacion;
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((idMonedaDenominacion == null) ? 0 : idMonedaDenominacion
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MonedaDenominacion other = (MonedaDenominacion) obj;
+		if (idMonedaDenominacion == null) {
+			if (other.idMonedaDenominacion != null)
+				return false;
+		} else if (!idMonedaDenominacion.equals(other.idMonedaDenominacion))
+			return false;
+		return true;
+	}
+
 	private Moneda moneda;
 	private String denominacion;
 	private BigDecimal valor;
