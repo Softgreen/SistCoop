@@ -60,17 +60,22 @@ define(['../module'], function (controllers) {
               };
             
             $scope.objetosCargados = {
-            	detalles: []
+            	detalles: [],
+            	detalleDisponible: []
             };
             
             $scope.loadDetalleBoveda = function(){
                 if(!angular.isUndefined($scope.view.idBoveda)){
-                    MonedaService.getDenominaciones($scope.view.idBoveda).then(
+                    
+                	BovedaService.getDetalle($scope.view.idBoveda).then(
                         function(data){
-                            $scope.objetosCargados.detalles = data;
+                        	$scope.objetosCargados.detalleDisponible = data;
+                        	
+                            $scope.objetosCargados.detalles = angular.copy(data);
                             for(var i = 0; i < $scope.objetosCargados.detalles.length; i++){
                                 $scope.objetosCargados.detalles[i].cantidad = 0;
                             }
+                            
                         },
                         function error(error){
                             $scope.objetosCargados.detalles = [];
@@ -88,8 +93,16 @@ define(['../module'], function (controllers) {
                     }
                 }
             });
+            
+            $scope.totalDisponibleBoveda = function(){
+                var totalDisponible = 0;
+                for(var i = 0; i<$scope.objetosCargados.detalleDisponible.length; i++){
+                    totalDisponible = totalDisponible + ($scope.objetosCargados.detalleDisponible[i].valor * $scope.objetosCargados.detalleDisponible[i].cantidad);
+                }
+                return totalDisponible;
+            };
 
-            $scope.total = function(){
+            $scope.totalTransaccion = function(){
                 var total = 0;
                 for(var i = 0; i<$scope.objetosCargados.detalles.length; i++){
                     total = total + ($scope.objetosCargados.detalles[i].valor * $scope.objetosCargados.detalles[i].cantidad);
@@ -98,7 +111,7 @@ define(['../module'], function (controllers) {
             };
             
             $scope.crearTransaccion = function(){
-                if ($scope.formCrearTransaccionBovedaCaja.$valid && ($scope.total() != 0 && !angular.isUndefined($scope.total()))) {
+                if ($scope.formCrearTransaccionBovedaCaja.$valid && ($scope.totalTransaccion() != 0 && !angular.isUndefined($scope.totalTransaccion()))) {
                     $scope.control.inProcess = true;
 
                     var transaccion = [];

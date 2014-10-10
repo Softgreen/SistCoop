@@ -15,6 +15,7 @@ define(['../module'], function (controllers) {
                     );
                 };
             };
+            
             $scope.loadVoucher();
 
             $scope.salir = function(){

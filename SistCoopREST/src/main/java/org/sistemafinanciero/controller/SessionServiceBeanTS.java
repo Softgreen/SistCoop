@@ -318,12 +318,13 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
 			BigInteger cantidad = det.getCantidad();
 			BigDecimal valor = det.getMonedaDenominacion().getValor();
-			saldoActual.add(valor.multiply(new BigDecimal(cantidad)));
+			saldoActual = saldoActual.add(valor.multiply(new BigDecimal(cantidad)));
 		}
+		
 		for (TransaccionBovedaCajaDetalle det : transaccionDetalle) {
 			BigInteger cantidad = det.getCantidad();
 			BigDecimal valor = det.getMonedaDenominacion().getValor();
-			montoTransaccion.add(valor.multiply(new BigDecimal(cantidad)));
+			montoTransaccion = montoTransaccion.add(valor.multiply(new BigDecimal(cantidad)));
 		}
 
 		// restando los valores
@@ -341,10 +342,10 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 					else if (factor == -1)
 						cantidadFinal = cantidadActual.subtract(cantidadTrans);
 					else
-						throw new RollbackFailureException("factor no valido para transaccion");
+						throw new RollbackFailureException("Factor no Valido para Transaccion");
 
 					if (cantidadFinal.compareTo(BigInteger.ZERO) == -1)
-						throw new RollbackFailureException("Saldo insuficiente, no se puede modificar el saldo de boveda");
+						throw new RollbackFailureException("Saldo Insuficiente en Boveda");
 					detBoveda.setCantidad(cantidadFinal);
 					break;
 				}
@@ -353,15 +354,22 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
 		// verificando el que saldoActual - montoTransaccion == sumatoria final
 		// de detalleHistorialBoveda
-		BigDecimal saldoFinalConResta = saldoActual.subtract(montoTransaccion);
+		BigDecimal saldoFinalConFactor = BigDecimal.ZERO;
+		if (factor == 1)
+			saldoFinalConFactor = saldoActual.add(montoTransaccion);
+		else if (factor == -1)
+			saldoFinalConFactor = saldoActual.subtract(montoTransaccion);
+		else
+			throw new RollbackFailureException("Factor no Valido para Transaccion");
+		
 		BigDecimal saldoFinalConHistorial = BigDecimal.ZERO;
 		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
 			BigInteger cantidad = det.getCantidad();
 			BigDecimal valor = det.getMonedaDenominacion().getValor();
-			saldoFinalConHistorial.add(valor.multiply(new BigDecimal(cantidad)));
+			saldoFinalConHistorial = saldoFinalConHistorial.add(valor.multiply(new BigDecimal(cantidad)));
 		}
-
-		if (saldoFinalConResta.compareTo(saldoFinalConHistorial) != 0)
+		
+		if (saldoFinalConFactor.compareTo(saldoFinalConHistorial) != 0)
 			throw new RollbackFailureException("No se pudo realizar la transaccion, el detalle de transaccion enviado no coincide con el historial de boveda, verifique que ninguna MONEDA DENOMINACION este inactiva");
 
 		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
@@ -1375,7 +1383,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO.find(idTransaccionBovedaCaja);
 		
 		if (transaccionBovedaCaja == null)
-			throw new RollbackFailureException("Transaccion no encontrada");
+			throw new RollbackFailureException("Transaccion no Encontrada");
 		if (transaccionBovedaCaja.getEstadoSolicitud() == false)
 			throw new RollbackFailureException("La transaccion ya fue CANCELADA, no se puede confirmar");
 		if (transaccionBovedaCaja.getEstadoConfirmacion() == true)
