@@ -1,5 +1,6 @@
 package org.sistemafinanciero.controller;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -17,18 +18,25 @@ import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
+import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.DetalleHistorialBoveda;
+import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
+import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
+import org.sistemafinanciero.entity.TransaccionBovedaOtro;
+import org.sistemafinanciero.entity.TransaccionBovedaOtroDetall;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
+import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.ts.BovedaServiceTS;
 import org.sistemafinanciero.util.EntityManagerProducer;
@@ -43,10 +51,19 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 	private DAO<Object, Boveda> bovedaDAO;
 
 	@Inject
+	private DAO<Object, Entidad> entidadDAO;
+
+	@Inject
 	private DAO<Object, HistorialBoveda> historialBovedaDAO;
 
 	@Inject
 	private DAO<Object, DetalleHistorialBoveda> detalleHistorialBovedaDAO;
+
+	@Inject
+	private DAO<Object, TransaccionBovedaOtro> transaccionBovedaOtroDAO;
+
+	@Inject
+	private DAO<Object, TransaccionBovedaOtroDetall> detalleTransaccionBovedaOtroDAO;
 
 	@Inject
 	private Validator validator;
@@ -268,6 +285,114 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			throw new RollbackFailureException("Boveda descongelada, no se puede descongelar nuevamente");
 		boveda.setEstadoMovimiento(true);
 		bovedaDAO.update(boveda);
+	}
+
+	@Override
+	public BigInteger crearTransaccionEntidadBoveda(TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idEntidad, BigInteger idBoveda) throws NonexistentEntityException, RollbackFailureException {
+		Entidad entidad = entidadDAO.find(idEntidad);
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		if (entidad == null)
+			throw new NonexistentEntityException("Entidad no encontrada");
+		if (boveda == null)
+			throw new NonexistentEntityException("Boveda no encontrada");
+
+		BigInteger factor = null;
+		switch (origen) {
+		case ENTIDAD:
+			factor = BigInteger.ONE;
+			break;
+		case BOVEDA:
+			factor = BigInteger.ONE.negate();
+			break;
+		default:
+			throw new RollbackFailureException("Origen de transaccion no valido");
+		}
+
+		// sacando historial
+		HistorialBoveda historialBoveda = getHistorialActivo(boveda.getIdBoveda());
+		if (historialBoveda == null)
+			throw new RollbackFailureException("No se encontro un historial activo de boveda");
+		Set<DetalleHistorialBoveda> detalleHistorialBoveda = historialBoveda.getDetalleHistorialBovedas();
+
+		// sacando saldos totales
+		BigDecimal saldoActual = BigDecimal.ZERO;
+		BigDecimal montoTransaccion = BigDecimal.ZERO;
+
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			saldoActual.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+		for (GenericDetalle det : detalleTransaccion) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getValor();
+			montoTransaccion.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+
+		Set<TransaccionBovedaOtroDetall> detalleTransaccionBovOtro = new HashSet<TransaccionBovedaOtroDetall>();
+		// restando los detalles
+		for (DetalleHistorialBoveda detBoveda : detalleHistorialBoveda) {
+			BigDecimal valorMoneda = detBoveda.getMonedaDenominacion().getValor();
+			for (GenericDetalle detTrans : detalleTransaccion) {
+				BigDecimal valorMonedaTrans = detTrans.getValor();
+				if (valorMoneda.equals(valorMonedaTrans)) {
+					// restar los valores de cantidad
+					BigInteger cantidadActual = detBoveda.getCantidad();
+					BigInteger cantidadTrans = detTrans.getCantidad();
+
+					BigInteger cantidadFinal = cantidadActual.add(cantidadTrans.multiply(factor));
+					if (cantidadFinal.compareTo(BigInteger.ZERO) == -1)
+						throw new RollbackFailureException("Saldo insuficiente, no se puede modificar el saldo de boveda");
+					detBoveda.setCantidad(cantidadFinal);
+
+					// creando el detalle para la base de datos
+					TransaccionBovedaOtroDetall det = new TransaccionBovedaOtroDetall();
+					det.setCantidad(detTrans.getCantidad());
+					det.setMonedaDenominacion(detBoveda.getMonedaDenominacion());
+					detalleTransaccionBovOtro.add(det);
+					break;
+				}
+			}
+		}
+
+		// verificando el que saldoActual - montoTransaccion == sumatoria final
+		// de detalleHistorialBoveda
+		BigDecimal saldoFinalConResta = saldoActual.subtract(montoTransaccion);
+		BigDecimal saldoFinalConHistorial = BigDecimal.ZERO;
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			saldoFinalConHistorial.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+		if (saldoFinalConResta.compareTo(saldoFinalConHistorial) != 0)
+			throw new RollbackFailureException("No se pudo realizar la transaccion, el detalle de transaccion enviado no coincide con el historial de boveda, verifique que ninguna MONEDA DENOMINACION este inactiva");
+
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			detalleHistorialBovedaDAO.update(det);
+		}
+
+		// crear Transaccion Entidad boveda
+		Calendar calendar = Calendar.getInstance();
+
+		TransaccionBovedaOtro transaccionBovedaOtro = new TransaccionBovedaOtro();
+		transaccionBovedaOtro.setEntidad(entidad);
+		transaccionBovedaOtro.setEstado(true);
+		transaccionBovedaOtro.setFecha(calendar.getTime());
+		transaccionBovedaOtro.setHistorialBoveda(historialBoveda);
+		transaccionBovedaOtro.setHora(calendar.getTime());
+		transaccionBovedaOtro.setObservacion(null);
+		transaccionBovedaOtro.setSaldoDisponible(saldoFinalConResta);
+		transaccionBovedaOtro.setTipoTransaccion(null);
+
+		transaccionBovedaOtroDAO.create(transaccionBovedaOtro);
+
+		for (TransaccionBovedaOtroDetall detalle : detalleTransaccionBovOtro) {
+			detalle.setTransaccionBovedaOtro(transaccionBovedaOtro);
+			detalleTransaccionBovedaOtroDAO.create(detalle);
+
+		}
+
+		return transaccionBovedaOtro.getIdTransaccionBovedaOtro();
 	}
 
 }

@@ -2,14 +2,17 @@ package org.sistemafinanciero.entity;
 
 // Generated 02-may-2014 11:48:28 by Hibernate Tools 4.0.0
 
-
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,58 +28,33 @@ import javax.persistence.TemporalType;
 @Table(name = "TRANSACCION_BOVEDA_OTRO", schema = "BDSISTEMAFINANCIERO")
 public class TransaccionBovedaOtro implements java.io.Serializable {
 
-	private BigDecimal idTransaccionBovedaOtro;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private BigInteger idTransaccionBovedaOtro;
 	private Entidad entidad;
 	private HistorialBoveda historialBoveda;
 	private Date fecha;
 	private Date hora;
 	private BigDecimal saldoDisponible;
 	private String observacion;
-	private BigDecimal estado;
+	private int estado;
 	private String tipoTransaccion;
 	private Set transaccionBovedaOtroDetalls = new HashSet(0);
 
 	public TransaccionBovedaOtro() {
 	}
 
-	public TransaccionBovedaOtro(BigDecimal idTransaccionBovedaOtro,
-			Entidad entidad, HistorialBoveda historialBoveda, Date fecha,
-			Date hora, BigDecimal saldoDisponible, BigDecimal estado,
-			String tipoTransaccion) {
-		this.idTransaccionBovedaOtro = idTransaccionBovedaOtro;
-		this.entidad = entidad;
-		this.historialBoveda = historialBoveda;
-		this.fecha = fecha;
-		this.hora = hora;
-		this.saldoDisponible = saldoDisponible;
-		this.estado = estado;
-		this.tipoTransaccion = tipoTransaccion;
-	}
-
-	public TransaccionBovedaOtro(BigDecimal idTransaccionBovedaOtro,
-			Entidad entidad, HistorialBoveda historialBoveda, Date fecha,
-			Date hora, BigDecimal saldoDisponible, String observacion,
-			BigDecimal estado, String tipoTransaccion,
-			Set transaccionBovedaOtroDetalls) {
-		this.idTransaccionBovedaOtro = idTransaccionBovedaOtro;
-		this.entidad = entidad;
-		this.historialBoveda = historialBoveda;
-		this.fecha = fecha;
-		this.hora = hora;
-		this.saldoDisponible = saldoDisponible;
-		this.observacion = observacion;
-		this.estado = estado;
-		this.tipoTransaccion = tipoTransaccion;
-		this.transaccionBovedaOtroDetalls = transaccionBovedaOtroDetalls;
-	}
-
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_TRANSACCION_BOVEDA_OTRO", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getIdTransaccionBovedaOtro() {
+	public BigInteger getIdTransaccionBovedaOtro() {
 		return this.idTransaccionBovedaOtro;
 	}
 
-	public void setIdTransaccionBovedaOtro(BigDecimal idTransaccionBovedaOtro) {
+	public void setIdTransaccionBovedaOtro(BigInteger idTransaccionBovedaOtro) {
 		this.idTransaccionBovedaOtro = idTransaccionBovedaOtro;
 	}
 
@@ -128,7 +106,7 @@ public class TransaccionBovedaOtro implements java.io.Serializable {
 		this.saldoDisponible = saldoDisponible;
 	}
 
-	@Column(name = "OBSERVACION", length = 140,columnDefinition = "nvarchar2")
+	@Column(name = "OBSERVACION", length = 140, columnDefinition = "nvarchar2")
 	public String getObservacion() {
 		return this.observacion;
 	}
@@ -138,15 +116,15 @@ public class TransaccionBovedaOtro implements java.io.Serializable {
 	}
 
 	@Column(name = "ESTADO", nullable = false, precision = 22, scale = 0)
-	public BigDecimal getEstado() {
-		return this.estado;
+	public boolean getEstado() {
+		return this.estado == 1;
 	}
 
-	public void setEstado(BigDecimal estado) {
-		this.estado = estado;
+	public void setEstado(boolean estado) {
+		this.estado = (estado == true ? 1 : 0);
 	}
 
-	@Column(name = "TIPO_TRANSACCION", nullable = false, length = 40,columnDefinition="nvarchar2")
+	@Column(name = "TIPO_TRANSACCION", nullable = false, length = 40, columnDefinition = "nvarchar2")
 	public String getTipoTransaccion() {
 		return this.tipoTransaccion;
 	}

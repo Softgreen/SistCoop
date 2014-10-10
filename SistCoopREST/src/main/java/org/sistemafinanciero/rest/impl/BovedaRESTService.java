@@ -30,6 +30,7 @@ import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
+import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
@@ -50,7 +51,7 @@ public class BovedaRESTService implements BovedaREST {
 
 	@EJB
 	private BovedaServiceTS bovedaServiceTS;
-	
+
 	@EJB
 	private TransaccionInternaServiceNT transaccionInternaServiceNT;
 
@@ -149,7 +150,7 @@ public class BovedaRESTService implements BovedaREST {
 		Response response = Response.status(Response.Status.OK).entity(detalle).build();
 		return response;
 	}
-	
+
 	@Override
 	public Response abrir(BigInteger id) {
 		Response response;
@@ -213,7 +214,7 @@ public class BovedaRESTService implements BovedaREST {
 		List<TransaccionBovedaCajaView> list = null;
 		if (idAgencia != null)
 			list = bovedaServiceNT.getTransaccionesEnviadasBovedaCaja(idAgencia);
-		
+
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
@@ -222,7 +223,23 @@ public class BovedaRESTService implements BovedaREST {
 		List<TransaccionBovedaCajaView> list = null;
 		if (idAgencia != null)
 			list = bovedaServiceNT.getTransaccionesRecibidasBovedaCaja(idAgencia);
-		
+
 		return Response.status(Response.Status.OK).entity(list).build();
+	}
+
+	@Override
+	public Response createTransaccionEntidadBoveda(TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idEntidad, BigInteger idBoveda) {
+		Response response;
+		try {
+			BigInteger idTransaccion = bovedaServiceTS.crearTransaccionEntidadBoveda(origen, detalleTransaccion, idEntidad, idBoveda);
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getSuccessJSend(idTransaccion)).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 }

@@ -14,6 +14,12 @@ define(['../module'], function (controllers) {
                 boveda: undefined
             };
 
+            $scope.view = {
+                idEntidad: undefined,
+                idBoveda: undefined,
+                detalle: undefined
+            };
+
             $scope.loadEntidades = function(){
                 EntidadService.getEntidades().then(function(data){
                     $scope.combo.entidad = data;
@@ -25,7 +31,16 @@ define(['../module'], function (controllers) {
                 });
             };
             $scope.loadDetalleBoveda = function(){
-                console.log("cargando");
+                BovedaService.getDetalle($scope.view.idBoveda).then(function(data){
+                   $scope.view.detalle = data;
+                   for(var i = 0; i < $scope.view.detalle.length; i++){
+                       $scope.view.detalle[i].cantidad = 0;
+                   }
+                });
+            };
+
+            $scope.crearTransaccion = function(){
+
             };
 
             $scope.loadEntidades();

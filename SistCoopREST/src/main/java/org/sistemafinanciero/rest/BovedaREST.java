@@ -17,7 +17,9 @@
 package org.sistemafinanciero.rest;
 
 import java.math.BigInteger;
+import java.util.Set;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -31,6 +33,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import org.sistemafinanciero.entity.dto.GenericDetalle;
+import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
+import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 
 @Path("/bovedas")
 public interface BovedaREST {
@@ -86,7 +92,7 @@ public interface BovedaREST {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") BigInteger id);
-	
+
 	@GET
 	@Path("/voucherTransaccionBovedaCaja/{id}")
 	@Produces({ "application/xml", "application/json" })
@@ -101,4 +107,11 @@ public interface BovedaREST {
 	@Path("/{id}/transaccionBovedaCaja/recibidos")
 	@Produces({ "application/xml", "application/json" })
 	public Response getTransaccionesBovedaCajaOfBovedaRecibidos(@PathParam("id") BigInteger idAgencia);
+
+	@POST
+	@Path("/transaccionEntidadBoveda/{origen}/{idEntidad}/{idBoveda}")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response createTransaccionEntidadBoveda(@PathParam("origen") TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, @PathParam("idEntidad") BigInteger idEntidad, @PathParam("idBoveda") BigInteger idBoveda);
+
 }

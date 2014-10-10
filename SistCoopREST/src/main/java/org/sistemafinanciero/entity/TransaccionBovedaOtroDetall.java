@@ -3,9 +3,13 @@ package org.sistemafinanciero.entity;
 // Generated 02-may-2014 11:48:28 by Hibernate Tools 4.0.0
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,31 +22,27 @@ import javax.persistence.Table;
 @Table(name = "TRANSACCION_BOVEDA_OTRO_DETALL", schema = "BDSISTEMAFINANCIERO")
 public class TransaccionBovedaOtroDetall implements java.io.Serializable {
 
-	private BigDecimal idTransaccionBovedaOtroDet;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private BigInteger idTransaccionBovedaOtroDet;
 	private MonedaDenominacion monedaDenominacion;
 	private TransaccionBovedaOtro transaccionBovedaOtro;
-	private BigDecimal cantidad;
+	private BigInteger cantidad;
 
 	public TransaccionBovedaOtroDetall() {
 	}
 
-	public TransaccionBovedaOtroDetall(BigDecimal idTransaccionBovedaOtroDet,
-			MonedaDenominacion monedaDenominacion,
-			TransaccionBovedaOtro transaccionBovedaOtro, BigDecimal cantidad) {
-		this.idTransaccionBovedaOtroDet = idTransaccionBovedaOtroDet;
-		this.monedaDenominacion = monedaDenominacion;
-		this.transaccionBovedaOtro = transaccionBovedaOtro;
-		this.cantidad = cantidad;
-	}
-
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_TRANSACCION_BOVEDA_OTRO_DET", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getIdTransaccionBovedaOtroDet() {
+	public BigInteger getIdTransaccionBovedaOtroDet() {
 		return this.idTransaccionBovedaOtroDet;
 	}
 
-	public void setIdTransaccionBovedaOtroDet(
-			BigDecimal idTransaccionBovedaOtroDet) {
+	public void setIdTransaccionBovedaOtroDet(BigInteger idTransaccionBovedaOtroDet) {
 		this.idTransaccionBovedaOtroDet = idTransaccionBovedaOtroDet;
 	}
 
@@ -62,17 +62,16 @@ public class TransaccionBovedaOtroDetall implements java.io.Serializable {
 		return this.transaccionBovedaOtro;
 	}
 
-	public void setTransaccionBovedaOtro(
-			TransaccionBovedaOtro transaccionBovedaOtro) {
+	public void setTransaccionBovedaOtro(TransaccionBovedaOtro transaccionBovedaOtro) {
 		this.transaccionBovedaOtro = transaccionBovedaOtro;
 	}
 
 	@Column(name = "CANTIDAD", nullable = false, precision = 22, scale = 0)
-	public BigDecimal getCantidad() {
+	public BigInteger getCantidad() {
 		return this.cantidad;
 	}
 
-	public void setCantidad(BigDecimal cantidad) {
+	public void setCantidad(BigInteger cantidad) {
 		this.cantidad = cantidad;
 	}
 
