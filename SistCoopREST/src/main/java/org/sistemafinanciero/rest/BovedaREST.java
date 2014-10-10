@@ -35,7 +35,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.sistemafinanciero.entity.dto.GenericDetalle;
-import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 
 @Path("/bovedas")

@@ -61,6 +61,11 @@ define(['./module'], function (services) {
                 getVoucherTransaccionBovedaCaja: function(idTransaccionBovedaCaja){
                     return Restangular.one(baseUrl+"/voucherTransaccionBovedaCaja/"+idTransaccionBovedaCaja).get();
                 },
+
+                crearTransaccioEntidadBoveda: function(origen, idEntidad, idBoveda, detalle){
+                    var copy = Restangular.copy(detalle);
+                    return Restangular.all(baseUrl+"/transaccionEntidadBoveda/"+origen+"/"+idEntidad+"/"+idBoveda).post(detalle);
+                }
             };
         }]);
 });

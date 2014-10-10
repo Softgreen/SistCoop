@@ -4,12 +4,26 @@
             <h3>Transaccion Boveda-Caja</h3>
         </div>
     </div>
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+        <span ng-bind-html="alert.msg"></span>
+    </alert>
     <div class="row">
         <div class="col-sm-6">
             <form name="crearTransaccionBovedaCajaForm" ng-submit="crearTransaccion()" novalidate>
+                <div class="form-group" ng-class="{ 'has-error' : crearTransaccionBovedaCajaForm.origen.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.origen.$dirty)}">
+                    <label>Entrada/Salida</label>
+                    <select focus-on="focusOrigen" name="origen" ng-options="origen for origen in combo.origen" ng-model="view.origen" class="form-control" required>
+                        <option value="">--Seleccione--</option>
+                    </select>
+                    <div ng-show="crearTransaccionBovedaCajaForm.origen.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.origen.$dirty)">
+                        <p class="help-block" ng-show="crearTransaccionBovedaCajaForm.origen.$error.required">
+                            Seleccione origen.
+                        </p>
+                    </div>
+                </div>
                 <div class="form-group" ng-class="{ 'has-error' : crearTransaccionBovedaCajaForm.entidad.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.entidad.$dirty)}">
                     <label>Entidad</label>
-                    <select focus-on="focusEntidad" name="entidad" ng-options="entidad.id as entidad.denominacion for entidad in combo.entidad" ng-model="view.idEntidad" class="form-control" required>
+                    <select name="entidad" ng-options="entidad.id as entidad.denominacion for entidad in combo.entidad" ng-model="view.idEntidad" class="form-control" required>
                         <option value="">--Seleccione--</option>
                     </select>
                     <div ng-show="crearTransaccionBovedaCajaForm.entidad.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.entidad.$dirty)">

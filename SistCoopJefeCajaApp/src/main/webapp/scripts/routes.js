@@ -196,6 +196,12 @@ define(['./app'], function(app) {
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
+                }).state('app.transaccion.voucherTransaccionEntidadBoveda', {
+                    url: "/voucherTransaccionEntidadBoveda/:id",
+                    templateUrl: "views/jefeCaja/voucher/transaccionEntidadBovedaVoucher.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
                 });
             	
         }

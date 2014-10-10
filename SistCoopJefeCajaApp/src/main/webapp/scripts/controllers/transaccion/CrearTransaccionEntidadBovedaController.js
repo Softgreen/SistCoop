@@ -11,13 +11,15 @@ define(['../module'], function (controllers) {
 
             $scope.combo = {
                 entidad: undefined,
-                boveda: undefined
+                boveda: undefined,
+                origen: ["ENTRADA", "SALIDA"]
             };
 
             $scope.view = {
                 idEntidad: undefined,
                 idBoveda: undefined,
-                detalle: undefined
+                detalle: undefined,
+                origen: undefined
             };
 
             $scope.loadEntidades = function(){
@@ -40,7 +42,33 @@ define(['../module'], function (controllers) {
             };
 
             $scope.crearTransaccion = function(){
+                if($scope.crearTransaccionBovedaCajaForm.$valid){
 
+                    var origin;
+                    if(!angular.isUndefined($scope.view.origen)){
+                        if($scope.view.origen == "ENTRADA")
+                            origin = "ENTIDAD";
+                        else
+                            origin = "BOVEDA";
+                    } else {
+                        origin = undefined;
+                    }
+
+                    BovedaService.crearTransaccioEntidadBoveda(origin, $scope.view.idEntidad, $scope.view.idBoveda, $scope.view.detalle).then(
+                        function(data){
+                            $state.transitionTo('app.transaccion.voucherTransaccionEntidadBoveda', {id: data.id});
+                            $scope.control.inProcess = false;
+                        },
+                        function error(error){
+                            $scope.control.inProcess = false;
+                            $scope.control.success = false;
+                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                } else {
+                    $scope.control.submitted = true;
+                }
             };
 
             $scope.loadEntidades();
