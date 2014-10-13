@@ -2,6 +2,8 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Remote;
@@ -22,6 +24,7 @@ import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
+import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
 import org.sistemafinanciero.service.nt.TransaccionInternaServiceNT;
@@ -148,5 +151,26 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		}
 			
 		return voucher;
+	}
+	
+	@Override
+	public List<GenericDetalle> getDetalleTransaccionBovedaCaja(
+			BigInteger idTransaccionBovedaCaja) {
+		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO
+				.find(idTransaccionBovedaCaja);
+		if (transaccionBovedaCaja == null)
+			return null;
+
+		Set<TransaccionBovedaCajaDetalle> set = transaccionBovedaCaja
+				.getTransaccionBovedaCajaDetalls();
+		List<GenericDetalle> det = new ArrayList<GenericDetalle>();
+		for (TransaccionBovedaCajaDetalle genericDetalle : set) {
+			GenericDetalle d = new GenericDetalle();
+			d.setCantidad(genericDetalle.getCantidad());
+			d.setValor(genericDetalle.getMonedaDenominacion().getValor());
+
+			det.add(d);
+		}
+		return det;
 	}
 }

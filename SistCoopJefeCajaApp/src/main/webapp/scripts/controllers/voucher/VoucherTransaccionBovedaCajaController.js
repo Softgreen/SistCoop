@@ -3,14 +3,27 @@ define(['../module'], function (controllers) {
     controllers.controller('VoucherTransaccionBovedaCajaController', ['$scope', "$state", '$filter','BovedaService',
         function($scope, $state, $filter, BovedaService) {
 
+    	 	$scope.objetosCargados = {
+             	detalleTransaccion: []
+             };
+    	
             $scope.loadVoucher = function(){
-                if(!angular.isUndefined($scope.id)){
-                    BovedaService.getVoucherTransaccionBovedaCaja($scope.id).then(
+                if(!angular.isUndefined($scope.id)){ 
+                	BovedaService.getVoucherTransaccionBovedaCaja($scope.id).then(                    
                         function(data){
                             $scope.transaccionBovedaCaja = data;
                         },
                         function error(error){
                             alert("Transaccion no encontrada");
+                        }
+                    );
+                	
+                	BovedaService.getDetalleTransaccionBovedaCaja($scope.id).then(                    
+                        function(data){
+                        	$scope.objetosCargados.detalleTransaccion = data;
+                        },
+                        function error(error){
+                        	alert("Error al cargar el detalle de boveda caja");
                         }
                     );
                 };
@@ -49,6 +62,11 @@ define(['../module'], function (controllers) {
                 qz.append("DESTINO:" + " " + ($scope.transaccionBovedaCaja.destinoTransaccion) + "\r\n");
                 qz.append("FECHA:" + "\t" + " " + ($filter('date')($scope.transaccionBovedaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionBovedaCaja.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
+                
+                for(var i = 0 ; i < $scope.objetosCargados.detalleTransaccion.length ; i++){
+                	 qz.append(  ($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor, 'S/.')) + $scope.objetosCargados.detalleTransaccion[i].cantidad + ($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, 'S/.')) + "\t" +  "\r\n");
+                }
+                
                 qz.append("MONTO:" + "\t"+ " " + ($filter('currency')($scope.transaccionBovedaCaja.monto, $scope.transaccionBovedaCaja.moneda.simbolo)) + "\r\n");
                 if ($scope.transaccionBovedaCaja.estadoSolicitud) {
                 	qz.append("ESTADO SOLICTUD:" + " " + "SOLICITADO" + "\r\n");

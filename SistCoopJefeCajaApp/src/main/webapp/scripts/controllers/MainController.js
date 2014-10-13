@@ -1,9 +1,35 @@
 define(['./module'], function (controllers) {
     'use strict';
 
-    controllers.controller('MainController', ['$scope','$state','$window','$timeout','localStorageService','SessionService',
-        function($scope,$state,$window,$timeout,localStorageService,SessionService) {
+    controllers.controller('MainController', ['$scope','$state','$window','$timeout','localStorageService','SessionService','ConfiguracionService',
+        function($scope,$state,$window,$timeout,localStorageService,SessionService,ConfiguracionService) {
 
+    	$scope.defaulPrinterName = undefined;
+
+        $scope.searchPrinter = function(){
+            $timeout(function(){
+                if(isLoaded()){
+                    findPrinter($scope.defaulPrinterName);
+                    return;
+                } else {
+                    $scope.searchPrinter();
+                }
+            },3000);
+        };
+        $scope.loadPrinter = function(){
+            var cookieName = ConfiguracionService.getCookiePrinterName();
+            var valueCookie = localStorageService.get(cookieName);
+            if(valueCookie !== null){
+                $scope.defaulPrinterName = valueCookie;
+            } else {
+                var defaulPrinterName = ConfiguracionService.getDefaultPrinterName();
+                localStorageService.set(cookieName, defaulPrinterName);
+                $scope.defaulPrinterName = defaulPrinterName;
+            }
+            $scope.searchPrinter();
+        };
+        $scope.loadPrinter();
+        
             $scope.$watch('redirect', function(newValue, oldvalue){
                 if(newValue != oldvalue)
                     if($scope.redirect == true)
