@@ -96,6 +96,11 @@ public interface BovedaREST {
 	@Path("/voucherTransaccionBovedaCaja/{id}")
 	@Produces({ "application/xml", "application/json" })
 	public Response getVoucherTransaccionBovedaCaja(@PathParam("id") BigInteger idTransaccionBovedaCaja);
+	
+	@GET
+	@Path("/detalleTransaccionBovedaCaja/{id}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getDetalleTransaccionBovedaCaja(@PathParam("id") BigInteger idTransaccionBovedaCaja);
 
 	@GET
 	@Path("/{id}/transaccionBovedaCaja/enviados")

@@ -43,6 +43,7 @@ define(['../module'], function (controllers) {
                 if (notReady()) {return;}														//Elegir impresora
                 qz.append("\x1B\x40");															//reset printer
 
+                /*
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
                 qz.append("C.A.C. CAJA VENTURA \r\n");											// \r\n salto de linea
@@ -62,12 +63,20 @@ define(['../module'], function (controllers) {
                 qz.append("DESTINO:" + " " + ($scope.transaccionBovedaCaja.destinoTransaccion) + "\r\n");
                 qz.append("FECHA:" + "\t" + " " + ($filter('date')($scope.transaccionBovedaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionBovedaCaja.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
+                */
+                
+                qz.append("Denominacion" + "\t" + "Cantidad" + "     " + "Subtotal" +  "\r\n");
                 
                 for(var i = 0 ; i < $scope.objetosCargados.detalleTransaccion.length ; i++){
-                	 qz.append(  ($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor, 'S/.')) + $scope.objetosCargados.detalleTransaccion[i].cantidad + ($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, 'S/.')) + "\t" +  "\r\n");
+                	if($scope.objetosCargados.detalleTransaccion[i].cantidad != 0){
+                		qz.append("\x1B\x21\x01"); 												//texto normal (no negrita)
+                		qz.append(($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor, '')) + "\t\t" + $scope.objetosCargados.detalleTransaccion[i].cantidad + "\t" + "   " + ($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, $scope.transaccionBovedaCaja.moneda.simbolo)) +  "\r\n");
+                	}
                 }
                 
-                qz.append("MONTO:" + "\t"+ " " + ($filter('currency')($scope.transaccionBovedaCaja.monto, $scope.transaccionBovedaCaja.moneda.simbolo)) + "\r\n");
+                qz.append(String.fromCharCode(27) + "\x61" + "\x32");							//texto a la derecha
+                qz.append("MONTO TRANSACCION: " + ($filter('currency')($scope.transaccionBovedaCaja.monto, $scope.transaccionBovedaCaja.moneda.simbolo)) + "\r\n");
+                qz.append("\r\n");
                 if ($scope.transaccionBovedaCaja.estadoSolicitud) {
                 	qz.append("ESTADO SOLICTUD:" + " " + "SOLICITADO" + "\r\n");
 				}else{
@@ -78,6 +87,7 @@ define(['../module'], function (controllers) {
 				}else{
 					qz.append("ESTADO CONFIRMACION:" + " " + "NO CONFIRMADO" + "\r\n");
 				}
+                /*
                 qz.append("\r\n");
                 qz.append("\r\n");
                 qz.append("\r\n");
@@ -85,7 +95,7 @@ define(['../module'], function (controllers) {
 				qz.append("____________" + "\t\t" + "_______________" + "\r\n");
 				qz.append(String.fromCharCode(27) + "\x61" + "\x30");
                 qz.append("Firma Cajero" + "\t\t" + "Firma Jefe Caja" + "\r\n");
-                
+                */
                 qz.append("\x1D\x56\x41");														//cortar papel
                 qz.append("\x1B\x40");
                 qz.print();
