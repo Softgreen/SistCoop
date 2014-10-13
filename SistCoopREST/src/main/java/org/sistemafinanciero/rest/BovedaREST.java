@@ -114,4 +114,8 @@ public interface BovedaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response createTransaccionEntidadBoveda(@PathParam("origen") TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, @PathParam("idEntidad") BigInteger idEntidad, @PathParam("idBoveda") BigInteger idBoveda);
 
+	@GET
+	@Path("/detalleTransaccionBovedaCaja/{id}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getDetalleTransaccionBovedaCaja(@PathParam("id") BigInteger idTransaccionBovedaCaja);
 }

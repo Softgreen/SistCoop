@@ -61,6 +61,9 @@ define(['./module'], function (services) {
                 getVoucherTransaccionBovedaCaja: function(idTransaccionBovedaCaja){
                     return Restangular.one(baseUrl+"/voucherTransaccionBovedaCaja/"+idTransaccionBovedaCaja).get();
                 },
+                getDetalleTransaccionBovedaCaja: function(idTransaccionBovedaCaja){
+                    return Restangular.one(baseUrl+"/detalleTransaccionBovedaCaja/"+idTransaccionBovedaCaja).get();
+                }
             };
         }]);
 });
