@@ -18,7 +18,6 @@ import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
-import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
@@ -28,7 +27,6 @@ import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
-import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaOtro;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroDetall;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
@@ -36,7 +34,6 @@ import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
-import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.ts.BovedaServiceTS;
 import org.sistemafinanciero.util.EntityManagerProducer;
@@ -382,7 +379,7 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		transaccionBovedaOtro.setHora(calendar.getTime());
 		transaccionBovedaOtro.setObservacion(null);
 		transaccionBovedaOtro.setSaldoDisponible(saldoFinalConResta);
-		transaccionBovedaOtro.setTipoTransaccion(null);
+		transaccionBovedaOtro.setTipoTransaccion(factor.compareTo(BigInteger.ZERO) >= 1 ? "DEPOSITO" : "RETIRO");
 
 		transaccionBovedaOtroDAO.create(transaccionBovedaOtro);
 

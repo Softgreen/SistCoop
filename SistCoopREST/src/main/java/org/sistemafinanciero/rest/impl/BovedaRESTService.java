@@ -239,7 +239,7 @@ public class BovedaRESTService implements BovedaREST {
 		Response response;
 		try {
 			BigInteger idTransaccion = bovedaServiceTS.crearTransaccionEntidadBoveda(origen, detalleTransaccion, idEntidad, idBoveda);
-			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getSuccessJSend(idTransaccion)).build();
+			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (NonexistentEntityException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
