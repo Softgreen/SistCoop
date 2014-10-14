@@ -162,21 +162,24 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 	}
 
 	@Override
-	public List<GenericDetalle> getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
-		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO.find(idTransaccionBovedaCaja);
+	public List<GenericDetalle> getDetalleTransaccionBovedaCaja(
+			BigInteger idTransaccionBovedaCaja) {
+		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO
+				.find(idTransaccionBovedaCaja);
 		if (transaccionBovedaCaja == null)
 			return null;
 
-		Set<TransaccionBovedaCajaDetalle> set = transaccionBovedaCaja.getTransaccionBovedaCajaDetalls();
-		List<GenericDetalle> det = new ArrayList<GenericDetalle>();
+		Set<TransaccionBovedaCajaDetalle> set = transaccionBovedaCaja
+				.getTransaccionBovedaCajaDetalls();
+		List<GenericDetalle> detalle = new ArrayList<GenericDetalle>();
 		for (TransaccionBovedaCajaDetalle genericDetalle : set) {
 			GenericDetalle d = new GenericDetalle();
 			d.setCantidad(genericDetalle.getCantidad());
 			d.setValor(genericDetalle.getMonedaDenominacion().getValor());
-
-			det.add(d);
+			detalle.add(d);
+			System.out.println(d.getValor());
 		}
-		return det;
+		return detalle;
 	}
 
 	@Override
