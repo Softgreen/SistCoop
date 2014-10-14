@@ -21,6 +21,7 @@ define([
 
     './voucher/VoucherCerrarBoveda',
     './voucher/VoucherTransaccionBovedaCajaController',
+    './voucher/VoucherTransaccionEntidadBovedaController',
     
     './util/ConfirmPopUpController'
 
