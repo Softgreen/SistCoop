@@ -3,8 +3,10 @@ package org.sistemafinanciero.controller;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -162,7 +164,7 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 	}
 
 	@Override
-	public List<GenericDetalle> getDetalleTransaccionBovedaCaja(
+	public TreeSet<GenericDetalle> getDetalleTransaccionBovedaCaja(
 			BigInteger idTransaccionBovedaCaja) {
 		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO
 				.find(idTransaccionBovedaCaja);
@@ -171,13 +173,14 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 		Set<TransaccionBovedaCajaDetalle> set = transaccionBovedaCaja
 				.getTransaccionBovedaCajaDetalls();
-		List<GenericDetalle> detalle = new ArrayList<GenericDetalle>();
+		
+		TreeSet<GenericDetalle> detalle = new TreeSet<GenericDetalle>();
 		for (TransaccionBovedaCajaDetalle genericDetalle : set) {
 			GenericDetalle d = new GenericDetalle();
 			d.setCantidad(genericDetalle.getCantidad());
 			d.setValor(genericDetalle.getMonedaDenominacion().getValor());
 			detalle.add(d);
-			System.out.println(d.getValor());
+			
 		}
 		return detalle;
 	}

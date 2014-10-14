@@ -64,6 +64,7 @@ define(['../module'], function (controllers) {
                 qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
                 
                 //Detalle de Transaccion
+                //qz.append("\x1B\x21\x08");
                 //qz.append("Denominacion" + "\t" + "Cantidad" + "     " + "Subtotal" +  "\r\n");
                 qz.append("Denominacion");
                 qz.append("\t");

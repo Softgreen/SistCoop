@@ -19,6 +19,7 @@ package org.sistemafinanciero.rest.impl;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
@@ -219,7 +220,7 @@ public class BovedaRESTService implements BovedaREST {
 	
 	@Override
 	public Response getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
-		List<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaCaja(idTransaccionBovedaCaja);
+		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaCaja(idTransaccionBovedaCaja);
 		return Response.status(Response.Status.OK).entity(detalleTransaccion).build();
 	}
 

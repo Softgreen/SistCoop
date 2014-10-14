@@ -1,7 +1,7 @@
 package org.sistemafinanciero.service.nt;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.TreeSet;
 
 import javax.ejb.Remote;
 
@@ -18,7 +18,7 @@ public interface TransaccionInternaServiceNT {
 	
 	public VoucherTransaccionCajaCaja getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja);
 
-	public List<GenericDetalle> getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja);
+	public TreeSet<GenericDetalle> getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja);
 
 	public VoucherTransaccionEntidadBoveda getVoucherTransaccionEntidadBoveda(BigInteger idTransaccionEntidadBoveda);
 }
