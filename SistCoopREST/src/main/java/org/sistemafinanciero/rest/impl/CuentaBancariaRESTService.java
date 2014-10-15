@@ -98,11 +98,11 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	private final static String baseUrl = "/cuentasBancarias";
 
-	private final static String certificadoURL = "D:\\pdf";
-	//private final static String certificadoURL = "//usr//share//jboss//archivos//certificadoPlazoFijo//";
+	//private final static String certificadoURL = "D:\\pdf";
+	private final static String certificadoURL = "//usr//share//jboss//archivos//certificadoPlazoFijo//";
 
-	private final static String cartillaURL = "D:\\cartilla";
-	//private final static String cartillaURL = "//usr//share//jboss//archivos//cartillaInformacion//";
+	//private final static String cartillaURL = "D:\\cartilla";
+	private final static String cartillaURL = "//usr//share//jboss//archivos//cartillaInformacion//";
 
 	@EJB
 	private CuentaBancariaServiceNT cuentaBancariaServiceNT;
@@ -340,8 +340,8 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			document.open();
 
 			/******************* TITULO ******************/
-			Image img = Image.getInstance("/images/logo.png");
-			//Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo.png");
+			//Image img = Image.getInstance("/images/logo.png");
+			Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo.png");
 			img.setAlignment(Image.LEFT | Image.UNDERLYING);
 			document.add(img);
 
