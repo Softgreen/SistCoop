@@ -220,7 +220,7 @@ public class BovedaRESTService implements BovedaREST {
 	
 	@Override
 	public Response getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
-		List<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaCaja(idTransaccionBovedaCaja);
+		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaCaja(idTransaccionBovedaCaja);
 		return Response.status(Response.Status.OK).entity(detalleTransaccion).build();
 	}
 
