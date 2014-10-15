@@ -175,17 +175,18 @@ define(['./app'], function(app) {
                 })
 
                 .state('app.transaccion.nuevaTransaccionEntidadBoveda', {
-                    url: "/buscar1",
+                    url: "/transaccionEntidadBovedad",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionEntidadBoveda.html"
                 })
                 .state('app.transaccion.nuevaTransaccionBovedaBoveda', {
-                    url: "/buscar2",
+                    url: "/transaccionBovedaBoveda",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionBovedaBoveda.html"
                 })
                 .state('app.transaccion.nuevaTransaccionBovedaCaja', {
                     url: "/crearTransaccionBovedaCaja",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionBovedaCaja.html"
                 })
+
                 .state('app.transaccion.buscarTransaccionBovedaCaja', {
             		url: "/buscarTransaccionBovedaCaja",
                 	templateUrl: "views/jefeCaja/transaccion/buscarTransaccionBovedaCaja.html"
