@@ -25,12 +25,16 @@
 		<servlet-name>default</servlet-name>
 		<servlet-class>io.undertow.servlet.handlers.DefaultServlet</servlet-class>
 		<init-param>
+			<param-name>default-allowed</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
 			<param-name>allowed-extensions</param-name>
-			<param-value>js, css, png, jpg, gif, html, htm, txt, pdf, jpeg, xml, zip</param-value>
+			<param-value>jar</param-value>
 		</init-param>
 		<init-param>
 			<param-name>disallowed-extensions</param-name>
-			<param-value>class, jar, war</param-value>
+			<param-value>exe,bat,sh</param-value>
 		</init-param>
 	</servlet>
 

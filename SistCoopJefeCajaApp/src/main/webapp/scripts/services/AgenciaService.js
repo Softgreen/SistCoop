@@ -7,6 +7,9 @@ define(['./module'], function (services) {
             var baseUrl = "agencias";
 
             return {
+                getAgencias: function(estado){
+                    return Restangular.all(baseUrl).getList({estado:estado});
+                },
                 getCajas: function(idAgencia){
                     return Restangular.all(baseUrl+"/"+idAgencia+"/cajas").getList();
                 }

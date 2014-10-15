@@ -19,6 +19,7 @@ package org.sistemafinanciero.rest.impl;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
@@ -27,7 +28,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Moneda;
-import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
+
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
