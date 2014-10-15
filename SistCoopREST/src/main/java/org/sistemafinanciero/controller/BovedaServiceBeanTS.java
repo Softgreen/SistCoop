@@ -392,4 +392,19 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		return transaccionBovedaOtro.getIdTransaccionBovedaOtro();
 	}
 
+	@Override
+	public BigInteger crearTransaccionBovedaBoveda(BigInteger idBovedaOrigen, BigInteger idBovedaDestino, Set<GenericDetalle> detalleTransaccion) throws NonexistentEntityException, RollbackFailureException {
+		Boveda bovedaOrigen = bovedaDAO.find(idBovedaOrigen);
+		Boveda bovedaDestino = bovedaDAO.find(idBovedaDestino);
+		if(bovedaOrigen == null)
+			throw new NonexistentEntityException("Boveda origen no encontrada");
+		if(bovedaDestino == null)
+			throw new NonexistentEntityException("Boveda destino no encontrada");
+								
+		
+		
+		
+		return null;
+	}
+
 }

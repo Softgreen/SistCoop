@@ -211,13 +211,13 @@ public class BovedaRESTService implements BovedaREST {
 		VoucherTransaccionBovedaCaja voucher = transaccionInternaServiceNT.getVoucherTransaccionBovedaCaja(idTransaccionBovedaCaja);
 		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
-	
+
 	@Override
 	public Response getVoucherTransaccionEntidadBoveda(BigInteger idTransaccionEntidadBoveda) {
 		VoucherTransaccionEntidadBoveda voucher = transaccionInternaServiceNT.getVoucherTransaccionEntidadBoveda(idTransaccionEntidadBoveda);
 		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
-	
+
 	@Override
 	public Response getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
 		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaCaja(idTransaccionBovedaCaja);
@@ -247,6 +247,22 @@ public class BovedaRESTService implements BovedaREST {
 		Response response;
 		try {
 			BigInteger idTransaccion = bovedaServiceTS.crearTransaccionEntidadBoveda(origen, detalleTransaccion, idEntidad, idBoveda);
+			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response createTransaccionBovedaBoveda(BigInteger idBovedaOrigen, BigInteger idBovedaDestino, Set<GenericDetalle> detalleTransaccion) {		
+		Response response;
+		try {
+			BigInteger idTransaccion = bovedaServiceTS.crearTransaccionBovedaBoveda(idBovedaOrigen, idBovedaDestino, detalleTransaccion);
 			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (NonexistentEntityException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
