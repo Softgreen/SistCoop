@@ -74,8 +74,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class SocioRESTService implements SocioREST {
 
 	private final static String baseUrl = "/socios";
-	private final static String cartillaURL = "D:\\cartilla";
-	//private final static String cartillaURL = "//usr//share//jboss//archivos//cartillaInformacion//";
+	//private final static String cartillaURL = "D:\\cartilla";
+	private final static String cartillaURL = "//usr//share//jboss//archivos//cartillaInformacion//";
 	
 	@EJB
 	private SocioServiceNT socioServiceNT;
@@ -274,8 +274,8 @@ public class SocioRESTService implements SocioREST {
 			document.open();
 
 			/******************* TITULO ******************/
-			Image img = Image.getInstance("/images/logo.png");
-			//Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo.png");
+			//Image img = Image.getInstance("/images/logo.png");
+			Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo.png");
 			img.setAlignment(Image.LEFT | Image.UNDERLYING);
 			document.add(img);
 
