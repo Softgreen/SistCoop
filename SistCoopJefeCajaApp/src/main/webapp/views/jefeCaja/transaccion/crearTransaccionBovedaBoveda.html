@@ -1,10 +1,113 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div ng-controller="CrearTransaccionBovedaBovedaController">
+    <fieldset>
+        <legend>Transaccion Boveda/Boveda</legend>
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 
-</body>
-</html>
+        <form name="formCrearTransaccionBovedaCaja" ng-submit="crearTransaccion()" novalidate>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionBovedaCaja.agenciaOrigen.$invalid && control.submitted}">
+                        <label>Agencia origen</label>
+                        <label style="color: brown;">(*)</label>
+                        <input type="text" ng-value="objetosCargados.agenciaOrigen.denominacion" class="form-control" disabled/>
+                        <div ng-show="formCrearTransaccionBovedaCaja.agenciaOrigen.$invalid && control.submitted">
+                            <p class="help-block" ng-show="formCrearTransaccionBovedaCaja.agenciaOrigen.$error.required">
+                                Ingrese agencia.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionBovedaCaja.bovedaOrigen.$invalid && control.submitted}">
+                        <label>Boveda origen</label>
+                        <label style="color: brown;">(*)</label>
+                        <select name="bovedaOrigen" ng-change="loadDetalleBovedaOrigen()" ng-options="bov.id as bov.denominacion for bov in objetosCargados.bovedasOrigen" ng-model="view.idBovedaOrigen" class="form-control" required>
+                            <option value="">--Seleccione--</option>
+                        </select>
+                        <div ng-show="formCrearTransaccionBovedaCaja.bovedaOrigen.$invalid && control.submitted">
+                            <p class="help-block" ng-show="formCrearTransaccionBovedaCaja.bovedaOrigen.$error.required">
+                                Ingrese boveda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionBovedaCaja.agenciaDestino.$invalid && control.submitted}">
+                        <label>Agencia destino</label>
+                        <label style="color: brown;">(*)</label>
+                        <select name="agenciaDestino" ng-change="loadBovedasDestino()" ng-options="agen.id as agen.denominacion for agen in objetosCargados.agenciasDestino" ng-model="view.idAgenciaDestino" class="form-control" required>
+                            <option value="">--Seleccione--</option>
+                        </select>
+                        <div ng-show="formCrearTransaccionBovedaCaja.agenciaDestino.$invalid && control.submitted">
+                            <p class="help-block" ng-show="formCrearTransaccionBovedaCaja.agenciaDestino.$error.required">
+                                Ingrese agencia.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionBovedaCaja.bovedaDestino.$invalid && control.submitted}">
+                        <label>Boveda destino</label>
+                        <label style="color: brown;">(*)</label>
+                        <select name="bovedaDestino" ng-options="bov.id as bov.denominacion for bov in objetosCargados.bovedasDestino" ng-model="view.idBovedaDestino" class="form-control" required>
+                            <option value="">--Seleccione--</option>
+                        </select>
+                        <div ng-show="formCrearTransaccionBovedaCaja.bovedaDestino.$invalid && control.submitted">
+                            <p class="help-block" ng-show="formCrearTransaccionBovedaCaja.bovedaDestino.$error.required">
+                                Ingrese boveda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Detalle de Transacci&oacute;n</label>
+                        <table class="table table-striped table-bordered table-condensed" style="width: 90%;">
+                            <thead>
+                            <tr>
+                                <th>Denominaci&oacute;n</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="detalle in objetosCargados.detalleBovedaOrigen">
+                                <td style="width: 10%;">
+                                    <span ng-bind="detalle.valor | currency: getBoveda().moneda.simbolo"></span>
+                                </td>
+                                <td style="width: 10%;">
+                                    <ng-form name="cantidadForm">
+                                        <div class="form-group" ng-class="{ 'has-error' : cantidadForm.cantidad.$invalid && control.submitted}" style="margin-bottom: 0px;">
+                                            <input type="number" name="cantidad" ng-model="detalle.cantidad" class="form-control" required style="height: 27px; padding: 0px 12px; width: 100px" />
+                                            <div ng-show="cantidadForm.cantidad.$invalid && control.submitted">
+                                                <p class="help-block" ng-show="cantidadForm.cantidad.$error.required" style="font-size: 12px;">Ingrese Cantidad.</p>
+                                            </div>
+                                        </div>
+                                    </ng-form>
+                                </td>
+                                <td style="width: 15%;"><span>{{detalle.valor * detalle.cantidad | currency: getBoveda().moneda.simbolo}}</span></td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr ng-class="{'danger': totalTransaccion() == 0 || totalTransaccion() === undefined}">
+                                <td colspan="2" style="font-weight: bold;">Total Transacci&oacute;n: <span ng-bind="totalTransaccion() | currency : getBoveda().moneda.simbolo"></span>
+                                </td>
+                                <td ng-show="totalTransaccion() == 0 || totalTransaccion() === undefined" style="color: #a94442;">Invalido</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" ladda="control.inProcess" data-style="expand-right">Guardar</button>
+            <button type="button" class="btn btn-default">Cancelar</button>
+        </form>
+    </fieldset>
+
+</div>

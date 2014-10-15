@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTransaccionBovedaBovedaController', ['$scope','$state','BovedaService',
-        function($scope,$state,BovedaService) {
+    controllers.controller('CrearTransaccionBovedaBovedaController', ['$scope','$state','BovedaService','AgenciaService',
+        function($scope,$state,BovedaService,AgenciaService) {
 
             $scope.control = {
                 success:false,
@@ -9,58 +9,61 @@ define(['../module'], function (controllers) {
                 submitted : false
             };
 
-            $scope.detalle = [];
+            $scope.view = {
+                idAgenciaOrigen: undefined,
+                idBovedaOrigen: undefined,
+                idAgenciaDestino: undefined,
+                idBovedaDestino: undefined
+            };
 
-            $scope.loadDetalle = function(){
-                BovedaService.getDetalle($scope.id).then(function(data){
-                    angular.forEach(data, function(row){
-                        row.subtotal = function(){
-                            return this.valor * this.cantidad;
-                        }
-                    });
-                    $scope.detalle = data;
+            $scope.objetosCargados = {
+                agenciaOrigen: undefined,
+                bovedasOrigen: undefined,
+                detalleBovedaOrigen: undefined,
+
+                agenciasDestino: undefined,
+                bovedasDestino: undefined
+            };
+
+            $scope.loadAgenciaOrigen = function(){
+                $scope.objetosCargados.agenciaOrigen = $scope.agenciaSession;
+            };
+            $scope.loadAgenciasDestino = function(){
+                AgenciaService.getAgencias(true).then(function(data){
+                    $scope.objetosCargados.agenciasDestino = data;
                 });
             };
-            $scope.loadDetalle();
-
-            $scope.getTotal = function() {
-                var total = 0;
-                if(!angular.isUndefined($scope.detalle)){
-                    for(var i = 0; i < $scope.detalle.length; i++){
-                        total = total + $scope.detalle[i].subtotal();
-                    }
+            $scope.loadBovedasOrigen = function(){
+                BovedaService.getBovedas($scope.objetosCargados.agenciaOrigen.id).then(function(data){
+                    $scope.objetosCargados.bovedasOrigen = data;
+                });
+            };
+            $scope.loadBovedasDestino = function(){
+                BovedaService.getBovedas($scope.view.idAgenciaDestino).then(function(data){
+                    $scope.objetosCargados.bovedasDestino = data;
+                });
+            };
+            $scope.loadDetalleBovedaOrigen = function(){
+                if(!angular.isUndefined($scope.view.idBovedaOrigen)){
+                    BovedaService.getDetalle($scope.view.idBovedaOrigen).then(function(data){
+                        for(var i = 0; i<data.length; i++){
+                            data[i].cantidad = 0;
+                        }
+                        $scope.objetosCargados.detalleBovedaOrigen = data;
+                    });
                 }
-                return total;
             };
+            $scope.loadAgenciaOrigen();
+            $scope.loadAgenciasDestino();
+            $scope.loadBovedasOrigen();
 
-            $scope.gridOptions = {
-                data: 'detalle',
-                multiSelect: false,
-                columnDefs: [
-                    { field: "valor", displayName: "VALOR" },
-                    { field: "cantidad", displayName: "CANTIDAD" },
-                    { field: "subtotal()", displayName: "SUBTOTAL" }
-                ]
-            };
 
-            $scope.abrirBoveda = function(){
-                $scope.control.inProcess = true;
-                BovedaService.abrirBoveda($scope.id).then(
-                    function(data){
-                        $state.go('app.boveda.buscarBoveda');
-                        $scope.control.inProcess = false;
-                    },
-                    function error(error){
-                        $scope.control.inProcess = false;
-                        $scope.control.success = false;
-                        $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
-                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
-                    }
-                );
-            };
+            $scope.crearTransaccion = function() {
+                if($scope.formCrearTransaccionBovedaCaja.$valid){
 
-            $scope.cancelar = function(){
-                $state.go('app.boveda.editarBoveda', {id: $scope.id});
+                } else {
+                    $scope.control.submitted = true;
+                }
             };
 
         }]);

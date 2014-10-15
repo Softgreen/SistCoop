@@ -26,8 +26,8 @@ public class AgenciaRESTService implements AgenciaREST {
 	private AgenciaServiceTS agenciaServiceTS;
 	
 	@Override
-	public Response findAll() {
-		List<Agencia> list = agenciaServiceNT.findAll();
+	public Response findAll(Boolean estado) {
+		List<Agencia> list = agenciaServiceNT.findAll(estado);
 		Response response = Response.status(Response.Status.OK).entity(list).build();
 		return response;
 	}

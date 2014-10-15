@@ -96,7 +96,7 @@ public interface BovedaREST {
 	@Path("/voucherTransaccionBovedaCaja/{id}")
 	@Produces({ "application/xml", "application/json" })
 	public Response getVoucherTransaccionBovedaCaja(@PathParam("id") BigInteger idTransaccionBovedaCaja);
-	
+
 	@GET
 	@Path("/detalleTransaccionBovedaCaja/{id}")
 	@Produces({ "application/xml", "application/json" })
@@ -122,5 +122,11 @@ public interface BovedaREST {
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	public Response createTransaccionEntidadBoveda(@PathParam("origen") TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, @PathParam("idEntidad") BigInteger idEntidad, @PathParam("idBoveda") BigInteger idBoveda);
+
+	@POST
+	@Path("/transaccionBovedaBoveda/{idBovedaOrigen}/{idBovedaDestino}")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response createTransaccionBovedaBoveda(@PathParam("idBovedaOrigen") BigInteger idBovedaOrigen, @PathParam("idBovedaDestino") BigInteger idBovedaDestino, Set<GenericDetalle> detalleTransaccion);
 
 }

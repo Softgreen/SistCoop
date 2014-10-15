@@ -78,6 +78,16 @@ public class AgenciaServiceBeanNT implements AgenciaServiceNT {
 			return agencia;
 		} else {
 			return null;
+		}
+	}
+	
+	@Override
+	public List<Agencia> findAll(Boolean estado) {
+		if(estado != null){
+			QueryParameter queryParameter = QueryParameter.with("estado", estado);
+			return agenciaDAO.findByNamedQuery(Agencia.findByEstado, queryParameter.parameters());
+		} else {
+			return agenciaDAO.findAll();
 		}		
 	}
 
