@@ -4,6 +4,7 @@ define(['./app'], function(app) {
         function($httpProvider, $stateProvider, $urlRouterProvider, RestangularProvider, localStorageServiceProvider) {
 
             RestangularProvider.setBaseUrl('http://localhost:8080/SistCoopREST/rest');
+            //RestangularProvider.setBaseUrl('http://192.168.1.12:8080/SistCoopREST/rest');
 
             $urlRouterProvider.when('', '/home');
             $urlRouterProvider.otherwise('/home');
