@@ -61,42 +61,7 @@ public class TransaccionBovedaCaja implements java.io.Serializable {
 	public TransaccionBovedaCaja() {
 	}
 
-	public TransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja,
-			HistorialBoveda historialBoveda, HistorialCaja historialCaja,
-			Date fecha, Date hora, BigDecimal saldoDisponibleOrigen,
-			boolean estadoSolicitud, boolean estadoConfirmacion,
-			BigDecimal saldoDisponibleDestino) {
-		this.idTransaccionBovedaCaja = idTransaccionBovedaCaja;
-		this.historialBoveda = historialBoveda;
-		this.historialCaja = historialCaja;
-		this.fecha = fecha;
-		this.hora = hora;
-		this.saldoDisponibleOrigen = saldoDisponibleOrigen;
-		this.estadoSolicitud = (estadoSolicitud ? 1 : 0);
-		this.estadoConfirmacion = (estadoConfirmacion ? 1 : 0);
-		this.saldoDisponibleDestino = saldoDisponibleDestino;
-	}
-
-	public TransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja,
-			HistorialBoveda historialBoveda, HistorialCaja historialCaja,
-			Date fecha, Date hora, BigDecimal saldoDisponibleOrigen,
-			String observacion, boolean estadoSolicitud,
-			boolean estadoConfirmacion, TransaccionBovedaCajaOrigen origen,
-			BigDecimal saldoDisponibleDestino, Set transaccionBovedaCajaDetalls) {
-		this.idTransaccionBovedaCaja = idTransaccionBovedaCaja;
-		this.historialBoveda = historialBoveda;
-		this.historialCaja = historialCaja;
-		this.fecha = fecha;
-		this.hora = hora;
-		this.saldoDisponibleOrigen = saldoDisponibleOrigen;
-		this.observacion = observacion;
-		this.estadoSolicitud = (estadoSolicitud ? 1 : 0);
-		this.estadoConfirmacion = (estadoConfirmacion ? 1 : 0);
-		this.origen = origen;
-		this.saldoDisponibleDestino = saldoDisponibleDestino;
-		this.transaccionBovedaCajaDetalls = transaccionBovedaCajaDetalls;
-	}
-
+	
 	@XmlElement(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
