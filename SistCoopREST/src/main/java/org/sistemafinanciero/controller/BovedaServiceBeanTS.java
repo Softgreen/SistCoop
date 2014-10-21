@@ -69,7 +69,7 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 
 	@Inject
 	private DAO<Object, TransaccionBovedaBovedaDetalle> detalleTransaccionBovedaBovedaDAO;
-	
+
 	@Inject
 	private Validator validator;
 
@@ -404,35 +404,83 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 	public BigInteger crearTransaccionBovedaBoveda(BigInteger idBovedaOrigen, BigInteger idBovedaDestino, Set<GenericDetalle> detalleTransaccion) throws NonexistentEntityException, RollbackFailureException {
 		Boveda bovedaOrigen = bovedaDAO.find(idBovedaOrigen);
 		Boveda bovedaDestino = bovedaDAO.find(idBovedaDestino);
-		if(bovedaOrigen == null)
+		if (bovedaOrigen == null)
 			throw new NonexistentEntityException("Boveda origen no encontrada");
-		if(bovedaDestino == null)
+		if (bovedaDestino == null)
 			throw new NonexistentEntityException("Boveda destino no encontrada");
-				
+
 		HistorialBoveda historialBovedaOrigen = getHistorialActivo(bovedaOrigen.getIdBoveda());
 		HistorialBoveda historialBovedaDestino = getHistorialActivo(bovedaDestino.getIdBoveda());
-		if(historialBovedaOrigen == null)
+		if (historialBovedaOrigen == null)
 			throw new NonexistentEntityException("Boveda origen no tiene historial activo");
-		if(historialBovedaDestino == null)
+		if (historialBovedaDestino == null)
 			throw new NonexistentEntityException("Boveda destino no tiene historial activo");
-		
-		
-		Calendar calendar = Calendar.getInstance();	
+
+		// sacando historial
+		Set<DetalleHistorialBoveda> detalleHistorialBovedaOrigen = historialBovedaOrigen.getDetalleHistorialBovedas();
+		Set<DetalleHistorialBoveda> detalleHistorialBovedaDestino = historialBovedaDestino.getDetalleHistorialBovedas();
+
+		// sacando saldos totales
+		BigDecimal saldoActualOrigen = BigDecimal.ZERO;
+		BigDecimal saldoActualDestino = BigDecimal.ZERO;
+
+		BigDecimal montoTransaccion = BigDecimal.ZERO;
+
+		for (DetalleHistorialBoveda det : detalleHistorialBovedaOrigen) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			saldoActualDestino.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+		for (DetalleHistorialBoveda det : detalleHistorialBovedaDestino) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			saldoActualDestino.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+		for (GenericDetalle det : detalleTransaccion) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getValor();
+			montoTransaccion.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+
+		Set<TransaccionBovedaBovedaDetalle> detalleTransaccionBovedaBoveda = new HashSet<TransaccionBovedaBovedaDetalle>();
+		// restando los detalles
+		for (DetalleHistorialBoveda detBoveda : detalleHistorialBovedaOrigen) {
+			BigDecimal valorMoneda = detBoveda.getMonedaDenominacion().getValor();
+			for (GenericDetalle detTrans : detalleTransaccion) {
+				BigDecimal valorMonedaTrans = detTrans.getValor();
+				if (valorMoneda.equals(valorMonedaTrans)) {
+					TransaccionBovedaBovedaDetalle transDet = new TransaccionBovedaBovedaDetalle();
+					transDet.setCantidad(detTrans.getCantidad());
+					transDet.setMonedaDenominacion(detBoveda.getMonedaDenominacion());
+
+					detalleTransaccionBovedaBoveda.add(transDet);
+					break;
+				}
+			}
+		}
+
+		// crear transaccion boveda boveda
+		Calendar calendar = Calendar.getInstance();
 		TransaccionBovedaBoveda transaccionBovedaBoveda = new TransaccionBovedaBoveda();
-		
+
 		transaccionBovedaBoveda.setEstadoSolicitud(true);
 		transaccionBovedaBoveda.setEstadoConfirmacion(false);
 		transaccionBovedaBoveda.setFecha(calendar.getTime());
 		transaccionBovedaBoveda.setHora(calendar.getTime());
 		transaccionBovedaBoveda.setHistorialBovedaOrigen(historialBovedaOrigen);
-		transaccionBovedaBoveda.setHistorialBovedaDestino(historialBovedaDestino);		
-		transaccionBovedaBoveda.setSaldoDisponibleOrigen(null);
+		transaccionBovedaBoveda.setHistorialBovedaDestino(historialBovedaDestino);
+		transaccionBovedaBoveda.setSaldoDisponibleOrigen(saldoActualOrigen.add(montoTransaccion));
 		transaccionBovedaBoveda.setSaldoDisponibleDestino(null);
 		transaccionBovedaBoveda.setTrabajadorOrigen(null);
-		transaccionBovedaBoveda.setTrabajadorDestino(null);		
+		transaccionBovedaBoveda.setTrabajadorDestino(null);
 		transaccionBovedaBoveda.setObservacion("Transaccion agencia/agencia");
-		
+
 		transaccionBovedaBovedaDAO.create(transaccionBovedaBoveda);
+
+		for (TransaccionBovedaBovedaDetalle det : detalleTransaccionBovedaBoveda) {
+			det.setTransaccionBovedaBoveda(transaccionBovedaBoveda);
+			detalleTransaccionBovedaBovedaDAO.create(det);
+		}
 		
 		return transaccionBovedaBoveda.getIdTransaccionBovedaBoveda();
 	}
