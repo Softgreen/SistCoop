@@ -1,7 +1,7 @@
 <div ng-controller="CrearTransaccionEntidadBovedaController">
     <div class="row">
         <div class="col-sm-12">
-            <h3>Transaccion Boveda-Caja</h3>
+            <h3>Transacci&oacute;n Entidad-Boveda</h3>
         </div>
     </div>
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : crearCajaForm.denominacion.$invalid && (control.submitted || crearCajaForm.denominacion.$dirty)}">
-                    <label>Detalle</label>
+                    <label>Detalle Transaccion</label>
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
                         <tr>
@@ -56,7 +56,7 @@
                         <tbody>
                         <tr ng-repeat="detalle in view.detalle">
                             <td style="width: 20%;">
-                                <span ng-bind="detalle.valor | currency: ''"/>
+                                <span ng-bind="detalle.valor | currency: getBoveda().moneda.simbolo"/>
                             </td>
                             <td style="width: 35%;">
                                 <ng-form name="cantidadForm">
@@ -71,14 +71,14 @@
                                 </ng-form>
                             </td>
                             <td style="width: 45%;">
-                                <span ng-cloak>{{detalle.valor * detalle.cantidad | currency: ''}}</span>
+                                <span ng-cloak>{{detalle.valor * detalle.cantidad | currency: getBoveda().moneda.simbolo}}</span>
                             </td>
                         </tr>
                         </tbody>
                         <tfoot>
                         <tr ng-class="{'danger': total() == 0 || total() === undefined}">
                             <td colspan="2">
-                                Total: <span ng-bind="total() | currency : ''"></span>
+                                Total: <span ng-bind="total() | currency : getBoveda().moneda.simbolo"></span>
                             </td>
                             <td ng-show="total() == 0 || total() === undefined">
                                 Invalido

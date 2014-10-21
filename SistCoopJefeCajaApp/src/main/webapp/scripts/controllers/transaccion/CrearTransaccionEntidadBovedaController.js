@@ -12,7 +12,7 @@ define(['../module'], function (controllers) {
             $scope.combo = {
                 entidad: undefined,
                 boveda: undefined,
-                origen: ["ENTRADA", "SALIDA"]
+                origen: ["INGRESO", "EGRESO"]
             };
 
             $scope.view = {
@@ -27,11 +27,25 @@ define(['../module'], function (controllers) {
                     $scope.combo.entidad = data;
                 });
             };
+            
             $scope.loadBovedas = function(){
                 BovedaService.getBovedas($scope.agenciaSession.id).then(function(data){
                     $scope.combo.boveda = data;
                 });
             };
+            
+            $scope.getBoveda = function(){
+                if(!angular.isUndefined($scope.view.idBoveda) && !angular.isUndefined($scope.combo.boveda)){
+                    for(var i = 0; i < $scope.combo.boveda.length; i++){
+                        if($scope.view.idBoveda == $scope.combo.boveda[i].id)
+                          return $scope.combo.boveda[i];
+                    }
+                    return undefined;
+                } else{
+                    return undefined;
+                }
+              };
+            
             $scope.loadDetalleBoveda = function(){
                 BovedaService.getDetalle($scope.view.idBoveda).then(function(data){
                    $scope.view.detalle = data;
