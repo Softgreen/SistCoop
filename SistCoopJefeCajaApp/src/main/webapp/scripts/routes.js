@@ -204,6 +204,12 @@ define(['./app'], function(app) {
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
+                }).state('app.transaccion.voucherTransaccionBovedaBoveda', {
+                    url: "/voucherTransaccionBovedaBoveda/:id",
+                    templateUrl: "views/jefeCaja/voucher/transaccionBovedaBovedaVoucher.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
                 });
             	
         }
