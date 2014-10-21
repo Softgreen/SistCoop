@@ -60,7 +60,7 @@ define(['../module'], function (controllers) {
 
                     var origin;
                     if(!angular.isUndefined($scope.view.origen)){
-                        if($scope.view.origen == "ENTRADA")
+                        if($scope.view.origen == $scope.combo.origen[0])
                             origin = "ENTIDAD";
                         else
                             origin = "BOVEDA";

@@ -30,6 +30,7 @@ import org.sistemafinanciero.entity.TransaccionBovedaOtro;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroDetall;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
+import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionEntidadBoveda;
@@ -228,5 +229,11 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		voucher.setTrabajador(transaccion.getObservacion());		
 
 		return voucher;
+	}
+
+	@Override
+	public VoucherTransaccionBovedaBoveda getVoucherTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
