@@ -387,7 +387,7 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		transaccionBovedaOtro.setHora(calendar.getTime());
 		transaccionBovedaOtro.setObservacion(null);
 		transaccionBovedaOtro.setSaldoDisponible(saldoFinalConResta);
-		transaccionBovedaOtro.setTipoTransaccion(factor.compareTo(BigInteger.ZERO) >= 1 ? "DEPOSITO" : "RETIRO");
+		transaccionBovedaOtro.setTipoTransaccion(factor.compareTo(BigInteger.ZERO) >= 1 ? "INGRESO" : "EGRESO");
 
 		transaccionBovedaOtroDAO.create(transaccionBovedaOtro);
 
