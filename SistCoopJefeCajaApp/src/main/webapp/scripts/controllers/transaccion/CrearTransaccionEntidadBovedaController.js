@@ -18,7 +18,8 @@ define(['../module'], function (controllers) {
             $scope.view = {
                 idEntidad: undefined,
                 idBoveda: undefined,
-                detalle: undefined,
+                detalleTransaccion: undefined,
+                detalleBoveda: undefined,
                 origen: undefined
             };
 
@@ -27,32 +28,57 @@ define(['../module'], function (controllers) {
                     $scope.combo.entidad = data;
                 });
             };
-            
+
             $scope.loadBovedas = function(){
                 BovedaService.getBovedas($scope.agenciaSession.id).then(function(data){
                     $scope.combo.boveda = data;
                 });
             };
-            
+
+            $scope.loadDetalleBoveda = function(){
+                BovedaService.getDetalle($scope.view.idBoveda).then(function(data){
+                    $scope.view.detalleBoveda = data;
+                    $scope.view.detalleTransaccion = angular.copy(data);
+
+                    for(var i = 0; i < $scope.view.detalleTransaccion.length; i++){
+                        $scope.view.detalleTransaccion[i].cantidad = 0;
+                    }
+                });
+            };
+
             $scope.getBoveda = function(){
                 if(!angular.isUndefined($scope.view.idBoveda) && !angular.isUndefined($scope.combo.boveda)){
                     for(var i = 0; i < $scope.combo.boveda.length; i++){
                         if($scope.view.idBoveda == $scope.combo.boveda[i].id)
-                          return $scope.combo.boveda[i];
+                            return $scope.combo.boveda[i];
                     }
                     return undefined;
                 } else{
                     return undefined;
                 }
-              };
-            
-            $scope.loadDetalleBoveda = function(){
-                BovedaService.getDetalle($scope.view.idBoveda).then(function(data){
-                   $scope.view.detalle = data;
-                   for(var i = 0; i < $scope.view.detalle.length; i++){
-                       $scope.view.detalle[i].cantidad = 0;
-                   }
-                });
+            };
+
+            $scope.getTotalTransaccion = function(){
+                if(!angular.isUndefined($scope.view.detalleTransaccion)){
+                    var total = 0;
+                    for(var i = 0; i<$scope.view.detalleTransaccion.length;i++){
+                        total += ($scope.view.detalleTransaccion[i].cantidad * $scope.view.detalleTransaccion[i].valor);
+                    }
+                    return total;
+                } else {
+                    return 0;
+                }
+            };
+            $scope.getTotalBoveda = function(){
+                if(!angular.isUndefined($scope.view.detalleBoveda)){
+                    var total = 0;
+                    for(var i = 0; i<$scope.view.detalleBoveda.length;i++){
+                        total += ($scope.view.detalleBoveda[i].cantidad * $scope.view.detalleBoveda[i].valor);
+                    }
+                    return total;
+                } else {
+                    return 0;
+                }
             };
 
             $scope.crearTransaccion = function(){
@@ -68,7 +94,15 @@ define(['../module'], function (controllers) {
                         origin = undefined;
                     }
 
-                    BovedaService.crearTransaccioEntidadBoveda(origin, $scope.view.idEntidad, $scope.view.idBoveda, $scope.view.detalle).then(
+                    var detalle = [];
+                    for(var i = 0; i<$scope.view.detalleTransaccion.length;i++){
+                        detalle[i] = {
+                            valor: $scope.view.detalleTransaccion[i].valor,
+                            cantidad: $scope.view.detalleTransaccion[i].cantidad
+                        };
+                    }
+
+                    BovedaService.crearTransaccioEntidadBoveda(origin, $scope.view.idEntidad, $scope.view.idBoveda, detalle).then(
                         function(data){
                             $state.transitionTo('app.transaccion.voucherTransaccionEntidadBoveda', {id: data.id});
                             $scope.control.inProcess = false;

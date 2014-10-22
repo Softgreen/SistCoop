@@ -2,9 +2,6 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -160,28 +157,23 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 				voucher.setDestinoTransaccion(caja.getDenominacion() + " (" + caja.getAbreviatura() + ")");
 			}
 		}
-
 		return voucher;
 	}
 
 	@Override
-	public TreeSet<GenericDetalle> getDetalleTransaccionBovedaCaja(
-			BigInteger idTransaccionBovedaCaja) {
-		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO
-				.find(idTransaccionBovedaCaja);
+	public TreeSet<GenericDetalle> getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
+		TransaccionBovedaCaja transaccionBovedaCaja = transaccionBovedaCajaDAO.find(idTransaccionBovedaCaja);
 		if (transaccionBovedaCaja == null)
 			return null;
 
-		Set<TransaccionBovedaCajaDetalle> set = transaccionBovedaCaja
-				.getTransaccionBovedaCajaDetalls();
-		
+		Set<TransaccionBovedaCajaDetalle> set = transaccionBovedaCaja.getTransaccionBovedaCajaDetalls();
+
 		TreeSet<GenericDetalle> detalle = new TreeSet<GenericDetalle>();
 		for (TransaccionBovedaCajaDetalle genericDetalle : set) {
 			GenericDetalle d = new GenericDetalle();
 			d.setCantidad(genericDetalle.getCantidad());
 			d.setValor(genericDetalle.getMonedaDenominacion().getValor());
 			detalle.add(d);
-			
 		}
 		return detalle;
 	}
@@ -222,11 +214,11 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		voucher.setMonto(totalTransaccion);
 		voucher.setObservacion(transaccion.getObservacion());
 		voucher.setTipoTransaccion(transaccion.getTipoTransaccion().toString());
-		
-		voucher.setBovedaDenominacion(boveda.getDenominacion());		
+
+		voucher.setBovedaDenominacion(boveda.getDenominacion());
 		voucher.setEntidad(entidad.getDenominacion());
-		
-		voucher.setTrabajador(transaccion.getObservacion());		
+
+		voucher.setTrabajador(transaccion.getObservacion());
 
 		return voucher;
 	}
@@ -236,4 +228,5 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

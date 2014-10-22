@@ -7,9 +7,10 @@
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
         <span ng-bind-html="alert.msg"></span>
     </alert>
-    <div class="row">
-        <div class="col-sm-6">
-            <form name="crearTransaccionBovedaCajaForm" ng-submit="crearTransaccion()" novalidate>
+
+    <form name="crearTransaccionBovedaCajaForm" ng-submit="crearTransaccion()" novalidate>
+        <div class="row">
+            <div class="col-sm-6">
                 <div class="form-group" ng-class="{ 'has-error' : crearTransaccionBovedaCajaForm.origen.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.origen.$dirty)}">
                     <label>Entrada/Salida</label>
                     <select focus-on="focusOrigen" name="origen" ng-options="origen for origen in combo.origen" ng-model="view.origen" class="form-control" required>
@@ -21,6 +22,10 @@
                         </p>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
                 <div class="form-group" ng-class="{ 'has-error' : crearTransaccionBovedaCajaForm.entidad.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.entidad.$dirty)}">
                     <label>Entidad</label>
                     <select name="entidad" ng-options="entidad.id as entidad.denominacion for entidad in combo.entidad" ng-model="view.idEntidad" class="form-control" required>
@@ -32,6 +37,10 @@
                         </p>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
                 <div class="form-group" ng-class="{ 'has-error' : crearTransaccionBovedaCajaForm.boveda.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.boveda.$dirty)}">
                     <label>Boveda</label>
                     <select name="boveda" ng-change="loadDetalleBoveda()" ng-options="boveda.id as boveda.denominacion for boveda in combo.boveda" ng-model="view.idBoveda" class="form-control" required>
@@ -43,6 +52,10 @@
                         </p>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
                 <div class="form-group" ng-class="{ 'has-error' : crearCajaForm.denominacion.$invalid && (control.submitted || crearCajaForm.denominacion.$dirty)}">
                     <label>Detalle Transaccion</label>
                     <table class="table table-striped table-bordered table-condensed">
@@ -54,7 +67,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="detalle in view.detalle">
+                        <tr ng-repeat="detalle in view.detalleTransaccion">
                             <td style="width: 20%;">
                                 <span ng-bind="detalle.valor | currency: getBoveda().moneda.simbolo"/>
                             </td>
@@ -76,21 +89,64 @@
                         </tr>
                         </tbody>
                         <tfoot>
-                        <tr ng-class="{'danger': total() == 0 || total() === undefined}">
+                        <tr ng-class="{'danger': getTotalTransaccion() == 0}">
                             <td colspan="2">
-                                Total: <span ng-bind="total() | currency : getBoveda().moneda.simbolo"></span>
+                                Total: <span ng-bind="getTotalTransaccion() | currency : getBoveda().moneda.simbolo"></span>
                             </td>
-                            <td ng-show="total() == 0 || total() === undefined">
+                            <td ng-show="getTotalTransaccion() == 0">
                                 Invalido
                             </td>
                         </tr>
                         </tfoot>
                     </table>
                 </div>
-
-                <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
-                <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
-            </form>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Detalle Boveda</label>
+                    <table class="table table-striped table-bordered table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Denominaci&oacute;n</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="detalle in view.detalleBoveda">
+                            <td style="width: 20%;">
+                                <span ng-bind="detalle.valor | currency: getBoveda().moneda.simbolo"/>
+                            </td>
+                            <td style="width: 35%;">
+                                <div class="form-group" style="margin-bottom: 0px;">
+                                    <input type="text" name="cantidad" ng-model="detalle.cantidad" class="form-control" disabled style="height: 27px;padding: 0px 12px;"/>
+                                    <div ng-show="cantidadForm.cantidad.$invalid && control.submitted">
+                                        <p class="help-block" ng-show="cantidadForm.cantidad.$error.required">
+                                            Ingrese Cantidad.
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 45%;">
+                                <span ng-cloak>{{detalle.valor * detalle.cantidad | currency: getBoveda().moneda.simbolo}}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr ng-class="{'danger': getTotalBoveda() == 0}">
+                            <td colspan="2">
+                                Total: <span ng-bind="getTotalBoveda() | currency : getBoveda().moneda.simbolo"></span>
+                            </td>
+                            <td ng-show="getTotalBoveda() == 0">
+                                Invalido
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
+        <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
+        <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
+    </form>
 </div>
