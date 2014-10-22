@@ -17,46 +17,46 @@
                         <tr>
                             <td colspan="1">AGENCIA:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionEntidadBoveda.agenciaDenominacion"/>
+                                <span ng-bind="objetosCargados.transaccion.agenciaDenominacion"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1">N&deg; TRANS:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionEntidadBoveda.id"/>
+                                <span ng-bind="objetosCargados.transaccion.id"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1">T.TRANSACCION:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionEntidadBoveda.tipoTransaccion"/>
+                                <span ng-bind="objetosCargados.transaccion.tipoTransaccion"/>
                             </td >
                         </tr>
                         <tr>
                             <td colspan="1">FECHA:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionEntidadBoveda.fecha | date : 'dd/MM/yyyy'"/>
-                                <span ng-bind="transaccionEntidadBoveda.hora | date : 'HH:mm:ss'"/>
+                                <span ng-bind="objetosCargados.transaccion.fecha | date : 'dd/MM/yyyy'"/>
+                                <span ng-bind="objetosCargados.transaccion.hora | date : 'HH:mm:ss'"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1">MONEDA:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionEntidadBoveda.moneda.denominacion"/>
-                                <span ng-bind="'(' + transaccionEntidadBoveda.moneda.simbolo + ')'"/>
+                                <span ng-bind="objetosCargados.transaccion.moneda.denominacion"/>
+                                <span ng-bind="'(' + objetosCargados.transaccion.moneda.simbolo + ')'"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1">MONTO:</td>
                             <td colspan="3" style="text-align: left;">
-                                <span ng-bind="transaccionEntidadBoveda.moneda.simbolo"></span>
-                                <span ng-bind="transaccionEntidadBoveda.monto | number : 2"/>
+                                <span ng-bind="objetosCargados.transaccion.moneda.simbolo"></span>
+                                <span ng-bind="objetosCargados.transaccion.monto | number : 2"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">ESTADO:</td>
                             <td colspan="2" style="text-align: left;">
-                                <span>{{transaccionEntidadBoveda.estado ? 'ACTIVO' : 'INACTIVO'}}</span>
+                                <span ng-cloak>{{objetosCargados.transaccion.estado ? 'ACTIVO' : 'INACTIVO'}}</span>
                             </td>
                         </tr>
                         <tr>
