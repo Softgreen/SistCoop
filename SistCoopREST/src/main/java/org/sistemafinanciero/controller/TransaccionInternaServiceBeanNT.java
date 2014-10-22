@@ -31,6 +31,7 @@ import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionEntidadBoveda;
+import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 import org.sistemafinanciero.service.nt.TransaccionInternaServiceNT;
 
 @Named
@@ -219,7 +220,6 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		voucher.setEntidad(entidad.getDenominacion());
 
 		voucher.setTrabajador(transaccion.getObservacion());
-
 		return voucher;
 	}
 
@@ -227,6 +227,24 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 	public VoucherTransaccionBovedaBoveda getVoucherTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public TreeSet<GenericDetalle> getDetalleTransaccionEntidadBoveda(BigInteger idTransaccionEntidadBoveda) {
+		TransaccionBovedaOtro transaccion = transaccionBovedaOtroDAO.find(idTransaccionEntidadBoveda);				
+		if (transaccion == null)
+			return null;
+
+		Set<TransaccionBovedaOtroDetall> set = transaccion.getTransaccionBovedaOtroDetalls();
+
+		TreeSet<GenericDetalle> detalle = new TreeSet<GenericDetalle>();
+		for (TransaccionBovedaOtroDetall genericDetalle : set) {
+			GenericDetalle d = new GenericDetalle();
+			d.setCantidad(genericDetalle.getCantidad());
+			d.setValor(genericDetalle.getMonedaDenominacion().getValor());
+			detalle.add(d);
+		}
+		return detalle;
 	}
 
 }
