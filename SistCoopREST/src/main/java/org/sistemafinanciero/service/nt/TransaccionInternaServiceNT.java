@@ -11,17 +11,19 @@ import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionEntidadBoveda;
 
-
 @Remote
 public interface TransaccionInternaServiceNT {
-	
+
 	public VoucherTransaccionBovedaCaja getVoucherTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja);
-	
+
 	public VoucherTransaccionCajaCaja getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja);
 
 	public TreeSet<GenericDetalle> getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja);
 
 	public VoucherTransaccionEntidadBoveda getVoucherTransaccionEntidadBoveda(BigInteger idTransaccionEntidadBoveda);
-	
+
+	public TreeSet<GenericDetalle> getDetalleTransaccionEntidadBoveda(BigInteger idTransaccionEntidadBoveda);
+
 	public VoucherTransaccionBovedaBoveda getVoucherTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda);
+
 }

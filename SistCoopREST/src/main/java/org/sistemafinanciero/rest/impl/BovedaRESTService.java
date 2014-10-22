@@ -217,7 +217,13 @@ public class BovedaRESTService implements BovedaREST {
 		VoucherTransaccionEntidadBoveda voucher = transaccionInternaServiceNT.getVoucherTransaccionEntidadBoveda(idTransaccionEntidadBoveda);
 		return Response.status(Response.Status.OK).entity(voucher).build();
 	}
-	
+
+	@Override
+	public Response getDetalleTransaccionEntidadBoveda(BigInteger idTransaccionEntidadBoveda) {
+		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionEntidadBoveda(idTransaccionEntidadBoveda);
+		return Response.status(Response.Status.OK).entity(detalleTransaccion).build();
+	}
+
 	@Override
 	public Response getVoucherTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) {
 		VoucherTransaccionBovedaBoveda voucher = transaccionInternaServiceNT.getVoucherTransaccionBovedaBoveda(idTransaccionBovedaBoveda);
@@ -265,7 +271,7 @@ public class BovedaRESTService implements BovedaREST {
 	}
 
 	@Override
-	public Response createTransaccionBovedaBoveda(BigInteger idBovedaOrigen, BigInteger idBovedaDestino, Set<GenericDetalle> detalleTransaccion) {		
+	public Response createTransaccionBovedaBoveda(BigInteger idBovedaOrigen, BigInteger idBovedaDestino, Set<GenericDetalle> detalleTransaccion) {
 		Response response;
 		try {
 			BigInteger idTransaccion = bovedaServiceTS.crearTransaccionBovedaBoveda(idBovedaOrigen, idBovedaDestino, detalleTransaccion);
@@ -279,7 +285,5 @@ public class BovedaRESTService implements BovedaREST {
 		}
 		return response;
 	}
-
-	
 
 }
