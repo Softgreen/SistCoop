@@ -93,7 +93,7 @@
                             <td colspan="2" style="font-weight: bold;">
                                 Total Transacci&oacute;n: <span ng-bind="getTotalTransaccion() | currency : getBoveda().moneda.simbolo"></span>
                             </td>
-                            <td ng-show="getTotalTransaccion() == 0">
+                            <td ng-show="getTotalTransaccion() == 0" style="color: #a94442;">
                                 Invalido
                             </td>
                         </tr>
@@ -137,7 +137,7 @@
                             <td colspan="2" style="font-weight: bold;">
                                 Total Boveda: <span ng-bind="getTotalBoveda() | currency : getBoveda().moneda.simbolo"></span>
                             </td>
-                            <td ng-show="getTotalBoveda() == 0">
+                            <td ng-show="getTotalBoveda() == 0" style="color: #a94442;">
                                 Invalido
                             </td>
                         </tr>
