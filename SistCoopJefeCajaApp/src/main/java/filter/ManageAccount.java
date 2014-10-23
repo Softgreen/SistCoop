@@ -28,7 +28,6 @@ public class ManageAccount extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		KeycloakSecurityContext session = (KeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
 		String a = session.getTokenString();
-		System.out.println("tokennnnn:" + a);
 		String acctUri = KeycloakUriBuilder.fromUri("/auth").path(ServiceUrlConstants.ACCOUNT_SERVICE_PATH).queryParam("referrer", Configuration.appName).build(Configuration.realName).toString();
 		response.sendRedirect(acctUri);
 	}

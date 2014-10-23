@@ -26,7 +26,7 @@ define(['../module'], function (controllers) {
                 data: 'sucursales',
                 multiSelect: false,
                 columnDefs: [
-                    { field: "denominacion", displayName: "DENOMINACION"},
+                    { field: "denominacion", displayName: "DENOMINACIÓN"},
                     { field: "abreviatura", displayName: "ABREVIATURA"},
                     {displayName: 'ESTADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>'},
                     {displayName: 'EDIT', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}

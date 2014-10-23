@@ -78,7 +78,7 @@ define(['./app'], function(app) {
                             }
                         },
                         "viewContent":{
-                            template: '<div ui-view style="min-height: 472px;"></br></br></div>'
+                        	template: '<div ui-view style="min-height: 472px;"><h4 class="text-center" style="font-weight: bold; color: blue;">ADMINISTRAR SUCURSALES</h4><h3 class="text-center"><img alt="Caja Ventura" src="images/modules/sucursales.png"></h3></div>'
                         }
                     }
                 })
@@ -96,7 +96,7 @@ define(['./app'], function(app) {
                             }
                         },
                         "viewContent":{
-                            template: '<div ui-view style="min-height: 472px;"></br></br></div>'
+                        	template: '<div ui-view style="min-height: 472px;"><h4 class="text-center" style="font-weight: bold; color: blue;">ADMINISTRAR TRABAJADORES</h4><h3 class="text-center"><img alt="Caja Ventura" src="images/modules/trabajador.png"></h3></div>'
                         }
                     }
                 })

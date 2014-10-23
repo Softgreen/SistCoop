@@ -3,8 +3,8 @@
         <legend style="padding-bottom: 5px;">
             <div class="row">
                 <div class="col-sm-6">
-                    Editar sucursal
-                    <span ng-if="!sucursal.estado" class="label label-danger">Sucursal inactiva</span>
+                    Editar Sucursal
+                    <span ng-if="!sucursal.estado" class="label label-danger">Sucursal Inactiva</span>
                 </div>
                 <div class="col-sm-6" ng-if="sucursal.estado" style="text-align: right;font-size: 14px;">
                     <button type="button" ng-click="eliminarSucursal()" class="btn btn-danger">Eliminar</button>
@@ -19,7 +19,8 @@
         <div class="col-sm-6">
             <form name="crearSucursalForm" ng-submit="crearTransaccion()" novalidate>
                 <div class="form-group" ng-class="{ 'has-error' : crearSucursalForm.denominacion.$invalid && (control.submitted || crearSucursalForm.denominacion.$dirty)}">
-                    <label>Denominacion</label>
+                    <label>Denominaci&oacute;n</label>
+                    <label style="color: brown;">(*)</label>
                     <input focus-on="focusDenominacion" name="denominacion" type="text" ng-model="view.denominacion" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" capitalize required/>
                     <div ng-show="crearSucursalForm.denominacion.$invalid && (control.submitted || crearSucursalForm.denominacion.$dirty)">
                         <p class="help-block" ng-show="crearSucursalForm.denominacion.$error.required">
@@ -35,10 +36,11 @@
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : crearSucursalForm.abreviatura.$invalid && (control.submitted || crearSucursalForm.abreviatura.$dirty)}">
                     <label>Abreviatura</label>
+                    <label style="color: brown;">(*)</label>
                     <input name="abreviatura" type="text" ng-model="view.abreviatura" ng-minlength="1" ng-maxlength="10" class="form-control" placeholder="Abreviatura" capitalize required/>
                     <div ng-show="crearSucursalForm.abreviatura.$invalid && (control.submitted || crearSucursalForm.abreviatura.$dirty)">
                         <p class="help-block" ng-show="crearSucursalForm.abreviatura.$error.required">
-                            Ingrese denominacion.
+                            Ingrese Abreviatura.
                         </p>
                         <p class="help-block" ng-show="crearSucursalForm.abreviatura.$error.minlength">
                             Minimo 1 Caracter.
@@ -62,7 +64,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Agencias asignadas
+                        Agencias Asignadas
                         <button type="button" ng-click="openNuevaAgencia()" class="btn btn-link">Nuevo</button>
                     </h3>
                 </div>
@@ -71,7 +73,7 @@
                         <thead>
                         <tr>
                             <th>Agencia</th>
-                            <th>Codigo</th>
+                            <th>C&oacute;digo</th>
                             <th>Estado</th>
                             <th>Edit</th>
                         </tr>
