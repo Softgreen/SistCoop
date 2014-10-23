@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.ejb.EJB;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -29,6 +30,7 @@ import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
+import org.sistemafinanciero.entity.TransaccionBovedaOtroView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
@@ -284,6 +286,24 @@ public class BovedaRESTService implements BovedaREST {
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
+	}
+
+	@Override
+	public Response getTransaccionesEntidadBoveda(BigInteger idAgencia, Integer offset, Integer limit) {
+		TransaccionBovedaOtroView transaccion = transaccionInternaServiceNT.getTransaccionesEntidadBoveda(idAgencia, offset, limit);
+		return Response.status(Response.Status.OK).entity(transaccion).build();
+	}
+
+	@Override
+	public Response getTransaccionesBovedaBovedaEnviados(BigInteger idAgencia) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response getTransaccionesBovedaBovedaRecibidos(BigInteger idAgencia) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

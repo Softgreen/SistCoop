@@ -77,6 +77,16 @@ define(['./module'], function (services) {
                 },
                 getDetalleTransaccionEntidadBoveda: function(idTransaccionBovedaCaja){
                     return Restangular.one(baseUrl+"/detalleTransaccionEntidadBoveda/"+idTransaccionBovedaCaja).get();
+                },
+
+                getTransaccionesEntidadBoveda: function(idAgencia){
+                    return Restangular.all(baseUrl+"/transaccionEntidadBoveda/"+idAgencia).getList();
+                },
+                getTransaccionesBovedaBovedaEnviados: function(idAgencia){
+                    return Restangular.all(baseUrl+"/transaccionBovedaBoveda/enviados/"+idAgencia).getList();
+                },
+                getTransaccionesBovedaBovedaRecibidos: function(idAgencia){
+                    return Restangular.all(baseUrl+"/transaccionBovedaBoveda/recibidos/"+idAgencia).getList();
                 }
             };
         }]);

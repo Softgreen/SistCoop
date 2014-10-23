@@ -25,6 +25,7 @@ import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaOtro;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroDetall;
+import org.sistemafinanciero.entity.TransaccionBovedaOtroView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaBoveda;
@@ -245,6 +246,12 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 			detalle.add(d);
 		}
 		return detalle;
+	}
+
+	@Override
+	public TransaccionBovedaOtroView getTransaccionesEntidadBoveda(BigInteger idAgencia, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -107,7 +107,7 @@ define(['./app'], function(app) {
                             controller: function($scope){
                                 $scope.menus = [
                                     {'name':'Externo', submenus:[
-                                        { 'name':'Entidad/Boveda' , 'state':'app.transaccion.nuevaTransaccionEntidadBoveda'}
+                                        { 'name':'Entidad/Boveda' , 'state':'app.transaccion.buscarTransaccionEntidadBoveda'}
                                     ]},
                                     {'name':'Interno', submenus:[
                                         { 'name':'Boveda/Boveda' , 'state':'app.transaccion.nuevaTransaccionBovedaBoveda'},
@@ -175,6 +175,10 @@ define(['./app'], function(app) {
                     templateUrl: "views/jefeCaja/caja/buscarCaja.html"
                 })
 
+                .state('app.transaccion.buscarTransaccionEntidadBoveda', {
+                    url: "/buscarTransaccionEntidadBoveda",
+                    templateUrl: "views/jefeCaja/transaccion/buscarTransaccionEntidadBoveda.html"
+                })
                 .state('app.transaccion.nuevaTransaccionEntidadBoveda', {
                     url: "/transaccionEntidadBovedad",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionEntidadBoveda.html"

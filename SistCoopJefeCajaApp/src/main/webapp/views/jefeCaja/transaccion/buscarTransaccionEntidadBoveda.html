@@ -1,0 +1,16 @@
+<div ng-controller="BuscarTransaccionEntidadBovedaController">
+    
+    <fieldset>
+        <legend>Transacci&oacute;n Entidad - Boveda</legend>
+        <button type="button" class="btn btn-primary" ng-click="nuevo()">Nuevo</button>
+    </fieldset>
+    <br/>
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}"
+		close="closeAlert($index)"> <span ng-bind-html="alert.msg"></span>
+	</alert>
+	<div class="row">
+        <div class="col-sm-12">
+            <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); width: 100%; height: 300px; font-size: 11px;"></div>
+        </div>
+    </div>
+</div>
