@@ -36,8 +36,6 @@ define(['../module'], function (controllers) {
             };
 
             $scope.ok = function () {
-            	alert("hola " + $scope.formCrearAgencia.$valid);
-            	
                 if($scope.formCrearAgencia.$valid){
                     $modalInstance.close($scope.agencia);
                 } else {
@@ -48,7 +46,6 @@ define(['../module'], function (controllers) {
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
             };
-
 
         }]);
 });
