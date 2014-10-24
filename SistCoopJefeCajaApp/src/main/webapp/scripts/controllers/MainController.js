@@ -4,37 +4,32 @@ define(['./module'], function (controllers) {
     controllers.controller('MainController', ['$scope','$state','$window','$timeout','localStorageService','SessionService','ConfiguracionService',
         function($scope,$state,$window,$timeout,localStorageService,SessionService,ConfiguracionService) {
 
-    	$scope.defaulPrinterName = undefined;
+            $scope.defaulPrinterName = undefined;
 
-        $scope.searchPrinter = function(){
-            $timeout(function(){
-                if(isLoaded()){
-                    findPrinter($scope.defaulPrinterName);
-                    return;
+            $scope.searchPrinter = function(){
+                $timeout(function(){
+                    if(isLoaded()){
+                        findPrinter($scope.defaulPrinterName);
+                        return;
+                    } else {
+                        $scope.searchPrinter();
+                    }
+                },3000);
+            };
+            $scope.loadPrinter = function(){
+                var cookieName = ConfiguracionService.getCookiePrinterName();
+                var valueCookie = localStorageService.get(cookieName);
+                if(valueCookie !== null){
+                    $scope.defaulPrinterName = valueCookie;
                 } else {
-                    $scope.searchPrinter();
+                    var defaulPrinterName = ConfiguracionService.getDefaultPrinterName();
+                    localStorageService.set(cookieName, defaulPrinterName);
+                    $scope.defaulPrinterName = defaulPrinterName;
                 }
-            },3000);
-        };
-        $scope.loadPrinter = function(){
-            var cookieName = ConfiguracionService.getCookiePrinterName();
-            var valueCookie = localStorageService.get(cookieName);
-            if(valueCookie !== null){
-                $scope.defaulPrinterName = valueCookie;
-            } else {
-                var defaulPrinterName = ConfiguracionService.getDefaultPrinterName();
-                localStorageService.set(cookieName, defaulPrinterName);
-                $scope.defaulPrinterName = defaulPrinterName;
-            }
-            $scope.searchPrinter();
-        };
-        $scope.loadPrinter();
-        
-            $scope.$watch('redirect', function(newValue, oldvalue){
-                if(newValue != oldvalue)
-                    if($scope.redirect == true)
-                        RedirectService.limpiar();
-            }, true);
+                $scope.searchPrinter();
+            };
+            $scope.loadPrinter();
+
 
             $scope.agenciaSession = {};
             $scope.usuarioSession = undefined;

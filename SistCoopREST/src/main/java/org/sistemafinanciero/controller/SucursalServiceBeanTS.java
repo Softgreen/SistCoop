@@ -113,8 +113,9 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 
 		QueryParameter queryParameter = QueryParameter.with("codigo", agencia.getCodigo());
 		List<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo, queryParameter.parameters());
-		if (list.size() != 0)
-			throw new RollbackFailureException("Codigo de agencia ya registrado, no se puede crear");
+		if (list.size() != 0) {
+			throw new RollbackFailureException("Codigo de agencia ya registrado, no se puede crear");						
+		}			
 
 		agencia.setIdAgencia(null);
 		agencia.setBovedas(null);
@@ -144,8 +145,12 @@ public class SucursalServiceBeanTS implements SucursalServiceTS {
 
 		QueryParameter queryParameter = QueryParameter.with("codigo", agencia.getCodigo());
 		List<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.findByCodigo, queryParameter.parameters());
-		if (list.size() != 0)
-			throw new RollbackFailureException("Codigo de agencia ya registrado, no se puede crear");
+		if (list.size() != 0){
+			for (Agencia ag : list) {
+				if(!ag.getIdAgencia().equals(agencia.getIdAgencia()))
+					throw new RollbackFailureException("Codigo de agencia ya registrado, no se puede actualizar");
+			}
+		}			
 
 		agenciaDB.setAbreviatura(agencia.getAbreviatura());
 		agenciaDB.setDenominacion(agencia.getDenominacion());

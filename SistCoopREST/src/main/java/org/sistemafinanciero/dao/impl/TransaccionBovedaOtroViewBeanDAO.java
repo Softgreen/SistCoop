@@ -34,7 +34,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.sistemafinanciero.dao.DAO;
-import org.sistemafinanciero.entity.Accionista;
+import org.sistemafinanciero.entity.TransaccionBovedaOtroView;
 
 /**
  * A minimalistic CRUD implementation. Usually provides the implementation of
@@ -45,40 +45,40 @@ import org.sistemafinanciero.entity.Accionista;
 @Stateless
 @Local(DAO.class)
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class AccionistaBeanDAO implements DAO<Object, Accionista> {
+public class TransaccionBovedaOtroViewBeanDAO implements DAO<Object, TransaccionBovedaOtroView> {
 
 	@PersistenceContext
 	private EntityManager em;
 
-	public Accionista create(Accionista t) {
+	public TransaccionBovedaOtroView create(TransaccionBovedaOtroView t) {
 		this.em.persist(t);
 		return t;
 	}
 
-	public void delete(Accionista t) {
+	public void delete(TransaccionBovedaOtroView t) {
 		t = this.em.merge(t);
 		this.em.remove(t);
 	}
 
-	public Accionista find(Object id) {
-		return this.em.find(Accionista.class, id);
+	public TransaccionBovedaOtroView find(Object id) {
+		return this.em.find(TransaccionBovedaOtroView.class, id);
 	}
 
-	public Accionista update(Accionista t) {
+	public TransaccionBovedaOtroView update(TransaccionBovedaOtroView t) {
 		return this.em.merge(t);
 	}
 
-	public List<Accionista> findAll() {
-		List<Accionista> list = null;
+	public List<TransaccionBovedaOtroView> findAll() {
+		List<TransaccionBovedaOtroView> list = null;
 		CriteriaQuery cq = this.em.getCriteriaBuilder().createQuery();
-		cq.select(cq.from(Accionista.class));
+		cq.select(cq.from(TransaccionBovedaOtroView.class));
 		list = this.em.createQuery(cq).getResultList();
 		return list;
 	}
 	
-	public List<Accionista> findRange(int[] range) {
+	public List<TransaccionBovedaOtroView> findRange(int[] range) {
         javax.persistence.criteria.CriteriaQuery cq = this.em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Accionista.class));
+        cq.select(cq.from(TransaccionBovedaOtroView.class));
         javax.persistence.Query q = this.em.createQuery(cq);
         q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
@@ -87,7 +87,7 @@ public class AccionistaBeanDAO implements DAO<Object, Accionista> {
 
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = this.em.getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<Accionista> rt = cq.from(Accionista.class);
+        javax.persistence.criteria.Root<TransaccionBovedaOtroView> rt = cq.from(TransaccionBovedaOtroView.class);
         cq.select(this.em.getCriteriaBuilder().count(rt));
         javax.persistence.Query q = this.em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
@@ -107,22 +107,22 @@ public class AccionistaBeanDAO implements DAO<Object, Accionista> {
 		return ((Long)query.getSingleResult()).intValue();
 	}
     
-	public List<Accionista> findByNamedQuery(String namedQueryName) {
+	public List<TransaccionBovedaOtroView> findByNamedQuery(String namedQueryName) {
 		return this.em.createNamedQuery(namedQueryName).getResultList();
 	}
 
-	public List<Accionista> findByNamedQuery(String namedQueryName,
+	public List<TransaccionBovedaOtroView> findByNamedQuery(String namedQueryName,
 			Map<String, Object> parameters) {
 		return findByNamedQuery(namedQueryName, parameters, 0);
 	}
 
-	public List<Accionista> findByNamedQuery(String queryName,
+	public List<TransaccionBovedaOtroView> findByNamedQuery(String queryName,
 			int resultLimit) {
 		return this.em.createNamedQuery(queryName).setMaxResults(resultLimit)
 				.getResultList();
 	}
 
-	public List<Accionista> findByNamedQuery(String namedQueryName,
+	public List<TransaccionBovedaOtroView> findByNamedQuery(String namedQueryName,
 			Map<String, Object> parameters, int resultLimit) {
 		Set<Entry<String, Object>> rawParameters = parameters.entrySet();
 		Query query = this.em.createNamedQuery(namedQueryName);
@@ -134,7 +134,7 @@ public class AccionistaBeanDAO implements DAO<Object, Accionista> {
 		return query.getResultList();
 	}
 	
-	public List<Accionista> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, Integer offset, Integer limit) {
+	public List<TransaccionBovedaOtroView> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, Integer offset, Integer limit) {
 		Set<Entry<String, Object>> rawParameters = parameters.entrySet();
 		Query query = this.em.createNamedQuery(namedQueryName);
 		for (Entry<String, Object> entry : rawParameters) {

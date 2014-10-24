@@ -2,6 +2,7 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,6 +15,7 @@ import javax.inject.Named;
 
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.BovedaCaja;
@@ -32,7 +34,6 @@ import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionEntidadBoveda;
-import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 import org.sistemafinanciero.service.nt.TransaccionInternaServiceNT;
 
 @Named
@@ -49,6 +50,9 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 	@Inject
 	private DAO<Object, TransaccionBovedaOtro> transaccionBovedaOtroDAO;
+
+	@Inject
+	private DAO<Object, TransaccionBovedaOtroView> transaccionBovedaOtroViewDAO;
 
 	@Override
 	public VoucherTransaccionCajaCaja getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) {
@@ -232,7 +236,7 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 	@Override
 	public TreeSet<GenericDetalle> getDetalleTransaccionEntidadBoveda(BigInteger idTransaccionEntidadBoveda) {
-		TransaccionBovedaOtro transaccion = transaccionBovedaOtroDAO.find(idTransaccionEntidadBoveda);				
+		TransaccionBovedaOtro transaccion = transaccionBovedaOtroDAO.find(idTransaccionEntidadBoveda);
 		if (transaccion == null)
 			return null;
 
@@ -249,9 +253,10 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 	}
 
 	@Override
-	public TransaccionBovedaOtroView getTransaccionesEntidadBoveda(BigInteger idAgencia, Integer offset, Integer limit) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TransaccionBovedaOtroView> getTransaccionesEntidadBoveda(BigInteger idAgencia, Integer offset, Integer limit) {
+		QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
+		List<TransaccionBovedaOtroView> list = transaccionBovedaOtroViewDAO.findByNamedQuery(TransaccionBovedaOtroView.findByIdAgencia, queryParameter.parameters(), offset, limit);
+		return list;
 	}
 
 }
