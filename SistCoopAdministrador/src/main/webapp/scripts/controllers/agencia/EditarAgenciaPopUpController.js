@@ -26,6 +26,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.formCrearAgencia = {};
+            
             $scope.addAgencia = function() {
                 if($scope.formCrearAgencia.$valid){
                     $scope.ok();
