@@ -2,14 +2,14 @@
     <form name="crearTrabajadorForm" ng-submit="crearTransaccion()" novalidate>
         <div class="row">
             <div class="col-sm-12">
-                <h3>Nuevo trabajador</h3>
+                <h3>Editar Trabajador</h3>
             </div>
         </div>
         <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
             <span ng-bind="alert.msg"></span>
         </alert>
         <div class="panel panel-default">
-            <div class="panel-heading">Agencia</div>
+            <div class="panel-heading" style="font-weight: bold;">Agencia</div>
             <div class="panel-body">
                 <div class=row>
                     <div class="col-sm-4">
@@ -43,7 +43,7 @@
         </div>
 
         <div class="panel panel-default">
-            <div class="panel-heading">Identicacion</div>
+            <div class="panel-heading" style="font-weight: bold;">Identicaci&oacute;n</div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-4">
@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.numeroDocumento.$invalid && (control.submitted || crearTrabajadorForm.numeroDocumento.$dirty)}">
-                            <label>Numero Documento</label>
+                            <label>N&uacute;mero Documento</label>
                             <div class="input-group">
                                 <input type="text" ui-keypress="{13:'buscarTrabajador($event)'}" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Numero documento" disabled/>
                                  <span class="input-group-btn">
@@ -72,7 +72,7 @@
                             </div>
                             <div ng-show="crearTrabajadorForm.numeroDocumento.$invalid && (control.submitted || crearTrabajadorForm.numeroDocumento.$dirty)">
                                 <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.required">
-                                    Ingrese Numero Documento Valido.
+                                    Ingrese N&uacute;mero Documento Valido.
                                 </p>
                                 <p class="help-block" ng-show="crearTrabajadorForm.numeroDocumento.$error.minlength">
                                     Minimo 1 Caracter.
@@ -96,7 +96,7 @@
         </div>
 
         <div class="panel panel-default">
-            <div class="panel-heading">Acceso al sistema</div>
+            <div class="panel-heading" style="font-weight: bold;">Acceso al Sistema</div>
             <div class="panel-body">
                 <div class=row>
                     <div class="col-sm-4">
