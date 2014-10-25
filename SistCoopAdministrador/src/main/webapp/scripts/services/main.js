@@ -5,7 +5,9 @@ define([
     './TrabajadorService',
     './SucursalService',
     './AgenciaService',
-    './PersonaNaturalService'
+    './PersonaNaturalService',
+
+    './MaestroService'
 ], function () {
 
 });

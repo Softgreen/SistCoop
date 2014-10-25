@@ -58,6 +58,9 @@
                     <li>
                         <a href="http://localhost:8080/auth/admin/SistemaFinanciero/console/index.html" target="_blank">Usuarios</a>
                     </li>
+                    <li ng-class="{active: $state.includes(&#39;app.administracion&#39;)}">
+                        <a href="#administracion" ui-sref="app.administracion({redirect:true})" ng-class="{&#39;sf-nav-bar-menu sf-nav-bar-menu-selected&#39;: $state.includes(&#39;app.administracion&#39;)}">Administracion</a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>

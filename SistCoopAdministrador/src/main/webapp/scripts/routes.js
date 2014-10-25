@@ -100,6 +100,24 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.administracion', {
+                    url: "/administracion",
+                    views: {
+                        "viewMenu":{
+                            controller: function($scope){
+                                $scope.menus = [
+                                    {'name':'Persona Natural', submenus:[
+                                        { 'name':'Nuevo' , 'state':'app.administracion.crearPersonaNatural'},
+                                        { 'name':'Buscar' , 'state':'app.administracion.buscarPersonaNatural'}
+                                    ]}
+                                ];
+                            }
+                        },
+                        "viewContent":{
+                            template: '<div ui-view style="min-height: 472px;"></div>'
+                        }
+                    }
+                })
 
                 .state('app.sucursal.nuevaSucursal', {
                     url: '/nuevo',
@@ -146,7 +164,30 @@ define(['./app'], function(app) {
                 .state('app.transaccion.nuevaTransaccionBovedaCaja', {
                     url: "/buscar",
                     templateUrl: "views/jefeCaja/transaccion/nuevaTransaccionBovedaCaja.html"
-                })                
+                })
+
+
+                .state('app.administracion.buscarPersonaNatural', {
+                    url: '/personaNatural/buscar',
+                    templateUrl: 'views/administrador/persona/natural/buscarPersonaNatural.html',
+                    controller: 'BuscarPersonaNaturalController'
+                })
+                .state('app.administracion.crearPersonaNatural', {
+                    url: "/personaNatural?tipoDocumento&numeroDocumento",
+                    templateUrl: "views/administrador/persona/natural/crearPersonaNatural.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.params = {};
+                        $scope.params.idTipoDocumento = $stateParams.tipoDocumento;
+                        $scope.params.numeroDocumento = $stateParams.numeroDocumento;
+                    }
+                })
+                .state('app.administracion.editarPersonaNatural', {
+                    url: "/personaNatural/:id",
+                    templateUrl: "views/administrador/persona/natural/editarPersonaNatural.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
+                })
         }
     ]).run(['$rootScope', '$state', '$stateParams',
             function ($rootScope,   $state,   $stateParams) {
