@@ -12,7 +12,7 @@ define(['../module'], function (controllers) {
 
 
             $scope.nuevo = function(){
-                $state.transitionTo('app.boveda.nuevaCaja');
+                $state.transitionTo('app.caja.nuevaCaja');
             };
 
             $scope.loadCajas = function(){
