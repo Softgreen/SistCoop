@@ -131,8 +131,10 @@ public class TrabajadorServiceBeanNT implements TrabajadorServiceNT {
 			for (Trabajador trabajador : list) {
 				PersonaNatural personaNatural = trabajador.getPersonaNatural();
 				TipoDocumento tipoDocumento = personaNatural.getTipoDocumento();
+				Agencia agencia = trabajador.getAgencia();
 				Hibernate.initialize(personaNatural);
-				Hibernate.initialize(tipoDocumento);				
+				Hibernate.initialize(tipoDocumento);
+				Hibernate.initialize(agencia);
 			}
 		}
 		return list;

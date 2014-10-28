@@ -43,7 +43,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : formCrearAgencia.abreviatura.$invalid && (control.submitted || formCrearAgencia.abreviatura.$dirty)}">
                             <label>Abreviatura</label>
                             <label style="color: brown;">(*)</label>
-                            <input name="abreviatura" type="text" ng-model="agencia.abreviatura" ng-minlength="1" ng-maxlength="10" class="form-control" placeholder="Abreviatura" capitalize required/>
+                            <input name="abreviatura" type="text" ng-model="agencia.abreviatura" ng-minlength="1" ng-maxlength="20" class="form-control" placeholder="Abreviatura" capitalize required/>
                             <div ng-show="formCrearAgencia.abreviatura.$invalid && (control.submitted || formCrearAgencia.abreviatura.$dirty)">
                                 <p class="help-block" ng-show="formCrearAgencia.abreviatura.$error.required">
                                     Ingrese Abreviatura.
@@ -52,7 +52,7 @@
                                     Minimo 1 Caracter.
                                 </p>
                                 <p class="help-block" ng-show="formCrearAgencia.abreviatura.$error.maxlength">
-                                    Maximo 10 Caracteres.
+                                    Maximo 20 Caracteres.
                                 </p>
                             </div>
                         </div>

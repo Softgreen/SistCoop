@@ -26,14 +26,15 @@ define(['../module'], function (controllers) {
                 data: 'trabajadores',
                 multiSelect: false,
                 columnDefs: [
-                    { field: "personaNatural.tipoDocumento.abreviatura", displayName: "DOCUMENTO"},
-                    { field: "personaNatural.numeroDocumento", displayName: "NRO DOC."},
-                    { field: "personaNatural.apellidoPaterno", displayName: "AP.PATERNO"},
-                    { field: "personaNatural.apellidoMaterno", displayName: "AP.MATERNO"},
+                    { field: "personaNatural.tipoDocumento.abreviatura", displayName: "TIPO DOC.", width:80},
+                    { field: "personaNatural.numeroDocumento", displayName: "NUM. DOC.", width:100},
+                    { field: "personaNatural.apellidoPaterno", displayName: "AP. PATERNO", width:130},
+                    { field: "personaNatural.apellidoMaterno", displayName: "AP. MATERNO", width:130},
                     { field: "personaNatural.nombres", displayName: "NOMBRES"},
-                    { field: "usuario", displayName: "USUARIO"},
-                    {displayName: 'ESTADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>'},
-                    {displayName: 'EDIT', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}
+                    { field: "usuario", displayName: "USUARIO", width:110},
+                    { field: "agencia.abreviatura", displayName: "AGENCIA", width:100},
+                    {displayName: 'ESTADO', width:70, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>'},
+                    {displayName: 'EDIT', width:70, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}
                 ]
             };
 

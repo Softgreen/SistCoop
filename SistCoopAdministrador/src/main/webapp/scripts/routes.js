@@ -114,7 +114,7 @@ define(['./app'], function(app) {
                             }
                         },
                         "viewContent":{
-                            template: '<div ui-view style="min-height: 472px;"></div>'
+                        	template: '<div ui-view style="min-height: 472px;"><h4 class="text-center" style="font-weight: bold; color: blue;">ADMINISTRAR PERSONA</h4><h3 class="text-center"><img alt="Caja Ventura" src="images/modules/registrarPersona.png"></h3></div>'
                         }
                     }
                 })

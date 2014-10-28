@@ -94,7 +94,7 @@ public class Trabajador implements java.io.Serializable {
 		this.personaNatural = personaNatural;
 	}
 
-	@XmlTransient
+	@XmlElement(name = "agencia")
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_AGENCIA", nullable = false)
