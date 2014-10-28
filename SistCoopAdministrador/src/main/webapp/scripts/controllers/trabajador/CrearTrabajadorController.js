@@ -75,6 +75,10 @@ define(['../module'], function (controllers) {
                 }
             };
 
+            $scope.registrarPersonaNatural = function(){
+                $state.transitionTo('app.administracion.crearPersonaNatural');
+            };
+
             $scope.crearTransaccion = function(){
                 if ($scope.crearTrabajadorForm.$valid && !angular.isUndefined($scope.view.persona)) {
                     $scope.control.inProcess = true;

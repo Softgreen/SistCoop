@@ -95,6 +95,9 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 	public BigInteger create(Caja caja, List<BigInteger> idBovedas) throws RollbackFailureException {
 		Set<ConstraintViolation<Caja>> violations = validator.validate(caja);
 		if (violations.isEmpty()) {
+			caja.setAbierto(false);
+			caja.setEstado(true);
+			caja.setEstadoMovimiento(false);			
 			cajaDAO.create(caja);
 			for (BigInteger idBoveda : idBovedas) {
 				Boveda boveda = bovedaDAO.find(idBoveda);
