@@ -19,30 +19,44 @@ public class VoucherTransaccionBovedaBoveda implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Boolean estado;
+	private BigInteger id;
+	private Boolean estadoConfirmacion;
+	private Boolean estadoSolicitud;
 	private Date fecha;
 	private Date hora;
-	private BigInteger id;
 	private String observacion;
-	private String tipoTransaccion;
+
+	private String bovedaOrigen;
+	private String bovedaDestino;
+	private String agenciaOrigen;
+	private String agenciaDestino;
+
 	private Moneda moneda;
+
 	private BigDecimal monto;
-	private String trabajador;
 
-	private String agenciaAbreviatura;
-	private String agenciaDenominacion;
-	private String bovedaDenominacion;
-	private String entidad;
-	
-	private String origenTransaccion;
-	private String destinoTransaccion;
-
-	public Boolean getEstado() {
-		return estado;
+	public BigInteger getId() {
+		return id;
 	}
 
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
+	public void setId(BigInteger id) {
+		this.id = id;
+	}
+
+	public Boolean getEstadoConfirmacion() {
+		return estadoConfirmacion;
+	}
+
+	public void setEstadoConfirmacion(Boolean estadoConfirmacion) {
+		this.estadoConfirmacion = estadoConfirmacion;
+	}
+
+	public Boolean getEstadoSolicitud() {
+		return estadoSolicitud;
+	}
+
+	public void setEstadoSolicitud(Boolean estadoSolicitud) {
+		this.estadoSolicitud = estadoSolicitud;
 	}
 
 	public Date getFecha() {
@@ -61,20 +75,44 @@ public class VoucherTransaccionBovedaBoveda implements java.io.Serializable {
 		this.hora = hora;
 	}
 
-	public BigInteger getId() {
-		return id;
-	}
-
-	public void setId(BigInteger id) {
-		this.id = id;
-	}
-
 	public String getObservacion() {
 		return observacion;
 	}
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
+	}
+
+	public String getBovedaOrigen() {
+		return bovedaOrigen;
+	}
+
+	public void setBovedaOrigen(String bovedaOrigen) {
+		this.bovedaOrigen = bovedaOrigen;
+	}
+
+	public String getBovedaDestino() {
+		return bovedaDestino;
+	}
+
+	public void setBovedaDestino(String bovedaDestino) {
+		this.bovedaDestino = bovedaDestino;
+	}
+
+	public String getAgenciaOrigen() {
+		return agenciaOrigen;
+	}
+
+	public void setAgenciaOrigen(String agenciaOrigen) {
+		this.agenciaOrigen = agenciaOrigen;
+	}
+
+	public String getAgenciaDestino() {
+		return agenciaDestino;
+	}
+
+	public void setAgenciaDestino(String agenciaDestino) {
+		this.agenciaDestino = agenciaDestino;
 	}
 
 	public Moneda getMoneda() {
@@ -91,70 +129,6 @@ public class VoucherTransaccionBovedaBoveda implements java.io.Serializable {
 
 	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
-	}
-
-	public String getTrabajador() {
-		return trabajador;
-	}
-
-	public void setTrabajador(String trabajador) {
-		this.trabajador = trabajador;
-	}
-
-	public String getAgenciaAbreviatura() {
-		return agenciaAbreviatura;
-	}
-
-	public void setAgenciaAbreviatura(String agenciaAbreviatura) {
-		this.agenciaAbreviatura = agenciaAbreviatura;
-	}
-
-	public String getAgenciaDenominacion() {
-		return agenciaDenominacion;
-	}
-
-	public void setAgenciaDenominacion(String agenciaDenominacion) {
-		this.agenciaDenominacion = agenciaDenominacion;
-	}
-
-	public String getBovedaDenominacion() {
-		return bovedaDenominacion;
-	}
-
-	public void setBovedaDenominacion(String cajaDenominacion) {
-		this.bovedaDenominacion = cajaDenominacion;
-	}
-
-	public String getOrigenTransaccion() {
-		return origenTransaccion;
-	}
-
-	public void setOrigenTransaccion(String origenTransaccion) {
-		this.origenTransaccion = origenTransaccion;
-	}
-
-	public String getDestinoTransaccion() {
-		return destinoTransaccion;
-	}
-
-	public void setDestinoTransaccion(String destinoTransaccion) {
-		this.destinoTransaccion = destinoTransaccion;
-	}
-
-	public String getTipoTransaccion() {
-		return tipoTransaccion;
-	}
-
-	public void setTipoTransaccion(String tipoTransaccion) {
-		this.tipoTransaccion = tipoTransaccion;
-	}
-
-	public String getEntidad() {
-		return entidad;
-	}
-
-	public void setEntidad(String entidad) {
-		this.entidad = entidad;
 	}
 
 }

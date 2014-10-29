@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.ejb.EJB;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -234,6 +233,12 @@ public class BovedaRESTService implements BovedaREST {
 	}
 
 	@Override
+	public Response getDetalleTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) {
+		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaBoveda(idTransaccionBovedaBoveda);
+		return Response.status(Response.Status.OK).entity(detalleTransaccion).build();
+	}
+	
+	@Override
 	public Response getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
 		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaCaja(idTransaccionBovedaCaja);
 		return Response.status(Response.Status.OK).entity(detalleTransaccion).build();
@@ -306,5 +311,7 @@ public class BovedaRESTService implements BovedaREST {
 		List<TransaccionBovedaBovedaView> list = transaccionInternaServiceNT.getTransaccionesBovedaBovedaRecibidos(idAgencia, offset, limit);
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
+
+	
 
 }

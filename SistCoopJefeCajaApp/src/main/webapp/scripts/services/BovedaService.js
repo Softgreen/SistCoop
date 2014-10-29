@@ -75,8 +75,14 @@ define(['./module'], function (services) {
                 getVoucherTransaccionEntidadBoveda: function(idTransaccionEntidadBoveda){
                     return Restangular.one(baseUrl+"/voucherTransaccionEntidadBoveda/"+idTransaccionEntidadBoveda).get();
                 },
+                getVoucherTransaccionBovedaBoveda: function(idTransaccion){
+                    return Restangular.one(baseUrl+"/voucherTransaccionBovedaBoveda/"+idTransaccion).get();
+                },
                 getDetalleTransaccionEntidadBoveda: function(idTransaccionBovedaCaja){
                     return Restangular.one(baseUrl+"/detalleTransaccionEntidadBoveda/"+idTransaccionBovedaCaja).get();
+                },
+                getDetalleTransaccionBovedaBoveda: function(idTransaccion){
+                    return Restangular.one(baseUrl+"/detalleTransaccionBovedaBoveda/"+idTransaccion).get();
                 },
 
                 getTransaccionesEntidadBoveda: function(idAgencia){
