@@ -110,7 +110,7 @@ define(['./app'], function(app) {
                                         { 'name':'Entidad/Boveda' , 'state':'app.transaccion.buscarTransaccionEntidadBoveda'}
                                     ]},
                                     {'name':'Interno', submenus:[
-                                        { 'name':'Boveda/Boveda' , 'state':'app.transaccion.nuevaTransaccionBovedaBoveda'},
+                                        { 'name':'Boveda/Boveda' , 'state':'app.transaccion.buscarTransaccionBovedaBoveda'},
                                         { 'name':'Boveda/Caja' , 'state':'app.transaccion.buscarTransaccionBovedaCaja'}
                                     ]}
                                 ];
@@ -182,6 +182,10 @@ define(['./app'], function(app) {
                 .state('app.transaccion.nuevaTransaccionEntidadBoveda', {
                     url: "/transaccionEntidadBovedad",
                     templateUrl: "views/jefeCaja/transaccion/crearTransaccionEntidadBoveda.html"
+                })
+                .state('app.transaccion.buscarTransaccionBovedaBoveda', {
+                    url: "/buscarTransaccionBovedaBoveda",
+                    templateUrl: "views/jefeCaja/transaccion/buscarTransaccionBovedaBoveda.html"
                 })
                 .state('app.transaccion.nuevaTransaccionBovedaBoveda', {
                     url: "/transaccionBovedaBoveda",

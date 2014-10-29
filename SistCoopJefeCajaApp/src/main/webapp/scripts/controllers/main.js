@@ -19,6 +19,7 @@ define([
     './transaccion/CrearTransaccionBovedaCajaController',
     './transaccion/BuscarTransaccionBovedaCajaController',
     './transaccion/BuscarTransaccionEntidadBovedaController',
+    './transaccion/BuscarTransaccionBovedaBovedaController',
 
     './voucher/VoucherCerrarBoveda',
     './voucher/VoucherTransaccionBovedaCajaController',

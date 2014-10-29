@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import javax.ejb.Remote;
 
+import org.sistemafinanciero.entity.TransaccionBovedaBovedaView;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaBoveda;
@@ -29,5 +30,9 @@ public interface TransaccionInternaServiceNT {
 	public VoucherTransaccionBovedaBoveda getVoucherTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda);
 
 	public List<TransaccionBovedaOtroView> getTransaccionesEntidadBoveda(BigInteger idAgencia, Integer offset, Integer limit);
+
+	public List<TransaccionBovedaBovedaView> getTransaccionesBovedaBovedaEnviados(BigInteger idAgencia, Integer offset, Integer limit);
+
+	public List<TransaccionBovedaBovedaView> getTransaccionesBovedaBovedaRecibidos(BigInteger idAgencia, Integer offset, Integer limit);
 
 }

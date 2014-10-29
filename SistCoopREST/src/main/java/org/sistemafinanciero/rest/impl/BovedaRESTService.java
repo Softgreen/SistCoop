@@ -22,12 +22,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.ejb.EJB;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.entity.TransaccionBovedaBovedaView;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
@@ -294,15 +296,15 @@ public class BovedaRESTService implements BovedaREST {
 	}
 
 	@Override
-	public Response getTransaccionesBovedaBovedaEnviados(BigInteger idAgencia) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getTransaccionesBovedaBovedaEnviados(BigInteger idAgencia, Integer offset, Integer limit) {	
+		List<TransaccionBovedaBovedaView> list = transaccionInternaServiceNT.getTransaccionesBovedaBovedaEnviados(idAgencia, offset, limit);
+		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
 	@Override
-	public Response getTransaccionesBovedaBovedaRecibidos(BigInteger idAgencia) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getTransaccionesBovedaBovedaRecibidos(BigInteger idAgencia, Integer offset, Integer limit) {
+		List<TransaccionBovedaBovedaView> list = transaccionInternaServiceNT.getTransaccionesBovedaBovedaRecibidos(idAgencia, offset, limit);
+		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
 }

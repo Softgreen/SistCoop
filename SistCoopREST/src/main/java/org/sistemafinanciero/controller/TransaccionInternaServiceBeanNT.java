@@ -23,6 +23,7 @@ import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
+import org.sistemafinanciero.entity.TransaccionBovedaBovedaView;
 import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaOtro;
@@ -53,6 +54,9 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 	@Inject
 	private DAO<Object, TransaccionBovedaOtroView> transaccionBovedaOtroViewDAO;
+
+	@Inject
+	private DAO<Object, TransaccionBovedaBovedaView> transaccionBovedaBovedaViewDAO;
 
 	@Override
 	public VoucherTransaccionCajaCaja getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) {
@@ -256,6 +260,20 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 	public List<TransaccionBovedaOtroView> getTransaccionesEntidadBoveda(BigInteger idAgencia, Integer offset, Integer limit) {
 		QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
 		List<TransaccionBovedaOtroView> list = transaccionBovedaOtroViewDAO.findByNamedQuery(TransaccionBovedaOtroView.findByIdAgencia, queryParameter.parameters(), offset, limit);
+		return list;
+	}
+
+	@Override
+	public List<TransaccionBovedaBovedaView> getTransaccionesBovedaBovedaEnviados(BigInteger idAgencia, Integer offset, Integer limit) {
+		QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
+		List<TransaccionBovedaBovedaView> list = transaccionBovedaBovedaViewDAO.findByNamedQuery(TransaccionBovedaBovedaView.findByIdAgenciaOrigen, queryParameter.parameters(), offset, limit);
+		return list;
+	}
+
+	@Override
+	public List<TransaccionBovedaBovedaView> getTransaccionesBovedaBovedaRecibidos(BigInteger idAgencia, Integer offset, Integer limit) {
+		QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
+		List<TransaccionBovedaBovedaView> list = transaccionBovedaBovedaViewDAO.findByNamedQuery(TransaccionBovedaBovedaView.findByIdAgenciaDestino, queryParameter.parameters(), offset, limit);
 		return list;
 	}
 

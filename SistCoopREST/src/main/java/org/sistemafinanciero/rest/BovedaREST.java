@@ -147,11 +147,11 @@ public interface BovedaREST {
 	@GET
 	@Path("/transaccionBovedaBoveda/enviados/{idAgencia}")
 	@Produces({ "application/xml", "application/json" })
-	public Response getTransaccionesBovedaBovedaEnviados(@PathParam("idAgencia") BigInteger idAgencia);
+	public Response getTransaccionesBovedaBovedaEnviados(@PathParam("idAgencia") BigInteger idAgencia, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
 	@GET
 	@Path("/transaccionBovedaBoveda/recibidos/{idAgencia}")
 	@Produces({ "application/xml", "application/json" })
-	public Response getTransaccionesBovedaBovedaRecibidos(@PathParam("idAgencia") BigInteger idAgencia);
+	public Response getTransaccionesBovedaBovedaRecibidos(@PathParam("idAgencia") BigInteger idAgencia, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
 }
