@@ -114,10 +114,10 @@ define(['../module'], function (controllers) {
                     && monedaOrigen.moneda.id == monedaDestino.moneda.id){
 
                 	var det = [];
-                	for(var i = 0; i<$scope.objetosCargados.detalleBovedaOrigen.lenght; i++){
+                	for(var i = 0; i<$scope.objetosCargados.detalleBovedaOrigen.length; i++){
                 		det[i] = {
-                			valor: $scope.objetosCargados.detalleBovedaOrigen.lenght[i].valor,
-                			cantidad: $scope.objetosCargados.detalleBovedaOrigen.lenght[i].cantidad
+                			valor: $scope.objetosCargados.detalleBovedaOrigen[i].valor,
+                			cantidad: $scope.objetosCargados.detalleBovedaOrigen[i].cantidad
                 		};
                 	}
                 	
