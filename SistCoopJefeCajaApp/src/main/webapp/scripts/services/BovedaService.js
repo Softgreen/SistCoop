@@ -84,6 +84,9 @@ define(['./module'], function (services) {
                 getDetalleTransaccionBovedaBoveda: function(idTransaccion){
                     return Restangular.one(baseUrl+"/detalleTransaccionBovedaBoveda/"+idTransaccion).get();
                 },
+                getDetalleTransaccionBovedaBoveda: function(idTransaccion){
+                    return Restangular.one(baseUrl+"/detalleTransaccionBovedaBoveda/"+idTransaccion).get();
+                },
 
                 getTransaccionesEntidadBoveda: function(idAgencia){
                     return Restangular.all(baseUrl+"/transaccionEntidadBoveda/"+idAgencia).getList();

@@ -29,6 +29,8 @@ public interface TransaccionInternaServiceNT {
 
 	public VoucherTransaccionBovedaBoveda getVoucherTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda);
 
+	public TreeSet<GenericDetalle> getDetalleTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda);
+
 	public List<TransaccionBovedaOtroView> getTransaccionesEntidadBoveda(BigInteger idAgencia, Integer offset, Integer limit);
 
 	public List<TransaccionBovedaBovedaView> getTransaccionesBovedaBovedaEnviados(BigInteger idAgencia, Integer offset, Integer limit);

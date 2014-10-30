@@ -23,6 +23,8 @@ import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
+import org.sistemafinanciero.entity.TransaccionBovedaBoveda;
+import org.sistemafinanciero.entity.TransaccionBovedaBovedaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaBovedaView;
 import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
@@ -51,6 +53,9 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 	@Inject
 	private DAO<Object, TransaccionBovedaOtro> transaccionBovedaOtroDAO;
+
+	@Inject
+	private DAO<Object, TransaccionBovedaBoveda> transaccionBovedaBovedaDAO;
 
 	@Inject
 	private DAO<Object, TransaccionBovedaOtroView> transaccionBovedaOtroViewDAO;
@@ -234,8 +239,66 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 	@Override
 	public VoucherTransaccionBovedaBoveda getVoucherTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) {
-		// TODO Auto-generated method stub
-		return null;
+		TransaccionBovedaBoveda transaccion = transaccionBovedaBovedaDAO.find(idTransaccionBovedaBoveda);
+		if (transaccion == null)
+			return null;
+
+		// recuperando datos			
+		Boveda bovedaOrigen = transaccion.getHistorialBovedaOrigen().getBoveda();
+		Boveda bovedaDestino = transaccion.getHistorialBovedaDestino().getBoveda();
+		Agencia agenciaOrigen = bovedaOrigen.getAgencia();
+		Agencia agenciaDestino = bovedaDestino.getAgencia();
+		Moneda moneda = bovedaOrigen.getMoneda();		
+
+		Set<TransaccionBovedaBovedaDetalle> detalleTransaccion = transaccion.getTransaccionBovedaBovedaDetalles();
+		BigDecimal totalTransaccion = BigDecimal.ZERO;
+		for (TransaccionBovedaBovedaDetalle det : detalleTransaccion) {
+			MonedaDenominacion denominacion = det.getMonedaDenominacion();
+			BigDecimal valor = denominacion.getValor();
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal subtotal = valor.multiply(new BigDecimal(cantidad));
+			totalTransaccion = totalTransaccion.add(subtotal);
+		}
+
+		Hibernate.initialize(moneda);
+
+		VoucherTransaccionBovedaBoveda voucher = new VoucherTransaccionBovedaBoveda();
+	
+		voucher.setId(transaccion.getIdTransaccionBovedaBoveda());
+		
+		voucher.setEstadoConfirmacion(transaccion.getEstadoConfirmacion());
+		voucher.setEstadoSolicitud(transaccion.getEstadoSolicitud());
+		voucher.setFecha(transaccion.getFecha());
+		voucher.setHora(transaccion.getHora());
+		voucher.setObservacion(transaccion.getObservacion());
+		
+		voucher.setBovedaOrigen(bovedaOrigen.getDenominacion());
+		voucher.setBovedaDestino(bovedaDestino.getDenominacion());
+		voucher.setAgenciaOrigen(agenciaOrigen.getDenominacion());
+		voucher.setAgenciaDestino(agenciaDestino.getDenominacion());
+		
+		voucher.setMoneda(moneda);
+		voucher.setMonto(totalTransaccion);
+				
+		return voucher;
+	}
+
+	@Override
+	public TreeSet<GenericDetalle> getDetalleTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) {
+		TransaccionBovedaBoveda transaccionBovedaBoveda = transaccionBovedaBovedaDAO.find(idTransaccionBovedaBoveda);
+		if (transaccionBovedaBoveda == null)
+			return null;
+
+		Set<TransaccionBovedaBovedaDetalle> set = transaccionBovedaBoveda.getTransaccionBovedaBovedaDetalles();
+
+		TreeSet<GenericDetalle> detalle = new TreeSet<GenericDetalle>();
+		for (TransaccionBovedaBovedaDetalle genericDetalle : set) {
+			GenericDetalle d = new GenericDetalle();
+			d.setCantidad(genericDetalle.getCantidad());
+			d.setValor(genericDetalle.getMonedaDenominacion().getValor());
+			detalle.add(d);
+		}
+		return detalle;
 	}
 
 	@Override
