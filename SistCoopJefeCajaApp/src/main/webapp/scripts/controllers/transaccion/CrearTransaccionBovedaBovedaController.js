@@ -44,7 +44,7 @@ define(['../module'], function (controllers) {
                     $scope.objetosCargados.bovedasDestino = data;
                 });
             };
-                       
+
             $scope.loadDetalleBovedaOrigen = function(){
                 if(!angular.isUndefined($scope.view.idBovedaOrigen)){
                     BovedaService.getDetalle($scope.view.idBovedaOrigen).then(function(data){

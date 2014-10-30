@@ -97,7 +97,7 @@
                             <tr ng-class="{'danger': totalTransaccion() == 0 || totalTransaccion() === undefined}">
                                 <td colspan="2" style="font-weight: bold;">Total Transacci&oacute;n: <span ng-bind="totalTransaccion() | currency : getBovedaOrigen().moneda.simbolo"></span>
                                 </td>
-                                <td ng-show="getTotalTransaccion() == 0 || getTotalTransaccion() === undefined" style="color: #a94442;">Invalido</td>
+                                <td ng-show="totalTransaccion() == 0 || totalTransaccion() === undefined" style="color: #a94442;">Invalido</td>
                             </tr>
                             </tfoot>
                         </table>
