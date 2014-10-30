@@ -11,7 +11,7 @@ define(['../module'], function (controllers) {
                 if(!angular.isUndefined($scope.id)){ 
                 	BovedaService.getVoucherTransaccionBovedaBoveda($scope.id).then(
                         function(data){
-                            $scope.transaccionBovedaCaja = data;
+                            $scope.transaccion = data;
                         },
                         function error(error){
                             alert("Transaccion no encontrada");
@@ -20,7 +20,7 @@ define(['../module'], function (controllers) {
                 	
                 	BovedaService.getDetalleTransaccionBovedaBoveda($scope.id).then(
                         function(data){
-                        	$scope.objetosCargados.detalleTransaccion = data;
+                        	$scope.objetosCargados.detalle = data;
                         },
                         function error(error){
                         	alert("Error al cargar el detalle de boveda caja");

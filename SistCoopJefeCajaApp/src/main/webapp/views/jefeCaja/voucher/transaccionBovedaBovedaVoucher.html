@@ -1,74 +1,80 @@
 <div ng-controller="VoucherTransaccionBovedaBovedaController">
     <div class="row">
-        <div class="col-md-5" id="voucher">
+        <div class="col-md-5">
             <div>
                 <fieldset>
-                    <legend style="text-align: center; font-size: 18px;">{{transaccionBovedaCaja.origen == "CAJA" ? 'VOUCHER TRANSACCI&Oacute;N CAJA/BOVEDA' : 'VOUCHER TRANSACCI&Oacute;N BOVEDA/CAJA'}}</legend>
+                    <legend style="text-align: center; font-size: 18px;">VOUCHER TRANSACCION BOVEDA - BOVEDA</legend>
                 </fieldset>
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
                     <div class="panel-heading" style="text-align: center;">
                         <label><strong>C.A.C. CAJA VENTURA</strong></label><br />
-                        <label>{{transaccionBovedaCaja.origen == "CAJA" ? 'TRANSACCI&Oacute;N CAJA/BOVEDA' : 'TRANSACCI&Oacute;N BOVEDA/CAJA'}}</label>
+                        <label>TRANSACCION BOVEDA/BOVEDA</label>
                     </div>
                     <!-- Table -->
                     <table class="table">
                         <tbody>
                         <tr>
-                            <td colspan="1">AGENCIA:</td>
+                            <td colspan="1">AGENCIA ORIGEN:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionBovedaCaja.agenciaAbreviatura"/>
+                                <span ng-bind="transaccion.agenciaOrigen"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">AGENCIA DESTINO:</td>
+                            <td colspan="3">
+                                <span ng-bind="transaccion.agenciaDestino"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1">N&deg; TRANS:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionBovedaCaja.id"/>
+                                <span ng-bind="transaccion.id"/>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="1">ORIGEN:</td>
+                            <td colspan="1">BOV.ORIGEN:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionBovedaCaja.origenTransaccion"/>
+                                <span ng-bind="transaccion.bovedaOrigen"/>
                             </td >
                         </tr>
                         <tr>
-                            <td colspan="1">DESTINO:</td>
+                            <td colspan="1">BOV.DESTINO:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionBovedaCaja.destinoTransaccion"/>
+                                <span ng-bind="transaccion.bovedaDestino"/>
                             </td >
                         </tr>
                         <tr>
                             <td colspan="1">FECHA:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionBovedaCaja.fecha | date : 'dd/MM/yyyy'"/>
-                                <span ng-bind="transaccionBovedaCaja.hora | date : 'HH:mm:ss'"/>
+                                <span ng-bind="transaccion.fecha | date : 'dd/MM/yyyy'"/>
+                                <span ng-bind="transaccion.hora | date : 'HH:mm:ss'"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1">MONEDA:</td>
                             <td colspan="3">
-                                <span ng-bind="transaccionBovedaCaja.moneda.denominacion"/>
-                                <span ng-bind="'(' + transaccionBovedaCaja.moneda.simbolo + ')'"/>
+                                <span ng-bind="transaccion.moneda.denominacion"/>
+                                <span ng-bind="'(' + transaccion.moneda.simbolo + ')'"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1">MONTO:</td>
                             <td colspan="3" style="text-align: left;">
-                                <span ng-bind="transaccionBovedaCaja.moneda.simbolo"></span>
-                                <span ng-bind="transaccionBovedaCaja.monto | number : 2"/>
+                                <span ng-bind="transaccion.moneda.simbolo"></span>
+                                <span ng-bind="transaccion.monto | number : 2"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">ESTADO SOLICITUD:</td>
                             <td colspan="2" style="text-align: left;">
-                                <span>{{transaccionBovedaCaja.estadoSolicitud ? 'SOLICITADO' : 'CANCELADO'}}</span>
+                                <span>{{transaccion.estadoSolicitud ? 'SOLICITADO' : 'CANCELADO'}}</span>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">ESTADO CONFIRMACI&Oacute;N:</td>
                             <td colspan="2" style="text-align: left;">
-                                <span>{{transaccionBovedaCaja.estadoConfirmacion ? 'CONFIRMADO' : 'NO CONFIRMADO'}}</span>
+                                <span>{{transaccion.estadoConfirmacion ? 'CONFIRMADO' : 'NO CONFIRMADO'}}</span>
                             </td>
                         </tr>
                         <tr>

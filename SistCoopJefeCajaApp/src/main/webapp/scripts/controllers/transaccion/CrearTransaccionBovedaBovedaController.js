@@ -44,23 +44,7 @@ define(['../module'], function (controllers) {
                     $scope.objetosCargados.bovedasDestino = data;
                 });
             };
-            
-            /*
-            $scope.loadDetalleBovedaOrigen = function(){
-                if(!angular.isUndefined($scope.view.idBovedaOrigen)){
-                    BovedaService.getDetalle($scope.view.idBovedaOrigen).then(function(data){
-                    	//$scope.objetosCargados.detalleDisponibleEnOrigen = data;
-                    	
-                    	
-                        for(var i = 0; i<data.length; i++){
-                            data[i].cantidad = 0;
-                        }
-                        $scope.objetosCargados.detalleBovedaOrigen = data;
-                    });
-                }
-            };
-            */
-            
+                       
             $scope.loadDetalleBovedaOrigen = function(){
                 if(!angular.isUndefined($scope.view.idBovedaOrigen)){
                     BovedaService.getDetalle($scope.view.idBovedaOrigen).then(function(data){
