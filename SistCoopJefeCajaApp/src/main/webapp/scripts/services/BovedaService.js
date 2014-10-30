@@ -70,13 +70,19 @@ define(['./module'], function (services) {
                 },
                 crearTransaccioBovedaBoveda: function(idBovedaOrigen, idBovedaDestino, detalle){
                     var copy = Restangular.copy(detalle);
-                    return Restangular.all(baseUrl+"/transaccionBovedaBoveda/"+idBovedaOrigen+"/"+idBovedaDestino).post(detalle);
+                    return Restangular.all(baseUrl+"/transaccionBovedaBoveda/crear/"+idBovedaOrigen+"/"+idBovedaDestino).post(detalle);
                 },
                 getVoucherTransaccionEntidadBoveda: function(idTransaccionEntidadBoveda){
                     return Restangular.one(baseUrl+"/voucherTransaccionEntidadBoveda/"+idTransaccionEntidadBoveda).get();
                 },
+                getVoucherTransaccionBovedaBoveda: function(idTransaccion){
+                    return Restangular.one(baseUrl+"/voucherTransaccionBovedaBoveda/"+idTransaccion).get();
+                },
                 getDetalleTransaccionEntidadBoveda: function(idTransaccionBovedaCaja){
                     return Restangular.one(baseUrl+"/detalleTransaccionEntidadBoveda/"+idTransaccionBovedaCaja).get();
+                },
+                getDetalleTransaccionBovedaBoveda: function(idTransaccion){
+                    return Restangular.one(baseUrl+"/detalleTransaccionBovedaBoveda/"+idTransaccion).get();
                 },
 
                 getTransaccionesEntidadBoveda: function(idAgencia){
@@ -87,7 +93,13 @@ define(['./module'], function (services) {
                 },
                 getTransaccionesBovedaBovedaRecibidos: function(idAgencia){
                     return Restangular.all(baseUrl+"/transaccionBovedaBoveda/recibidos/"+idAgencia).getList();
-                }
+                },
+                cancelarTransaccionBovedaBoveda: function(id){
+                    return Restangular.all(baseUrl+"/transaccionBovedaBoveda/"+id+"/cancelar").post();
+                },
+                confirmarTransaccionBovedaBoveda: function(id){
+                    return Restangular.all(baseUrl+"/transaccionBovedaBoveda/"+id+"/confirmar").post();
+                },
             };
         }]);
 });

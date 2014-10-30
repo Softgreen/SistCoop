@@ -22,9 +22,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.ejb.EJB;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Response.Status;
 
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
@@ -234,6 +234,12 @@ public class BovedaRESTService implements BovedaREST {
 	}
 
 	@Override
+	public Response getDetalleTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) {
+		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaBoveda(idTransaccionBovedaBoveda);
+		return Response.status(Response.Status.OK).entity(detalleTransaccion).build();
+	}
+	
+	@Override
 	public Response getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
 		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaCaja(idTransaccionBovedaCaja);
 		return Response.status(Response.Status.OK).entity(detalleTransaccion).build();
@@ -305,6 +311,32 @@ public class BovedaRESTService implements BovedaREST {
 	public Response getTransaccionesBovedaBovedaRecibidos(BigInteger idAgencia, Integer offset, Integer limit) {
 		List<TransaccionBovedaBovedaView> list = transaccionInternaServiceNT.getTransaccionesBovedaBovedaRecibidos(idAgencia, offset, limit);
 		return Response.status(Response.Status.OK).entity(list).build();
+	}
+	
+	@Override
+	public Response confirmarTransaccionBovedaBoveda(BigInteger id) {
+		Response response;
+		try {
+			bovedaServiceTS.confirmarTransaccionBovedaBoveda(id);
+			response = Response.status(Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response cancelarTransaccionBovedaBoveda(BigInteger id) {
+		Response response;
+		try {
+			bovedaServiceTS.cancelarTransaccionBovedaBoveda(id);
+			response = Response.status(Status.NO_CONTENT).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
 	}
 
 }
