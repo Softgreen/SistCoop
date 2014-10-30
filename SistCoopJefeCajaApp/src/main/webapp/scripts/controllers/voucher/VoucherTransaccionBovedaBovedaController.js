@@ -11,7 +11,7 @@ define(['../module'], function (controllers) {
                 if(!angular.isUndefined($scope.id)){ 
                 	BovedaService.getVoucherTransaccionBovedaBoveda($scope.id).then(
                         function(data){
-                            $scope.transaccionBovedaCaja = data;
+                            $scope.transaccionBovedaBoveda = data;
                         },
                         function error(error){
                             alert("Transaccion no encontrada");
