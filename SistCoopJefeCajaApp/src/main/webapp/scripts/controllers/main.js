@@ -24,7 +24,8 @@ define([
     './voucher/VoucherCerrarBoveda',
     './voucher/VoucherTransaccionBovedaCajaController',
     './voucher/VoucherTransaccionEntidadBovedaController',
-    
+    './voucher/VoucherTransaccionBovedaBovedaController',
+
     './util/ConfirmPopUpController'
 
 ], function () {
