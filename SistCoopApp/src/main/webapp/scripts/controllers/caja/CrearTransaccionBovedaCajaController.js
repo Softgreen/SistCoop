@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTransaccionBovedaCajaController', ['$scope','$state', '$filter','focus', "MonedaService", "CajaService","SessionService",
-        function($scope,$state,$filter,focus,MonedaService,CajaService,SessionService) {
+    controllers.controller('CrearTransaccionBovedaCajaController', ['$scope','$state', '$filter','focus', "MonedaService", "CajaService","SessionService", "BovedaService",
+        function($scope, $state, $filter, focus, MonedaService, CajaService, SessionService, BovedaService) {
 
             $scope.focusElements = {
                 boveda: 'focusBoveda'
@@ -53,7 +53,7 @@ define(['../module'], function (controllers) {
 
             $scope.loadDetalleBoveda = function(){
                 if(!angular.isUndefined($scope.view.idBoveda)){
-                    MonedaService.getDenominaciones($scope.view.idBoveda).then(
+                    BovedaService.getDetalle($scope.view.idBoveda).then(
                         function(data){
                             $scope.objetosCargados.detalles = data;
                             for(var i = 0; i < $scope.objetosCargados.detalles.length; i++){
@@ -68,6 +68,7 @@ define(['../module'], function (controllers) {
                     );
                 }
             };
+            
             $scope.$watch('view.idBoveda', function(newVal, oldVal){
                 if(newVal != oldVal){
                     if(!angular.isUndefined($scope.view.idBoveda)){
@@ -93,7 +94,7 @@ define(['../module'], function (controllers) {
                         transaccion[i] = {
                             valor: $scope.objetosCargados.detalles[i].valor,
                             cantidad: $scope.objetosCargados.detalles[i].cantidad
-                        }
+                        };
                     }
 
                     SessionService.crearTransaccionBovedaCajaOrigenCaja($scope.view.idBoveda, transaccion).then(

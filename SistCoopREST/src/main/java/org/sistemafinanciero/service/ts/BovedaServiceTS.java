@@ -26,4 +26,8 @@ public interface BovedaServiceTS extends AbstractServiceTS<Boveda> {
 
 	public BigInteger crearTransaccionBovedaBoveda(BigInteger idBovedaOrigen, BigInteger idBovedaDestino, Set<GenericDetalle> detalleTransaccion) throws NonexistentEntityException, RollbackFailureException;
 
+	public void confirmarTransaccionBovedaBoveda(BigInteger id) throws RollbackFailureException;
+
+	public void cancelarTransaccionBovedaBoveda(BigInteger id) throws RollbackFailureException;
+
 }

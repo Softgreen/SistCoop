@@ -20,7 +20,7 @@ define([
     './PendienteCajaService',
     './RedirectService',
     './TransaccionInternaService',
-
+    './BovedaService',
     './SessionService',
     './ConfiguracionService',
 

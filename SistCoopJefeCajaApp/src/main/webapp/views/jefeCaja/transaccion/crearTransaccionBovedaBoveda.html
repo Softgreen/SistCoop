@@ -78,7 +78,7 @@
                             <tbody>
                             <tr ng-repeat="detalle in objetosCargados.detalleBovedaOrigen">
                                 <td style="width: 10%;">
-                                    <span ng-bind="detalle.valor | currency: getBoveda().moneda.simbolo"></span>
+                                    <span ng-bind="detalle.valor | currency: getBovedaOrigen().moneda.simbolo"></span>
                                 </td>
                                 <td style="width: 10%;">
                                     <ng-form name="cantidadForm">
@@ -90,12 +90,12 @@
                                         </div>
                                     </ng-form>
                                 </td>
-                                <td style="width: 15%;"><span>{{detalle.valor * detalle.cantidad | currency: getBoveda().moneda.simbolo}}</span></td>
+                                <td style="width: 15%;"><span>{{detalle.valor * detalle.cantidad | currency: getBovedaOrigen().moneda.simbolo}}</span></td>
                             </tr>
                             </tbody>
                             <tfoot>
                             <tr ng-class="{'danger': totalTransaccion() == 0 || totalTransaccion() === undefined}">
-                                <td colspan="2" style="font-weight: bold;">Total Transacci&oacute;n: <span ng-bind="totalTransaccion() | currency : getBoveda().moneda.simbolo"></span>
+                                <td colspan="2" style="font-weight: bold;">Total Transacci&oacute;n: <span ng-bind="totalTransaccion() | currency : getBovedaOrigen().moneda.simbolo"></span>
                                 </td>
                                 <td ng-show="getTotalTransaccion() == 0 || getTotalTransaccion() === undefined" style="color: #a94442;">Invalido</td>
                             </tr>
@@ -103,10 +103,61 @@
                         </table>
                     </div>
                 </div>
+                
+                <div class="col-sm-6">
+					<div class="form-group">
+						<label>Cantidad Disponible en Boveda Origen</label>
+						<table class="table table-striped table-bordered table-condensed"
+							style="width: 90%;">
+							<thead>
+								<tr>
+									<th>Denominaci&oacute;n</th>
+									<th>Cantidad</th>
+									<th>Subtotal</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="detalleActual in objetosCargados.detalleDisponibleEnOrigen">
+									<td style="width: 10%;"><span
+										ng-bind="detalleActual.valor | currency: getBovedaOrigen().moneda.simbolo" />
+									</td>
+									<td style="width: 10%;"><ng-form name="cantidadFormActual">
+										<div class="form-group"
+											ng-class="{ 'has-error' : cantidadFormActual.cantidad.$invalid && control.submitted}"
+											style="margin-bottom: 0px;">
+											<input type="number" name="cantidad"
+												ng-model="detalleActual.cantidad" class="form-control" required disabled="disabled"
+												style="height: 27px; padding: 0px 12px; width: 100px; color: blue;" />
+											<div
+												ng-show="cantidadFormActual.cantidad.$invalid && control.submitted">
+												<p class="help-block"
+													ng-show="cantidadFormActual.cantidad.$error.required"
+													style="font-size: 12px;">Ingrese Cantidad.</p>
+											</div>
+										</div>
+										</ng-form>
+									</td>
+									<td style="width: 15%;"><span>{{detalleActual.valor *
+											detalleActual.cantidad | currency: getBovedaOrigen().moneda.simbolo}}</span></td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr ng-class="{'danger': totalDisponibleBoveda() == 0 || totalDisponibleBoveda() === undefined}">
+									<td colspan="2" style="font-weight: bold;">Total
+										Boveda: <span
+										ng-bind="totalDisponibleBoveda() | currency : getBovedaOrigen().moneda.simbolo"></span>
+									</td>
+									<td ng-show="totalDisponibleBoveda() === undefined"
+										style="color: #a94442;">Invalido</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
             </div>
 
             <button type="submit" class="btn btn-primary" ladda="control.inProcess" data-style="expand-right">Guardar</button>
-            <button type="button" class="btn btn-default">Cancelar</button>
+            <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
         </form>
     </fieldset>
 

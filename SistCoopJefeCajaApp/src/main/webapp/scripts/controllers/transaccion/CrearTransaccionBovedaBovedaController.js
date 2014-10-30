@@ -19,8 +19,8 @@ define(['../module'], function (controllers) {
             $scope.objetosCargados = {
                 agenciaOrigen: undefined,
                 bovedasOrigen: undefined,
-                detalleBovedaOrigen: undefined,
-
+                detalleBovedaOrigen: [],
+                detalleDisponibleEnOrigen:[],
                 agenciasDestino: undefined,
                 bovedasDestino: undefined
             };
@@ -38,14 +38,20 @@ define(['../module'], function (controllers) {
                     $scope.objetosCargados.bovedasOrigen = data;
                 });
             };
+            
             $scope.loadBovedasDestino = function(){
                 BovedaService.getBovedas($scope.view.idAgenciaDestino).then(function(data){
                     $scope.objetosCargados.bovedasDestino = data;
                 });
             };
+            
+            /*
             $scope.loadDetalleBovedaOrigen = function(){
                 if(!angular.isUndefined($scope.view.idBovedaOrigen)){
                     BovedaService.getDetalle($scope.view.idBovedaOrigen).then(function(data){
+                    	//$scope.objetosCargados.detalleDisponibleEnOrigen = data;
+                    	
+                    	
                         for(var i = 0; i<data.length; i++){
                             data[i].cantidad = 0;
                         }
@@ -53,6 +59,27 @@ define(['../module'], function (controllers) {
                     });
                 }
             };
+            */
+            
+            $scope.loadDetalleBovedaOrigen = function(){
+                if(!angular.isUndefined($scope.view.idBovedaOrigen)){
+                    BovedaService.getDetalle($scope.view.idBovedaOrigen).then(function(data){
+                    	$scope.objetosCargados.detalleDisponibleEnOrigen = data;
+                    	
+                    	$scope.objetosCargados.detalleBovedaOrigen = angular.copy(data);
+                        for(var i = 0; i < $scope.objetosCargados.detalleBovedaOrigen.length; i++){
+                        	$scope.objetosCargados.detalleBovedaOrigen[i].cantidad = 0;
+                        }
+                    },
+                    function error(error){
+                        $scope.objetosCargados.detalleBovedaOrigen = [];
+                        $scope.alerts = [{ type: "danger", msg: "Error: " + error.data + "."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                    );
+                }
+            };
+            
             $scope.loadAgenciaOrigen();
             $scope.loadAgenciasDestino();
             $scope.loadBovedasOrigen();
@@ -86,7 +113,15 @@ define(['../module'], function (controllers) {
                     && !angular.isUndefined(monedaOrigen) && !angular.isUndefined(monedaDestino)
                     && monedaOrigen.moneda.id == monedaDestino.moneda.id){
 
-                    BovedaService.crearTransaccioBovedaBoveda($scope.view.idBovedaOrigen, $scope.view.idBovedaDestino, $scope.objetosCargados.detalleBovedaOrigen).then(
+                	var det = [];
+                	for(var i = 0; i<$scope.objetosCargados.detalleBovedaOrigen.lenght; i++){
+                		det[i] = {
+                			valor: $scope.objetosCargados.detalleBovedaOrigen.lenght[i].valor,
+                			cantidad: $scope.objetosCargados.detalleBovedaOrigen.lenght[i].cantidad
+                		};
+                	}
+                	
+                    BovedaService.crearTransaccioBovedaBoveda($scope.view.idBovedaOrigen, $scope.view.idBovedaDestino, det).then(
                         function(data){
                             $state.transitionTo('app.transaccion.voucherTransaccionBovedaBoveda', {id: data.id});
                             $scope.control.inProcess = false;
@@ -101,6 +136,26 @@ define(['../module'], function (controllers) {
                 } else {
                     $scope.control.submitted = true;
                 }
+            };
+            
+            $scope.totalTransaccion = function(){
+                var total = 0;
+                for(var i = 0; i<$scope.objetosCargados.detalleBovedaOrigen.length; i++){
+                    total = total + ($scope.objetosCargados.detalleBovedaOrigen[i].valor * $scope.objetosCargados.detalleBovedaOrigen[i].cantidad);
+                }
+                return total;
+            };
+            
+            $scope.totalDisponibleBoveda = function(){
+                var totalDisponible = 0;
+                for(var i = 0; i<$scope.objetosCargados.detalleDisponibleEnOrigen.length; i++){
+                    totalDisponible = totalDisponible + ($scope.objetosCargados.detalleDisponibleEnOrigen[i].valor * $scope.objetosCargados.detalleDisponibleEnOrigen[i].cantidad);
+                }
+                return totalDisponible;
+            };
+            
+            $scope.cancelar = function(){
+                $state.transitionTo('app.transaccion.buscarTransaccionBovedaBoveda');
             };
 
         }]);

@@ -118,6 +118,10 @@ define(['../module'], function (controllers) {
                     $scope.control.submitted = true;
                 }
             };
+            
+            $scope.cancelar = function(){
+                $state.transitionTo('app.transaccion.buscarTransaccionEntidadBoveda');
+            };
 
             $scope.loadEntidades();
             $scope.loadBovedas();

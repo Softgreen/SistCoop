@@ -31,6 +31,7 @@ import org.sistemafinanciero.entity.TransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.TransaccionBovedaBovedaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaOtro;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroDetall;
+import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 import org.sistemafinanciero.exception.NonexistentEntityException;
@@ -483,6 +484,26 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		}
 		
 		return transaccionBovedaBoveda.getIdTransaccionBovedaBoveda();
+	}
+
+	@Override
+	public void confirmarTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda)
+			throws RollbackFailureException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cancelarTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) throws RollbackFailureException {
+		TransaccionBovedaBoveda transaccion = transaccionBovedaBovedaDAO.find(idTransaccionBovedaBoveda);
+		if (transaccion == null)
+			throw new RollbackFailureException("Transaccion no encontrada");
+		if (transaccion.getEstadoConfirmacion() == true)
+			throw new RollbackFailureException("Transaccion ya fue CONFIRMADA, no se puede cancelar");
+		if (transaccion.getEstadoSolicitud() == false)
+			throw new RollbackFailureException("Transaccion ya fue CANCELADA, no se puede cancelar nuevamente");
+		transaccion.setEstadoSolicitud(false);
+		transaccionBovedaBovedaDAO.update(transaccion);
 	}
 
 }
