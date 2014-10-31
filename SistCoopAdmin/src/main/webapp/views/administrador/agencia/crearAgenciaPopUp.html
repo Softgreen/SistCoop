@@ -1,0 +1,74 @@
+<div>
+    <div>
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancel()">&times;</button>
+            <h4 class="modal-title">Crear Agencia</h4>
+        </div>
+        <form name="formCrearAgencia" ng-submit="addAgencia()" novalidate>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group" ng-class="{ 'has-error' : formCrearAgencia.codigo.$invalid && (control.submitted || formCrearAgencia.codigo.$dirty)}">
+                            <label>C&oacute;digo</label>
+                            <label style="color: brown;">(*)</label>
+                            <input focus-on="focusCodigo" name="codigo" type="text" ng-model="agencia.codigo" ng-minlength="1" ng-maxlength="3" class="form-control" placeholder="Codigo" capitalize required/>
+                            <div ng-show="formCrearAgencia.codigo.$invalid && (control.submitted || formCrearAgencia.codigo.$dirty)">
+                                <p class="help-block" ng-show="formCrearAgencia.codigo.$error.required">
+                                    Ingrese C&oacute;digo.
+                                </p>
+                                <p class="help-block" ng-show="formCrearAgencia.codigo.$error.minlength">
+                                    Minimo 1 Caracter.
+                                </p>
+                                <p class="help-block" ng-show="formCrearAgencia.codigo.$error.maxlength">
+                                    Maximo 3 Caracteres.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : formCrearAgencia.denominacion.$invalid && (control.submitted || formCrearAgencia.denominacion.$dirty)}">
+                            <label>Denominaci&oacute;n</label>
+                            <label style="color: brown;">(*)</label>
+                            <input name="denominacion" type="text" ng-model="agencia.denominacion" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="Denominacion" capitalize required/>
+                            <div ng-show="formCrearAgencia.denominacion.$invalid && (control.submitted || formCrearAgencia.denominacion.$dirty)">
+                                <p class="help-block" ng-show="formCrearAgencia.denominacion.$error.required">
+                                    Ingrese Denominaci&oacute;n.
+                                </p>
+                                <p class="help-block" ng-show="formCrearAgencia.denominacion.$error.minlength">
+                                    Minimo 1 Caracter.
+                                </p>
+                                <p class="help-block" ng-show="formCrearAgencia.denominacion.$error.maxlength">
+                                    Maximo 40 Caracteres.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : formCrearAgencia.abreviatura.$invalid && (control.submitted || formCrearAgencia.abreviatura.$dirty)}">
+                            <label>Abreviatura</label>
+                            <label style="color: brown;">(*)</label>
+                            <input name="abreviatura" type="text" ng-model="agencia.abreviatura" ng-minlength="1" ng-maxlength="20" class="form-control" placeholder="Abreviatura" capitalize required/>
+                            <div ng-show="formCrearAgencia.abreviatura.$invalid && (control.submitted || formCrearAgencia.abreviatura.$dirty)">
+                                <p class="help-block" ng-show="formCrearAgencia.abreviatura.$error.required">
+                                    Ingrese Abreviatura.
+                                </p>
+                                <p class="help-block" ng-show="formCrearAgencia.abreviatura.$error.minlength">
+                                    Minimo 1 Caracter.
+                                </p>
+                                <p class="help-block" ng-show="formCrearAgencia.abreviatura.$error.maxlength">
+                                    Maximo 20 Caracteres.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <input type="text" value="Activo" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 0px;">
+                <button type="button" class="btn btn-primary" ng-click="ok()">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+</div>
