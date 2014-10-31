@@ -81,7 +81,7 @@ define(['../module'], function (controllers) {
                     qz.append(String.fromCharCode(27) + "\x61" + "\x30");
                     qz.append(($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor, '')));
                     qz.append("\t\t");
-                    qz.append($scope.objetosCargados.detalleTransaccion[i].cantidad);
+                    qz.append($scope.objetosCargados.detalleTransaccion[i].cantidad.toString());
                     qz.append("\t" + "   ");
                     qz.append(($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, $scope.transaccionBovedaCaja.moneda.simbolo)));
                     qz.append("\r\n");
