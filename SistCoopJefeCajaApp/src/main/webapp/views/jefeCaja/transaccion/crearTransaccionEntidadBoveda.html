@@ -13,7 +13,7 @@
             <div class="col-sm-6">
                 <div class="form-group" ng-class="{ 'has-error' : crearTransaccionBovedaCajaForm.origen.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.origen.$dirty)}">
                     <label>Entrada/Salida</label>
-                    <select focus-on="focusOrigen" name="origen" ng-options="origen for origen in combo.origen" ng-model="view.origen" class="form-control" required>
+                    <select focus-on="focusEntradaSalida" name="origen" ng-options="origen for origen in combo.origen" ng-model="view.origen" class="form-control" required>
                         <option value="">--Seleccione--</option>
                     </select>
                     <div ng-show="crearTransaccionBovedaCajaForm.origen.$invalid && (control.submitted || crearTransaccionBovedaCajaForm.origen.$dirty)">

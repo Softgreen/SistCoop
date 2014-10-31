@@ -1,9 +1,18 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTransaccionEntidadBovedaController', ['$scope','$state','BovedaService','EntidadService',
-        function($scope,$state,BovedaService,EntidadService) {
+    controllers.controller('CrearTransaccionEntidadBovedaController', ['$scope','$state','BovedaService','EntidadService', 'focus', '$window',
+        function($scope,$state,BovedaService,EntidadService, focus, $window) {
 
-            $scope.control = {
+    	$scope.setInitialFocus = function($event){
+			if(!angular.isUndefined($event))
+				$event.preventDefault();
+			focus('focusEntradaSalida');
+			$window.scrollTo(0, 0);
+		};
+		
+		$scope.setInitialFocus();
+    	
+    	$scope.control = {
                 success:false,
                 inProcess: false,
                 submitted : false
