@@ -485,6 +485,8 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			detalleTransaccionBovedaBovedaDAO.create(det);
 		}
 		
+		this.actualizarSaldoBoveda(bovedaOrigen.getIdBoveda(), detalleTransaccionBovedaBoveda, -1);
+				
 		return transaccionBovedaBoveda.getIdTransaccionBovedaBoveda();
 	}
 	

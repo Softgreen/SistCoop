@@ -119,6 +119,8 @@ define(['../module'], function (controllers) {
                     );
                 } else {
                     $scope.control.submitted = true;
+                    $scope.alerts = [{ type: "danger", msg: "Error: La boveda de origen y destino deben de tener la misma moneda."}];
+                    $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                 }
             };
             
