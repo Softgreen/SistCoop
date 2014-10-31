@@ -94,6 +94,28 @@ define(['../module'], function (controllers) {
                     });
                 }
             };
+            
+            $scope.confirmarTransaccion = function(row){
+                if(!angular.isUndefined(row)){
+                    var modalInstance = $modal.open({
+                        templateUrl: 'views/jefeCaja/util/confirmPopUp.html',
+                        controller: "ConfirmPopUpController"
+                    });
+                    modalInstance.result.then(function (result) {
+                        BovedaService.confirmarTransaccionBovedaBoveda(row.id).then(
+                            function(data){
+                            	$scope.loadTransaccionEnviadas();
+                                $scope.loadTransaccionRecibidas();
+                            }
+                            ,function error(error){
+                                $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                                $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                            }
+                        );
+                    }, function () {
+                    });
+                }
+            };
 
             $scope.getVoucher = function(row){
                 $state.transitionTo('app.transaccion.voucherTransaccionBovedaBoveda', { id: row.id });

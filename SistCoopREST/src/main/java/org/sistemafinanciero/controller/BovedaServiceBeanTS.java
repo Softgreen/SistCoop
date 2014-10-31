@@ -22,6 +22,7 @@ import javax.validation.Validator;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Boveda;
+import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.HistorialBoveda;
@@ -29,6 +30,7 @@ import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.TransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.TransaccionBovedaBovedaDetalle;
+import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaOtro;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroDetall;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
@@ -485,12 +487,24 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		
 		return transaccionBovedaBoveda.getIdTransaccionBovedaBoveda();
 	}
-
+	
 	@Override
-	public void confirmarTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda)
-			throws RollbackFailureException {
-		// TODO Auto-generated method stub
+	public void confirmarTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) throws RollbackFailureException {
+		TransaccionBovedaBoveda transaccionBovedaBoveda = transaccionBovedaBovedaDAO.find(idTransaccionBovedaBoveda);
 		
+		if (transaccionBovedaBoveda == null)
+			throw new RollbackFailureException("Transaccion no encontrada");
+		if (transaccionBovedaBoveda.getEstadoSolicitud() == false)
+			throw new RollbackFailureException("Transaccion ya fue CANCELADA, no se puede confirmar");
+		if (transaccionBovedaBoveda.getEstadoConfirmacion() == true)
+			throw new RollbackFailureException("Transaccion ya fue CONFIRMADA, no se puede confirmar nuevamente");
+		
+		Boveda bovedaDestino = transaccionBovedaBoveda.getHistorialBovedaDestino().getBoveda();
+		
+		this.actualizarSaldoBoveda(bovedaDestino.getIdBoveda(), transaccionBovedaBoveda.getTransaccionBovedaBovedaDetalles(), 1);
+		
+		transaccionBovedaBoveda.setEstadoConfirmacion(true);
+		transaccionBovedaBovedaDAO.update(transaccionBovedaBoveda);
 	}
 
 	@Override
@@ -504,6 +518,93 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			throw new RollbackFailureException("Transaccion ya fue CANCELADA, no se puede cancelar nuevamente");
 		transaccion.setEstadoSolicitud(false);
 		transaccionBovedaBovedaDAO.update(transaccion);
+	}
+	
+	private HistorialBoveda getHistorialActivoBoveda(BigInteger idBoveda) {
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		HistorialBoveda bovedaHistorial = null;
+		QueryParameter queryParameter = QueryParameter.with("idboveda", boveda.getIdBoveda());
+		List<HistorialBoveda> list = historialBovedaDAO.findByNamedQuery(HistorialBoveda.findByHistorialActivo, queryParameter.parameters());
+		for (HistorialBoveda c : list) {
+			bovedaHistorial = c;
+			break;
+		}
+		return bovedaHistorial;
+	}
+	
+	/* el factor indica si se va a sumar o restar al saldo de boveda */
+	private void actualizarSaldoBoveda(BigInteger idBoveda, Set<TransaccionBovedaBovedaDetalle> transaccionDetalle, int factor) throws RollbackFailureException {
+		Boveda boveda = bovedaDAO.find(idBoveda);
+		if (boveda == null)
+			throw new RollbackFailureException("Boveda no encotrada");
+		HistorialBoveda historialBoveda = getHistorialActivoBoveda(boveda.getIdBoveda());
+		if (historialBoveda == null)
+			throw new RollbackFailureException("Historial de Boveda no encontrada");
+
+		BigDecimal saldoActual = BigDecimal.ZERO;
+		BigDecimal montoTransaccion = BigDecimal.ZERO;
+
+		Set<DetalleHistorialBoveda> detalleHistorialBoveda = historialBoveda.getDetalleHistorialBovedas();
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			saldoActual = saldoActual.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+		
+		for (TransaccionBovedaBovedaDetalle det : transaccionDetalle) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			montoTransaccion = montoTransaccion.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+
+		// restando los valores
+		for (DetalleHistorialBoveda detBoveda : detalleHistorialBoveda) {
+			MonedaDenominacion monedaBoveda = detBoveda.getMonedaDenominacion();
+			for (TransaccionBovedaBovedaDetalle detTrans : transaccionDetalle) {
+				MonedaDenominacion monedaTrans = detTrans.getMonedaDenominacion();
+				if (monedaBoveda.equals(monedaTrans)) {
+					// restar los valores de cantidad
+					BigInteger cantidadActual = detBoveda.getCantidad();
+					BigInteger cantidadTrans = detTrans.getCantidad();
+					BigInteger cantidadFinal = null;
+					if (factor == 1)
+						cantidadFinal = cantidadActual.add(cantidadTrans);
+					else if (factor == -1)
+						cantidadFinal = cantidadActual.subtract(cantidadTrans);
+					else
+						throw new RollbackFailureException("Factor no Valido para Transaccion");
+
+					if (cantidadFinal.compareTo(BigInteger.ZERO) == -1)
+						throw new RollbackFailureException("Saldo Insuficiente en Boveda");
+					detBoveda.setCantidad(cantidadFinal);
+					break;
+				}
+			}
+		}
+
+		// verificando el que saldoActual - montoTransaccion == sumatoria final
+		// de detalleHistorialBoveda
+		BigDecimal saldoFinalConFactor = BigDecimal.ZERO;
+		if (factor == 1)
+			saldoFinalConFactor = saldoActual.add(montoTransaccion);
+		else if (factor == -1)
+			saldoFinalConFactor = saldoActual.subtract(montoTransaccion);
+		else
+			throw new RollbackFailureException("Factor no Valido para Transaccion");
+		
+		BigDecimal saldoFinalConHistorial = BigDecimal.ZERO;
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal valor = det.getMonedaDenominacion().getValor();
+			saldoFinalConHistorial = saldoFinalConHistorial.add(valor.multiply(new BigDecimal(cantidad)));
+		}
+		
+		if (saldoFinalConFactor.compareTo(saldoFinalConHistorial) != 0)
+			throw new RollbackFailureException("No se pudo realizar la transaccion, el detalle de transaccion enviado no coincide con el historial de boveda, verifique que ninguna MONEDA DENOMINACION este inactiva");
+
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			detalleHistorialBovedaDAO.update(det);
+		}
 	}
 
 }
