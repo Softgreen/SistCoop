@@ -21,7 +21,7 @@
                     <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccionBovedaCaja.bovedaOrigen.$invalid && control.submitted}">
                         <label>Boveda origen</label>
                         <label style="color: brown;">(*)</label>
-                        <select name="bovedaOrigen" ng-change="loadDetalleBovedaOrigen()" ng-options="bov.id as bov.denominacion for bov in objetosCargados.bovedasOrigen" ng-model="view.idBovedaOrigen" class="form-control" required>
+                        <select focus-on="focusBovedaOrigen" name="bovedaOrigen" ng-change="loadDetalleBovedaOrigen()" ng-options="bov.id as bov.denominacion for bov in objetosCargados.bovedasOrigen" ng-model="view.idBovedaOrigen" class="form-control" required>
                             <option value="">--Seleccione--</option>
                         </select>
                         <div ng-show="formCrearTransaccionBovedaCaja.bovedaOrigen.$invalid && control.submitted">
