@@ -3,8 +3,8 @@
   "realm-public-key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSrA1RfY5OTeTQiC/5sd+3C0nBRCsK9oleiAdNfqoRM4uPzZmR8ex0H3eNdyuDHJtxk+ZNDawNVeOVSFw//cvrvGHUAMIqYKMOlg7JB5txLBA7eXfT5S1/n60TqeT2dLLY5H4ZZUcZu0+zhKwHsaeoi3j7FQZ3aBf2S2stj4bygwIDAQAB",
   "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "none",
-  "resource": "SistCoopAdministrador",
+  "resource": "SistCoopAdmin",
   "credentials": {
-    "secret": "d81544b0-9e0c-4e0c-b6d6-9b034447b7c0"
+    "secret": "487e4c85-ba4c-4e95-9077-1ca85745a3d7"
   }
 }
