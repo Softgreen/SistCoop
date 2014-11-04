@@ -20,30 +20,9 @@ define(['./module'], function (controllers) {
                     }
                 );
             };
-            $scope.loadAgenciaOfSession = function(){
-                SessionService.getAgenciaOfSession().then(
-                    function(data){
-                        $scope.agenciaSession = data;
-                    },
-                    function error(error){
-                        $scope.agenciaSession = {
-                            "denominacion":"undefined",
-                            "abreviatura":"undefined",
-                            "ubigeo": "undefined",
-                            "estado":false
-                        };
-                        if(error.status == 400){
-                            $scope.loadAgenciaOfSession();
-                        }
-                    }
-                );
-            };
 
             if(angular.isUndefined($scope.usuarioSession)){
                 $scope.loadUsuarioOfSession();
-            };
-            if(angular.isUndefined($scope.agenciaSession.id)){
-                $scope.loadAgenciaOfSession();
             };
 
         }]);
