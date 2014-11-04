@@ -10,6 +10,7 @@ define([
 
     './caja/CrearCajaController',
     './caja/EditarCajaController',
+    './caja/AbrirCajaController',
     './caja/BuscarCajaController',
 
     './trabajador/BuscarTrabajadorPopUpController',

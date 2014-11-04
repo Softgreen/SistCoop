@@ -2,10 +2,13 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -17,17 +20,25 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.sistemafinanciero.dao.DAO;
+import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.BovedaCaja;
 import org.sistemafinanciero.entity.BovedaCajaId;
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.DetalleHistorialCaja;
+import org.sistemafinanciero.entity.HistorialCaja;
+import org.sistemafinanciero.entity.Moneda;
+import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TrabajadorCaja;
 import org.sistemafinanciero.entity.TrabajadorCajaId;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.ts.CajaServiceTS;
+import org.sistemafinanciero.util.EntityManagerProducer;
+import org.sistemafinanciero.util.UsuarioSession;
 
 @Named
 @Stateless
@@ -38,6 +49,12 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 	@Inject
 	private DAO<Object, Caja> cajaDAO;
 
+	@Inject
+	private DAO<Object, HistorialCaja> historialCajaDAO;
+
+	@Inject
+	private DAO<Object, DetalleHistorialCaja> detalleHistorialCajaDAO;
+	
 	@Inject
 	private DAO<Object, Boveda> bovedaDAO;
 
@@ -51,8 +68,46 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 	private DAO<Object, Trabajador> trabajadorDAO;
 
 	@Inject
+	private EntityManagerProducer em;
+
+	@EJB
+	private MonedaServiceNT monedaServiceNT;
+	
+	@Inject
 	private Validator validator;
 
+	@Inject
+	private UsuarioSession usuarioSession;
+	
+	private HistorialCaja getHistorialActivo(BigInteger idCaja) {
+		Caja caja = cajaDAO.find(idCaja);
+		HistorialCaja cajaHistorial = null;
+		QueryParameter queryParameter = QueryParameter.with("idcaja", caja.getIdCaja());
+		List<HistorialCaja> list = historialCajaDAO.findByNamedQuery(HistorialCaja.findByHistorialActivo, queryParameter.parameters());
+		for (HistorialCaja c : list) {
+			cajaHistorial = c;
+			break;
+		}
+		return cajaHistorial;
+	}
+	
+	private Trabajador getTrabajador() {
+		String username = usuarioSession.getUsername();
+
+		QueryParameter queryParameter = QueryParameter.with("username", username);
+		List<Trabajador> list = trabajadorDAO.findByNamedQuery(Trabajador.findByUsername, queryParameter.parameters());
+		if (list.size() <= 1) {
+			Trabajador trabajador = null;
+			for (Trabajador t : list) {
+				trabajador = t;
+			}
+			return trabajador;
+		} else {
+			System.out.println("Error: mas de un usuario registrado");
+			return null;
+		}
+	}
+	
 	@Override
 	public BigInteger create(Caja t) throws PreexistingEntityException, RollbackFailureException {
 		Set<ConstraintViolation<Caja>> violations = validator.validate(t);
@@ -255,6 +310,99 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 			
 		} else {
 			throw new NonexistentEntityException("Caja o trabajador no encontrado");
+		}
+	}
+
+	@Override
+	public BigInteger abrir(BigInteger idCaja) throws NonexistentEntityException, RollbackFailureException {
+		Caja caja = cajaDAO.find(idCaja);
+		if (caja == null)
+			throw new NonexistentEntityException("No se encontró caja");
+		
+		Trabajador trabajador = getTrabajador();
+		if (trabajador == null)
+			throw new RollbackFailureException("No se encontró un trabajador para la caja");
+
+		Set<BovedaCaja> bovedaCajas = caja.getBovedaCajas();
+		for (BovedaCaja bovedaCaja : bovedaCajas) {
+			Boveda boveda = bovedaCaja.getBoveda();
+			if (!boveda.getAbierto())
+				throw new RollbackFailureException("Debe de abrir las bovedas asociadas a la caja(" + boveda.getDenominacion() + ")");
+		}
+
+		try {
+			HistorialCaja historialCajaOld = this.getHistorialActivo(idCaja);
+
+			// abriendo caja
+			caja.setAbierto(true);
+			caja.setEstadoMovimiento(true);
+			Set<ConstraintViolation<Caja>> violationsCaja = validator.validate(caja);
+			if (!violationsCaja.isEmpty()) {
+				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsCaja));
+			} else {
+				cajaDAO.update(caja);
+			}
+
+			if (historialCajaOld != null) {
+				historialCajaOld.setEstado(false);
+				Set<ConstraintViolation<HistorialCaja>> violationsHistorialOld = validator.validate(historialCajaOld);
+				if (!violationsHistorialOld.isEmpty()) {
+					throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialOld));
+				} else {
+					historialCajaDAO.update(historialCajaOld);
+				}
+			}
+
+			Calendar calendar = Calendar.getInstance();
+			HistorialCaja historialCajaNew = new HistorialCaja();
+			historialCajaNew.setCaja(caja);
+			historialCajaNew.setFechaApertura(calendar.getTime());
+			historialCajaNew.setHoraApertura(calendar.getTime());
+			historialCajaNew.setEstado(true);
+			historialCajaNew.setTrabajador(trabajador.getPersonaNatural().getApellidoPaterno() + " " + trabajador.getPersonaNatural().getApellidoMaterno() + ", " + trabajador.getPersonaNatural().getNombres());
+			Set<ConstraintViolation<HistorialCaja>> violationsHistorialNew = validator.validate(historialCajaNew);
+			if (!violationsHistorialNew.isEmpty()) {
+				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialNew));
+			} else {
+				historialCajaDAO.create(historialCajaNew);
+			}
+
+			if (historialCajaOld != null) {
+				Set<DetalleHistorialCaja> detalleHistorialCajas = historialCajaOld.getDetalleHistorialCajas();
+				for (DetalleHistorialCaja detalleHistorialCaja : detalleHistorialCajas) {
+					this.em.getEm().detach(detalleHistorialCaja);
+					detalleHistorialCaja.setIdDetalleHistorialCaja(null);
+					detalleHistorialCaja.setHistorialCaja(historialCajaNew);
+
+					Set<ConstraintViolation<DetalleHistorialCaja>> violationsHistorialDetalle = validator.validate(detalleHistorialCaja);
+					if (!violationsHistorialDetalle.isEmpty()) {
+						throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialDetalle));
+					} else {
+						detalleHistorialCajaDAO.create(detalleHistorialCaja);
+					}
+				}
+			} else {
+				for (BovedaCaja bovedaCaja : bovedaCajas) {
+					Moneda moneda = bovedaCaja.getBoveda().getMoneda();
+					List<MonedaDenominacion> denominaciones = monedaServiceNT.getDenominaciones(moneda.getIdMoneda());
+					for (MonedaDenominacion monedaDenominacion : denominaciones) {
+						DetalleHistorialCaja detalleHistorialCaja = new DetalleHistorialCaja();
+						detalleHistorialCaja.setCantidad(BigInteger.ZERO);
+						detalleHistorialCaja.setHistorialCaja(historialCajaNew);
+						detalleHistorialCaja.setMonedaDenominacion(monedaDenominacion);
+
+						Set<ConstraintViolation<DetalleHistorialCaja>> violationsHistorialDetalle = validator.validate(detalleHistorialCaja);
+						if (!violationsHistorialDetalle.isEmpty()) {
+							throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violationsHistorialDetalle));
+						} else {
+							detalleHistorialCajaDAO.create(detalleHistorialCaja);
+						}
+					}
+				}
+			}
+			return historialCajaNew.getIdHistorialCaja();
+		} catch (ConstraintViolationException e) {			
+			throw new EJBException(e);
 		}
 	}
 

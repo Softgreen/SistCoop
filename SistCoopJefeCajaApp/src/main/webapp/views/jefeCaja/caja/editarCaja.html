@@ -3,6 +3,9 @@
         <div class="col-sm-12">
             <h3>Editar Caja</h3>
         </div>
+        <div>
+            <button ng-click="abrirCaja()" type="button" class="btn btn-danger btn-xs">Abrir</button>
+        </div>
     </div>
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
         <span ng-bind-html="alert.msg"></span>

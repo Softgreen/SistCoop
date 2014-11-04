@@ -165,6 +165,10 @@ define(['../module'], function (controllers) {
                 );
             };
 
+            $scope.abrirCaja = function(){
+                $state.transitionTo('app.caja.abrirCaja', {id: $scope.id});
+            };
+
             $scope.redireccion = function(){
                 $state.transitionTo('app.caja.buscarCaja');
             };

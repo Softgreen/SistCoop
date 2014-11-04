@@ -155,4 +155,9 @@ public interface CajaREST {
 	@Path("/{id}/trabajadores/{idTrabajador}")
 	@Produces({ "application/xml", "application/json" })
 	public Response deleteTrabajador(@PathParam("id") BigInteger idCaja, @PathParam("idTrabajador") BigInteger idTrabajador);
+	
+	@POST
+	@Path("/{id}/abrir")
+	@Produces({ "application/xml", "application/json" })
+	public Response abrirCaja(@PathParam("id") BigInteger idCaja);
 }

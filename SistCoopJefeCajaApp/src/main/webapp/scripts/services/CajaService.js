@@ -6,6 +6,9 @@ define(['./module'], function (services) {
             var baseUrl = "cajas";
 
             return {
+                getDetalle: function(idCaja){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/detalle").getList();
+                },
                 getCaja: function(idCaja) {
                     return Restangular.one(baseUrl+"/"+idCaja).get();
                 },
@@ -29,8 +32,10 @@ define(['./module'], function (services) {
                 },
                 eliminarTrabajador: function(idCaja, idTrabajador){
                     return Restangular.all(baseUrl+"/"+idCaja+"/trabajadores/"+idTrabajador).remove();
+                },
+                abrirCaja: function(idCaja){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/abrir").post();
                 }
-
             }
         }])
 });

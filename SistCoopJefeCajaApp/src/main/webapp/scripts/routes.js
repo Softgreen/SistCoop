@@ -170,6 +170,13 @@ define(['./app'], function(app) {
                         $scope.id = $stateParams.id;
                     }
                 })
+                .state('app.caja.abrirCaja', {
+                    url: '/abrir/:id',
+                    templateUrl: "views/jefeCaja/caja/abrirCaja.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
+                })
                 .state('app.caja.buscarCaja', {
                     url: "/buscar",
                     templateUrl: "views/jefeCaja/caja/buscarCaja.html"
