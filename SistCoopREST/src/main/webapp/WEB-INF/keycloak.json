@@ -1,0 +1,10 @@
+{
+  "realm": "SistemaFinanciero",
+  "realm-public-key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSrA1RfY5OTeTQiC/5sd+3C0nBRCsK9oleiAdNfqoRM4uPzZmR8ex0H3eNdyuDHJtxk+ZNDawNVeOVSFw//cvrvGHUAMIqYKMOlg7JB5txLBA7eXfT5S1/n60TqeT2dLLY5H4ZZUcZu0+zhKwHsaeoi3j7FQZ3aBf2S2stj4bygwIDAQAB",
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "none",
+  "resource": "SistCoopREST",
+  "credentials": {
+    "secret": "e10e7a99-de4f-47a4-a286-fba9a3d8a797"
+  }
+}
