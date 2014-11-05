@@ -6,7 +6,7 @@
 
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
         <span ng-bind-html="alert.msg"></span>
-        <a href ng-click="crearPendiente($index)">Crear pendiente</a>
+        <a href ng-click="crearPendiente($index)">Crear Pendiente</a>
     </alert>
 
     <fieldset>
@@ -50,6 +50,7 @@
                         <tab ng-repeat="detalle in detalleCajaInicial" select="updateLayout($index)" heading="{{detalle.moneda.simbolo}} {{detalle.moneda.denominacion}} &rarr; Total:{{totalFinal[$index]()}}">
                             <div class="row" style="padding-top: 10px;">
                                 <div class="col-md-6">
+                                	<label style="font-size: 14px; font-weight: bold;">DETALLE AL ABRIR CAJA</label>
                                     <div class="form-group">
                                         <div ng-grid="getTemplateInicial($index, detalle.moneda.simbolo)" style="border: 1px solid rgb(212,212,212); height: 400px;">
                                         </div>
@@ -65,6 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                	<label style="font-size: 14px; font-weight: bold;">DETALLE AL CERRAR CAJA</label>
                                     <div class="form-group">
                                         <div ng-grid="getTemplateFinal($index,detalle.moneda.simbolo)" style="border: 1px solid rgb(212,212,212); height: 400px;">
                                         </div>
