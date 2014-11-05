@@ -173,7 +173,6 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 	}
 
 	@Override
-	// carlo
 	public Set<HistorialCaja> getHistorialCaja(BigInteger idCaja, Date dateDesde, Date dateHasta) {
 		Caja caja = cajaDAO.find(idCaja);
 		if (caja != null) {
@@ -186,7 +185,6 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		} else {
 			return null;
 		}
-
 	}
 
 	@Override
