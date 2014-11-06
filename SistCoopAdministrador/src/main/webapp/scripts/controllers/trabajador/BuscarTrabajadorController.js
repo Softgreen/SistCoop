@@ -10,13 +10,16 @@ define(['../module'], function (controllers) {
             };
             $scope.setInitialFocus();
 
+            $scope.view = {
+                filterText: undefined
+            };
 
             $scope.nuevo = function(){
                 $state.transitionTo('app.trabajador.nuevoTrabajador');
             };
 
             $scope.loadTrabajadores = function(){
-                TrabajadorService.getTrabajadores().then(function(data){
+                TrabajadorService.getTrabajadores($scope.agenciaSession.id).then(function(data){
                     $scope.trabajadores = data;
                 });
             };
@@ -36,6 +39,12 @@ define(['../module'], function (controllers) {
                     {displayName: 'ESTADO', width:70, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>'},
                     {displayName: 'EDIT', width:70, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}
                 ]
+            };
+
+            $scope.search = function(){
+                TrabajadorService.getTrabajadores($scope.agenciaSession.id, $scope.view.filterText).then(function(data){
+                    $scope.trabajadores = data;
+                });
             };
 
             $scope.editar = function(trabajador) {

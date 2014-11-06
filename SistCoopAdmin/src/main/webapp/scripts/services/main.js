@@ -7,7 +7,10 @@ define([
     './AgenciaService',
     './PersonaNaturalService',
 
-    './MaestroService'
+    './MaestroService',
+
+    './ConfiguracionService'
+
 ], function () {
 
 });

@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('BuscarTrabajadorController', ['$scope','$state','focus','TrabajadorService',
-        function($scope,$state,focus,TrabajadorService) {
+    controllers.controller('BuscarTrabajadorController', ['$scope','$state','focus','TrabajadorService','AgenciaService',
+        function($scope,$state,focus,TrabajadorService,AgenciaService) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
@@ -10,6 +10,10 @@ define(['../module'], function (controllers) {
             };
             $scope.setInitialFocus();
 
+            $scope.view = {
+                filterText: undefined,
+                idAgencia: undefined
+            };
 
             $scope.nuevo = function(){
                 $state.transitionTo('app.trabajador.nuevoTrabajador');
@@ -20,7 +24,13 @@ define(['../module'], function (controllers) {
                     $scope.trabajadores = data;
                 });
             };
+            $scope.loadAgencias = function(){
+                AgenciaService.getAgencias().then(function(data){
+                   $scope.agencias = data;
+                });
+            };
             $scope.loadTrabajadores();
+            $scope.loadAgencias();
 
             $scope.gridOptions = {
                 data: 'trabajadores',
@@ -36,6 +46,12 @@ define(['../module'], function (controllers) {
                     {displayName: 'ESTADO', width:70, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">INACTIVO</span></div>'},
                     {displayName: 'EDIT', width:70, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>'}
                 ]
+            };
+
+            $scope.search = function(){
+                TrabajadorService.getTrabajadores($scope.view.idAgencia, $scope.view.filterText).then(function(data){
+                    $scope.trabajadores = data;
+                });
             };
 
             $scope.editar = function(trabajador) {

@@ -177,7 +177,6 @@ define(['./app'], function(app) {
                                     {'name':'Abrir/Cerrar', submenus:[
                                         { 'name':'Abrir Caja' , 'state':'app.caja.abrirCaja'},
                                         { 'name':'Cerrar Caja' , 'state':'app.caja.cerrarCaja'},
-                                        { 'name':'Pendientes' , 'state':'app.caja.pendiente'},
                                         { 'name':'Historial' , 'state':'app.caja.historial'}
                                     ]},
                                     {

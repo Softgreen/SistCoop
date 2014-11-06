@@ -206,7 +206,7 @@ function findPrinter(name) {
             window['qzDoneFinding'] = null;
 
             if(printer!==null){
-                alert("Impresora encontrada: "+printer+".");
+                //alert("Impresora encontrada: "+printer+".");
             } else {
                 alert("Impresora: "+name+" no encontrada."+"\nVerifique el nombre de la impresora e intentelo nuevamente");
             }

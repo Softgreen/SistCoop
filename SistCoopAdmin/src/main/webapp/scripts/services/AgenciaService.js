@@ -11,6 +11,9 @@ define(['./module'], function (services) {
                 },
                 getAgencia: function(idAgencia) {
                     return Restangular.one(baseUrl+"/"+idAgencia).get();
+                },
+                getAgencias: function(){
+                    return Restangular.all(baseUrl).getList();
                 }
 
             }

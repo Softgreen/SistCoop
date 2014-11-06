@@ -119,7 +119,7 @@ define(['../../module'], function (controllers) {
                     {field:'apellidoMaterno', displayName:'AP. MATERNO', width:130},
                     {field:'nombres', displayName:'NOMBRES'},
                     {field:'sexo', displayName:'SEXO', width:90},
-                    {field:"fechaNacimiento | date:'dd/MM/yyyy'", displayName:'F. NACIMIENTO', width:100},
+                    {field:"fechaNacimiento", displayName:'F. NACIMIENTO', cellFilter: "date:'dd/MM/yyyy'", width:100},
                     {displayName: 'EDITAR', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>', width:80}]
             };
         }]);
