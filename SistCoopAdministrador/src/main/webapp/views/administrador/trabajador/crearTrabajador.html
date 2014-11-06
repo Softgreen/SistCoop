@@ -15,6 +15,7 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.sucursal.$invalid && (control.submitted || crearTrabajadorForm.sucursal.$dirty)}">
                             <label>Sucursal</label>
+                            <label style="color: brown;">(*)</label>
                             <select focus-on="focusSucursal" name="sucursal" ng-change="loadAgencias()" ng-options="sucursal.id as sucursal.denominacion for sucursal in combo.sucursal" ng-model="view.idSucursal" class="form-control" required>
                                 <option value="">--Seleccione--</option>
                             </select>
@@ -28,6 +29,7 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.agencia.$invalid && (control.submitted || crearTrabajadorForm.agencia.$dirty)}">
                             <label>Agencia</label>
+                            <label style="color: brown;">(*)</label>
                             <select name="agencia" ng-options="agencia.id as agencia.denominacion for agencia in combo.agencia" ng-model="view.idAgencia" class="form-control" required>
                                 <option value="">--Seleccione--</option>
                             </select>
@@ -49,6 +51,7 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.tipoDocumento.$invalid && (control.submitted || crearTrabajadorForm.tipoDocumento.$dirty)}">
                             <label>Tipo Documento</label>
+                            <label style="color: brown;">(*)</label>
                             <select name="tipoDocumento" ng-options="tipoDocumento.id as tipoDocumento.abreviatura for tipoDocumento in combo.tipoDocumento | orderBy : 'id'" ng-model="view.idTipoDocumento" class="form-control" required>
                                 <option value="">--Seleccione--</option>
                             </select>
@@ -62,6 +65,7 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.numeroDocumento.$invalid && (control.submitted || crearTrabajadorForm.numeroDocumento.$dirty)}">
                             <label>N&uacute;mero Documento</label>
+                            <label style="color: brown;">(*)</label>
                             <div class="input-group">
                                 <input type="text" ui-keypress="{13:'buscarTrabajador($event)'}" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required/>
                                  <span class="input-group-btn">
