@@ -23,6 +23,7 @@ public class TrabajadorDTO implements Serializable {
 	private BigInteger idTipoDocumento;
 	private String numeroDocumento;
 	private String usuario;
+	private Boolean estado;
 
 	public BigInteger getId() {
 		return id;
@@ -70,6 +71,14 @@ public class TrabajadorDTO implements Serializable {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 }

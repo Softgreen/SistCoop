@@ -17,6 +17,9 @@ define(['./module'], function (services) {
                 },
                 actualizar: function(idTrabajador, trabajador) {
                     return Restangular.one(baseUrl + "/" + idTrabajador).customPUT(trabajador,'',{},{});
+                },
+                desactivar: function(idTrabajador){
+                    return Restangular.one(baseUrl + "/" + idTrabajador+"/desactivar").post();
                 }
             }
         }])

@@ -33,5 +33,10 @@ public interface TrabajadorREST {
 	@Path("/{id}")
 	@Produces({ "application/xml", "application/json" })
 	public Response update(@PathParam("id") BigInteger id, TrabajadorDTO trabajadorDTO);
+	
+	@POST
+	@Path("/{id}/desactivar")
+	@Produces({ "application/xml", "application/json" })
+	public Response desactivar(@PathParam("id") BigInteger id);
 
 }

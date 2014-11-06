@@ -22,6 +22,7 @@ import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.Trabajador;
+import org.sistemafinanciero.entity.TrabajadorCaja;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
@@ -37,6 +38,9 @@ public class TrabajadorServiceBeanTS implements TrabajadorServiceTS {
 	@Inject
 	private DAO<Object, Trabajador> trabajadorDAO;
 
+	@Inject
+	private DAO<Object, TrabajadorCaja> trabajadorCajaDAO;
+	
 	@Inject
 	private DAO<Object, Agencia> agenciaDAO;
 
@@ -124,6 +128,22 @@ public class TrabajadorServiceBeanTS implements TrabajadorServiceTS {
 		} else {
 			throw new NonexistentEntityException("Trabajador no existente, DELETE no ejecutado");
 		}
+	}
+
+	@Override
+	public void desactivar(BigInteger id) throws NonexistentEntityException, RollbackFailureException {
+		Trabajador trabajador = trabajadorDAO.find(id);
+		if(trabajador == null)
+			throw new NonexistentEntityException("Trabajador no encontrado");
+		
+		trabajador.setEstado(false);
+		trabajadorDAO.update(trabajador);
+		
+		Set<TrabajadorCaja> cajas = trabajador.getTrabajadorCajas();
+		for (TrabajadorCaja trabajadorCaja : cajas) {
+			trabajadorCajaDAO.delete(trabajadorCaja);
+		}
+				
 	}
 
 }
