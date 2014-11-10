@@ -99,7 +99,7 @@ define(['./module'], function (services) {
                 },
                 confirmarTransaccionBovedaBoveda: function(id){
                     return Restangular.all(baseUrl+"/transaccionBovedaBoveda/"+id+"/confirmar").post();
-                },
+                }
             };
         }]);
 });
