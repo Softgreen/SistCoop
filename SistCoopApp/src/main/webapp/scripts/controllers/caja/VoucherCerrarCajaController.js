@@ -35,13 +35,13 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x21\x01");
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");
                 
-                qz.append("AGENCIA:" + $scope.resumenCaja.agencia + "\r\n");
-                qz.append("CAJA:" + "\t\t" + $scope.resumenCaja.caja + " " + "\r\n");
+                qz.append("AGENCIA: " + $scope.resumenCaja.agencia + "\r\n");
+                qz.append("CAJA   : " + $scope.resumenCaja.caja + "\r\n");
                 qz.append("FEC. APERT.: " + ($filter('date')($scope.resumenCaja.fechaApertura, 'dd/MM/yyyy'))+ " ");
                 qz.append(($filter('date')($scope.resumenCaja.horaApertura, 'HH:mm:ss'))+"\r\n");
                 qz.append("FEC. CIERRE: " + ($filter('date')($scope.resumenCaja.fechaCierre, 'dd/MM/yyyy'))+ " ");
                 qz.append(($filter('date')($scope.resumenCaja.horaCierre, 'HH:mm:ss'))+"\r\n");
-                qz.append("TRABAJADOR:  " + $scope.resumenCaja.trabajador+"\r\n");
+                qz.append("TRABAJADOR : " + $scope.resumenCaja.trabajador+"\r\n");
 
                 qz.append("\r\n");
                 qz.append("\x1B\x40");
@@ -95,9 +95,17 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x21\x08"); // 2
                 qz.append("CIERRE Caja(PENDIENTES):\n");
                 qz.append("\x1B\x21\x01"); // 3
-                qz.append("SOBRANTE :"+$scope.resumenCaja.pendienteSobrante+"\t");
+                qz.append("SOBRANTE:"+$scope.resumenCaja.pendienteSobrante+"\t");
                 qz.append("FALTANTE:"+$scope.resumenCaja.pendienteSobrante+"\r\n");
 
+                qz.append("\r\n");
+                qz.append("\r\n");
+                qz.append("\r\n");
+                qz.append(String.fromCharCode(27) + "\x61" + "\x30");
+				qz.append("____________" + "\t\t" + "_______________" + "\r\n");
+				qz.append(String.fromCharCode(27) + "\x61" + "\x30");
+                qz.append("Firma Cajero" + "\t\t" + "Firma Jefe Caja" + "\r\n");
+                
                 qz.append("\x1D\x56\x41"); // 4
                 qz.append("\x1B\x40"); // 5
                 qz.print();
@@ -112,40 +120,61 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x40"); // 1
                 qz.append("\x1B\x21\x08"); // 2
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-                qz.append("______ C.A.C. CAJA VENTURA ______\r\n");
-                qz.append("\x1B\x21\x01"); // 3
+                qz.append("C.A.C. CAJA VENTURA\r\n");
+                qz.append("BALANCE CAJA\r\n");
+
+                qz.append("\x1B\x21\x01");
+                qz.append(String.fromCharCode(27) + "\x61" + "\x30");
+                
+                qz.append("AGENCIA: " + $scope.voucherPrint.agencia + "\r\n");
+                qz.append("CAJA   : " + $scope.voucherPrint.caja + "\r\n");
+                qz.append("FEC. APERT.: " + ($filter('date')($scope.voucherPrint.fechaApertura, 'dd/MM/yyyy'))+ " ");
+                qz.append(($filter('date')($scope.voucherPrint.horaApertura, 'HH:mm:ss'))+"\r\n");
+                qz.append("FEC. CIERRE: " + ($filter('date')($scope.voucherPrint.fechaCierre, 'dd/MM/yyyy'))+ " ");
+                qz.append(($filter('date')($scope.voucherPrint.horaCierre, 'HH:mm:ss'))+"\r\n");
+                qz.append("TRABAJADOR : " + $scope.voucherPrint.trabajador +"\r\n");
 
                 qz.append("\x1B\x40"); // 1
                 qz.append("\x1B\x21\x08"); // 2
-                qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-                qz.append("VOUCHER CIERRE CAJA\r\n");
-                qz.append("\x1B\x21\x01"); // 3
-                qz.append("Agencia:"+ $scope.voucherPrint.agencia + " ");
-                qz.append("Caja:"+ $scope.voucherPrint.caja + " " + "\r\n");
-                qz.append("F.Apertu:"+($filter('date')($scope.voucherPrint.fechaApertura, 'dd/MM/yyyy'))+ " ");
-                qz.append("H.Apertu:"+($filter('date')($scope.voucherPrint.horaApertura, 'HH:mm:ss'))+"\r\n");
-                qz.append("F.Cierre:"+($filter('date')($scope.voucherPrint.fechaCierre, 'dd/MM/yyyy'))+ " ");
-                qz.append("H.Cierre:"+($filter('date')($scope.voucherPrint.horaCierre, 'HH:mm:ss'))+"\r\n");
-                qz.append("Trabajador:"+$scope.voucherPrint.trabajador+"\r\n");
-
-                qz.append("\x1B\x40"); // 1
-                qz.append("\x1B\x21\x08"); // 2
-                qz.append("Denominacion   Cantidad   Subtotal"+"\n");
+                qz.append("Denominacion");
+                qz.append("\t");
+                qz.append("Cantidad");
+                qz.append("  ");
+                qz.append("Subtotal");
+                qz.append("\r\n");
+                
                 qz.append("\x1B\x21\x01"); // 3
                 for(var i = 0; i<$scope.voucherPrint.detalle.length;i++){
-                    qz.append($scope.voucherPrint.detalle.valor + "   ");
-                    qz.append($scope.voucherPrint.detalle.cantidad + "   ");
-                    qz.append($filter('currency')(($scope.voucherPrint.detalle.valor*$scope.voucherPrint.detalle.cantidad),$scope.voucherPrint.moneda.simbolo)+ "\r\n");
+                	qz.append(String.fromCharCode(27) + "\x61" + "\x30");
+                	qz.append(($filter('currency')($scope.voucherPrint.detalle[i].valor, '')));
+                	qz.append("\t\t");
+                	qz.append($scope.voucherPrint.detalle[i].cantidad.toString());
+                	qz.append("\t" + "     ");
+                	//qz.append($filter('currency')(($scope.voucherPrint.detalle[i].valor * $scope.voucherPrint.detalle[i].cantidad), $scope.voucherPrint.moneda.simbolo)+ "\r\n");
+                	
+                	if($scope.voucherPrint.moneda.simbolo == "€"){            
+                    	qz.append(($filter('currency')($scope.voucherPrint.detalle[i].valor * $scope.voucherPrint.detalle[i].cantidad,  chr(238))) + "\r\n");
+                    } else {
+                    	qz.append(($filter('currency')($scope.voucherPrint.detalle[i].valor * $scope.voucherPrint.detalle[i].cantidad, $scope.voucherPrint.moneda.simbolo))+ "\r\n");
+                    } 
                 }
 
                 qz.append("\n");
-                qz.append("Saldo ayer:"+$scope.voucherPrint.saldoAyer+"\r\n");
-                qz.append("Entradas:"+$scope.voucherPrint.entradas+"\r\n");
-                qz.append("Salidas:"+$scope.voucherPrint.salidas+"\r\n");
-                qz.append("Sobrantes:"+$scope.voucherPrint.entradas+"\r\n");
-                qz.append("Faltantes:"+$scope.voucherPrint.salidas+"\r\n");
-                qz.append("Faltantes:"+$scope.voucherPrint.porDevolver+"\r\n");
+                qz.append("SALDO AYER: "+$scope.voucherPrint.saldoAyer+"\r\n");
+                qz.append("ENTRADAS  : "+$scope.voucherPrint.entradas+"\r\n");
+                qz.append("SALIDAS   : "+$scope.voucherPrint.salidas+"\r\n");
+                qz.append("SOBRANTES : "+$scope.voucherPrint.entradas+"\r\n");
+                qz.append("FALTANTES : "+$scope.voucherPrint.salidas+"\r\n");
+                qz.append("SALDO X DEVOLVER: "+$scope.voucherPrint.porDevolver+"\r\n");
 
+                qz.append("\r\n");
+                qz.append("\r\n");
+                qz.append("\r\n");
+                qz.append(String.fromCharCode(27) + "\x61" + "\x30");
+				qz.append("____________" + "\t\t" + "_______________" + "\r\n");
+				qz.append(String.fromCharCode(27) + "\x61" + "\x30");
+                qz.append("Firma Cajero" + "\t\t" + "Firma Jefe Caja" + "\r\n");
+                
                 qz.append("\x1D\x56\x41"); // 4
                 qz.append("\x1B\x40"); // 5
                 qz.print();
