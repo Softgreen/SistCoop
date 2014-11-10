@@ -33,7 +33,8 @@ define(['../module'], function (controllers) {
             var gridLayoutPluginInicial = [];
             $scope.updateLayoutInicial = [];
             $scope.getTemplateInicial = function(index, simbolo){
-                gridLayoutPluginInicial[index] = new ngGridLayoutPlugin();
+            	console.log("simbolo:"+simbolo);
+            	gridLayoutPluginInicial[index] = new ngGridLayoutPlugin();
                 $scope.updateLayoutInicial[index] = function(){
                     gridLayoutPluginInicial[index].updateGridLayout();
                 };
@@ -44,9 +45,10 @@ define(['../module'], function (controllers) {
                     plugins: [gridLayoutPluginInicial[index]],
                     multiSelect: false,
                     columnDefs: [
-                        { field: "valor | currency : '"+simbolo+" '", displayName: "Valor" },
+                        { field: "valor | currency : ''", displayName: "Valor" },
                         { field: "cantidad", displayName: "Cantidad" },
-                        { field: "subtotal() | currency : '' ", displayName: "Subtotal" }
+                        { field: "subtotal()", cellFilter:"currency : ''", displayName: "Subtotal" }
+                        //{ field: "subtotal()", cellFilter:"currency : '" + simbolo + "'", displayName: "Subtotal" }
                     ]
                 };
                 $scope.totalInicial[index] = function(){
@@ -54,7 +56,7 @@ define(['../module'], function (controllers) {
                     for(var i = 0; i < $scope.myDataInicial[index].length; i++){
                         total = total + ($scope.myDataInicial[index][i].valor * $scope.myDataInicial[index][i].cantidad);
                     }
-                    return $filter('currency')(total," ")
+                    return $filter('currency')(total, simbolo);
                 };
                 return $scope.gridOptionsInicial[index];
             };
@@ -78,9 +80,10 @@ define(['../module'], function (controllers) {
                     enableRowSelection: false,
                     enableCellEditOnFocus: true,
                     columnDefs: [
-                        { field: "valor | currency : '"+simbolo+" '", displayName: "Valor", enableCellEdit: false },
+                        { field: "valor | currency : ''", displayName: "Valor", enableCellEdit: false },
                         { field: "cantidad", displayName: "Cantidad", enableCellEdit: true },
                         { field: "subtotal() | currency : '' ", displayName: "Subtotal", enableCellEdit: false }
+                        //{ field: "subtotal() | currency : '" + simbolo + "' ", displayName: "Subtotal", enableCellEdit: false }
                     ]
                 };
                 $scope.totalFinal[index] = function(){
@@ -88,7 +91,7 @@ define(['../module'], function (controllers) {
                     for(var i = 0; i < $scope.myDataFinal[index].length; i++){
                         total = total + ($scope.myDataFinal[index][i].valor * $scope.myDataFinal[index][i].cantidad);
                     }
-                    return $filter('currency')(total," ")
+                    return $filter('currency')(total, simbolo);
                 };
                 return $scope.gridOptionsFinal[index];
             };
