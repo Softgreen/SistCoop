@@ -64,7 +64,8 @@ public class TrabajadorRESTService implements TrabajadorREST {
 		result.setIdTipoDocumento(trabajador.getPersonaNatural().getTipoDocumento().getIdTipoDocumento());
 		result.setNumeroDocumento(trabajador.getPersonaNatural().getNumeroDocumento());
 		result.setUsuario(trabajador.getUsuario());
-
+		result.setEstado(trabajador.getEstado());
+		
 		return Response.ok().entity(result).build();
 	}
 
@@ -119,6 +120,20 @@ public class TrabajadorRESTService implements TrabajadorREST {
 			response = Response.status(Response.Status.NOT_FOUND).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		} catch (PreexistingEntityException e) {
 			response = Response.status(Response.Status.CONFLICT).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		} catch (RollbackFailureException e) {
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response desactivar(BigInteger id) {		
+		Response response;		
+		try {
+			trabajadorServiceTS.desactivar(id);
+			response = Response.noContent().build();
+		} catch (NonexistentEntityException e) {
+			response = Response.status(Response.Status.NOT_FOUND).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		} catch (RollbackFailureException e) {
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		}

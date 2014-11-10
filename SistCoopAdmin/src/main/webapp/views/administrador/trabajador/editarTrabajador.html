@@ -1,10 +1,19 @@
 <div ng-controller="EditarTrabajadorController">
     <form name="crearTrabajadorForm" ng-submit="crearTransaccion()" novalidate>
-        <div class="row">
-            <div class="col-sm-12">
-                <h3>Editar Trabajador</h3>
-            </div>
-        </div>
+        <fieldset>
+            <legend style="padding-bottom: 5px;">
+                <div class="row">
+                    <div class="col-sm-6">
+                        Editar Trabajador
+                        <span ng-if="!trabajador.estado" class="label label-danger">Trabajador inactivo</span>
+                    </div>
+                    <div class="col-sm-6" ng-if="trabajador.estado" style="text-align: right;font-size: 14px;">
+                        <button type="button" ng-click="eliminar()" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </div>
+            </legend>
+        </fieldset>
+
         <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
             <span ng-bind="alert.msg"></span>
         </alert>
@@ -117,7 +126,7 @@
             </div>
         </div>
 
-        <button type="submit" ladda="control.inProcess" data-style="expand-right" class="btn btn-primary">Guardar</button>
+        <button type="submit" ladda="control.inProcess" data-style="expand-right" ng-if="trabajador.estado" class="btn btn-primary">Guardar</button>
         <button type="button" ng-click="cancelar()" class="btn btn-default">Cancelar</button>
 
     </form>
