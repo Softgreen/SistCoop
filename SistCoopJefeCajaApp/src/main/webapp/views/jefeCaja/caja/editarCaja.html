@@ -11,6 +11,12 @@
                 </div>
                 <div class="col-sm-6" ng-if="caja.estado" style="text-align: right;font-size: 14px;">
                     <button type="button" ng-click="abrirCaja()" class="btn btn-default">Abrir</button>
+
+                    <div class="btn-group">
+                        <button type="button" ng-click="congelarCaja()" ng-disabled="!caja.estadoMovimiento" class="btn btn-default">Congelar</button>
+                        <button type="button" ng-click="descongelarCaja()" ng-disabled="caja.estadoMovimiento" class="btn btn-default">Descongelar</button>
+                    </div>
+
                 </div>
             </div>
         </legend>

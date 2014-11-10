@@ -83,28 +83,28 @@ public class CajaView implements Serializable {
 		this.abreviatura = abreviatura;
 	}
 
-	public int getEstado() {
-		return estado;
+	public boolean getEstado() {
+		return estado == 1;
 	}
 
-	public void setEstado(int estado) {
-		this.estado = estado;
+	public void setEstado(boolean estado) {
+		this.estado = (estado ? 1: 0);
 	}
 
-	public int getAbierto() {
-		return abierto;
+	public boolean getAbierto() {
+		return abierto == 1;
 	}
 
-	public void setAbierto(int abierto) {
-		this.abierto = abierto;
+	public void setAbierto(boolean abierto) {
+		this.abierto = (abierto ? 1 : 0);
 	}
 
-	public int getEstadoMovimiento() {
-		return estadoMovimiento;
+	public boolean getEstadoMovimiento() {
+		return estadoMovimiento == 1;
 	}
 
-	public void setEstadoMovimiento(int estadomovimiento) {
-		this.estadoMovimiento = estadomovimiento;
+	public void setEstadoMovimiento(boolean estadomovimiento) {
+		this.estadoMovimiento = (estadomovimiento ? 1 : 0);
 	}
 
 	public String getBovedas() {

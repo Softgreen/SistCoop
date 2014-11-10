@@ -22,7 +22,6 @@ import javax.validation.Validator;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Boveda;
-import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.HistorialBoveda;
@@ -30,10 +29,8 @@ import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.TransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.TransaccionBovedaBovedaDetalle;
-import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaOtro;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroDetall;
-import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.type.TransaccionEntidadBovedaOrigen;
 import org.sistemafinanciero.exception.NonexistentEntityException;
@@ -274,7 +271,7 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			throw new RollbackFailureException("Boveda inactiva, no se puede congelar");
 		if (!boveda.getAbierto())
 			throw new RollbackFailureException("Boveda cerrada, no se puede congelar");
-		if (boveda.getEstadoMovimiento())
+		if (!boveda.getEstadoMovimiento())
 			throw new RollbackFailureException("Boveda congelada, no se puede congelar nuevamente");
 		boveda.setEstadoMovimiento(false);
 		bovedaDAO.update(boveda);
@@ -289,7 +286,7 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			throw new RollbackFailureException("Boveda inactiva, no se puede congelar");
 		if (!boveda.getAbierto())
 			throw new RollbackFailureException("Boveda cerrada, no se puede congelar");
-		if (!boveda.getEstadoMovimiento())
+		if (boveda.getEstadoMovimiento())
 			throw new RollbackFailureException("Boveda descongelada, no se puede descongelar nuevamente");
 		boveda.setEstadoMovimiento(true);
 		bovedaDAO.update(boveda);

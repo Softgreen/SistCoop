@@ -35,6 +35,12 @@ define(['./module'], function (services) {
                 },
                 abrirCaja: function(idCaja){
                     return Restangular.all(baseUrl+"/"+idCaja+"/abrir").post();
+                },
+                congelar: function(idBoveda) {
+                    return Restangular.one(baseUrl+"/"+idBoveda+"/congelar").post();
+                },
+                descongelar: function(idBoveda) {
+                    return Restangular.one(baseUrl+"/"+idBoveda+"/descongelar").post();
                 }
             }
         }])

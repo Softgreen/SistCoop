@@ -304,15 +304,47 @@ public class CajaRESTService implements CajaREST {
 	}
 
 	@Override
-	public Response abrirCaja(BigInteger idCaja) {			
+	public Response abrirCaja(BigInteger idCaja) {
 		Response response;
 		try {
 			BigInteger idTransaccion = cajaServiceTS.abrir(idCaja);
-			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)) .build();
+			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (NonexistentEntityException e) {
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
 		} catch (RollbackFailureException e) {
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Jsend.getErrorJSend(e.getMessage())).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response congelar(BigInteger id) {
+		Response response;
+		try {
+			cajaServiceTS.congelar(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response descongelar(BigInteger id) {
+		Response response;
+		try {
+			cajaServiceTS.descongelar(id);
+			response = Response.status(Response.Status.NO_CONTENT).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}

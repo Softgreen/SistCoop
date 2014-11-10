@@ -38,14 +38,14 @@ define(['../module'], function (controllers) {
             $scope.$watch("view.abierto",function (newVal, oldVal) {
                 if (newVal !== oldVal) {
                     if(!angular.isUndefined($scope.view.abierto)){
-                        $scope.operaciones.changeEstadoMovimiento = $scope.view.abierto;
+                        $scope.operaciones.changeEstadoAbierto = $scope.view.abierto;
                     }
                 }
             },true);
             $scope.$watch("view.estadoMovimiento",function (newVal, oldVal) {
                 if (newVal !== oldVal) {
                     if(!angular.isUndefined($scope.view.estadoMovimiento)){
-                        $scope.operaciones.changeEstadoAbierto = $scope.view.estadoMovimiento;
+                        $scope.operaciones.changeEstadoMovimiento = $scope.view.estadoMovimiento;
                     }
                 }
             },true);
@@ -147,6 +147,8 @@ define(['../module'], function (controllers) {
                         $scope.control.success = true;
                         $scope.alerts = [{ type: "success", msg: "Boveda congelada."}];
                         $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+
+                        $scope.view.estadoMovimiento = false;
                     },
                     function error(error){
                         $scope.control.inProcess = false;
@@ -163,6 +165,8 @@ define(['../module'], function (controllers) {
                         $scope.control.success = true;
                         $scope.alerts = [{ type: "success", msg: "Boveda descongelada."}];
                         $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+
+                        $scope.view.estadoMovimiento = true;
                     },
                     function error(error){
                         $scope.control.inProcess = false;

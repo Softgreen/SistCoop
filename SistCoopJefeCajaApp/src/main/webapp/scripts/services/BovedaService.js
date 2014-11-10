@@ -44,7 +44,7 @@ define(['./module'], function (services) {
                     return Restangular.one(baseUrl+"/"+idBoveda+"/congelar").post();
                 },
                 descongelar: function(idBoveda) {
-                    return Restangular.one(baseUrl+"/"+idBoveda+"/congelar").post();
+                    return Restangular.one(baseUrl+"/"+idBoveda+"/descongelar").post();
                 },
                 getDetalle: function(idBoveda) {
                     return Restangular.all(baseUrl+"/"+idBoveda+"/detalle").getList();

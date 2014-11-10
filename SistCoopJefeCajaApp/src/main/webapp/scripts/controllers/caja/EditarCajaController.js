@@ -41,6 +41,8 @@ define(['../module'], function (controllers) {
                             $scope.view.id= data.id;
                             $scope.view.denominacion = data.denominacion;
                             $scope.view.abreviatura = data.abreviatura;
+
+                            $scope.caja = data;
                         },
                         function error(error){
                             $scope.control.inProcess = false;
@@ -167,6 +169,43 @@ define(['../module'], function (controllers) {
 
             $scope.abrirCaja = function(){
                 $state.transitionTo('app.caja.abrirCaja', {id: $scope.id});
+            };
+
+            $scope.congelarCaja = function(){
+                CajaService.congelar($scope.id).then(
+                    function(data){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = true;
+                        $scope.alerts = [{ type: "success", msg: "Caja congelada."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+
+                        $scope.loadCaja();
+                    },
+                    function error(error){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = false;
+                        $scope.alerts = [{ type: "danger", msg: "Error:"+error.data.message+"."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
+            };
+            $scope.descongelarCaja = function(){
+                CajaService.descongelar($scope.id).then(
+                    function(data){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = true;
+                        $scope.alerts = [{ type: "success", msg: "Caja descongelada."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+
+                        $scope.loadCaja();
+                    },
+                    function error(error){
+                        $scope.control.inProcess = false;
+                        $scope.control.success = false;
+                        $scope.alerts = [{ type: "danger", msg: "Error:"+error.data.message+"."}];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
             };
 
             $scope.redireccion = function(){

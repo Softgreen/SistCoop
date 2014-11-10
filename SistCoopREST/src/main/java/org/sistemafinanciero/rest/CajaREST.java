@@ -160,4 +160,15 @@ public interface CajaREST {
 	@Path("/{id}/abrir")
 	@Produces({ "application/xml", "application/json" })
 	public Response abrirCaja(@PathParam("id") BigInteger idCaja);
+	
+	@POST
+	@Path("/{id}/congelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response congelar(@PathParam("id") BigInteger id);
+
+	@POST
+	@Path("/{id}/descongelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response descongelar(@PathParam("id") BigInteger id);
+
 }

@@ -23,6 +23,10 @@ public interface CajaServiceTS extends AbstractServiceTS<Caja> {
 
 	public void deleteTrabajadorCaja(BigInteger idCaja, BigInteger idTrabajador) throws NonexistentEntityException, RollbackFailureException;
 
-	public BigInteger abrir(BigInteger idCaja) throws NonexistentEntityException, RollbackFailureException;;
-	
+	public BigInteger abrir(BigInteger idCaja) throws NonexistentEntityException, RollbackFailureException;
+
+	public void congelar(BigInteger id) throws NonexistentEntityException, RollbackFailureException;;
+
+	public void descongelar(BigInteger id) throws NonexistentEntityException, RollbackFailureException;
+
 }

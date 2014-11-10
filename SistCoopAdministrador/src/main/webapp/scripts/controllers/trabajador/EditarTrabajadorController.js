@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('EditarTrabajadorController', ['$scope','$state','focus','TrabajadorService','SucursalService','PersonaNaturalService',
-        function($scope,$state,focus,TrabajadorService,SucursalService,PersonaNaturalService) {
+    controllers.controller('EditarTrabajadorController', ['$scope','$state','$modal','focus','TrabajadorService','SucursalService','PersonaNaturalService',
+        function($scope,$state,$modal,focus,TrabajadorService,SucursalService,PersonaNaturalService) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
@@ -134,6 +134,24 @@ define(['../module'], function (controllers) {
                 $scope.redireccion();
             };
 
+            $scope.eliminar = function(){
+                var modalInstance = $modal.open({
+                    templateUrl: 'views/util/confirmPopUp.html',
+                    controller: "ConfirmPopUpController"
+                });
+                modalInstance.result.then(function (result) {
+                    TrabajadorService.desactivar($scope.id).then(
+                        function(data){
+                            $scope.alerts = [{ type: "success", msg: "Trabajador eliminado." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }, function error(error){
+                            $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                }, function () {
+                });
+            };
 
         }]);
 });
