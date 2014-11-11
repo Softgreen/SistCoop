@@ -43,7 +43,7 @@ define(['../module'], function (controllers) {
                     for(var i = 0; i < $scope.myData[index].length; i++){
                         total = total + ($scope.myData[index][i].valor * $scope.myData[index][i].cantidad);
                     }
-                    return $filter('currency')(total," ")
+                    return $filter('currency')(total, simbolo);
                 };
                 return $scope.gridOptions[index];
             };
