@@ -29,7 +29,8 @@ define(['../module'], function (controllers) {
                 idBoveda: undefined,
                 detalleTransaccion: undefined,
                 detalleBoveda: undefined,
-                origen: undefined
+                origen: undefined,
+                observacion: undefined
             };
 
             $scope.loadEntidades = function(){
@@ -111,7 +112,7 @@ define(['../module'], function (controllers) {
                         };
                     }
 
-                    BovedaService.crearTransaccioEntidadBoveda(origin, $scope.view.idEntidad, $scope.view.idBoveda, detalle).then(
+                    BovedaService.crearTransaccioEntidadBoveda(origin, $scope.view.idEntidad, $scope.view.idBoveda, detalle, $scope.view.observacion).then(
                         function(data){
                             $state.transitionTo('app.transaccion.voucherTransaccionEntidadBoveda', {id: data.id});
                             $scope.control.inProcess = false;

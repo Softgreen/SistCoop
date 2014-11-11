@@ -22,12 +22,11 @@ public interface BovedaServiceTS extends AbstractServiceTS<Boveda> {
 
 	public void descongelar(BigInteger id) throws RollbackFailureException;
 
-	public BigInteger crearTransaccionEntidadBoveda(TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idEntidad, BigInteger idBoveda) throws NonexistentEntityException, RollbackFailureException;
+	public BigInteger crearTransaccionEntidadBoveda(TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idEntidad, BigInteger idBoveda, String observacion) throws NonexistentEntityException, RollbackFailureException;
 
 	public BigInteger crearTransaccionBovedaBoveda(BigInteger idBovedaOrigen, BigInteger idBovedaDestino, Set<GenericDetalle> detalleTransaccion) throws NonexistentEntityException, RollbackFailureException;
 
 	public void confirmarTransaccionBovedaBoveda(BigInteger id) throws RollbackFailureException;
 
 	public void cancelarTransaccionBovedaBoveda(BigInteger id) throws RollbackFailureException;
-
 }

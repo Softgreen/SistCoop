@@ -58,7 +58,10 @@ define(['../module'], function (controllers) {
                 qz.append("TIP TRANS:" + ($scope.objetosCargados.transaccion.tipoTransaccion) + "\r\n");
                 qz.append("BOVEDA:" + "\t" + "  " + ($scope.objetosCargados.transaccion.bovedaDenominacion) + "\r\n");
                 qz.append("ENTIDAD:" + "  " + ($scope.objetosCargados.transaccion.entidad) + "\r\n");
-
+                
+                if ($scope.objetosCargados.transaccion.observacion !== null ) {
+                qz.append("OBS:" + "    " + ($scope.objetosCargados.transaccion.observacion) + "\r\n");
+				}
                 
                 qz.append("Denominacion");
                 qz.append("\t");

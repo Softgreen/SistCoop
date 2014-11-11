@@ -264,10 +264,10 @@ public class BovedaRESTService implements BovedaREST {
 	}
 
 	@Override
-	public Response createTransaccionEntidadBoveda(TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idEntidad, BigInteger idBoveda) {
+	public Response createTransaccionEntidadBoveda(TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idEntidad, BigInteger idBoveda, String observacion) {
 		Response response;
 		try {
-			BigInteger idTransaccion = bovedaServiceTS.crearTransaccionEntidadBoveda(origen, detalleTransaccion, idEntidad, idBoveda);
+			BigInteger idTransaccion = bovedaServiceTS.crearTransaccionEntidadBoveda(origen, detalleTransaccion, idEntidad, idBoveda, observacion);
 			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (NonexistentEntityException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());

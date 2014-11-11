@@ -187,7 +187,7 @@ define(['./app'], function(app) {
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
-                })
+                });
         }
     ]).run(['$rootScope', '$state', '$stateParams',
             function ($rootScope,   $state,   $stateParams) {

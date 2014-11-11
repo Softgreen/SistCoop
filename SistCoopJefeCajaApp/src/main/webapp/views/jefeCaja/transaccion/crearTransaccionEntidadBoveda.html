@@ -54,7 +54,17 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group"
+					ng-class="{ 'has-error' : crearTransaccionBovedaCajaForm.observacion.$invalid && crearTransaccionBovedaCajaForm.submitted}">
+					<label>Observaci&oacute;n</label>
+					<textarea name="observacion" class="form-control" rows="3" maxlength="150"
+						ng-model="view.observacion" placeholder="Observaci&oacute;n"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="row">
             <div class="col-sm-6">
                 <div class="form-group" ng-class="{ 'has-error' : crearCajaForm.denominacion.$invalid && (control.submitted || crearCajaForm.denominacion.$dirty)}">
                     <label>Detalle Transacci&oacute;n</label>
@@ -119,7 +129,7 @@
                             </td>
                             <td style="width: 35%;">
                                 <div class="form-group" style="margin-bottom: 0px;">
-                                    <input type="text" name="cantidad" ng-model="detalle.cantidad" class="form-control" disabled style="height: 27px;padding: 0px 12px;"/>
+                                    <input type="text" name="cantidad" ng-model="detalle.cantidad" class="form-control" disabled style="height: 27px;padding: 0px 12px; color: blue;"/>
                                     <div ng-show="cantidadForm.cantidad.$invalid && control.submitted">
                                         <p class="help-block" ng-show="cantidadForm.cantidad.$error.required">
                                             Ingrese Cantidad.

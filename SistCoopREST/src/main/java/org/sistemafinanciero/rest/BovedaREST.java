@@ -136,7 +136,7 @@ public interface BovedaREST {
 	@Path("/transaccionEntidadBoveda/{origen}/{idEntidad}/{idBoveda}")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response createTransaccionEntidadBoveda(@PathParam("origen") TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, @PathParam("idEntidad") BigInteger idEntidad, @PathParam("idBoveda") BigInteger idBoveda);
+	public Response createTransaccionEntidadBoveda(@PathParam("origen") TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, @PathParam("idEntidad") BigInteger idEntidad, @PathParam("idBoveda") BigInteger idBoveda, @QueryParam("observacion") String observacion);
 
 	@GET
 	@Path("/transaccionEntidadBoveda/{idAgencia}")

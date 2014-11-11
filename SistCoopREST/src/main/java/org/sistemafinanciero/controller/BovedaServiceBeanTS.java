@@ -293,7 +293,7 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 	}
 
 	@Override
-	public BigInteger crearTransaccionEntidadBoveda(TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idEntidad, BigInteger idBoveda) throws NonexistentEntityException, RollbackFailureException {
+	public BigInteger crearTransaccionEntidadBoveda(TransaccionEntidadBovedaOrigen origen, Set<GenericDetalle> detalleTransaccion, BigInteger idEntidad, BigInteger idBoveda, String observacion) throws NonexistentEntityException, RollbackFailureException {
 		Entidad entidad = entidadDAO.find(idEntidad);
 		Boveda boveda = bovedaDAO.find(idBoveda);
 		if (entidad == null)
@@ -385,7 +385,7 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		transaccionBovedaOtro.setFecha(calendar.getTime());
 		transaccionBovedaOtro.setHistorialBoveda(historialBoveda);
 		transaccionBovedaOtro.setHora(calendar.getTime());
-		transaccionBovedaOtro.setObservacion(null);
+		transaccionBovedaOtro.setObservacion(observacion);
 		transaccionBovedaOtro.setSaldoDisponible(saldoFinalConResta);
 		transaccionBovedaOtro.setTipoTransaccion(factor.compareTo(BigInteger.ZERO) >= 1 ? "INGRESO" : "EGRESO");
 

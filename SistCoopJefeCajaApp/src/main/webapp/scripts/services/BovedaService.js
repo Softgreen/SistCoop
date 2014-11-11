@@ -64,9 +64,10 @@ define(['./module'], function (services) {
 				getDetalleTransaccionBovedaCaja: function(idTransaccionBovedaCaja){
                     return Restangular.one(baseUrl+"/detalleTransaccionBovedaCaja/"+idTransaccionBovedaCaja).get();
                 },
-                crearTransaccioEntidadBoveda: function(origen, idEntidad, idBoveda, detalle){
+                crearTransaccioEntidadBoveda: function(origen, idEntidad, idBoveda, detalle, observacion){
                     var copy = Restangular.copy(detalle);
-                    return Restangular.all(baseUrl+"/transaccionEntidadBoveda/"+origen+"/"+idEntidad+"/"+idBoveda).post(detalle);
+                    return Restangular.all(baseUrl+"/transaccionEntidadBoveda/"+origen+"/"+idEntidad+"/"+idBoveda).customPOST(detalle,'',{observacion:observacion},{});
+                    //return Restangular.all(baseUrl+"/transaccionEntidadBoveda/"+origen+"/"+idEntidad+"/"+idBoveda).post(detalle);
                 },
                 crearTransaccioBovedaBoveda: function(idBovedaOrigen, idBovedaDestino, detalle){
                     var copy = Restangular.copy(detalle);
