@@ -186,10 +186,15 @@
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-core</artifactId>
-			<version>1.0.2.Final</version>
+			<version>1.0.4.Final</version>
 			<scope>provided</scope>
-		</dependency>		
-		
+		</dependency>
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-servlet-oauth-client</artifactId>
+			<version>1.0.4.Final</version>			
+		</dependency>
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>

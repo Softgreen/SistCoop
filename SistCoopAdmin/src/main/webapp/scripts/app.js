@@ -30,6 +30,7 @@ define([
             'focusOn',
             'cfp.hotkeys',
             'angular-ladda',
+            'ui.select',
             'fxpicklist'
         ]);
     }

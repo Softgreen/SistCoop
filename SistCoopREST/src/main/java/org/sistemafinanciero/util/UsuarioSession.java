@@ -15,7 +15,7 @@ import org.keycloak.KeycloakSecurityContext;
 public class UsuarioSession {
 
 	@Resource
-	private SessionContext context;
+	private SessionContext context;	
 
 	public boolean haveSession() {
 		Principal principal = context.getCallerPrincipal();

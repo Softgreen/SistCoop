@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('EditarTrabajadorController', ['$scope','$state','$modal','focus','TrabajadorService','SucursalService','PersonaNaturalService',
-        function($scope,$state,$modal,focus,TrabajadorService,SucursalService,PersonaNaturalService) {
+    controllers.controller('EditarTrabajadorController', ['$scope','$state','$modal','focus','TrabajadorService','SucursalService','PersonaNaturalService','Restangular',
+        function($scope,$state,$modal,focus,TrabajadorService,SucursalService,PersonaNaturalService,Restangular) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
@@ -153,6 +153,17 @@ define(['../module'], function (controllers) {
                 });
             };
 
+            $scope.buscarUsuarios = function(){
+                Restangular.one('token').get().then(function(data){
+                    var token = data;
+                    Restangular.allUrl('keycloak','http://localhost:8080/auth/admin/realms/SistemaFinanciero/users')
+                        .customGETLIST('',{},{'Authorization': 'Bearer '+ token})
+                        .then(function(data){
+                            $scope.usuarios = data;
+                        });
+                });
+            };
+            $scope.buscarUsuarios();
 
         }]);
 });

@@ -32,7 +32,7 @@ public class PersonaNaturalServiceBeanNT implements PersonaNaturalServiceNT {
 	private DAO<Object, PersonaNatural> personaNaturalDAO;
 
 	@Override
-	public PersonaNatural findById(BigInteger id) {
+	public PersonaNatural findById(BigInteger id) {				
 		if (id == null)
 			return null;
 		PersonaNatural persona = personaNaturalDAO.find(id);

@@ -22,6 +22,7 @@ require.config({
         'ngProgress':"../bower_components/ngprogress/build/ngProgress",
         'cfp.hotkeys':"../bower_components/angular-hotkeys/build/hotkeys",
         'angular-ladda':"../bower_components/angular-ladda/dist/angular-ladda.min",
+        'ui-select':"../bower_components/angular-ui-select/dist/select.min",
         'picklist':"picklist"
     },
     shim: {
@@ -81,6 +82,11 @@ require.config({
                 'angular'
             ]
         },
+        'ui-select':{
+            deps: [
+                'angular'
+            ]
+        },
         'picklist':{
             deps: [
                 'angular'
@@ -120,6 +126,7 @@ require([
     'focusOn',
     'cfp.hotkeys',
     'angular-ladda',
+    'ui-select',
     'picklist',
     'uiRouter'
 ], function(angular, app) {

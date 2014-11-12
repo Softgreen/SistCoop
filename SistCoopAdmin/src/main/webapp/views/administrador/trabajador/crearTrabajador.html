@@ -117,7 +117,12 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.usuario.$invalid && (control.submitted || crearTrabajadorForm.usuario.$dirty)}">
                             <label>Usuario</label>
-                            <input name="usuario" type="text" ng-model="view.usuario" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="usuario"/>
+                            <ui-select name="usuario" ng-model="view.usuario" theme="bootstrap">
+                                <ui-select-match placeholder="Seleccione">{{$select.selected.username}}</ui-select-match>
+                                <ui-select-choices repeat="item in usuarios | filter: $select.search">
+                                    <div ng-bind-html="item.username | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                             <div ng-show="crearTrabajadorForm.usuario.$invalid && (control.submitted || crearTrabajadorForm.usuario.$dirty)">
                                 <p class="help-block" ng-show="crearTrabajadorForm.usuario.$error.minlength">
                                     Minimo usuario.
