@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTrabajadorController', ['$scope','$state','focus','TrabajadorService','SucursalService','PersonaNaturalService','Restangular',
-        function($scope,$state,focus,TrabajadorService,SucursalService,PersonaNaturalService,Restangular) {
+    controllers.controller('CrearTrabajadorController', ['$scope','$state','focus','TrabajadorService','SucursalService','PersonaNaturalService','ConfiguracionService','Restangular',
+        function($scope,$state,focus,TrabajadorService,SucursalService,PersonaNaturalService,ConfiguracionService,Restangular) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
@@ -151,7 +151,7 @@ define(['../module'], function (controllers) {
             $scope.buscarUsuarios = function(){
                 Restangular.one('token').get().then(function(data){
                     var token = data;
-                    Restangular.allUrl('keycloak','http://localhost:8080/auth/admin/realms/SistemaFinanciero/users')
+                    Restangular.allUrl('keycloak',ConfiguracionService.getKeycloakApiUrl()+'/realms/SistemaFinanciero/users')
                         .customGETLIST('',{},{'Authorization': 'Bearer '+ token})
                         .then(function(data){
                             $scope.usuarios = data;

@@ -6,12 +6,17 @@ define(['./module'], function (services) {
         //var restApiUrl = 'http://192.168.0.12:8080/SistCoopREST/rest';
         var restApiUrl = 'http://localhost:8080/SistCoopREST/rest';
 
+        var keycloakApiUrl = 'http://localhost:8080/auth/admin';
+
         var defaultPrinterName = "EPSON TM-U220";
         var cookiePrinterName = "DefaultPrinterName";
 
         return {
             getRestApiUrl: function(){
                 return restApiUrl;
+            },
+            getKeycloakApiUrl: function(){
+                return keycloakApiUrl;
             },
             getAppName: function(){
                 return appName;

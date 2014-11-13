@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('EditarTrabajadorController', ['$scope','$state','$modal','focus','TrabajadorService','SucursalService','PersonaNaturalService','Restangular',
-        function($scope,$state,$modal,focus,TrabajadorService,SucursalService,PersonaNaturalService,Restangular) {
+    controllers.controller('EditarTrabajadorController', ['$scope','$state','$modal','focus','TrabajadorService','SucursalService','PersonaNaturalService','Restangular','ConfiguracionService',
+        function($scope,$state,$modal,focus,TrabajadorService,SucursalService,PersonaNaturalService,Restangular,ConfiguracionService) {
 
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
@@ -103,7 +103,7 @@ define(['../module'], function (controllers) {
                         idAgencia: $scope.view.idAgencia,
                         idTipoDocumento: $scope.view.idTipoDocumento,
                         numeroDocumento: $scope.view.numeroDocumento,
-                        usuario: $scope.view.usuario
+                        usuario: $scope.view.usuario ? $scope.view.usuario.username : undefined
                     };
 
                     TrabajadorService.actualizar($scope.view.id, trabajador).then(
@@ -156,10 +156,23 @@ define(['../module'], function (controllers) {
             $scope.buscarUsuarios = function(){
                 Restangular.one('token').get().then(function(data){
                     var token = data;
-                    Restangular.allUrl('keycloak','http://localhost:8080/auth/admin/realms/SistemaFinanciero/users')
+                    Restangular.allUrl('keycloak',ConfiguracionService.getKeycloakApiUrl()+'/realms/SistemaFinanciero/users')
                         .customGETLIST('',{},{'Authorization': 'Bearer '+ token})
                         .then(function(data){
                             $scope.usuarios = data;
+
+                            var listenerTrabajador = $scope.$watch('trabajador', function(){
+                                if(!angular.isUndefined($scope.trabajador)){
+                                    for(var i=0;i<$scope.usuarios.length;i++){
+                                        if($scope.usuarios[i].username = $scope.trabajador.usuario){
+                                            $scope.view.usuario = $scope.usuarios[i];
+                                            break;
+                                        }
+                                    }
+                                    listenerTrabajador();
+                                }
+                            },true);
+
                         });
                 });
             };
