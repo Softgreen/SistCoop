@@ -6,6 +6,7 @@ define([
     './SucursalService',
     './AgenciaService',
     './PersonaNaturalService',
+    './PersonaJuridicaService',
 
     './MaestroService',
     './ConfiguracionService'

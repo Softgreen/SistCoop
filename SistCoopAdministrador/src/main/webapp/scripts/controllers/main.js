@@ -15,6 +15,11 @@ define([
     './persona/natural/BuscarPersonaNaturalController',
     './persona/natural/CrearPersonaNaturalController',
     './persona/natural/EditarPersonaNaturalController',
+    
+    './persona/juridica/AccionistaController',
+    './persona/juridica/BuscarPersonaJuridicaController',
+    './persona/juridica/CrearPersonaJuridicaController',
+    './persona/juridica/EditarPersonaJuridicaController',
 
     './util/ConfirmPopUpController',
     './util/LoadImageController',

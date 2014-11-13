@@ -408,8 +408,6 @@ define(['./app'], function(app) {
                     }
                 })
 
-
-
                 .state('app.transaccion.aporte', {
                     url: "/aporte",
                     views: {
@@ -501,9 +499,7 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-
-
-
+                
                 .state('app.socio.crearSocio', {
                     url: "/crearSocio",
                     views: {
@@ -661,6 +657,7 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                
                 .state('app.administracion.buscarPersonaJuridica', {
                     url: "/personaJuridica/buscar",
                     views: {
