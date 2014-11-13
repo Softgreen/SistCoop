@@ -10,7 +10,7 @@ define(['../module'], function (controllers) {
                     angular.forEach(detalleCaja[i].detalle, function(row){
                         row.subtotal = function(){
                             return this.valor * this.cantidad;
-                        }
+                        };
                     });
                 }
                 $scope.detalleCaja = angular.copy(detalleCaja);
@@ -50,7 +50,7 @@ define(['../module'], function (controllers) {
                     for(var i = 0; i < $scope.myData[index].length; i++){
                         total = total + ($scope.myData[index][i].valor * $scope.myData[index][i].cantidad);
                     }
-                    return $filter('currency')(total," ")
+                    return $filter('currency')(total, simbolo);
                 };
                 return $scope.gridOptions[index];
             };

@@ -175,7 +175,6 @@ define(['./app'], function(app) {
                                         { 'name':'Panel Control' , 'state':'app.caja.panelControl'}
                                     ]},
                                     {'name':'Abrir/Cerrar', submenus:[
-                                        { 'name':'Abrir Caja' , 'state':'app.caja.abrirCaja'},
                                         { 'name':'Cerrar Caja' , 'state':'app.caja.cerrarCaja'},
                                         { 'name':'Pendientes Caja' , 'state':'app.caja.pendiente'},
                                         { 'name':'Historial Caja' , 'state':'app.caja.historial'}

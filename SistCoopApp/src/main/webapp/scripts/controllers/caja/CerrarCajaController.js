@@ -12,7 +12,7 @@ define(['../module'], function (controllers) {
                     angular.forEach(detalleCaja[i].detalle, function(row){
                         row.subtotal = function(){
                             return this.valor * this.cantidad;
-                        }
+                        };
                     });
                 }
                 $scope.detalleCajaInicial = angular.copy(detalleCaja);

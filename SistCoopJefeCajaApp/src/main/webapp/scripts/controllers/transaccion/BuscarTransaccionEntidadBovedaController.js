@@ -26,7 +26,7 @@ define(['../module'], function (controllers) {
                     {field:"entidad", displayName:'Entidad'},
                     {field:"boveda", displayName:'Boveda', width: 220},
                     {field:"monto", displayName:'Monto', cellFilter:'currency :""', width: 110},
-                    {displayName: 'Edit', width: 100, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)" ng-disabled="getDisabledStateVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button></div>'}]
+                    {displayName: 'Voucher', width: 100, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)" ng-disabled="getDisabledStateVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button></div>'}]
             };
 
             $scope.getVoucher = function(row){

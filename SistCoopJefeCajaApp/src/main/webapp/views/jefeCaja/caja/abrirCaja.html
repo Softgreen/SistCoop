@@ -20,13 +20,13 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>CAJA</label>
-                    <p style="font-size: 13px;"><span ng-bind="cajaSession.denominacion"/><span>-</span><span ng-bind="cajaSession.abreviatura"/></p>
+                    <p style="font-size: 13px;"><span ng-bind="caja.denominacion"/><span>-</span><span ng-bind="caja.abreviatura"/></p>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>ESTADO</label>
-                    <p style="font-size: 13px;"><span ng-bind-template="{{cajaSession.abierto ? 'ABIERTO' : 'CERRADO'}}"/></p>
+                    <p style="font-size: 13px;"><span ng-bind-template="{{caja.abierto ? 'ABIERTO' : 'CERRADO'}}"/></p>
                 </div>
             </div>
         </div>

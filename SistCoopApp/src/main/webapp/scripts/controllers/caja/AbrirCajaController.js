@@ -10,7 +10,7 @@ define(['../module'], function (controllers) {
                     angular.forEach(detalleCaja[i].detalle, function(row){
                         row.subtotal = function(){
                             return this.valor * this.cantidad;
-                        }
+                        };
                     });
                 }
                 $scope.detalleCaja = angular.copy(detalleCaja);
@@ -35,7 +35,7 @@ define(['../module'], function (controllers) {
                     columnDefs: [
                         { field: "valor | currency : '"+simbolo+" '", displayName: "Valor" },
                         { field: "cantidad | number ", displayName: "Cantidad" },
-                        { field: "subtotal() | currency : '' ", displayName: "Subtotal" }
+                        { field: "subtotal() | currency : ''", displayName: "Subtotal" }
                     ]
                 };
                 $scope.total[index] = function(){
@@ -59,7 +59,7 @@ define(['../module'], function (controllers) {
                         $scope.cajaSession.abierto = true;
                         $scope.cajaSession.estadoMovimiento = true;
 
-                        $state.go("app.caja", null, { reload: true })
+                        $state.go("app.caja", null, { reload: true });
                     },
                     function error(error){
                         $scope.control.inProcess = false;
