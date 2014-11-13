@@ -117,7 +117,7 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : crearTrabajadorForm.usuario.$invalid && (control.submitted || crearTrabajadorForm.usuario.$dirty)}">
                             <label>Usuario</label>
-                            <input name="usuario" type="text" ng-model="view.usuario" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="usuario"/>
+                            <input name="usuario" type="text" ng-model="view.usuario" ng-minlength="1" ng-maxlength="40" class="form-control" placeholder="usuario" disabled/>
                             <div ng-show="crearTrabajadorForm.usuario.$invalid && (control.submitted || crearTrabajadorForm.usuario.$dirty)">
                                 <p class="help-block" ng-show="crearTrabajadorForm.usuario.$error.minlength">
                                     Minimo usuario.

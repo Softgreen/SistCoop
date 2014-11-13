@@ -109,6 +109,10 @@ define(['./app'], function(app) {
                                     {'name':'Persona Natural', submenus:[
                                         { 'name':'Nuevo' , 'state':'app.administracion.crearPersonaNatural'},
                                         { 'name':'Buscar' , 'state':'app.administracion.buscarPersonaNatural'}
+                                    ]},
+                                    {'name':'Persona Jurídica', submenus:[
+                                        { 'name':'Nuevo' , 'state':'app.administracion.crearPersonaJuridica'},
+                                        { 'name':'Buscar' , 'state':'app.administracion.buscarPersonaJuridica'}
                                     ]}
                                 ];
                             }
@@ -184,6 +188,28 @@ define(['./app'], function(app) {
                 .state('app.administracion.editarPersonaNatural', {
                     url: "/personaNatural/:id",
                     templateUrl: "views/administrador/persona/natural/editarPersonaNatural.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
+                })
+
+                .state('app.administracion.buscarPersonaJuridica', {
+                    url: "/personaJuridica/buscar",
+                    templateUrl: "views/administrador/persona/juridica/buscarPersonaJuridica.html",
+                    controller: 'BuscarPersonaJuridicaController'
+                })
+                .state('app.administracion.crearPersonaJuridica', {
+                    url: "/personaJuridica?tipoDocumento&numeroDocumento",
+                    templateUrl: "views/administrador/persona/juridica/crearPersonaJuridica.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.params = {};
+                        $scope.params.idTipoDocumento = $stateParams.tipoDocumento;
+                        $scope.params.numeroDocumento = $stateParams.numeroDocumento;
+                    }
+                })
+                .state('app.administracion.editarPersonaJuridica', {
+                    url: "/personaJuridica/:id",
+                    templateUrl: "views/administrador/persona/juridica/editarPersonaJuridica.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
                     }
