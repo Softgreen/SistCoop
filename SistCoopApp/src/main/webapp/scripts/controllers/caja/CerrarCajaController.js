@@ -17,6 +17,10 @@ define(['../module'], function (controllers) {
                 }
                 $scope.detalleCajaInicial = angular.copy(detalleCaja);
                 $scope.detalleCajaFinal = angular.copy(detalleCaja);
+
+                for(var i = 0; i<$scope.detalleCajaFinal.length; i++){
+                    $scope.detalleCajaFinal[i].cantidad = 0;
+                }
             });
 
 
@@ -33,7 +37,6 @@ define(['../module'], function (controllers) {
             var gridLayoutPluginInicial = [];
             $scope.updateLayoutInicial = [];
             $scope.getTemplateInicial = function(index, simbolo){
-            	console.log("simbolo:"+simbolo);
             	gridLayoutPluginInicial[index] = new ngGridLayoutPlugin();
                 $scope.updateLayoutInicial[index] = function(){
                     gridLayoutPluginInicial[index].updateGridLayout();
@@ -43,9 +46,9 @@ define(['../module'], function (controllers) {
                 $scope.gridOptionsInicial[index] = {
                     data: 'myDataInicial['+index+']',
                     plugins: [gridLayoutPluginInicial[index]],
-                    multiSelect: false,
+                    enableRowSelection: false,
                     columnDefs: [
-                        { field: "valor | currency : ''", displayName: "Valor" },
+                        { field: "valor", displayName: "Valor", cellFilter:"currency : ''" },
                         { field: "cantidad", displayName: "Cantidad" },
                         { field: "subtotal()", cellFilter:"currency : ''", displayName: "Subtotal" }
                         //{ field: "subtotal()", cellFilter:"currency : '" + simbolo + "'", displayName: "Subtotal" }
@@ -75,14 +78,18 @@ define(['../module'], function (controllers) {
                 $scope.gridOptionsFinal[index] = {
                     data: 'myDataFinal['+index+']',
                     plugins: [gridLayoutPluginFinal[index]],
-                    multiSelect: false,
-                    enableCellSelection: true,
-                    enableRowSelection: false,
+                    enableRowSelection: true,
                     enableCellEditOnFocus: true,
                     columnDefs: [
-                        { field: "valor | currency : ''", displayName: "Valor", enableCellEdit: false },
-                        { field: "cantidad", displayName: "Cantidad", enableCellEdit: true },
-                        { field: "subtotal() | currency : '' ", displayName: "Subtotal", enableCellEdit: false }
+                        { field: "valor", displayName: "Valor", cellFilter:"currency : ''"},
+                        {
+                            displayName: 'Cant',
+                            enableCellEdit: false,
+
+                            cellTemplate: '<input type="text" ng-class="\'colt\' + col.index" ng-model="row.entity.cantidad" />',
+                            width:80
+                        },
+                        { field: "subtotal()", displayName: "Subtotal", cellFilter:"currency : ''" }
                         //{ field: "subtotal() | currency : '" + simbolo + "' ", displayName: "Subtotal", enableCellEdit: false }
                     ]
                 };
