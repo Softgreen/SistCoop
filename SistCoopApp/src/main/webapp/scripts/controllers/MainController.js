@@ -95,7 +95,7 @@ define(['./module'], function (controllers) {
                             "estado":false
                         };
                         if(error.status == 400){
-                            $scope.loadAgenciaOfSession;
+                            $scope.loadAgenciaOfSession();
                         }
                     }
                 );
