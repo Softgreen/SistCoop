@@ -109,7 +109,7 @@ define(['../../module'], function (controllers) {
                     {field:'razonSocial', displayName:'RAZON SOCIAL'},
                     {field:'nombreComercial', displayName:'N.COMERCIAL', width:150},
                     {field:'tipoEmpresa', displayName:'TIPO EMPRESA', width:100},
-                    {field:"fechaConstitucion | date:'dd/MM/yyyy'", displayName:'F. CONSTITUCION', width:120},
+                    {field:"fechaConstitucion", displayName:'F. CONSTITUCION', cellFilter: "date:'dd/MM/yyyy'", width:120},
                     {displayName: 'EDITAR', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>', width:80}]
             };
         }]);
