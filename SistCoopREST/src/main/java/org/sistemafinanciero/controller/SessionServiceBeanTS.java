@@ -499,11 +499,14 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 			}
 		}
 		try {
+			Trabajador trabajador = this.getTrabajador();			
+			
 			Calendar calendar = Calendar.getInstance();
 			HistorialCaja historialCaja = this.getHistorialActivo();
 			historialCaja.setEstado(true);
 			historialCaja.setFechaCierre(calendar.getTime());
 			historialCaja.setHoraCierre(calendar.getTime());
+			historialCaja.setTrabajador(trabajador.getPersonaNatural().getApellidoPaterno()+" "+trabajador.getPersonaNatural().getApellidoMaterno()+","+trabajador.getPersonaNatural().getNombres());
 
 			Set<ConstraintViolation<HistorialCaja>> violationsHistorial = validator.validate(historialCaja);
 			if (!violationsHistorial.isEmpty()) {
