@@ -19,7 +19,9 @@ define(['../module'], function (controllers) {
                 $scope.detalleCajaFinal = angular.copy(detalleCaja);
 
                 for(var i = 0; i<$scope.detalleCajaFinal.length; i++){
-                    $scope.detalleCajaFinal[i].cantidad = 0;
+                    for(var j = 0; j<$scope.detalleCajaFinal[i].detalle.length; j++){
+                        $scope.detalleCajaFinal[i].detalle[j].cantidad = 0;
+                    }
                 }
             });
 
