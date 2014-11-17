@@ -2,6 +2,7 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigInteger;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.ejb.EJB;
@@ -86,6 +87,7 @@ public class PersonaJuridicaServiceBeanTS implements PersonaJuridicaServiceTS {
 
 	@Override
 	public void update(BigInteger idPersonaJuridica, PersonaJuridica personaJuridica) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
+		
 		Set<ConstraintViolation<PersonaJuridica>> violations = validator.validate(personaJuridica);
 		if (!violations.isEmpty()) {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));

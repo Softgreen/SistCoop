@@ -166,7 +166,9 @@ public class PersonaJuridicaRESTService implements PersonaJuridicaREST {
 				person.setIdPersonaNatural(accionista.getIdPersona());
 				accionistaFinal.setPersonaNatural(person);
 				accionistaFinal.setPorcentajeParticipacion(accionista.getPorcentaje());
-
+				
+				System.out.println(accionista.getPorcentaje());
+				
 				accionistasFinal.add(accionistaFinal);
 			}
 			personaJuridica.setAccionistas(accionistasFinal);
