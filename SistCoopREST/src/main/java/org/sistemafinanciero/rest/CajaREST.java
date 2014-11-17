@@ -58,7 +58,7 @@ public interface CajaREST {
 	@Path("/{id}/historiales/resumenCierreCaja")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
-	public Response getResumenCierreCaja(@PathParam("id") BigInteger idHistorialCaja, @QueryParam("idHistorial") BigInteger idHistorial);
+	public Response getResumenCierreCaja(@PathParam("id") BigInteger idCaja, @QueryParam("idHistorial") BigInteger idHistorial);
 
 	@GET
 	@Path("{id}/transaccionCajaCaja/enviados")

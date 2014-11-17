@@ -125,8 +125,8 @@ public class CajaRESTService implements CajaREST {
 	}
 
 	@Override
-	public Response getResumenCierreCaja(BigInteger idHistorialCaja, BigInteger idHistorial) {
-		ResumenOperacionesCaja resumen = cajaServiceNT.getResumenOperacionesCaja(idHistorial);
+	public Response getResumenCierreCaja(BigInteger idCaja, BigInteger idHistorial) {
+		ResumenOperacionesCaja resumen = cajaServiceNT.getResumenOperacionesCaja(idHistorial);		
 		return Response.status(Response.Status.OK).entity(resumen).build();
 	}
 
