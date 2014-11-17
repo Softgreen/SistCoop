@@ -42,7 +42,7 @@ define(['../module'], function (controllers) {
                     columnDefs: [
                         { field: "valor", cellFilter: "currency : '"+simbolo+" '", displayName: "Valor" },
                         { field: "cantidad", cellFilter: "number", displayName: "Cantidad" },
-                        { field: "subtotal()", cellFilter: "currency : ''", displayName: "Subtotal" }
+                        { field: "subtotal()", cellFilter: "currency : '' ", displayName: "Subtotal" }
                     ]
                 };
                 $scope.total[index] = function(){

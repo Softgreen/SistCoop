@@ -9,7 +9,9 @@ define(['../module'], function (controllers) {
                 }
             );
             CajaService.getResumenCierreCaja($scope.cajaSession.id, $scope.id).then(
-                function(resumen){
+            	function(resumen){
+            		console.log("Session Caja" + $scope.cajaSession.id);
+            		console.log("ID" + $scope.id);
                     $scope.resumenCaja = resumen;
                 }
             );
