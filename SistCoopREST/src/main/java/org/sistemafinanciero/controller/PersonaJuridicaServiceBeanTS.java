@@ -95,12 +95,27 @@ public class PersonaJuridicaServiceBeanTS implements PersonaJuridicaServiceTS {
 
 		TipoDocumento tipoDocumento = personaJuridica.getTipoDocumento();
 		String numeroDocumento = personaJuridica.getNumeroDocumento();
+		
+		Set<Accionista> accionistas = personaJuridica.getAccionistas();		
+		
+		//eliminar accionisas quitados
 
 		PersonaJuridica personaDB = personaJuridicaServiceNT.find(tipoDocumento.getIdTipoDocumento(), numeroDocumento);
 		PersonaJuridica personaById = personaJuridicaDAO.find(idPersonaJuridica);
 		if (personaById == null)
 			throw new PreexistingEntityException("Persona juridica no encontrada");
 
+		
+		//actualizar accionistas
+		for (Accionista accionista : personaById.getAccionistas()) {
+			accionistaDAO.delete(accionista);
+		}
+		for (Accionista accionista : accionistas) {
+			accionista.setIdAccionista(null);
+			accionista.setPersonaJuridica(personaDB);
+			accionistaDAO.create(accionista);
+		}
+		
 		personaJuridica.setIdPersonaJuridica(idPersonaJuridica);
 		if (personaDB != null) {
 			if (personaById.getIdPersonaJuridica().equals(personaDB.getIdPersonaJuridica())) {
