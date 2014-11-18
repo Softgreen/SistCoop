@@ -162,12 +162,12 @@ define(['../module'], function (controllers) {
                 }
 
                 qz.append("\n");
-                qz.append("SALDO AYER: "+$scope.voucherPrint.saldoAyer+"\r\n");
-                qz.append("ENTRADAS  : "+$scope.voucherPrint.entradas+"\r\n");
-                qz.append("SALIDAS   : "+$scope.voucherPrint.salidas+"\r\n");
-                qz.append("SOBRANTES : "+$scope.voucherPrint.entradas+"\r\n");
-                qz.append("FALTANTES : "+$scope.voucherPrint.salidas+"\r\n");
-                qz.append("SALDO X DEVOLVER: "+$scope.voucherPrint.porDevolver+"\r\n");
+                qz.append("SALDO AYER: "+($filter('currency')($scope.voucherPrint.saldoAyer, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                qz.append("ENTRADAS  : "+($filter('currency')($scope.voucherPrint.entradas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                qz.append("SALIDAS   : "+($filter('currency')($scope.voucherPrint.salidas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                qz.append("SOBRANTES : "+($filter('currency')($scope.voucherPrint.entradas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                qz.append("FALTANTES : "+($filter('currency')($scope.voucherPrint.salidas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                qz.append("SALDO X DEVOLVER: "+($filter('currency')($scope.voucherPrint.porDevolver, $scope.voucherPrint.moneda.simbolo))+"\r\n");
 
                 qz.append("\r\n");
                 qz.append("\r\n");
