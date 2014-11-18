@@ -470,7 +470,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 						saldoAyer = saldoAyer.add(subTotal);
 					}
 				}
-			}
+			}				
 
 			// recuperando las operaciones del dia
 			Set<TransaccionBancaria> transBancarias = historialCaja.getTransaccionBancarias();
@@ -515,7 +515,14 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 					else
 						faltante = faltante.add(pendiente.getMonto());
 				}
-			}
+			}		
+			
+			cajaCierreMoneda.setSaldoAyer(saldoAyer);
+			cajaCierreMoneda.setEntradas(entradas);
+			cajaCierreMoneda.setSalidas(salidas);
+			cajaCierreMoneda.setPorDevolver(porDevolver);
+			cajaCierreMoneda.setSobrante(sobrante);
+			cajaCierreMoneda.setFaltante(faltante);
 		}
 		return result;
 	}
