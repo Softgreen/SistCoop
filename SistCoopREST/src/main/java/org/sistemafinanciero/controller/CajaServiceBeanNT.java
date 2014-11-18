@@ -630,7 +630,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			if (trans.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
 				depositosAporte++;
 			else
-				retirosAporte++;
+				retirosAporte++; 
 		}
 
 		transCajaCajaEnviado = transCajaCajaEnviados.size();
