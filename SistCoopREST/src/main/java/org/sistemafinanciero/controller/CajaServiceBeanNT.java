@@ -621,7 +621,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 		}
 		for (TransaccionCompraVenta transCompraVenta : transComVent) {
-			if (transCompraVenta.equals(Tipotransaccioncompraventa.COMPRA))
+			if (transCompraVenta.getTipoTransaccion().equals(Tipotransaccioncompraventa.COMPRA))
 				compra++;
 			else
 				venta++;
