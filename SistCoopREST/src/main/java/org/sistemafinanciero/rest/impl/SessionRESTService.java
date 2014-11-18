@@ -188,6 +188,9 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -222,6 +225,9 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -242,6 +248,9 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -256,6 +265,9 @@ public class SessionRESTService implements SessionREST {
 			BigInteger idTransaccion = sessionServiceTS.crearTransaccionBancaria(numeroCuenta, monto, referencia);
 			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
@@ -276,6 +288,9 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -287,6 +302,9 @@ public class SessionRESTService implements SessionREST {
 			BigInteger idTransaccion = sessionServiceTS.cancelarCuentaBancariaConRetiro(id);
 			response = Response.status(Response.Status.OK).entity(Jsend.getSuccessJSend(idTransaccion)).build();
 		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
@@ -302,6 +320,9 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -315,6 +336,9 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -326,6 +350,9 @@ public class SessionRESTService implements SessionREST {
 			sessionServiceTS.cancelarTransaccionCajaCaja(id);
 			response = Response.status(Response.Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
@@ -347,6 +374,9 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -358,6 +388,9 @@ public class SessionRESTService implements SessionREST {
 			sessionServiceTS.confirmarTransaccionBovedaCaja(id);
 			response = Response.status(Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
@@ -373,6 +406,9 @@ public class SessionRESTService implements SessionREST {
 		} catch (RollbackFailureException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
 	}
@@ -384,6 +420,9 @@ public class SessionRESTService implements SessionREST {
 			sessionServiceTS.extornarTransaccion(id);
 			response = Response.status(Status.NO_CONTENT).build();
 		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
 			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
