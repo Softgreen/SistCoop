@@ -75,7 +75,7 @@ define(['../module'], function (controllers) {
                 data: 'detalleOld',
                 multiSelect: false,
                 columnDefs: [
-                    { field: "valor", cellFilter: "currency: ''", displayName: "VALOR" },
+                    { field: "valor", cellFilter: "currency: ''", displayName: "DENOMINACION" },
                     { field: "cantidad", displayName: "CANTIDAD" },
                     { field: "subtotal()", cellFilter: "currency: ''", displayName: "SUBTOTAL" }
                 ]
@@ -88,7 +88,7 @@ define(['../module'], function (controllers) {
                 enableRowSelection: false,
                 enableCellEditOnFocus: true,
                 columnDefs: [
-                    { field: "valor", cellFilter: "currency: ''", displayName: "VALOR", enableCellEdit: false  },
+                    { field: "valor", cellFilter: "currency: ''", displayName: "DENOMINACION", enableCellEdit: false  },
                     { field: "cantidad", displayName: "CANTIDAD", enableCellEdit: true  },
                     { field: "subtotal()",cellFilter: "currency: ''", displayName: "SUBTOTAL", enableCellEdit: false  }
                 ]
@@ -98,7 +98,7 @@ define(['../module'], function (controllers) {
                 $scope.control.inProcess = true;
                 BovedaService.cerrarBoveda($scope.id).then(
                     function(data){
-                        $state.go('app.boveda.voucherCerrarBoveda', {id: data.id})
+                        $state.go('app.boveda.voucherCerrarBoveda', {id: data.id});
                         $scope.control.inProcess = false;
                     },
                     function error(error){

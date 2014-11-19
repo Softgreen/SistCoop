@@ -11,12 +11,12 @@
                 </div>
                 <div class="col-sm-6" ng-if="view.estado" style="text-align: right;font-size: 14px;">
                     <div class="btn-group">
-                        <button type="button" ng-click="abrirBoveda()" ng-disabled="operaciones.changeEstadoAbierto" class="btn btn-default">Abrir</button>
+                        <button type="button" ng-click="abrirBoveda()" ng-disabled="operaciones.changeEstadoAbierto" class="btn btn-success">Abrir</button>
                         <button type="button" ng-click="cerrarBoveda()" ng-disabled="!operaciones.changeEstadoAbierto" class="btn btn-default">Cerrar</button>
                     </div>
                     <div class="btn-group">
-                        <button type="button" ng-click="congelarBoveda()" ng-disabled="!operaciones.changeEstadoMovimiento" class="btn btn-default">Congelar</button>
-                        <button type="button" ng-click="descongelarBoveda()" ng-disabled="operaciones.changeEstadoMovimiento" class="btn btn-default">Descongelar</button>
+                        <button type="button" ng-click="congelarBoveda()" ng-disabled="!operaciones.changeEstadoMovimiento" class="btn btn-warning">Congelar</button>
+                        <button type="button" ng-click="descongelarBoveda()" ng-disabled="operaciones.changeEstadoMovimiento" class="btn btn-info">Descongelar</button>
                     </div>
                     <button type="button" class="btn btn-danger">Inactivar</button>
                 </div>

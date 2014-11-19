@@ -425,11 +425,11 @@ public class CajaServiceBeanTS implements CajaServiceTS {
 	public void descongelar(BigInteger id) throws NonexistentEntityException, RollbackFailureException {
 		Caja caja = cajaDAO.find(id);
 		if (caja == null)
-			throw new RollbackFailureException("Caja no encontrada");
+			throw new RollbackFailureException("Caja no Encontrada");
 		if (!caja.getEstado())
-			throw new RollbackFailureException("Caja inactiva, no se puede congelar");
+			throw new RollbackFailureException("Caja inactiva, no se puede descongelar");
 		if (!caja.getAbierto())
-			throw new RollbackFailureException("Caja cerrada, no se puede congelar");
+			throw new RollbackFailureException("Caja cerrada, no se puede descongelar");
 		if (caja.getEstadoMovimiento())
 			throw new RollbackFailureException("Caja descongelada, no se puede descongelar nuevamente");
 		caja.setEstadoMovimiento(true);

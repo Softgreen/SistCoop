@@ -176,7 +176,7 @@ define(['../module'], function (controllers) {
                     function(data){
                         $scope.control.inProcess = false;
                         $scope.control.success = true;
-                        $scope.alerts = [{ type: "success", msg: "Caja congelada."}];
+                        $scope.alerts = [{ type: "success", msg: "Caja Congelada."}];
                         $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
 
                         $scope.loadCaja();
@@ -194,7 +194,7 @@ define(['../module'], function (controllers) {
                     function(data){
                         $scope.control.inProcess = false;
                         $scope.control.success = true;
-                        $scope.alerts = [{ type: "success", msg: "Caja descongelada."}];
+                        $scope.alerts = [{ type: "success", msg: "Caja Descongelada."}];
                         $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
 
                         $scope.loadCaja();
