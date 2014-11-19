@@ -42,6 +42,7 @@ import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TrabajadorCaja;
 import org.sistemafinanciero.entity.TransaccionBancaria;
 import org.sistemafinanciero.entity.TransaccionBovedaCaja;
+import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.TransaccionCompraVenta;
@@ -476,6 +477,10 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			Set<TransaccionBancaria> transBancarias = historialCaja.getTransaccionBancarias();
 			Set<TransaccionCompraVenta> transComVent = historialCaja.getTransaccionCompraVentas();
 			Set<TransaccionCuentaAporte> transCtaAport = historialCaja.getTransaccionCuentaAportes();
+			Set<TransaccionBovedaCaja> transBovCaj = historialCaja.getTransaccionBovedaCajas();
+			Set<TransaccionCajaCaja> transCajCajEnviados = historialCaja.getTransaccionCajaCajasForIdCajaHistorialOrigen();
+			Set<TransaccionCajaCaja> transCajCajRecibidos = historialCaja.getTransaccionCajaCajasForIdCajaHistorialDestino();
+			
 			for (TransaccionBancaria transBanc : transBancarias) {
 				Moneda moneda2 = transBanc.getCuentaBancaria().getMoneda();
 				if (moneda.equals(moneda2)) {
@@ -504,7 +509,34 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 						salidas = salidas.add(transAport.getMonto());
 				}
 			}
-
+			
+			//entradas y salidas de transacciones internas
+			for (TransaccionCajaCaja trans : transCajCajEnviados) {				
+				salidas = salidas.add(trans.getMonto());					
+			}
+			for (TransaccionCajaCaja trans : transCajCajRecibidos) {				
+				entradas = entradas.add(trans.getMonto());
+			}
+			for (TransaccionBovedaCaja trans : transBovCaj) {
+				Set<TransaccionBovedaCajaDetalle> det = trans.getTransaccionBovedaCajaDetalls();
+				BigDecimal total = BigDecimal.ZERO;
+				for (TransaccionBovedaCajaDetalle d : det) {
+					BigDecimal valor = d.getMonedaDenominacion().getValor();
+					BigDecimal subtotal = valor.multiply(new BigDecimal(d.getCantidad()));
+					total = total.add(subtotal);
+				}
+				switch (trans.getOrigen()) {
+				case BOVEDA:
+					entradas = entradas.add(total);
+					break;
+				case CAJA:
+					salidas = salidas.add(total);
+					break;
+				default:
+					break;
+				}
+			}
+						
 			// recuperando faltantes y sobrantes
 			Set<PendienteCaja> listPendientes = historialCaja.getPendienteCajas();
 			for (PendienteCaja pendiente : listPendientes) {
