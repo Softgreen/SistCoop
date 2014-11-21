@@ -42,7 +42,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({ @NamedQuery(name = HistorialCaja.findByHistorialActivo, query = "SELECT c FROM HistorialCaja c WHERE c.caja.idCaja = :idcaja AND c.estado = true"), 
 				@NamedQuery(name = HistorialCaja.findByHistorialDateRange, query = "SELECT h FROM HistorialCaja h WHERE h.caja.idCaja = :idcaja AND h.fechaApertura BETWEEN :desde AND :hasta AND h.estado = false ORDER BY h.horaApertura DESC"), 
-				@NamedQuery(name = HistorialCaja.findByHistorialDateRangePenultimo, query = "SELECT h FROM HistorialCaja h WHERE h.caja.idCaja = :idcaja AND h.fechaApertura <= :fecha ORDER BY h.horaApertura DESC") })
+				@NamedQuery(name = HistorialCaja.findByHistorialDateRangePenultimo, query = "SELECT h FROM HistorialCaja h WHERE h.caja.idCaja = :idcaja AND h.fechaApertura <= :fecha ORDER BY h.horaApertura DESC"),
+				@NamedQuery(name = HistorialCaja.findHistorialAnterior, query = "SELECT h FROM HistorialCaja h WHERE h.caja.idCaja = :idcaja AND h.fechaCierre <= :fecha AND h.horaCierre < :hora ORDER BY h.horaCierre DESC")})
 public class HistorialCaja implements java.io.Serializable {
 
 	/**
@@ -53,6 +54,7 @@ public class HistorialCaja implements java.io.Serializable {
 	public final static String findByHistorialActivo = "findByHistorialActivo";
 	public final static String findByHistorialDateRange = "findByHistorialDateRange";
 	public final static String findByHistorialDateRangePenultimo = "findByHistorialDateRangePenultimo";
+	public final static String findHistorialAnterior = "findHistorialAnterior";
 
 	private BigInteger idHistorialCaja;
 	private Caja caja;

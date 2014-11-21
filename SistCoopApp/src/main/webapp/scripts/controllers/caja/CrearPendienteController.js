@@ -11,18 +11,24 @@ define(['../module'], function (controllers) {
             $scope.monto;
             $scope.boveda;
 
-            CajaService.getBovedas($scope.cajaSession.id).then(function(bovedas){
-                $scope.bovedas = bovedas;
-                //cargar datos precargados
-                if($scope.idboveda !== undefined && $scope.idboveda !== null){
-                    for(var i = 0 ; i < $scope.bovedas.length ; i++){
-                        if($scope.idboveda == $scope.bovedas[i].id){
-                            $scope.boveda = $scope.bovedas[i];
-                            $scope.bovedaChange($scope.boveda);
+            var listener = $scope.$watch('cajaSession.id', function(){
+                if(!angular.isUndefined($scope.cajaSession.id)){
+                    CajaService.getBovedas($scope.cajaSession.id).then(function(bovedas){
+                        $scope.bovedas = bovedas;
+                        //cargar datos precargados
+                        if($scope.idboveda !== undefined && $scope.idboveda !== null){
+                            for(var i = 0 ; i < $scope.bovedas.length ; i++){
+                                if($scope.idboveda == $scope.bovedas[i].id){
+                                    $scope.boveda = $scope.bovedas[i];
+                                    $scope.bovedaChange($scope.boveda);
+                                }
+                            }
                         }
-                    }
+                    });
+                    listener();
                 }
-            });
+            }, true);
+
 
             $scope.cargarMonto = function(){
                 if($scope.monto !== undefined && $scope.monto !== null){

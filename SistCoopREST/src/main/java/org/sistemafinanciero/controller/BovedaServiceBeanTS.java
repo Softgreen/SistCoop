@@ -300,7 +300,11 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			throw new NonexistentEntityException("Entidad no encontrada");
 		if (boveda == null)
 			throw new NonexistentEntityException("Boveda no encontrada");
-
+		if(!boveda.getEstado())
+			throw new NonexistentEntityException("Boveda inactiva");
+		if(!boveda.getEstadoMovimiento())
+			throw new NonexistentEntityException("Boveda congelada, no se puede hacer movimientos");
+		
 		BigInteger factor = null;
 		switch (origen) {
 		case ENTIDAD:
@@ -408,7 +412,15 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			throw new NonexistentEntityException("Boveda origen no encontrada");
 		if (bovedaDestino == null)
 			throw new NonexistentEntityException("Boveda destino no encontrada");
-
+		if(!bovedaOrigen.getEstado())
+			throw new NonexistentEntityException("Boveda origen inactiva");
+		if(!bovedaOrigen.getEstadoMovimiento())
+			throw new NonexistentEntityException("Boveda origen congelada, no se puede hacer movimientos");
+		if(!bovedaDestino.getEstado())
+			throw new NonexistentEntityException("Boveda destino inactiva");
+		if(!bovedaDestino.getEstadoMovimiento())
+			throw new NonexistentEntityException("Boveda destino congelada, no se puede hacer movimientos");
+		
 		HistorialBoveda historialBovedaOrigen = getHistorialActivo(bovedaOrigen.getIdBoveda());
 		HistorialBoveda historialBovedaDestino = getHistorialActivo(bovedaDestino.getIdBoveda());
 		if (historialBovedaOrigen == null)

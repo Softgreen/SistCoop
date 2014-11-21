@@ -17,6 +17,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Hibernate;
 import org.joda.time.LocalDate;
@@ -67,6 +69,7 @@ import org.sistemafinanciero.entity.type.Variable;
 import org.sistemafinanciero.service.nt.CajaServiceNT;
 import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
+import org.sistemafinanciero.util.EntityManagerProducer;
 
 @Named
 @Stateless
@@ -107,6 +110,9 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 	@EJB
 	private VariableSistemaServiceNT variableSistemaServiceNT;
 
+	@Inject
+	private EntityManagerProducer em;
+	
 	private HistorialCaja getHistorialActivo(BigInteger idCaja) {
 		Caja caja = cajaDAO.find(idCaja);
 		if (caja == null)
@@ -396,18 +402,26 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			return null;
 
 		// recuperando el historial del dia anterior
-		HistorialCaja historialAyer = null;
-		QueryParameter queryParameter;
-		queryParameter = QueryParameter.with("idcaja", caja.getIdCaja()).and("fecha", historialCaja.getFechaApertura());
-		List<HistorialCaja> list2 = historialCajaDAO.findByNamedQuery(HistorialCaja.findByHistorialDateRangePenultimo, queryParameter.parameters(), 2);
+		HistorialCaja historialAyer = null;		
+		TypedQuery<HistorialCaja> query = em.getEm().createNamedQuery(HistorialCaja.findHistorialAnterior, HistorialCaja.class);
+		query.setMaxResults(2);
+		query.setParameter("idcaja", caja.getIdCaja());
+		query.setParameter("fecha", historialCaja.getFechaCierre(), TemporalType.DATE);
+		query.setParameter("hora", historialCaja.getHoraCierre(), TemporalType.TIMESTAMP);
+		List<HistorialCaja> list2 = query.getResultList();
+		
+		
 		for (HistorialCaja hist : list2) {
-			if (!historialCaja.equals(hist))
+			if (!historialCaja.equals(hist)){
 				historialAyer = hist;
+				break;
+			}				
 		}
+
 
 		// recuperando las monedas de la trasaccion
 		Set<DetalleHistorialCaja> detalleHistorial = historialCaja.getDetalleHistorialCajas();
-		Set<Moneda> monedasTransaccion = new HashSet<Moneda>();
+ 		Set<Moneda> monedasTransaccion = new HashSet<Moneda>();
 		for (DetalleHistorialCaja detHistcaja : detalleHistorial) {
 			Moneda moneda = detHistcaja.getMonedaDenominacion().getMoneda();
 			if (!monedasTransaccion.contains(moneda)) {
@@ -418,6 +432,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		// poniendo los datos por moneda
 		result = new HashSet<CajaCierreMoneda>();
 		for (Moneda moneda : monedasTransaccion) {
+			
 			CajaCierreMoneda cajaCierreMoneda = new CajaCierreMoneda();
 			cajaCierreMoneda.setAgencia(agencia.getDenominacion());
 			cajaCierreMoneda.setCaja(caja.getDenominacion());
@@ -434,13 +449,6 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			BigDecimal porDevolver = BigDecimal.ZERO;
 			BigDecimal sobrante = BigDecimal.ZERO;
 			BigDecimal faltante = BigDecimal.ZERO;
-
-			cajaCierreMoneda.setSaldoAyer(saldoAyer);
-			cajaCierreMoneda.setEntradas(entradas);
-			cajaCierreMoneda.setSalidas(salidas);
-			cajaCierreMoneda.setPorDevolver(porDevolver);
-			cajaCierreMoneda.setSobrante(sobrante);
-			cajaCierreMoneda.setFaltante(faltante);
 
 			/*********** Añadiendo el detalle de una moneda ***************/
 			result.add(cajaCierreMoneda);
@@ -511,30 +519,43 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			}
 			
 			//entradas y salidas de transacciones internas
-			for (TransaccionCajaCaja trans : transCajCajEnviados) {				
-				salidas = salidas.add(trans.getMonto());					
+			for (TransaccionCajaCaja trans : transCajCajEnviados) {		
+				if (moneda.equals(trans.getMoneda())) {
+					if(trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()){
+						salidas = salidas.add(trans.getMonto());	
+					}	
+				}										
 			}
-			for (TransaccionCajaCaja trans : transCajCajRecibidos) {				
-				entradas = entradas.add(trans.getMonto());
+			for (TransaccionCajaCaja trans : transCajCajRecibidos) {
+				if (moneda.equals(trans.getMoneda())) {
+					if(trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()){
+						entradas = entradas.add(trans.getMonto());	
+					}
+				}							
 			}
 			for (TransaccionBovedaCaja trans : transBovCaj) {
-				Set<TransaccionBovedaCajaDetalle> det = trans.getTransaccionBovedaCajaDetalls();
-				BigDecimal total = BigDecimal.ZERO;
-				for (TransaccionBovedaCajaDetalle d : det) {
-					BigDecimal valor = d.getMonedaDenominacion().getValor();
-					BigDecimal subtotal = valor.multiply(new BigDecimal(d.getCantidad()));
-					total = total.add(subtotal);
-				}
-				switch (trans.getOrigen()) {
-				case BOVEDA:
-					entradas = entradas.add(total);
-					break;
-				case CAJA:
-					salidas = salidas.add(total);
-					break;
-				default:
-					break;
-				}
+				Moneda moneda2 = trans.getHistorialBoveda().getBoveda().getMoneda();
+				if (moneda.equals(moneda2)) {
+					if(trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()){
+						Set<TransaccionBovedaCajaDetalle> det = trans.getTransaccionBovedaCajaDetalls();
+						BigDecimal total = BigDecimal.ZERO;
+						for (TransaccionBovedaCajaDetalle d : det) {
+							BigDecimal valor = d.getMonedaDenominacion().getValor();
+							BigDecimal subtotal = valor.multiply(new BigDecimal(d.getCantidad()));
+							total = total.add(subtotal);
+						}
+						switch (trans.getOrigen()) {
+						case BOVEDA:
+							entradas = entradas.add(total);
+							break;
+						case CAJA:
+							salidas = salidas.add(total);
+							break;
+						default:
+							break;
+						}
+					}	
+				}											
 			}
 						
 			// recuperando faltantes y sobrantes
