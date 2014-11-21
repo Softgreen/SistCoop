@@ -570,6 +570,9 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 				}
 			}		
 			
+			//poner saldo por devolver
+			porDevolver = entradas.add(salidas).add(saldoAyer);
+			
 			cajaCierreMoneda.setSaldoAyer(saldoAyer);
 			cajaCierreMoneda.setEntradas(entradas);
 			cajaCierreMoneda.setSalidas(salidas);
