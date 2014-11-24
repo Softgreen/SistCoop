@@ -696,9 +696,20 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 				retirosAporte++; 
 		}
 
-		transCajaCajaEnviado = transCajaCajaEnviados.size();
-		transCajaCajaRecibido = transCajaCajaRecibidos.size();
+		//transCajaCajaEnviado = transCajaCajaEnviados.size();
+		//transCajaCajaRecibido = transCajaCajaRecibidos.size();
 
+		for (TransaccionCajaCaja transCajaCaja : transCajaCajaEnviados) {
+			if (transCajaCaja.getEstadoSolicitud() && transCajaCaja.getEstadoConfirmacion()) {
+				transCajaCajaEnviado++;
+			}
+		}
+		for (TransaccionCajaCaja transCajaCaja : transCajaCajaRecibidos) {
+			if (transCajaCaja.getEstadoSolicitud() && transCajaCaja.getEstadoConfirmacion()) {
+				transCajaCajaRecibido++;
+			}
+		}
+		
 		for (TransaccionBovedaCaja transBovCaj : transBovedaCaja) {
 			if (transBovCaj.getEstadoSolicitud() && transBovCaj.getEstadoConfirmacion()) {
 				if (transBovCaj.getOrigen().equals(TransaccionBovedaCajaOrigen.CAJA))
