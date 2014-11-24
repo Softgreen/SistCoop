@@ -64,6 +64,7 @@ import org.sistemafinanciero.entity.type.Tipotransaccionbancaria;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.exception.IllegalResultException;
+import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.ts.CuentaBancariaServiceTS;
@@ -1134,6 +1135,12 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		Caja caja = getCaja();
 		if (boveda == null || caja == null)
 			throw new RollbackFailureException("Caja o Boveda no encontrada");
+					
+		if(!boveda.getEstado())
+			throw new RollbackFailureException("Boveda origen inactiva");
+		if(!boveda.getEstadoMovimiento())
+			throw new RollbackFailureException("Boveda origen congelada, no se puede hacer movimientos");		
+				
 		Moneda moneda = boveda.getMoneda();
 		HistorialCaja historialCaja = getHistorialActivo();
 		HistorialBoveda historialBoveda = null;
@@ -1231,7 +1238,17 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		Boveda boveda = bovedaDAO.find(idBoveda);
 		Caja caja = cajaDAO.find(idcaja);
 		if (boveda == null || caja == null)
-			throw new RollbackFailureException("Caja o Boveda no encontrada");
+			throw new RollbackFailureException("Caja o Boveda no encontrada");		
+					
+		if(!boveda.getEstado())
+			throw new RollbackFailureException("Boveda inactiva");
+		if(!boveda.getEstadoMovimiento())
+			throw new RollbackFailureException("Boveda congelada, no se puede hacer movimientos");	
+		if(!caja.getEstado())
+			throw new RollbackFailureException("Caja inactiva");
+		if(!caja.getEstadoMovimiento())
+			throw new RollbackFailureException("Caja congelada, no se puede hacer movimientos");
+		
 		Moneda moneda = boveda.getMoneda();
 		HistorialCaja historialCaja = getHistorialActivo(caja.getIdCaja());
 		HistorialBoveda historialBoveda = null;
