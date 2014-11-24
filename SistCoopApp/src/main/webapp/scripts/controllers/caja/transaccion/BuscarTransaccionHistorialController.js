@@ -105,8 +105,8 @@ define(['../../module'], function (controllers) {
                     {field:"numeroOperacion", displayName:'Nº OP.', width:60},
                     {field:"moneda", displayName:'MONEDA'},
                     {field:"monto", displayName:'MONTO', width:100},
-                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'FECHA', width:80},
-                    {field:"hora | date : 'HH:mm:ss'", displayName:'HORA', width:70},
+                    {field:"fecha", cellFilter:"date : 'dd/MM/yyyy'", displayName:'FECHA', width:80},
+                    {field:"hora", cellFilter:"date : 'HH:mm:ss'", displayName:'HORA', width:70},
                     {displayName: 'ESTADO', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estado">ACTIVO</span><span ng-hide="row.entity.estado">EXTORNADO</span></div>', width:90},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="voucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="extornar(row.entity)" ng-disabled="getDisabledStateExtornar(row.entity)"><span class="glyphicon glyphicon-remove"></span>Extornar</button></div>', width:150}
                 ]

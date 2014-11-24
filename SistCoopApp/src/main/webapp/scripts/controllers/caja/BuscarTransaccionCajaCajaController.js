@@ -30,14 +30,14 @@ define(['../module'], function (controllers) {
                 data: 'transaccionesRecibidas',
                 multiSelect: false,
                 columnDefs: [
-                    {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width: 70},
-                    {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width: 60},
+                    {field:"fecha", cellFilter: "date : 'dd/MM/yyyy'", displayName:'Fecha', width: 70},
+                    {field:"hora", cellFilter: "date : 'HH:mm:ss'", displayName:'Hora', width: 60},
                     {displayName:'Estado Solicitud', width: 100, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6"><span ng-show="row.entity.estadoSolicitud" style="color: blue; font-weight: bold;">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud" style="color: red; font-weight: bold;">CANCELADO</span></div>'},
                     {displayName:'Estado Confirmación', width: 125, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6"><span ng-show="row.entity.estadoConfirmacion" style="color: blue; font-weight: bold;">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion" style="color: red; font-weight: bold;">NO CONFIRMADO</span></div>'},
                     {field:"historialCajaOrigen.caja.denominacion", displayName:'Origen', width: 75},
                     {field:"historialCajaDestino.caja.denominacion", displayName:'Destino', width: 75},
                     {field:'moneda.denominacion', displayName:'Moneda'},
-                    {field:"monto | currency :''", displayName:'Monto', width: 70},
+                    {field:"monto", cellFilter:"currency :''", displayName:'Monto', width: 70},
                     {displayName: 'Edit', width: 240, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)" ng-disabled="getDisabledStateVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="cancelarTransaccion(row.entity)" ng-disabled="getDisabledStateButton(row.entity)"><span class="glyphicon glyphicon-remove"></span>Cancelar</button>&nbsp;<button type="button" class="btn btn-success btn-xs" ng-click="confirmarTransaccion(row.entity)" ng-disabled="getDisabledStateButton(row.entity)"><span class="glyphicon glyphicon-ok"></span>Confirmar</button></div>'}]
             };
             
@@ -45,14 +45,14 @@ define(['../module'], function (controllers) {
                     data: 'transaccionesEnviadas',
                     multiSelect: false,
                     columnDefs: [
-                        {field:"fecha | date : 'dd/MM/yyyy'", displayName:'Fecha', width:70},
-                        {field:"hora | date : 'HH:mm:ss'", displayName:'Hora', width:60},
+                        {field:"fecha", cellFilter:"date : 'dd/MM/yyyy'", displayName:'Fecha', width:70},
+                        {field:"hora", cellFilter:"date : 'HH:mm:ss'", displayName:'Hora', width:60},
                         {displayName:'Estado Solicitud', width: 100, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6"><span ng-show="row.entity.estadoSolicitud" style="color: blue; font-weight: bold;">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud" style="color: red; font-weight: bold;">CANCELADO</span></div>'},
                         {displayName:'Estado Confirmación', width: 125, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6"><span ng-show="row.entity.estadoConfirmacion" style="color: blue; font-weight: bold;">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion" style="color: red; font-weight: bold;">NO CONFIRMADO</span></div>'},
                         {field:"historialCajaOrigen.caja.denominacion", displayName:'Origen', width:85},
                         {field:"historialCajaDestino.caja.denominacion", displayName:'Destino', width:85},
                         {field:'moneda.denominacion', displayName:'Moneda'},
-                        {field:"monto | currency : ''", displayName:'Monto', width:70},
+                        {field:"monto", cellFilter: "currency : ''", displayName:'Monto', width:70},
                         {displayName: 'Edit', width: 165, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)" ng-disabled="getDisabledStateVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="cancelarTransaccion(row.entity)" ng-disabled="getDisabledStateButton(row.entity)"><span class="glyphicon glyphicon-remove"></span>Cancelar</button></div>'}]
                 };
 

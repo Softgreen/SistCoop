@@ -495,7 +495,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 					if (transBanc.getMonto().compareTo(BigDecimal.ZERO) >= 0)
 						entradas = entradas.add(transBanc.getMonto());
 					else
-						salidas = salidas.add(transBanc.getMonto());
+						salidas = salidas.add(transBanc.getMonto().abs().negate());
 				}
 			}
 			for (TransaccionCompraVenta transCompVent : transComVent) {
@@ -505,7 +505,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 					entradas = entradas.add(transCompVent.getMontoRecibido());
 				}
 				if (moneda.equals(monedaEntregada)) {
-					salidas = salidas.add(transCompVent.getMontoEntregado());
+					salidas = salidas.add(transCompVent.getMontoEntregado().abs().negate());
 				}
 			}
 			for (TransaccionCuentaAporte transAport : transCtaAport) {
@@ -514,7 +514,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 					if (transAport.getMonto().compareTo(BigDecimal.ZERO) >= 0)
 						entradas = entradas.add(transAport.getMonto());
 					else
-						salidas = salidas.add(transAport.getMonto());
+						salidas = salidas.add(transAport.getMonto().abs().negate());
 				}
 			}
 			
@@ -522,7 +522,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			for (TransaccionCajaCaja trans : transCajCajEnviados) {		
 				if (moneda.equals(trans.getMoneda())) {
 					if(trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()){
-						salidas = salidas.add(trans.getMonto());	
+						salidas = salidas.add(trans.getMonto().abs().negate());	
 					}	
 				}										
 			}
@@ -549,7 +549,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 							entradas = entradas.add(total);
 							break;
 						case CAJA:
-							salidas = salidas.add(total);
+							salidas = salidas.add(total.abs().negate());
 							break;
 						default:
 							break;
