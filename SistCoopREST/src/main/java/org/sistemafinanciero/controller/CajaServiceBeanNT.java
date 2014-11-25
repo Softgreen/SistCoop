@@ -531,7 +531,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 					if(trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()){
 						entradas = entradas.add(trans.getMonto());	
 					}
-				}							
+				}			
 			}
 			for (TransaccionBovedaCaja trans : transBovCaj) {
 				Moneda moneda2 = trans.getHistorialBoveda().getBoveda().getMoneda();
@@ -554,7 +554,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 						default:
 							break;
 						}
-					}	
+					}
 				}											
 			}
 						

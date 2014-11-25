@@ -22,6 +22,8 @@ import javax.validation.Validator;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Boveda;
+import org.sistemafinanciero.entity.BovedaCaja;
+import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.HistorialBoveda;
@@ -232,7 +234,12 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 		Boveda boveda = bovedaDAO.find(id);
 		if (boveda == null)
 			throw new RollbackFailureException("Boveda no encontrada");
-
+		for (BovedaCaja bovCaj : boveda.getBovedaCajas()) {
+			Caja caja = bovCaj.getCaja();
+			if(caja.getAbierto())
+				throw new RollbackFailureException("Caja asignada a bovevada esta abierta. Debe cerrarla primero");
+		}
+		
 		try {
 			Calendar calendar = Calendar.getInstance();
 			HistorialBoveda historialBoveda = this.getHistorialActivo(id);
