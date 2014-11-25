@@ -1057,7 +1057,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		if (idAgencia == null) {
 			list = cajaViewDAO.findAll();
 		} else {
-			QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
+			//QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
 			Collection<CajaView> a = cajaViewDAO.findByNamedQuery(CajaView.findByIdAgencia);
 			list = new ArrayList<CajaView>(a);
 		}
