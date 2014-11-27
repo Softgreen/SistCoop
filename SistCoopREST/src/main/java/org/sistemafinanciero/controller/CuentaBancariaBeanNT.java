@@ -130,7 +130,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		ArrayList<TipoCuentaBancaria> uno = new ArrayList<>(Arrays.asList(tipoCuenta));
 		ArrayList<TipoPersona> dos = new ArrayList<>(Arrays.asList(persona));
 		ArrayList<EstadoCuentaBancaria> tres = new ArrayList<>(Arrays.asList(estadoCuenta));
-		QueryParameter queryParameter = QueryParameter.with("filtertext", '%' + filterText.toUpperCase() + '%').and("tipoCuenta", uno).and("tipoPersona", dos).and("tipoEstadoCuenta", tres);
+		QueryParameter queryParameter = QueryParameter.with("filtertext", "%" + filterText.toUpperCase() + "%").and("tipoCuenta", uno).and("tipoPersona", dos).and("tipoEstadoCuenta", tres);
 
 		if (offset == null) {
 			offset = 0;

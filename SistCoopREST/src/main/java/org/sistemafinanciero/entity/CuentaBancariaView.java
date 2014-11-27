@@ -26,7 +26,7 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({
 		@NamedQuery(name = CuentaBancariaView.findByNumeroCuenta, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.numeroCuenta = :numeroCuenta"),
-		@NamedQuery(name = CuentaBancariaView.FindByFilterTextCuentaBancariaView, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.tipoCuenta IN :tipoCuenta AND cbv.tipoPersona IN :tipoPersona AND cbv.estadoCuenta IN :tipoEstadoCuenta AND (cbv.numeroCuenta LIKE :filtertext OR cbv.numeroDocumento LIKE :filtertext OR UPPER(cbv.socio) LIKE :filtertext)"),
+		@NamedQuery(name = CuentaBancariaView.FindByFilterTextCuentaBancariaView, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.tipoCuenta IN :tipoCuenta AND cbv.tipoPersona IN :tipoPersona AND cbv.estadoCuenta IN :tipoEstadoCuenta AND (cbv.numeroCuenta LIKE :filtertext OR cbv.numeroDocumento LIKE :filtertext OR UPPER(cbv.titulares) LIKE :filtertext)"),
 		@NamedQuery(name = CuentaBancariaView.findByIdSocio, query = "SELECT cbv FROM CuentaBancariaView cbv WHERE cbv.idSocio = :idSocio")})
 public class CuentaBancariaView implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -54,6 +54,8 @@ public class CuentaBancariaView implements Serializable {
 	private BigInteger idTipoDocumento;
 	private String tipoDocumento;
 	private String numeroDocumento;
+	
+	private String titulares;
 	
 	public CuentaBancariaView() {
 	}
@@ -232,6 +234,16 @@ public class CuentaBancariaView implements Serializable {
 
 	public void setNumeroDocumento(String numeroDocumento) {
 		this.numeroDocumento = numeroDocumento;
+	}
+
+	@XmlElement(name = "titulares")
+	@Column(name = "TITULARES", nullable = false)
+	public String getTitulares() {
+		return titulares;
+	}
+
+	public void setTitulares(String titulares) {
+		this.titulares = titulares;
 	}
 
 }
