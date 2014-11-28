@@ -315,8 +315,6 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		voucherCerrarBoveda.setTrabajador(boveda.getDenominacion());
 		
 		
-		
-		
 		return voucherCerrarBoveda;
 	}
 
