@@ -29,6 +29,8 @@ import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
+import org.sistemafinanciero.entity.PersonaNatural;
+import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.TransaccionBovedaBovedaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaOtro;
@@ -41,6 +43,7 @@ import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.ts.BovedaServiceTS;
 import org.sistemafinanciero.util.EntityManagerProducer;
+import org.sistemafinanciero.util.UsuarioSession;
 
 @Named
 @Stateless
@@ -81,6 +84,29 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 	@EJB
 	private MonedaServiceNT monedaServiceNT;
 
+	@Inject
+	private UsuarioSession usuarioSession;
+	
+	@Inject
+	private DAO<Object, Trabajador> trabajadorDAO;
+	
+	private Trabajador getTrabajador() {
+		String username = usuarioSession.getUsername();
+
+		QueryParameter queryParameter = QueryParameter.with("username", username);
+		List<Trabajador> list = trabajadorDAO.findByNamedQuery(Trabajador.findByUsername, queryParameter.parameters());
+		if (list.size() <= 1) {
+			Trabajador trabajador = null;
+			for (Trabajador t : list) {
+				trabajador = t;
+			}
+			return trabajador;
+		} else {
+			System.out.println("Error: mas de un usuario registrado");
+			return null;
+		}
+	}
+	
 	public HistorialBoveda getHistorialActivo(BigInteger idBoveda) {
 		Boveda boveda = bovedaDAO.find(idBoveda);
 		if (boveda == null)
@@ -246,6 +272,10 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			historialBoveda.setEstado(true);
 			historialBoveda.setFechaCierre(calendar.getTime());
 			historialBoveda.setHoraCierre(calendar.getTime());
+			
+			Trabajador trabajador = this.getTrabajador();
+			PersonaNatural trabajadorPersona = trabajador.getPersonaNatural();
+			historialBoveda.setTrabajador(trabajadorPersona.getApellidoPaterno()+" "+trabajadorPersona.getApellidoMaterno()+","+trabajadorPersona.getNombres());
 
 			Set<ConstraintViolation<HistorialBoveda>> violationsHistorial = validator.validate(historialBoveda);
 			if (!violationsHistorial.isEmpty()) {
