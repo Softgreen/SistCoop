@@ -33,6 +33,7 @@ import org.sistemafinanciero.entity.TransaccionBovedaBovedaView;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroView;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
+import org.sistemafinanciero.entity.dto.VoucherCerrarBoveda;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionEntidadBoveda;
@@ -240,6 +241,12 @@ public class BovedaRESTService implements BovedaREST {
 	}
 	
 	@Override
+	public Response getVoucherCerrarBoveda(BigInteger idHistorial) {
+		VoucherCerrarBoveda voucher = transaccionInternaServiceNT.getVoucherCerrarBoveda(idHistorial);
+		return Response.status(Response.Status.OK).entity(voucher).build();
+	}
+	
+	@Override
 	public Response getDetalleTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
 		TreeSet<GenericDetalle> detalleTransaccion = transaccionInternaServiceNT.getDetalleTransaccionBovedaCaja(idTransaccionBovedaCaja);
 		return Response.status(Response.Status.OK).entity(detalleTransaccion).build();
@@ -338,7 +345,4 @@ public class BovedaRESTService implements BovedaREST {
 		}
 		return response;
 	}
-
-	
-
 }

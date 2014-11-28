@@ -21,6 +21,7 @@ import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.BovedaCaja;
 import org.sistemafinanciero.entity.Caja;
 import org.sistemafinanciero.entity.Entidad;
+import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.TransaccionBovedaBoveda;
@@ -33,6 +34,7 @@ import org.sistemafinanciero.entity.TransaccionBovedaOtroDetall;
 import org.sistemafinanciero.entity.TransaccionBovedaOtroView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
+import org.sistemafinanciero.entity.dto.VoucherCerrarBoveda;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaBoveda;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
@@ -62,6 +64,9 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 
 	@Inject
 	private DAO<Object, TransaccionBovedaBovedaView> transaccionBovedaBovedaViewDAO;
+	
+	@Inject
+	private DAO<Object, HistorialBoveda> historialBovedaDAO;
 
 	@Override
 	public VoucherTransaccionCajaCaja getVoucherTransaccionCajaCaja(BigInteger idTransaccionCajaCaja) {
@@ -282,6 +287,38 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 				
 		return voucher;
 	}
+	
+	@Override
+	public VoucherCerrarBoveda getVoucherCerrarBoveda(BigInteger idHistorial) {
+		HistorialBoveda historialBoveda = historialBovedaDAO.find(idHistorial);
+		if (historialBoveda == null)
+			return null;
+		
+		Boveda boveda = historialBoveda.getBoveda();
+		
+		Agencia agencia = boveda.getAgencia();
+		Moneda moneda = boveda.getMoneda();
+		
+		Hibernate.initialize(moneda);
+		
+		VoucherCerrarBoveda voucherCerrarBoveda = new VoucherCerrarBoveda();
+		
+		voucherCerrarBoveda.setIdBoveda(boveda.getIdBoveda());
+		voucherCerrarBoveda.setBoveda(boveda.getDenominacion());
+		voucherCerrarBoveda.setFechaApertura(historialBoveda.getFechaApertura());
+		voucherCerrarBoveda.setHoraApertura(historialBoveda.getHoraApertura());
+		voucherCerrarBoveda.setFechaCierre(historialBoveda.getFechaCierre());
+		voucherCerrarBoveda.setHoraCierre(historialBoveda.getHoraCierre());
+		voucherCerrarBoveda.setMoneda(moneda);
+		voucherCerrarBoveda.setAgenciaDenominacion(agencia.getDenominacion());
+		voucherCerrarBoveda.setAgenciaAbreviatura(agencia.getAbreviatura());
+		voucherCerrarBoveda.setTrabajador(boveda.getDenominacion());
+		
+		
+		
+		
+		return voucherCerrarBoveda;
+	}
 
 	@Override
 	public TreeSet<GenericDetalle> getDetalleTransaccionBovedaBoveda(BigInteger idTransaccionBovedaBoveda) {
@@ -339,5 +376,4 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		List<TransaccionBovedaBovedaView> list = transaccionBovedaBovedaViewDAO.findByNamedQuery(TransaccionBovedaBovedaView.findByIdAgenciaDestino, queryParameter.parameters(), offset, limit);
 		return list;
 	}
-
 }

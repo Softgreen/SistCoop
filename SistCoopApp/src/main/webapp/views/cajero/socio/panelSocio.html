@@ -11,9 +11,9 @@
             </div>
             <div class="col-sm-6" ng-if="socio.estado" style="text-align: right;font-size: 14px;">
                 <div class="btn-group">
-                    <button type="button" ng-if="cuentaAporte.estadoCuenta == 'ACTIVO'" ng-click="congelarCuentaAporte()" popover="Congelar cuenta aporte" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Congelado</button>
-                    <button type="button" ng-if="cuentaAporte.estadoCuenta == 'CONGELADO'" ng-click="descongelarCuentaAporte()" popover="Descongelar cuenta aportes" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default active">Congelado</button>
-                    <button type="button" ng-click="inactivarSocio()" popover="Eliminar socio" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Inactivar</button>
+                    <button type="button" ng-if="cuentaAporte.estadoCuenta == 'ACTIVO'" ng-click="congelarCuentaAporte()" popover="Congelar cuenta aporte" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-warning">Congelar</button>
+                    <button type="button" ng-if="cuentaAporte.estadoCuenta == 'CONGELADO'" ng-click="descongelarCuentaAporte()" popover="Descongelar cuenta aportes" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-info active">Descongelar</button>
+                    <button type="button" ng-click="inactivarSocio()" popover="Eliminar socio" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-danger">Inactivar</button>
                 </div>
             </div>
         </div>

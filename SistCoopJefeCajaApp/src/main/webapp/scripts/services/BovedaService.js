@@ -79,13 +79,15 @@ define(['./module'], function (services) {
                 getVoucherTransaccionBovedaBoveda: function(idTransaccion){
                     return Restangular.one(baseUrl+"/voucherTransaccionBovedaBoveda/"+idTransaccion).get();
                 },
+                getVoucherCerrarBoveda: function(idHistorial){
+                    return Restangular.one(baseUrl+"/voucherCerrarBoveda/"+idHistorial).get();
+                },
                 getDetalleTransaccionEntidadBoveda: function(idTransaccionBovedaCaja){
                     return Restangular.one(baseUrl+"/detalleTransaccionEntidadBoveda/"+idTransaccionBovedaCaja).get();
                 },
                 getDetalleTransaccionBovedaBoveda: function(idTransaccion){
                     return Restangular.one(baseUrl+"/detalleTransaccionBovedaBoveda/"+idTransaccion).get();
                 },
-
                 getTransaccionesEntidadBoveda: function(idAgencia){
                     return Restangular.all(baseUrl+"/transaccionEntidadBoveda/"+idAgencia).getList();
                 },
@@ -100,7 +102,7 @@ define(['./module'], function (services) {
                 },
                 confirmarTransaccionBovedaBoveda: function(id){
                     return Restangular.all(baseUrl+"/transaccionBovedaBoveda/"+id+"/confirmar").post();
-                }
+                },
             };
         }]);
 });

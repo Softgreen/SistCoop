@@ -36,7 +36,7 @@ define(['../module'], function (controllers) {
             };
 
             $scope.redireccion = function(){
-                $state.transitionTo('app.transaccion.nuevaTransaccionBovedaBoveda');
+                $state.transitionTo('app.transaccion.nuevaTransaccionBovedaCaja');
             };
 
             $scope.imprimir = function(){
