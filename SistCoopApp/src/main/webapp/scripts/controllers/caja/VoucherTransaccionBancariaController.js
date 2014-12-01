@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('VoucherTransaccionBancariaController', ["$scope", "$state", "$filter", "CajaService", "RedirectService",
-        function($scope, $state, $filter, CajaService, RedirectService) {
+    controllers.controller('VoucherTransaccionBancariaController', ["$scope", "$state", "$filter", "CajaService","CuentaBancariaService", "RedirectService",
+        function($scope, $state, $filter, CajaService, CuentaBancariaService, RedirectService) {
 
             CajaService.getVoucherTransaccionBancaria($scope.id).then(
                 function(data){
@@ -67,7 +67,8 @@ define(['../module'], function (controllers) {
 	                qz.append(String.fromCharCode(27) + "\x61" + "\x31");
 					qz.append("_________________" + "\r\n");
 					qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-	                qz.append("Firma Titular(es)" + "\r\n");
+	                //qz.append("Firma Titular(es)" + "\r\n");
+                    qz.append($scope.transaccionCuentaBancaria.titulares+"\r\n");
 	                qz.append("\r\n");
 	                qz.append(String.fromCharCode(27) + "\x61" + "\x31");
                 	qz.append("Verifique su dinero antes de retirarse  de ventanilla" + "\r\n");

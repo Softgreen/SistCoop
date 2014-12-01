@@ -40,6 +40,7 @@ import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Socio;
 import org.sistemafinanciero.entity.TipoDocumento;
+import org.sistemafinanciero.entity.Titular;
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TrabajadorCaja;
 import org.sistemafinanciero.entity.TransaccionBancaria;
@@ -843,6 +844,16 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			break;
 		}
 
+		//añadir titulares para las firmas 
+		Set<Titular> titulares = cuentaBancaria.getTitulars();
+		String titularesCadena = "";
+		for (Titular titular : titulares) {
+			PersonaNatural pn = titular.getPersonaNatural();
+			titularesCadena = titularesCadena + pn.getNombres()+" "+pn.getApellidoPaterno()+" y ";
+		}
+		titularesCadena = titularesCadena.substring(0, titularesCadena.length()-2);
+		voucherTransaccion.setTitulares(titularesCadena);
+		
 		// Poniendo datos de transaccion
 		voucherTransaccion.setIdTransaccionBancaria(transaccionBancaria.getIdTransaccionBancaria());
 		Moneda moneda = transaccionBancaria.getMoneda();

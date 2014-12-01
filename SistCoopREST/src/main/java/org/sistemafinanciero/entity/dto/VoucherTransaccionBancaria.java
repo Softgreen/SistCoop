@@ -83,6 +83,10 @@ public class VoucherTransaccionBancaria implements java.io.Serializable {
 	@XmlElement
 	private String socio;
 
+	
+	@XmlElement
+	private String titulares;
+	
 	public BigInteger getIdTransaccionBancaria() {
 		return idTransaccionBancaria;
 	}
@@ -241,5 +245,13 @@ public class VoucherTransaccionBancaria implements java.io.Serializable {
 
 	public void setSocio(String socio) {
 		this.socio = socio;
+	}
+
+	public String getTitulares() {
+		return titulares;
+	}
+
+	public void setTitulares(String titulares) {
+		this.titulares = titulares;
 	}
 }

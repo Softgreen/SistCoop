@@ -69,7 +69,7 @@ define(['../module'], function (controllers) {
                         $scope.control.inProcess = false;
                         $scope.control.success = false;
                         $scope.alerts = [
-                            { type: 'danger', msg: 'Error:' + error.data + "." }
+                            { type: 'danger', msg: 'Error:' + error.data.message + "." }
                         ];
                         $scope.closeAlert = function(index) {
                             $scope.alerts.splice(index, 1);

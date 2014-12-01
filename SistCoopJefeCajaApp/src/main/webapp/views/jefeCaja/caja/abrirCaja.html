@@ -4,7 +4,7 @@
         <p><strong>INFO:</strong>La caja ya esta abierta, o no se pudo cargar correctamente...</p>
     </div>
 
-    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
         {{alert.msg}}
     </alert>
 
