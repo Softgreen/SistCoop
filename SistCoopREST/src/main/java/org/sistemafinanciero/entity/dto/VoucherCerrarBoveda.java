@@ -1,12 +1,16 @@
 package org.sistemafinanciero.entity.dto;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Set;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
 
 @XmlRootElement
@@ -49,7 +53,10 @@ public class VoucherCerrarBoveda implements java.io.Serializable {
 	private String trabajador;
 	
 	@XmlElement
-	private Set<GenericDetalle> detalle;
+	private BigDecimal TotalCierreBoveda;
+	
+	@XmlElement
+	private Set<DetalleHistorialBoveda> detalle;
 	
 	public BigInteger getIdBoveda() {
 		return idBoveda;
@@ -131,11 +138,19 @@ public class VoucherCerrarBoveda implements java.io.Serializable {
 		this.trabajador = trabajador;
 	}
 
-	public Set<GenericDetalle> getDetalle() {
+	public Set<DetalleHistorialBoveda> getDetalle() {
 		return detalle;
 	}
 
-	public void setDetalle(Set<GenericDetalle> detalle) {
+	public void setDetalle(Set<DetalleHistorialBoveda> detalle) {
 		this.detalle = detalle;
+	}
+
+	public BigDecimal getTotalCierreBoveda() {
+		return TotalCierreBoveda;
+	}
+
+	public void setTotalCierreBoveda(BigDecimal totalCierreBoveda) {
+		TotalCierreBoveda = totalCierreBoveda;
 	}
 }

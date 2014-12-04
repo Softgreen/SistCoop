@@ -17,63 +17,63 @@
                         <tr>
                             <td colspan="1">AGENCIA:</td>
                             <td colspan="3">
-                                <span ng-bind="objetosCargados.transaccion.agenciaDenominacion"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1">N&deg; TRANS:</td>
-                            <td colspan="3">
-                                <span ng-bind="objetosCargados.transaccion.id"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1">TIPO TRANS.:</td>
-                            <td colspan="3">
-                                <span ng-bind="objetosCargados.transaccion.tipoTransaccion"/>
-                            </td >
-                        </tr>
-                        <tr>
-                            <td colspan="1">FECHA:</td>
-                            <td colspan="3">
-                                <span ng-bind="objetosCargados.transaccion.fecha | date : 'dd/MM/yyyy'"/>
-                                <span ng-bind="objetosCargados.transaccion.hora | date : 'HH:mm:ss'"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1">MONTO:</td>
-                            <td colspan="3" style="text-align: left;">
-                                <span ng-bind="objetosCargados.transaccion.moneda.simbolo"></span>
-                                <span ng-bind="objetosCargados.transaccion.monto | number : 2"/>
+                                <span ng-bind="cerrarBovedaVoucher.agenciaDenominacion"/>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1">BOVEDA:</td>
                             <td colspan="3">
-                                <span ng-bind="objetosCargados.transaccion.bovedaDenominacion"/>
+                                <span ng-bind="cerrarBovedaVoucher.boveda"/>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="1">ENTIDAD:</td>
+                            <td colspan="1">MONEDA:</td>
+                            <td colspan="3" style="text-align: left;">
+                                <span ng-bind="cerrarBovedaVoucher.moneda.denominacion"></span>
+                                <label>(</label>
+                                <span ng-bind="cerrarBovedaVoucher.moneda.simbolo"></span>
+                                <label>)</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">FECHA APERTURA:</td>
                             <td colspan="3">
-                                <span ng-bind="objetosCargados.transaccion.entidad"/>
+                                <span ng-bind="cerrarBovedaVoucher.fechaApertura | date : 'dd/MM/yyyy'"/>
+                                <span ng-bind="cerrarBovedaVoucher.horaApertura | date : 'HH:mm:ss'"/>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="1">Observaci&oacute;n:</td>
+                            <td colspan="1">FECHA CIERRE:</td>
                             <td colspan="3">
-                                <span ng-bind="objetosCargados.transaccion.observacion"/>
+                                <span ng-bind="cerrarBovedaVoucher.fechaCierre | date : 'dd/MM/yyyy'"/>
+                                <span ng-bind="cerrarBovedaVoucher.horaCierre | date : 'HH:mm:ss'"/>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2">ESTADO:</td>
-                            <td colspan="2" style="text-align: left;">
-                                <span ng-cloak>{{objetosCargados.transaccion.estado ? 'ACTIVO' : 'INACTIVO'}}</span>
+                            <td colspan="1">TRABAJADOR:</td>
+                            <td colspan="3">
+                                <span ng-bind="cerrarBovedaVoucher.trabajador"/>
                             </td>
                         </tr>
+                        
+                        
+                        
+                        <tr>
+                            <td colspan="1">TOTAL BOVEDA:</td>
+                            <td colspan="3" style="text-align: left;">
+                                <span ng-bind="cerrarBovedaVoucher.moneda.simbolo"></span>
+                                <span ng-bind="cerrarBovedaVoucher.TotalCierreBoveda | number : 2"/>
+                            </td>
+                        </tr>
+                        
+                        
+                       
+                        
+                        
                         <tr>
                             <td colspan="4" style="text-align: center; font-size: 12px">
                                 <p>&nbsp;</p>
-                                <p>Verifique su dinero antes de retirarse de ventanilla.</p>
+                                <p>Verifique cantidad de dinero en boveda.</p>
                             </td>
                         </tr>
                         </tbody>

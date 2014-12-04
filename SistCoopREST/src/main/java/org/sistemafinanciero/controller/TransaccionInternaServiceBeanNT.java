@@ -20,6 +20,7 @@ import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.BovedaCaja;
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.Entidad;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
@@ -298,8 +299,20 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		
 		Agencia agencia = boveda.getAgencia();
 		Moneda moneda = boveda.getMoneda();
-		
 		Hibernate.initialize(moneda);
+		
+		Set<DetalleHistorialBoveda> detalleHistorialBoveda = historialBoveda.getDetalleHistorialBovedas();
+		//Hibernate.initialize(detalleHistorialBoveda);
+		
+		
+		BigDecimal totalBoveda = BigDecimal.ZERO;
+		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
+			MonedaDenominacion denominacion = det.getMonedaDenominacion();
+			BigDecimal valor = denominacion.getValor();
+			BigInteger cantidad = det.getCantidad();
+			BigDecimal subtotal = valor.multiply(new BigDecimal(cantidad));
+			totalBoveda = totalBoveda.add(subtotal);
+		}
 		
 		VoucherCerrarBoveda voucherCerrarBoveda = new VoucherCerrarBoveda();
 		
@@ -312,8 +325,9 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		voucherCerrarBoveda.setMoneda(moneda);
 		voucherCerrarBoveda.setAgenciaDenominacion(agencia.getDenominacion());
 		voucherCerrarBoveda.setAgenciaAbreviatura(agencia.getAbreviatura());
-		voucherCerrarBoveda.setTrabajador(boveda.getDenominacion());
-		
+		voucherCerrarBoveda.setTrabajador(historialBoveda.getTrabajador());
+		voucherCerrarBoveda.setTotalCierreBoveda(totalBoveda);
+		//voucherCerrarBoveda.setDetalle(detalleHistorialBoveda);
 		
 		return voucherCerrarBoveda;
 	}
