@@ -1,0 +1,73 @@
+<div ng-controller="CrearChequeraController">
+<fieldset>
+<legend>Crear chequera</legend>
+
+<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+    {{alert.msg}}
+</alert>
+
+<form name="form" ng-submit="crearTransaccion()" novalidate>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="font-weight: bold;">Datos de chequera</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Cuenta Bancaria</label>
+                            <input ng-model="cuentaBancaria.numeroCuenta" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Titular</label>
+                            <input class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccion.mes.$invalid && control.submitted}">
+                            <label>Cantidad</label>
+                            <label style="color: brown;">(*)</label>
+                            <select focus-on="focusCantidad" name="mes" ng-options="mes as mes.denominacion for mes in combo.mes" ng-model="view.mes" class="form-control" ng-required="true" required>
+                                <option value="">--Seleccione--</option>
+                            </select>
+                            <div ng-show="formCrearTransaccion.mes.$invalid && control.submitted">
+                                <p class="help-block" ng-show="formCrearTransaccion.mes.$error.required">
+                                    Ingrese cantidad.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Fecha entrega</label>
+                            <input class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Fecha vencimiento</label>
+                            <input class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" ng-disabled="buttonDisableState()" focus-on="focusGuardar" ladda="control.inProcess" data-style="expand-right">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+</form>
+</fieldset>
+</div>

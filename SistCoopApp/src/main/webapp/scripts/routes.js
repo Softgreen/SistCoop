@@ -571,6 +571,17 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.socio.crearChequera', {
+                    url: "/chequera/cuenta/:id",
+                    views: {
+                        "viewContent": {
+                            templateUrl: "views/cajero/cuentaBancaria/crearChequera.html",
+                            controller: function($scope, $stateParams) {
+                                $scope.id = $stateParams.id;
+                            }
+                        }
+                    }
+                })
                 .state('app.socio.firmasCuentaBancaria', {
                     url: "/cuentaBancaria/:id/firma",
                     views: {

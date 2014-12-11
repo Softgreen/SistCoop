@@ -3,14 +3,13 @@ package org.sistemafinanciero.entity.dto;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
-import java.util.Set;
+import java.util.TreeSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.Moneda;
 
 @XmlRootElement
@@ -27,7 +26,7 @@ public class VoucherCerrarBoveda implements java.io.Serializable {
 
 	@XmlElement
 	private String boveda;
-	
+
 	@XmlElement
 	private Date fechaApertura;
 
@@ -39,25 +38,25 @@ public class VoucherCerrarBoveda implements java.io.Serializable {
 
 	@XmlElement
 	private Date horaCierre;
-	
+
 	@XmlElement
 	private Moneda moneda;
 
 	@XmlElement
 	private String agenciaAbreviatura;
-	
+
 	@XmlElement
 	private String agenciaDenominacion;
-	
+
 	@XmlElement
 	private String trabajador;
-	
+
 	@XmlElement
 	private BigDecimal TotalCierreBoveda;
-	
+
 	@XmlElement
-	private Set<DetalleHistorialBoveda> detalle;
-	
+	private TreeSet<GenericDetalle> detalle;
+
 	public BigInteger getIdBoveda() {
 		return idBoveda;
 	}
@@ -138,11 +137,11 @@ public class VoucherCerrarBoveda implements java.io.Serializable {
 		this.trabajador = trabajador;
 	}
 
-	public Set<DetalleHistorialBoveda> getDetalle() {
+	public TreeSet<GenericDetalle> getDetalle() {
 		return detalle;
 	}
 
-	public void setDetalle(Set<DetalleHistorialBoveda> detalle) {
+	public void setDetalle(TreeSet<GenericDetalle> detalle) {
 		this.detalle = detalle;
 	}
 

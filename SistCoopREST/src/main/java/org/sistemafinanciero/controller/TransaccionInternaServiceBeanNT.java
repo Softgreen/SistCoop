@@ -302,8 +302,13 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		Hibernate.initialize(moneda);
 		
 		Set<DetalleHistorialBoveda> detalleHistorialBoveda = historialBoveda.getDetalleHistorialBovedas();
-		//Hibernate.initialize(detalleHistorialBoveda);
-		
+		TreeSet<GenericDetalle> detalle = new TreeSet<GenericDetalle>();
+		for (DetalleHistorialBoveda genericDetalle : detalleHistorialBoveda) {
+			GenericDetalle d = new GenericDetalle();
+			d.setCantidad(genericDetalle.getCantidad());
+			d.setValor(genericDetalle.getMonedaDenominacion().getValor());
+			detalle.add(d);
+		}		
 		
 		BigDecimal totalBoveda = BigDecimal.ZERO;
 		for (DetalleHistorialBoveda det : detalleHistorialBoveda) {
@@ -327,7 +332,7 @@ public class TransaccionInternaServiceBeanNT implements TransaccionInternaServic
 		voucherCerrarBoveda.setAgenciaAbreviatura(agencia.getAbreviatura());
 		voucherCerrarBoveda.setTrabajador(historialBoveda.getTrabajador());
 		voucherCerrarBoveda.setTotalCierreBoveda(totalBoveda);
-		//voucherCerrarBoveda.setDetalle(detalleHistorialBoveda);
+		voucherCerrarBoveda.setDetalle(detalle);
 		
 		return voucherCerrarBoveda;
 	}

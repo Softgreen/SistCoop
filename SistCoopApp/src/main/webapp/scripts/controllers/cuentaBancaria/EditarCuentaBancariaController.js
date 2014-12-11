@@ -97,7 +97,7 @@ define(['../module'], function (controllers) {
                 multiSelect: false,
                 enablePaging: true,
                 columnDefs: [
-                    {field:"fecha | date:'dd/MM/yyyy'", displayName:'FECHA'},
+                    {field:"fecha", cellFilter: "date:'dd/MM/yyyy'", displayName:'FECHA'},
                     {field:"tipoTransaccion", displayName:'DESCRIPCION'},
                     {field:"monto", displayName:'MONTO'}
                 ]
@@ -408,6 +408,10 @@ define(['../module'], function (controllers) {
                 });
             };
 
+
+            $scope.goToChequera = function(){
+                $state.transitionTo('app.socio.crearChequera', {id: $scope.id});
+            };
 
             $scope.salir = function(){
                 $scope.redireccion();
