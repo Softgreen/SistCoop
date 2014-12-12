@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,9 +31,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "CHEQUERA", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "chequera")
 @XmlAccessorType(XmlAccessType.NONE)
+@NamedQueries({ @NamedQuery(name = Chequera.findChequeraByCuentaBancariaUltimo, query = "SELECT c FROM Chequera c WHERE c.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria AND c.numeroFin = (SELECT MAX(cc.numeroFin) FROM Chequera cc WHERE cc.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria)") })
 public class Chequera implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	public final static String findChequeraByCuentaBancariaUltimo = "findChequeraByCuentaBancariaUltimo";
 
 	private BigInteger idChequera;
 	private Integer cantidad;

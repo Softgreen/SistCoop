@@ -19,7 +19,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Cuenta Bancaria</label>
-                            <input ng-model="cuentaBancaria.numeroCuenta" class="form-control" disabled>
+                            <input ng-model="view.cuentaBancaria.numeroCuenta" class="form-control" disabled>
                         </div>
                     </div>
                 </div>
@@ -27,20 +27,20 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Titular</label>
-                            <input class="form-control" disabled>
+                            <input ng-model="view.cuentaBancaria.titulares" class="form-control" disabled>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccion.mes.$invalid && control.submitted}">
+                        <div class="form-group" ng-class="{ 'has-error' : form.cantidad.$invalid && control.submitted}">
                             <label>Cantidad</label>
                             <label style="color: brown;">(*)</label>
-                            <select focus-on="focusCantidad" name="mes" ng-options="mes as mes.denominacion for mes in combo.mes" ng-model="view.mes" class="form-control" ng-required="true" required>
+                            <select focus-on="focusCantidad" name="cantidad" ng-options="item for item in combo.cantidad" ng-model="combo.selected.cantidad" class="form-control" required>
                                 <option value="">--Seleccione--</option>
                             </select>
-                            <div ng-show="formCrearTransaccion.mes.$invalid && control.submitted">
-                                <p class="help-block" ng-show="formCrearTransaccion.mes.$error.required">
+                            <div ng-show="form.cantidad.$invalid && control.submitted">
+                                <p class="help-block" ng-show="form.cantidad.$error.required">
                                     Ingrese cantidad.
                                 </p>
                             </div>
@@ -50,14 +50,30 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
+                            <label>Numero inicio</label>
+                            <label style="color: brown;">(*)</label>
+                            <input type="text" ng-model="view.numeroInicio" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Numero fin</label>
+                            <label style="color: brown;">(*)</label>
+                            <input type="text" ng-model="view.numeroFin" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
                             <label>Fecha entrega</label>
-                            <input class="form-control" disabled>
+                            <span ng-bind="view.fechaEntrega | date: 'dd/MM/yyyy'" class="form-control" disabled/>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Fecha vencimiento</label>
-                            <input class="form-control" disabled>
+                            <span ng-bind="view.fechaFin | date: 'dd/MM/yyyy'" class="form-control" disabled/>
                         </div>
                     </div>
                 </div>

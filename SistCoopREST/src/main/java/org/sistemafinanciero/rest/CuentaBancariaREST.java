@@ -142,4 +142,14 @@ public interface CuentaBancariaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response deleteBeneficiario(@PathParam("id") BigInteger id, @PathParam("idBeneficiario") BigInteger idBeneficiario);
 
+	@GET
+	@Path("/{id}/chequera/{idChequera}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getChequera(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("idChequera") BigInteger idChequera);
+
+	@GET
+	@Path("/{id}/chequera/ultimo")
+	@Produces({ "application/xml", "application/json" })
+	public Response getUltimaChequera(@PathParam("id") BigInteger idCuentaBancaria);
+
 }

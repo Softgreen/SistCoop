@@ -108,6 +108,10 @@ define(['./module'], function (services) {
                 },
                 renovarPlazoFijo: function(idCuenta, data){
                     return Restangular.one("cuentaBancaria/"+idCuenta+"/renovarPlazoFijo").customPUT(data,'',{},{});
+                },
+
+                getChequeraUltima: function(idCuentaBancaria){
+                    return Restangular.one(baseUrl+"/"+idCuentaBancaria+"/chequera/ultimo").get();
                 }
             }
         }])

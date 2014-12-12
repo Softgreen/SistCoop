@@ -6,36 +6,62 @@ define(['../module'], function (controllers) {
             $scope.alerts = [];
             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
 
+            $scope.combo = {
+                cantidad: [50, 100]
+            };
+            $scope.combo.selected = {
+                cantidad: undefined
+            };
+            $scope.$watch("combo.selected.cantidad", function(){
+                if(!angular.isUndefined($scope.combo.selected.cantidad)) {
+                    if(!angular.isUndefined($scope.view.numeroInicio)){
+                        $scope.view.numeroFin = $scope.view.numeroInicio + $scope.combo.selected.cantidad - 1;
+                    }
+                }
+            }, true);
+
+            $scope.today = new Date();
+
+            $scope.view = {
+                cuentaBancaria: undefined,
+                chequeraUltima: undefined,
+                numeroInicio: undefined,
+                numeroFin: undefined,
+                fechaEntrega: $scope.today,
+                fechaFin: ($scope.today.getDate())
+            };
+
             //cargar datos
             $scope.loadCuentaBancaria = function(){
                 if(!angular.isUndefined($scope.id)){
                     CuentaBancariaService.getCuentasBancaria($scope.id).then(
                         function(data){
-                            $scope.cuentaBancaria = data;
-                            console.log("ok");
+                            $scope.view.cuentaBancaria = data;
                         }, function error(error){
                             $scope.alerts.push({ type: "danger", msg: "Cuenta bancaria no encontrada."});
                         }
                     );
                 }
             };
-
-            $scope.loadTitulares = function(){
+            $scope.loadChequeraUltima = function(){
                 if(!angular.isUndefined($scope.id)){
-                    CuentaBancariaService.getTitulares($scope.id).then(
+                    CuentaBancariaService.getChequeraUltima($scope.id).then(
                         function(data){
-                            $scope.titulares = data;
+                            $scope.view.chequeraUltima = data;
+                            if(angular.isUndefined(data)){
+                                $scope.view.numeroInicio = 1;
+                            } else {
+                                $scope.view.numeroInicio = data.numeroFin + 1;
+                            }
                         }, function error(error){
-                            $scope.titulares = undefined;
-                            $scope.alerts.push({ type: "danger", msg: "Titulares no encontrados."});
+                            $scope.alerts.push({ type: "danger", msg: "Ultima chequera no encontrada."});
                         }
                     );
-                };
+                }
             };
 
-            console.log("cargando");
             $scope.loadCuentaBancaria();
-            $scope.loadTitulares();
+            $scope.loadChequeraUltima();
 
             $scope.salir = function(){
                 $scope.redireccion();

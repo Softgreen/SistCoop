@@ -22,8 +22,8 @@ import org.hibernate.Hibernate;
 import org.joda.time.LocalDate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
-
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
@@ -58,6 +58,9 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	@Inject
 	private DAO<Object, EstadocuentaBancariaView> estadocuentaBancariaViewDAO;
 
+	@Inject
+	private DAO<Object, Chequera> chequeraDAO;
+	
 	@EJB
 	private TasaInteresServiceNT tasaInteresService;
 
@@ -232,6 +235,17 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	@Override
 	public int count() {
 		return cuentaBancariaDAO.count();
+	}
+
+	@Override
+	public Chequera getChequeraUltima(BigInteger idCuentaBancaria) {
+		QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", idCuentaBancaria);
+		List<Chequera> list = chequeraDAO.findByNamedQuery(Chequera.findChequeraByCuentaBancariaUltimo, queryParameter.parameters());
+		Chequera chequera = null;
+		for (Chequera cheq : list) {
+			chequera = cheq;
+		}
+		return chequera;
 	}
 
 }
