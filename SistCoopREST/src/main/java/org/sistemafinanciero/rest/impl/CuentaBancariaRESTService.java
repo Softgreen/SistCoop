@@ -1032,4 +1032,20 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		}		
 	}
 
+	@Override
+	public Response createChequera(BigInteger idCuentaBancaria, Chequera chequera) {
+		Response response;
+		try {
+			BigInteger idChequera = cuentaBancariaServiceTS.crearChequera(idCuentaBancaria, chequera.getCantidad());
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idChequera)).build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
 }

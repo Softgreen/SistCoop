@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.Titular;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
@@ -43,5 +44,10 @@ public interface CuentaBancariaServiceTS extends AbstractServiceTS<CuentaBancari
 	public void updateTitular(BigInteger idTitular, Titular titular) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException;
 
 	public void deleteTitular(BigInteger idTitular) throws NonexistentEntityException, RollbackFailureException;
+
+	/**
+	 * Chequera*/
+	
+	public BigInteger crearChequera(BigInteger idCuentaBancaria, int cantidad) throws NonexistentEntityException, RollbackFailureException;
 
 }

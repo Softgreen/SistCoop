@@ -25,6 +25,8 @@ import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.Cheque;
+import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaInteresGenera;
 import org.sistemafinanciero.entity.CuentaBancariaTasa;
@@ -33,12 +35,14 @@ import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Socio;
 import org.sistemafinanciero.entity.Titular;
+import org.sistemafinanciero.entity.type.EstadoCheque;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.service.nt.CuentaBancariaServiceNT;
 import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
 import org.sistemafinanciero.service.nt.TasaInteresServiceNT;
 import org.sistemafinanciero.service.ts.CuentaBancariaServiceTS;
@@ -80,11 +84,20 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 	@Inject
 	private DAO<Object, CuentaBancariaInteresGenera> cuentaBancariaInteresGeneraDAO;
 
+	@Inject
+	private DAO<Object, Chequera> chequeraDAO;
+	
+	@Inject
+	private DAO<Object, Cheque> chequeDAO;
+	
 	@EJB
 	private TasaInteresServiceNT tasaInteresService;
 
 	@EJB
 	private PersonaNaturalServiceNT personaNaturalService;
+
+	@EJB
+	private CuentaBancariaServiceNT cuentaBancariaServiceNT;
 
 	@Inject
 	private Validator validator;
@@ -453,7 +466,7 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 		CuentaBancaria cuentaBancaria = beneficiarioDB.getCuentaBancaria();
 		if (cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.INACTIVO))
 			throw new NonexistentEntityException("Cuenta INACTIVA, no se puede modificar los beneficiarios");
-		if (cuentaBancaria.getEstado()== null)
+		if (cuentaBancaria.getEstado() == null)
 			throw new NonexistentEntityException("Error al modificar los beneficiarios");
 
 		beneficiario.setIdBeneficiario(idBeneficiario);
@@ -502,6 +515,49 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 				throw new NonexistentEntityException("No se puede eliminar el titular principal");
 
 		titularDAO.delete(titular);
+	}
+
+	@Override
+	public BigInteger crearChequera(BigInteger idCuentaBancaria, int cantidad) throws NonexistentEntityException, RollbackFailureException {
+		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuentaBancaria);
+		if (cuentaBancaria == null)
+			throw new NonexistentEntityException("Cuenta bancaria no encontrada");
+
+		Chequera ultimaChequera = cuentaBancariaServiceNT.getChequeraUltima(idCuentaBancaria);
+
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.YEAR, 1);
+		Date nextYear = calendar.getTime();
+
+		Chequera chequera = new Chequera();
+		chequera.setCantidad(cantidad);
+		chequera.setCuentaBancaria(cuentaBancaria);
+		chequera.setFechaDisponible(today);
+		chequera.setFechaExpiracion(nextYear);
+		if (ultimaChequera == null) {
+			chequera.setNumeroInicio(BigInteger.ONE);
+			chequera.setNumeroFin(new BigInteger(cantidad + ""));
+		} else {
+			chequera.setNumeroInicio(ultimaChequera.getNumeroFin().add(BigInteger.ONE));
+			chequera.setNumeroFin(ultimaChequera.getNumeroFin().add(new BigInteger(cantidad + "")));
+		}
+		
+		chequeraDAO.create(chequera);
+	
+		for (int i = 1; i <= cantidad; i++) {
+			Cheque cheque = new Cheque();
+			cheque.setChequera(chequera);
+			cheque.setEstado(EstadoCheque.POR_COBRAR);			
+			if (ultimaChequera == null) {				
+				cheque.setNumeroCheque(BigInteger.ONE.add(new BigInteger(i + "")));
+			} else {
+				cheque.setNumeroCheque(ultimaChequera.getNumeroFin().add(new BigInteger(i + "")));
+			}						
+			chequeDAO.create(cheque);
+		}
+
+		return chequera.getIdChequera();
 	}
 
 }

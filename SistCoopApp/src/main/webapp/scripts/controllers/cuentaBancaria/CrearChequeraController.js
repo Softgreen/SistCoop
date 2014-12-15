@@ -63,6 +63,20 @@ define(['../module'], function (controllers) {
             $scope.loadCuentaBancaria();
             $scope.loadChequeraUltima();
 
+            $scope.crearTransaccion = function(){
+                if($scope.form.$valid){
+                    CuentaBancariaService.crearChequera($scope.id, $scope.view.numeroFin - $scope.view.numeroInicio + 1).then(
+                        function(data){
+                            console.log("chequera creada"+data.id);
+                        }, function error(error){
+                            $scope.alerts.push({ type: "danger", msg: "Chequera no creada."});
+                        }
+                    );
+                } else {
+                    $scope.form.$setDirty()
+                }
+            };
+
             $scope.salir = function(){
                 $scope.redireccion();
             };

@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
@@ -151,5 +152,10 @@ public interface CuentaBancariaREST {
 	@Path("/{id}/chequera/ultimo")
 	@Produces({ "application/xml", "application/json" })
 	public Response getUltimaChequera(@PathParam("id") BigInteger idCuentaBancaria);
+	
+	@POST
+	@Path("/{id}/chequera")
+	@Produces({ "application/xml", "application/json" })
+	public Response createChequera(@PathParam("id") BigInteger idCuentaBancaria, Chequera chequera);
 
 }
