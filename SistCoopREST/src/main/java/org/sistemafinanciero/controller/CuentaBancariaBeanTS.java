@@ -535,6 +535,7 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 		chequera.setCuentaBancaria(cuentaBancaria);
 		chequera.setFechaDisponible(today);
 		chequera.setFechaExpiracion(nextYear);
+		chequera.setEstado(true);
 		if (ultimaChequera == null) {
 			chequera.setNumeroInicio(BigInteger.ONE);
 			chequera.setNumeroFin(new BigInteger(cantidad + ""));

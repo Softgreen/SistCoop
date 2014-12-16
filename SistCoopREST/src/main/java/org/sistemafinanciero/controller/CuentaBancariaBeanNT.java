@@ -248,4 +248,18 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		return chequera;
 	}
 
+	@Override
+	public List<Chequera> getChequeras(BigInteger idCuentaBancaria) {
+		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuentaBancaria);
+		if(cuentaBancaria == null)
+			return null;
+		if(!cuentaBancaria.getTipoCuentaBancaria().equals(TipoCuentaBancaria.CORRIENTE)){
+			return null;
+		}
+		
+		QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", idCuentaBancaria).and("estado", true);
+		List<Chequera> list = chequeraDAO.findByNamedQuery(Chequera.findChequeraByEstado, queryParameter.parameters());
+		return list;
+	}
+
 }

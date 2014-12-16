@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -31,12 +32,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "CHEQUERA", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "chequera")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = Chequera.findChequeraByCuentaBancariaUltimo, query = "SELECT c FROM Chequera c WHERE c.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria AND c.numeroFin = (SELECT MAX(cc.numeroFin) FROM Chequera cc WHERE cc.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria)") })
+@NamedQueries({ 
+	@NamedQuery(name = Chequera.findChequeraByCuentaBancariaUltimo, query = "SELECT c FROM Chequera c WHERE c.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria AND c.numeroFin = (SELECT MAX(cc.numeroFin) FROM Chequera cc WHERE cc.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria)"),
+	@NamedQuery(name = Chequera.findChequeraByEstado, query = "SELECT c FROM Chequera c WHERE c.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria AND c.estado = :estado")})
 public class Chequera implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String findChequeraByCuentaBancariaUltimo = "findChequeraByCuentaBancariaUltimo";
+	public final static String findChequeraByEstado = "findChequeraByEstado";
 
 	private BigInteger idChequera;
 	private Integer cantidad;
@@ -45,6 +49,8 @@ public class Chequera implements java.io.Serializable {
 	private Date fechaDisponible;
 	private Date fechaExpiracion;
 
+	private int estado;
+	
 	private CuentaBancaria cuentaBancaria;
 
 	public Chequera() {
@@ -115,6 +121,17 @@ public class Chequera implements java.io.Serializable {
 		this.fechaExpiracion = fechaExpiracion;
 	}
 
+	@XmlElement
+	@NotNull
+	@Column(name = "ESTADO", nullable = false, precision = 22, scale = 0)
+	public boolean getEstado() {
+		return (this.estado == 1 ? true : false);
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = (estado ? 1 : 0);
+	}
+	
 	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CUENTA_BANCARIA", nullable = false)

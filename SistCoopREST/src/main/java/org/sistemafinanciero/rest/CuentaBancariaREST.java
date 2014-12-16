@@ -149,13 +149,18 @@ public interface CuentaBancariaREST {
 	public Response getChequera(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("idChequera") BigInteger idChequera);
 
 	@GET
-	@Path("/{id}/chequera/ultimo")
+	@Path("/{id}/chequeras/ultimo")
 	@Produces({ "application/xml", "application/json" })
 	public Response getUltimaChequera(@PathParam("id") BigInteger idCuentaBancaria);
 	
+	@GET
+	@Path("/{id}/chequeras")
+	@Produces({ "application/xml", "application/json" })
+	public Response getChequeras(@PathParam("id") BigInteger idCuentaBancaria);
+	
 	@POST
-	@Path("/{id}/chequera")
+	@Path("/{id}/chequeras")
 	@Produces({ "application/xml", "application/json" })
 	public Response createChequera(@PathParam("id") BigInteger idCuentaBancaria, Chequera chequera);
-
+	
 }

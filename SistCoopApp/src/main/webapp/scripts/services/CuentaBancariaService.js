@@ -111,13 +111,16 @@ define(['./module'], function (services) {
                 },
 
                 getChequeraUltima: function(idCuentaBancaria){
-                    return Restangular.one(baseUrl+"/"+idCuentaBancaria+"/chequera/ultimo").get();
+                    return Restangular.one(baseUrl+"/"+idCuentaBancaria+"/chequeras/ultimo").get();
+                },
+                getChequeras: function(idCuentaBancaria){
+                    return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/chequeras").getList();
                 },
                 crearChequera: function(idCuentaBancaria, cantidad){
                     var chequera = {
                         cantidad: cantidad
                     };
-                    return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/chequera").post(chequera);
+                    return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/chequeras").post(chequera);
                 }
             }
         }])

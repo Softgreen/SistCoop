@@ -78,6 +78,22 @@ define(['../module'], function (controllers) {
                 };
             };
 
+            /*cargar chequeras*/
+            $scope.loadChequeras = function(){
+                if(!angular.isUndefined($scope.id)){
+                    CuentaBancariaService.getChequeras($scope.id).then(
+                        function(data){
+                            $scope.chequeras = data;
+                        }, function error(error){
+                            $scope.chequeras = undefined;
+                            $scope.alerts.push({ type: "danger", msg: "Chequeras no encontrados."});
+                        }
+                    );
+                };
+            };
+            $scope.loadChequeras();
+
+
             $scope.transacciones = [];
             $scope.loadEstadoCuenta = function(){
                 if(!angular.isUndefined($scope.id)){

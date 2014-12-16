@@ -1033,6 +1033,12 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	}
 
 	@Override
+	public Response getChequeras(BigInteger idCuentaBancaria) {
+		List<Chequera> list = cuentaBancariaServiceNT.getChequeras(idCuentaBancaria);
+		return Response.status(Status.OK).entity(list).build();
+	}
+	
+	@Override
 	public Response createChequera(BigInteger idCuentaBancaria, Chequera chequera) {
 		Response response;
 		try {
@@ -1047,5 +1053,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		}
 		return response;
 	}
+
+	
 
 }
