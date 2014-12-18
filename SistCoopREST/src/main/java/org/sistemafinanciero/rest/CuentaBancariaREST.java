@@ -51,7 +51,7 @@ public interface CuentaBancariaREST {
 	@GET
 	@Path("{id}/cartilla")
 	public Response getCartillaInformacion(@PathParam("id") BigInteger id);
-	
+
 	@GET
 	@Path("/{id}/estadoCuenta")
 	public Response getEstadoCuenta(@PathParam("id") BigInteger id, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
@@ -144,7 +144,7 @@ public interface CuentaBancariaREST {
 	public Response deleteBeneficiario(@PathParam("id") BigInteger id, @PathParam("idBeneficiario") BigInteger idBeneficiario);
 
 	@GET
-	@Path("/{id}/chequera/{idChequera}")
+	@Path("/{id}/chequeras/{idChequera}")
 	@Produces({ "application/xml", "application/json" })
 	public Response getChequera(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("idChequera") BigInteger idChequera);
 
@@ -152,15 +152,15 @@ public interface CuentaBancariaREST {
 	@Path("/{id}/chequeras/ultimo")
 	@Produces({ "application/xml", "application/json" })
 	public Response getUltimaChequera(@PathParam("id") BigInteger idCuentaBancaria);
-	
+
 	@GET
 	@Path("/{id}/chequeras")
 	@Produces({ "application/xml", "application/json" })
 	public Response getChequeras(@PathParam("id") BigInteger idCuentaBancaria);
-	
+
 	@POST
 	@Path("/{id}/chequeras")
 	@Produces({ "application/xml", "application/json" })
 	public Response createChequera(@PathParam("id") BigInteger idCuentaBancaria, Chequera chequera);
-	
+
 }

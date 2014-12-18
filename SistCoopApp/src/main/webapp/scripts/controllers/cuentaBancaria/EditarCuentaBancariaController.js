@@ -93,6 +93,10 @@ define(['../module'], function (controllers) {
             };
             $scope.loadChequeras();
 
+            $scope.editChequera = function(chequera){
+                  $state.transitionTo("app.socio.editarChequera", {idCuentaBancaria: $scope.id, id: chequera.id});
+            };
+
 
             $scope.transacciones = [];
             $scope.loadEstadoCuenta = function(){

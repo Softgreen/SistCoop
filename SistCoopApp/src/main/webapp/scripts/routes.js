@@ -582,6 +582,19 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.socio.editarChequera', {
+                    url: "/chequera/cuenta/:idCuentaBancaria/{id:[0-9]{1,8}}",
+                    views: {
+                        "viewContent": {
+                            templateUrl: "views/cajero/cuentaBancaria/editarChequera.html",
+                            controller: function($scope, $stateParams) {
+                                $scope.id = $stateParams.id;
+                                $scope.idCuentaBancaria = $stateParams.idCuentaBancaria;
+                            }
+                        }
+                    }
+                })
+
                 .state('app.socio.firmasCuentaBancaria', {
                     url: "/cuentaBancaria/:id/firma",
                     views: {

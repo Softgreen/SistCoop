@@ -43,6 +43,7 @@ define([
     './cuentaBancaria/RecalcularPlazoFijoController',
     './cuentaBancaria/RenovarPlazoFijoController',
     './cuentaBancaria/CrearChequeraController',
+    './cuentaBancaria/EditarChequeraController',
 
     './persona/natural/BuscarPersonaNaturalController',
     './persona/natural/CrearPersonaNaturalController',
