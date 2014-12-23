@@ -247,6 +247,11 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		}
 		return chequera;
 	}
+	
+	@Override
+	public Chequera getChequera(BigInteger idChequera) {
+		return chequeraDAO.find(idChequera);
+	}
 
 	@Override
 	public List<Chequera> getChequeras(BigInteger idCuentaBancaria) {

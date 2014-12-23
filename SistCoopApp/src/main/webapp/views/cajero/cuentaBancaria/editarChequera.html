@@ -1,3 +1,55 @@
 <div ng-controller="EditarChequeraController">
-
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="font-weight: bold;">Datos de la chequera</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Cantidad</label>
+                                <input type="text"  ng-model="chequera.cantidad" class="form-control" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Numero inicio</label>
+                                <input type="text"  ng-model="chequera.numeroInicio" class="form-control" disabled/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Numero fin</label>
+                                <input type="text"  ng-model="chequera.numeroFin" class="form-control" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Fecha disponible</label>
+                                <input type="text"  ng-model="chequera.fechaDisponible | date:'dd/MM/yyyy'" class="form-control" disabled/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Fecha expiracion</label>
+                                <input type="text"  ng-model="chequera.fechaExpiracion | date:'dd/MM/yyyy'" class="form-control" disabled/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <input type="text"  ng-model="chequera.estado" class="form-control" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1015,8 +1015,12 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	@Override
 	public Response getChequera(BigInteger idCuentaBancaria, BigInteger idChequera) {
-		// TODO Auto-generated method stub
-		return null;
+		Chequera chequera = cuentaBancariaServiceNT.getChequera(idChequera);
+		if (chequera != null) {
+			return Response.status(Status.OK).entity(chequera).build();
+		} else {
+			return Response.status(Status.NO_CONTENT).build();
+		}
 	}
 
 	@Override

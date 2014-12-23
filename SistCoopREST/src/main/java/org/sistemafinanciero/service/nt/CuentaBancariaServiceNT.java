@@ -48,6 +48,8 @@ public interface CuentaBancariaServiceNT extends AbstractServiceNT<CuentaBancari
 	
 	public Chequera getChequeraUltima(BigInteger idCuentaBancaria);
 
+	public Chequera getChequera(BigInteger idChequera);
+	
 	public List<Chequera> getChequeras(BigInteger idCuentaBancaria);
 	
 }
