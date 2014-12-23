@@ -163,4 +163,17 @@ public interface CuentaBancariaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response createChequera(@PathParam("id") BigInteger idCuentaBancaria, Chequera chequera);
 
+	/**
+	 * Chequera
+	 */
+	@GET
+	@Path("/{id}/chequeras/{idChequera}/cheques")
+	@Produces({ "application/xml", "application/json" })
+	public Response getChequesOfChequera(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("idChequera") BigInteger idChequera);
+
+	@GET
+	@Path("/{id}/chequeras/{idChequera}/cheques/{idCheque}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getCheque(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("idChequera") BigInteger idChequera, @PathParam("idCheque") BigInteger idCheque);
+
 }

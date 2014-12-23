@@ -67,7 +67,7 @@ define(['../module'], function (controllers) {
                 if($scope.form.$valid){
                     CuentaBancariaService.crearChequera($scope.id, $scope.view.numeroFin - $scope.view.numeroInicio + 1).then(
                         function(data){
-                            console.log("chequera creada"+data.id);
+                            $state.transitionTo("app.socio.editarChequera", {idCuentaBancaria: $scope.id, id: data.id} );
                         }, function error(error){
                             $scope.alerts.push({ type: "danger", msg: "Chequera no creada."});
                         }

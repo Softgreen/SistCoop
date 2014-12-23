@@ -46,6 +46,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.Cheque;
 import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
@@ -1053,6 +1054,27 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
 		}
 		return response;
+	}
+
+	@Override
+	public Response getChequesOfChequera(BigInteger idCuentaBancaria, BigInteger idChequera) {
+		Chequera chequera = cuentaBancariaServiceNT.getChequera(idChequera);
+		if (chequera != null) {
+			List<Cheque> list = cuentaBancariaServiceNT.getCheques(chequera.getIdChequera());
+			return Response.status(Status.OK).entity(list).build();
+		} else {
+			return Response.status(Status.NO_CONTENT).build();
+		}		
+	}
+
+	@Override
+	public Response getCheque(BigInteger idCuentaBancaria, BigInteger idChequera, BigInteger idCheque) {
+		Cheque cheque = cuentaBancariaServiceNT.getCheque(idCheque);
+		if (cheque != null) {			
+			return Response.status(Status.OK).entity(cheque).build();
+		} else {
+			return Response.status(Status.NO_CONTENT).build();
+		}	
 	}
 
 }

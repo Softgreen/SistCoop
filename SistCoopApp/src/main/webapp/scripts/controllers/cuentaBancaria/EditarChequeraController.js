@@ -12,6 +12,13 @@ define(['../module'], function (controllers) {
                     CuentaBancariaService.getChequera($scope.idCuentaBancaria, $scope.id).then(
                         function(data){
                             $scope.chequera = data;
+                            CuentaBancariaService.getCheques($scope.idCuentaBancaria, $scope.id).then(
+                                function(data){
+                                   $scope.cheques = data;
+                                }, function error(error){
+                                    $scope.alerts.push({ type: "danger", msg: "Cheques no encontrada."});
+                                }
+                            );
                         }, function error(error){
                             $scope.alerts.push({ type: "danger", msg: "Chequera no encontrada."});
                         }

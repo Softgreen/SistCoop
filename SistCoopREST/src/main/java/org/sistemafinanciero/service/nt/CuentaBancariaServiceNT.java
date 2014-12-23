@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.ejb.Remote;
 
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.Cheque;
 import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
@@ -51,5 +52,9 @@ public interface CuentaBancariaServiceNT extends AbstractServiceNT<CuentaBancari
 	public Chequera getChequera(BigInteger idChequera);
 	
 	public List<Chequera> getChequeras(BigInteger idCuentaBancaria);
+
+	public List<Cheque> getCheques(BigInteger idChequera);
+
+	public Cheque getCheque(BigInteger idCheque);
 	
 }

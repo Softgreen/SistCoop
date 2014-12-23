@@ -10,7 +10,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Cantidad</label>
-                                <input type="text"  ng-model="chequera.cantidad" class="form-control" disabled/>
+                                <span ng-bind="chequera.cantidad"></span>
                             </div>
                         </div>
                     </div>
@@ -18,13 +18,13 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Numero inicio</label>
-                                <input type="text"  ng-model="chequera.numeroInicio" class="form-control" disabled/>
+                                <span ng-bind="chequera.numeroInicio"></span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Numero fin</label>
-                                <input type="text"  ng-model="chequera.numeroFin" class="form-control" disabled/>
+                                <span ng-bind="chequera.numeroFin"></span>
                             </div>
                         </div>
                     </div>
@@ -32,24 +32,43 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label>Fecha disponible</label>
-                                <input type="text"  ng-model="chequera.fechaDisponible | date:'dd/MM/yyyy'" class="form-control" disabled/>
+                                <span ng-bind="chequera.fechaDisponible | date:'dd/MM/yyyy'"></span>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label>Fecha expiracion</label>
-                                <input type="text"  ng-model="chequera.fechaExpiracion | date:'dd/MM/yyyy'" class="form-control" disabled/>
+                                <span ng-bind="chequera.fechaExpiracion | date:'dd/MM/yyyy'"></span>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label>Estado</label>
-                                <input type="text"  ng-model="chequera.estado" class="form-control" disabled/>
+                                <span ng-bind="chequera.estado"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <td>Numero Cheque</td>
+                    <td>Estado</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in cheques | orderBy: 'numeroCheque' ">
+                    <td>{{item.numeroCheque}}</td>
+                    <td>{{item.estado}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
