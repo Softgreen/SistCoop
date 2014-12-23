@@ -207,6 +207,7 @@ define(['./app'], function(app) {
                                     {'name':'Cuenta Bancaria', submenus:[
                                         { 'name':'Deposito/Retiro' , 'state':'app.transaccion.depositoRetiro'},
                                         { 'name':'Transferencia' , 'state':'app.transaccion.transferencia'},
+                                        { 'name':'Cheque' , 'state':'app.transaccion.cheque'},
                                         { 'name':'Compra/Venta' , 'state':'app.transaccion.compraVenta'}
                                     ]},
                                     {'name':'Historial', submenus:[
@@ -469,6 +470,14 @@ define(['./app'], function(app) {
                             controller: function($scope, $stateParams) {
                                 $scope.id = $stateParams.id;
                             }
+                        }
+                    }
+                })
+                .state('app.transaccion.cheque', {
+                    url: "/cheque",
+                    views: {
+                        "viewContent": {
+                            templateUrl: "views/cajero/transaccion/cheque.html"
                         }
                     }
                 })
