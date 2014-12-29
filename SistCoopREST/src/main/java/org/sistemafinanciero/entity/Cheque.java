@@ -41,6 +41,7 @@ public class Cheque implements java.io.Serializable {
 	private BigInteger idCheque;
 	private EstadoCheque estado;
 	private BigInteger numeroCheque;
+	private BigInteger numeroChequeUnico;
 	private String tipoDocumento;
 	private String numeroDocumento;
 	private String persona;
@@ -86,6 +87,16 @@ public class Cheque implements java.io.Serializable {
 		this.numeroCheque = numeroCheque;
 	}
 
+	@XmlElement
+	@Column(name = "NUMERO_CHEQUE_UNICO", nullable = false)
+	public BigInteger getNumeroChequeUnico() {
+		return numeroChequeUnico;
+	}
+
+	public void setNumeroChequeUnico(BigInteger numeroChequeUnico) {
+		this.numeroChequeUnico = numeroChequeUnico;
+	}
+	
 	@XmlElement
 	@Column(name = "TIPO_DOCUMENTO", nullable = false, columnDefinition = "nvarchar2")
 	public String getTipoDocumento() {
