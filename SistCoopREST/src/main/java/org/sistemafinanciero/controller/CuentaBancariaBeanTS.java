@@ -551,10 +551,11 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 			cheque.setChequera(chequera);
 			cheque.setEstado(EstadoCheque.POR_COBRAR);			
 			if (ultimaChequera == null) {				
-				cheque.setNumeroCheque(BigInteger.ONE.add(new BigInteger(i + "")));
+				cheque.setNumeroCheque(new BigInteger(i + ""));
 			} else {
 				cheque.setNumeroCheque(ultimaChequera.getNumeroFin().add(new BigInteger(i + "")));
-			}						
+			}		
+			cheque.setNumeroChequeUnico(new BigInteger(cheque.getNumeroCheque().toString()+cuentaBancaria.getNumeroCuenta().toString()));
 			chequeDAO.create(cheque);
 		}
 

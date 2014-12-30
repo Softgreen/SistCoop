@@ -23,6 +23,7 @@ import org.joda.time.LocalDate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Beneficiario;
+import org.sistemafinanciero.entity.Cheque;
 import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
@@ -60,6 +61,9 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 
 	@Inject
 	private DAO<Object, Chequera> chequeraDAO;
+	
+	@Inject
+	private DAO<Object, Cheque> chequeDAO;
 	
 	@EJB
 	private TasaInteresServiceNT tasaInteresService;
@@ -247,6 +251,11 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		}
 		return chequera;
 	}
+	
+	@Override
+	public Chequera getChequera(BigInteger idChequera) {
+		return chequeraDAO.find(idChequera);
+	}
 
 	@Override
 	public List<Chequera> getChequeras(BigInteger idCuentaBancaria) {
@@ -260,6 +269,19 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", idCuentaBancaria).and("estado", true);
 		List<Chequera> list = chequeraDAO.findByNamedQuery(Chequera.findChequeraByEstado, queryParameter.parameters());
 		return list;
+	}
+
+	@Override
+	public List<Cheque> getCheques(BigInteger idChequera) {
+		Chequera chequera = chequeraDAO.find(idChequera);
+		Set<Cheque> set = chequera.getCheques();
+		Hibernate.initialize(set);
+		return new ArrayList<Cheque>(set);
+	}
+
+	@Override
+	public Cheque getCheque(BigInteger idCheque) {		
+		return chequeDAO.find(idCheque);
 	}
 
 }

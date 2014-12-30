@@ -26,6 +26,7 @@ define([
     './caja/transaccion/CrearTransferenciaController',
     './caja/transaccion/CompraVentaController',
     './caja/transaccion/BuscarTransaccionHistorialController',
+    './caja/transaccion/CrearTransaccionChequeController',
 
     './cuentaBancaria/BeneficiarioController',
     './cuentaBancaria/TitularController',
@@ -43,6 +44,7 @@ define([
     './cuentaBancaria/RecalcularPlazoFijoController',
     './cuentaBancaria/RenovarPlazoFijoController',
     './cuentaBancaria/CrearChequeraController',
+    './cuentaBancaria/EditarChequeraController',
 
     './persona/natural/BuscarPersonaNaturalController',
     './persona/natural/CrearPersonaNaturalController',
