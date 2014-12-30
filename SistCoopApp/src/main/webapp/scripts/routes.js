@@ -207,6 +207,7 @@ define(['./app'], function(app) {
                                     {'name':'Cuenta Bancaria', submenus:[
                                         { 'name':'Deposito/Retiro' , 'state':'app.transaccion.depositoRetiro'},
                                         { 'name':'Transferencia' , 'state':'app.transaccion.transferencia'},
+                                        { 'name':'Cheque' , 'state':'app.transaccion.cheque'},
                                         { 'name':'Compra/Venta' , 'state':'app.transaccion.compraVenta'}
                                     ]},
                                     {'name':'Historial', submenus:[
@@ -472,6 +473,14 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.transaccion.cheque', {
+                    url: "/cheque",
+                    views: {
+                        "viewContent": {
+                            templateUrl: "views/cajero/transaccion/cheque.html"
+                        }
+                    }
+                })
                 .state('app.transaccion.compraVenta', {
                     url: "/compraVenta",
                     views: {
@@ -582,6 +591,19 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.socio.editarChequera', {
+                    url: "/chequera/cuenta/:idCuentaBancaria/{id:[0-9]{1,8}}",
+                    views: {
+                        "viewContent": {
+                            templateUrl: "views/cajero/cuentaBancaria/editarChequera.html",
+                            controller: function($scope, $stateParams) {
+                                $scope.id = $stateParams.id;
+                                $scope.idCuentaBancaria = $stateParams.idCuentaBancaria;
+                            }
+                        }
+                    }
+                })
+
                 .state('app.socio.firmasCuentaBancaria', {
                     url: "/cuentaBancaria/:id/firma",
                     views: {

@@ -1,26 +1,41 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('AbrirBovedaController', ['$scope','$state','BovedaService',
-        function($scope,$state,BovedaService) {
-
+    controllers.controller('AbrirBovedaController', ['$scope','$state','$filter','BovedaService',
+        function($scope,$state,$filter,BovedaService) {
+    	
             $scope.control = {
                 success:false,
                 inProcess: false,
                 submitted : false
             };
-
+            
             $scope.detalle = [];
+            
+            $scope.loadBoveda = function(){
+                if(!angular.isUndefined($scope.id)){
+                    BovedaService.findById($scope.id).then(
+                        function(data){
+                            $scope.boveda = data;
+                        }, function error(error){
+                            $scope.alerts = [{ type: "danger", msg: "Error: No se pudo cargar la boveda."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                }
+            };
 
             $scope.loadDetalle = function(){
                 BovedaService.getDetalle($scope.id).then(function(data){
                     angular.forEach(data, function(row){
                         row.subtotal = function(){
                             return this.valor * this.cantidad;
-                        }
+                        };
                     });
                     $scope.detalle = data;
                 });
             };
+            
+            $scope.loadBoveda();
             $scope.loadDetalle();
 
             $scope.getTotal = function() {
@@ -30,14 +45,14 @@ define(['../module'], function (controllers) {
                         total = total + $scope.detalle[i].subtotal();
                     }
                 }
-                return total;
+                return $filter('currency')(total," ");
             };
 
             $scope.gridOptions = {
                 data: 'detalle',
                 multiSelect: false,
                 columnDefs: [
-                    { field: "valor", displayName: "VALOR" },
+                    { field: "valor", cellFilter: "currency: ''",  displayName: "VALOR" },
                     { field: "cantidad", displayName: "CANTIDAD" },
                     { field: "subtotal()", displayName: "SUBTOTAL" }
                 ]
