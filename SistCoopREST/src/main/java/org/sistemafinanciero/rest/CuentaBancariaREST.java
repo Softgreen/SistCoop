@@ -143,6 +143,9 @@ public interface CuentaBancariaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response deleteBeneficiario(@PathParam("id") BigInteger id, @PathParam("idBeneficiario") BigInteger idBeneficiario);
 
+	/**
+	 * Chequera
+	 */
 	@GET
 	@Path("/{id}/chequeras/{idChequera}")
 	@Produces({ "application/xml", "application/json" })
@@ -164,7 +167,7 @@ public interface CuentaBancariaREST {
 	public Response createChequera(@PathParam("id") BigInteger idCuentaBancaria, Chequera chequera);
 
 	/**
-	 * Chequera
+	 * Cheque
 	 */
 	@GET
 	@Path("/{id}/chequeras/{idChequera}/cheques")
@@ -176,4 +179,13 @@ public interface CuentaBancariaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response getCheque(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("idChequera") BigInteger idChequera, @PathParam("idCheque") BigInteger idCheque);
 
+	@GET
+	@Path("/cheques/{numeroChequeUnico}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getChequeByNumeroUnico(@PathParam("numeroChequeUnico") BigInteger numeroChequeUnico);
+
+	@GET
+	@Path("/cheques/{numeroChequeUnico}/cuentaBancaria")
+	@Produces({ "application/xml", "application/json" })
+	public Response getChequeByNumeroUnicoCuentaBancaria(@PathParam("numeroChequeUnico") BigInteger numeroChequeUnico);
 }

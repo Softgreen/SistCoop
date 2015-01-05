@@ -21,9 +21,9 @@
                                         <label>N&uacute;mero cheque</label>
                                         <label style="color: brown;">(*)</label>
                                         <div class="input-group">
-                                            <input focus-on="focusNumeroCheque" type="text" name="numeroCheque" ng-model="view.numeroCheque" class="form-control" placeholder="N&uacute;mero de cheque" required/>
+                                            <input focus-on="focusNumeroCheque" type="text" name="numeroCheque" ng-model="view.numeroCheque" ui-keypress="{13:'buscar($event)'}" class="form-control" placeholder="N&uacute;mero de cheque" required/>
                                               <span class="input-group-btn">
-                                                <button focus-on="focusBuscarCheque" type="button" class="btn btn-default" ng-click="buscarCheque()" autofocus>
+                                                <button focus-on="focusBuscarCheque" type="button" class="btn btn-default" ng-click="buscar()" autofocus>
                                                     <span class="glyphicon glyphicon-search"></span>
                                                 </button>
                                               </span>
@@ -33,6 +33,20 @@
                                                 Ingrese N&uacute;mero de cheque.
                                             </p>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Numero cheque</label>
+                                        <h4><span ng-bind="cheque.numeroCheque"></span></h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Estado</label>
+                                        <h4><span ng-bind="cheque.estado"></span></h4>
                                     </div>
                                 </div>
                             </div>
@@ -69,8 +83,8 @@
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <kbd style="display: block;margin-top: 3px;">
-                                            <span ng-bind="objetosCargados.cuentaBancaria.moneda"></span>
-                                            <span ng-bind="(view.monto * getTipoTransaccion().factor) | number : 2"/>
+                                            <span ng-bind="cuentaBancaria.moneda"></span>
+                                            <span ng-bind="view.monto | number : 2"/>
                                         </kbd>
                                     </div>
                                 </div>
@@ -96,19 +110,19 @@
                                 <table class="table">
                                     <tr>
                                         <td style="font-weight: bold;">Socio:</td>
-                                        <td><span ng-bind="objetosCargados.cuentaBancaria.socio"></span></td>
+                                        <td><span ng-bind="cuentaBancaria.socio"></span></td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight: bold;">Tipo y N&deg; Doc.:</td>
-                                        <td><span ng-bind-template="{{objetosCargados.cuentaBancaria.tipoDocumento}}/{{objetosCargados.cuentaBancaria.numeroDocumento}}"></span></td>
+                                        <td><span ng-bind-template="{{cuentaBancaria.tipoDocumento}}/{{cuentaBancaria.numeroDocumento}}"></span></td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight: bold;">Tipo Cuenta:</td>
-                                        <td><span ng-bind="objetosCargados.cuentaBancaria.tipoCuenta"></span></td>
+                                        <td><span ng-bind="cuentaBancaria.tipoCuenta"></span></td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight: bold;">N&deg; Cuenta:</td>
-                                        <td><span ng-bind="objetosCargados.cuentaBancaria.numeroCuenta"></span></td>
+                                        <td><span ng-bind="cuentaBancaria.numeroCuenta"></span></td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight: bold;">
@@ -116,20 +130,20 @@
                                         </td>
                                         <td>
                                             <span class="label label-info">Info</span>
-                                            <span ng-bind="objetosCargados.cuentaBancaria.moneda"></span>
+                                            <span ng-bind="cuentaBancaria.moneda"></span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight: bold;">Estado Cuenta:</td>
-                                        <td><span ng-bind="objetosCargados.cuentaBancaria.estadoCuenta"></span></td>
+                                        <td><span ng-bind="cuentaBancaria.estadoCuenta"></span></td>
                                     </tr>
-                                    <tr ng-if="objetosCargados.cuentaBancaria.tipoCuenta == 'AHORRO'">
+                                    <tr ng-if="cuentaBancaria.tipoCuenta == 'AHORRO'">
                                         <td style="font-weight: bold;">Saldo:</td>
-                                        <td><span ng-bind="objetosCargados.cuentaBancaria.saldo | currency : objetosCargados.cuentaBancaria.moneda "></span></td>
+                                        <td><span ng-bind="cuentaBancaria.saldo | currency : cuentaBancaria.moneda "></span></td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight: bold;">Cantidad retirantes:</td>
-                                        <td><span ng-bind="objetosCargados.cuentaBancaria.cantidadRetirantes"></span></td>
+                                        <td><span ng-bind="cuentaBancaria.cantidadRetirantes"></span></td>
                                     </tr>
                                 </table>
                             </div>
@@ -153,7 +167,7 @@
                                     </div>
                                 </div>
                                 <table class="table table-condensed table-striped">
-                                    <tr ng-repeat="titular in objetosCargados.titulares | filter:{ estado: true }">
+                                    <tr ng-repeat="titular in titulares | filter:{ estado: true }">
                                         <td><span ng-bind-template="{{titular.personaNatural.tipoDocumento.abreviatura}}/{{titular.personaNatural.numeroDocumento}}"></span></td>
                                         <td><span ng-bind-template="{{titular.personaNatural.apellidoPaterno}}&nbsp;{{titular.personaNatural.apellidoMaterno}}, {{titular.personaNatural.nombres}}"></span></td>
                                         <td>

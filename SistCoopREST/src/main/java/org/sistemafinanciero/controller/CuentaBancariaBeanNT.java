@@ -28,6 +28,7 @@ import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
+import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.Titular;
@@ -282,6 +283,38 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	@Override
 	public Cheque getCheque(BigInteger idCheque) {		
 		return chequeDAO.find(idCheque);
+	}
+
+	//ue devuelva CuentaBancariaView porque necesita de esos datos
+	@Override
+	public CuentaBancariaView findByNumeroCheque(BigInteger numeroChequeUnico) {
+		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", numeroChequeUnico);
+		List<Cheque> list = chequeDAO.findByNamedQuery(Cheque.findChequeByNumeroChequeUnico, queryParameter.parameters());
+		Cheque cheque = null;
+		for (Cheque item : list) {
+			cheque = item;
+			break;
+		}	
+		if(cheque != null){
+			Chequera chequera = cheque.getChequera();
+			CuentaBancaria cuentaBancaria = chequera.getCuentaBancaria();
+			CuentaBancariaView cuentaBancariaView = cuentaBancariaViewDAO.find(cuentaBancaria.getIdCuentaBancaria());
+			return cuentaBancariaView;
+		} else {
+			return null;
+		}		
+	}
+
+	@Override
+	public Cheque getChequeByNumeroUnico(BigInteger numeroChequeUnico) {
+		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", numeroChequeUnico);
+		List<Cheque> list = chequeDAO.findByNamedQuery(Cheque.findChequeByNumeroChequeUnico, queryParameter.parameters());
+		Cheque cheque = null;
+		for (Cheque item : list) {
+			cheque = item;
+			break;
+		}		
+		return cheque;
 	}
 
 }

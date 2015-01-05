@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,10 +36,15 @@ import org.sistemafinanciero.entity.type.EstadoCheque;
 @Table(name = "CHEQUE", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "cheque")
 @XmlAccessorType(XmlAccessType.NONE)
+@NamedQueries({ 
+	@NamedQuery(name = Cheque.findChequeByNumeroChequeUnico, query = "SELECT c FROM Cheque c WHERE c.numeroChequeUnico = :numeroChequeUnico"),
+	})
 public class Cheque implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public final static String findChequeByNumeroChequeUnico = "findChequeByNumeroChequeUnico";	
+	
 	private BigInteger idCheque;
 	private EstadoCheque estado;
 	private BigInteger numeroCheque;
