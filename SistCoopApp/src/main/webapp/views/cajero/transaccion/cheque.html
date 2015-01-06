@@ -6,7 +6,7 @@
             <span ng-bind="alert.msg"></span>
         </alert>
 
-        <form name="formCrearTransaccion" ng-submit="crearTransaccion()" novalidate>
+        <form name="form" ng-submit="crearTransaccion()" novalidate>
 
             <div class="row">
                 <div class="col-sm-6">
@@ -17,7 +17,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccion.numeroCheque.$invalid && (control.submitted || formCrearTransaccion.numeroCheque.$dirty)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.numeroCheque.$invalid && (control.submitted || form.numeroCheque.$dirty)}">
                                         <label>N&uacute;mero cheque</label>
                                         <label style="color: brown;">(*)</label>
                                         <div class="input-group">
@@ -28,8 +28,8 @@
                                                 </button>
                                               </span>
                                         </div>
-                                        <div ng-show="formCrearTransaccion.numeroCuenta.$invalid && (control.submitted || formCrearTransaccion.numeroCuenta.$dirty)">
-                                            <p class="help-block" ng-show="formCrearTransaccion.numeroCuenta.$error.required">
+                                        <div ng-show="form.numeroCuenta.$invalid && (control.submitted || form.numeroCuenta.$dirty)">
+                                            <p class="help-block" ng-show="form.numeroCuenta.$error.required">
                                                 Ingrese N&uacute;mero de cheque.
                                             </p>
                                         </div>
@@ -51,8 +51,64 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)}">
+                                        <label>Tipo documento</label>
+                                        <label style="color: brown;">(*)</label>
+                                        <input type="text" name="tipoDocumento" ng-model="view.tipoDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="Tipo documento" required/>
+                                        <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)">
+                                            <p class="help-block" ng-show="form.tipoDocumento.$error.required">
+                                                Ingrese tipo documento.
+                                            </p>
+                                            <p class="help-block" ng-show="form.tipoDocumento.$error.minlength">
+                                                Numero tipo documento.
+                                            </p>
+                                            <p class="help-block" ng-show="form.tipoDocumento.$error.maxlength">
+                                                Ingrese tipo documento.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumento.$invalid && (control.submitted || form.monto.$dirty)}">
+                                        <label>Numero documento</label>
+                                        <label style="color: brown;">(*)</label>
+                                        <input type="text" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="Numero documento" required/>
+                                        <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)">
+                                            <p class="help-block" ng-show="form.numeroDocumento.$error.required">
+                                                Ingrese numero documento.
+                                            </p>
+                                            <p class="help-block" ng-show="form.numeroDocumento.$error.minlength">
+                                                Numero numero documento.
+                                            </p>
+                                            <p class="help-block" ng-show="form.numeroDocumento.$error.maxlength">
+                                                Ingrese numero documento.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.persona.$invalid && (control.submitted || form.monto.$dirty)}">
+                                        <label>Persona</label>
+                                        <label style="color: brown;">(*)</label>
+                                        <input type="text" name="persona" ng-model="view.persona" ng-minlength="1" ng-maxlength="130" class="form-control" placeholder="persona" required/>
+                                        <div ng-show="form.persona.$invalid && (control.submitted || form.monto.$dirty)">
+                                            <p class="help-block" ng-show="form.persona.$error.required">
+                                                Ingrese persona.
+                                            </p>
+                                            <p class="help-block" ng-show="form.persona.$error.minlength">
+                                                Ingrese persona.
+                                            </p>
+                                            <p class="help-block" ng-show="form.persona.$error.maxlength">
+                                                Ingrese persona.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccion.monto.$invalid && (control.submitted || formCrearTransaccion.monto.$dirty)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.monto.$invalid && (control.submitted || form.monto.$dirty)}">
                                         <label>Monto</label>
                                         <label style="color: brown;">(*)</label>
                                         <div class="input-group">
@@ -63,17 +119,17 @@
                                                 </button>
                                               </span>
                                         </div>
-                                        <div ng-show="formCrearTransaccion.monto.$invalid && (control.submitted || formCrearTransaccion.monto.$dirty)">
-                                            <p class="help-block" ng-show="formCrearTransaccion.monto.$error.required">
+                                        <div ng-show="form.monto.$invalid && (control.submitted || form.monto.$dirty)">
+                                            <p class="help-block" ng-show="form.monto.$error.required">
                                                 Ingrese monto valido.
                                             </p>
-                                            <p class="help-block" ng-show="formCrearTransaccion.monto.$error.minlength">
+                                            <p class="help-block" ng-show="form.monto.$error.minlength">
                                                 Numero invalido.
                                             </p>
-                                            <p class="help-block" ng-show="formCrearTransaccion.monto.$error.maxlength">
+                                            <p class="help-block" ng-show="form.monto.$error.maxlength">
                                                 Ingrese menos caracteres.
                                             </p>
-                                            <p class="help-block" ng-show="formCrearTransaccion.monto.$error.pattern">
+                                            <p class="help-block" ng-show="form.monto.$error.pattern">
                                                 Numero invalido (Ejemplo: 99.99).
                                             </p>
                                         </div>
@@ -91,7 +147,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="form-group" ng-class="{ 'has-error' : formCrearTransaccion.referencia.$invalid && formCrearTransaccion.submitted}">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.referencia.$invalid && form.submitted}">
                                         <label>Referencia</label>
                                         <textarea name="referencia" class="form-control" rows="3" ng-model="view.referencia" placeholder="Referencia"></textarea>
                                     </div>

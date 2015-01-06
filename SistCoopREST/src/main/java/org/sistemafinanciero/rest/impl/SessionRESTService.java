@@ -52,6 +52,7 @@ import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.SessionREST;
 import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
+import org.sistemafinanciero.rest.dto.TransaccionChequeDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
@@ -275,6 +276,29 @@ public class SessionRESTService implements SessionREST {
 	}
 
 	@Override
+	public Response crearTransaccionCheque(TransaccionChequeDTO transaccion) {
+		Response response;
+		try {
+			String numeroChequeUnico = transaccion.getNumeroChequeUnico();
+			String tipoDocumento = transaccion.getTipoDocumento();
+			String numeroDocumento = transaccion.getNumeroDocumento();
+			String persona = transaccion.getPersona();
+			String observacion = transaccion.getObservacion();
+			BigDecimal monto = transaccion.getMonto();
+			
+			BigInteger idTransaccion = sessionServiceTS.crearTransaccionCheque(numeroChequeUnico, monto, tipoDocumento, numeroDocumento, persona, observacion);
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion)).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+	
+	@Override
 	public Response crearTransferencia(TransferenciaBancariaDTO transferencia) {
 		Response response;
 		try {
@@ -428,5 +452,7 @@ public class SessionRESTService implements SessionREST {
 		}
 		return response;
 	}
+
+	
 
 }

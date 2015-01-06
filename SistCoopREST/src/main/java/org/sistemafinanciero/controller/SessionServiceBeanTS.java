@@ -32,6 +32,8 @@ import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.BovedaCaja;
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.Cheque;
+import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.DetalleHistorialBoveda;
@@ -50,11 +52,13 @@ import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
+import org.sistemafinanciero.entity.TransaccionCheque;
 import org.sistemafinanciero.entity.TransaccionCompraVenta;
 import org.sistemafinanciero.entity.TransaccionCuentaAporte;
 import org.sistemafinanciero.entity.TransferenciaBancaria;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.type.EstadoCheque;
 import org.sistemafinanciero.entity.type.EstadoCuentaAporte;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
@@ -64,7 +68,6 @@ import org.sistemafinanciero.entity.type.Tipotransaccionbancaria;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.exception.IllegalResultException;
-import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.ts.CuentaBancariaServiceTS;
@@ -142,6 +145,12 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	@Inject
 	private DAO<Object, TransaccionBovedaCajaView> transaccionBovedaCajaViewDAO;
 
+	@Inject
+	private DAO<Object, TransaccionCheque> transaccionChequeDAO;
+	
+	@Inject
+	private DAO<Object, Cheque> chequeDAO;
+	
 	@Inject
 	private DAO<Object, HistorialTransaccionCaja> historialTransaccionCajaDAO;
 
@@ -897,6 +906,89 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	@AllowedTo(Permission.ABIERTO)
 	@AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
 	@Override
+	public BigInteger crearTransaccionCheque(String numeroChequeUnico, BigDecimal monto, String tipoDocumento, String numeroDocumento, String persona, String observacion) throws RollbackFailureException {
+		//TODO
+		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", numeroChequeUnico);
+		List<Cheque> list = chequeDAO.findByNamedQuery(Cheque.findChequeByNumeroChequeUnico, queryParameter.parameters());
+		Cheque cheque = null;
+		for (Cheque item : list) {
+			cheque = item;
+			break;
+		}	
+		
+		if(cheque == null)
+			throw new RollbackFailureException("Cheque no encontrado");	
+		
+		Chequera chequera = cheque.getChequera();
+		CuentaBancaria cuentaBancaria = chequera.getCuentaBancaria();
+		
+		if(!chequera.getEstado()){
+			throw new RollbackFailureException("Chequera inactiva, no se puede realizar la transaccion");	
+		}
+		
+		switch (cuentaBancaria.getEstado()) {
+		case ACTIVO:
+			if (!cuentaBancaria.getTipoCuentaBancaria().equals(TipoCuentaBancaria.CORRIENTE)) {
+				throw new RollbackFailureException("Solo las cuentas corrientes pueden girar cheques");
+			}
+			break;
+		case CONGELADO:
+			throw new RollbackFailureException("Cuenta CONGELADA, no se pueden realizar transacciones");
+		case INACTIVO:
+			throw new RollbackFailureException("Cuenta INACTIVO, no se pueden realizar transacciones");
+		default:
+			break;
+		}
+
+		// obteniendo datos de caja en session
+		HistorialCaja historialCaja = this.getHistorialActivo();
+		Trabajador trabajador = this.getTrabajador();
+		PersonaNatural natural = trabajador.getPersonaNatural();
+
+		// obteniendo saldo disponible de cuenta
+		BigDecimal saldoDisponible = cuentaBancaria.getSaldo().add(monto);
+		if (saldoDisponible.compareTo(BigDecimal.ZERO) == -1) {
+			throw new RollbackFailureException("Saldo insuficiente para transaccion");
+		} else {
+			cuentaBancaria.setSaldo(saldoDisponible);
+			cuentaBancariaDAO.update(cuentaBancaria);
+		}
+
+		Calendar calendar = Calendar.getInstance();
+
+		TransaccionCheque transaccionCheque = new TransaccionCheque();
+		
+		transaccionCheque.setCheque(cheque);
+		transaccionCheque.setEstado(true);
+		transaccionCheque.setFecha(calendar.getTime());
+		transaccionCheque.setHora(calendar.getTime());
+		transaccionCheque.setHistorialCaja(historialCaja);
+		transaccionCheque.setMonto(monto);
+		transaccionCheque.setNumeroDocumento(numeroDocumento);
+		transaccionCheque.setTipoDocumento(tipoDocumento);
+		transaccionCheque.setPersona(persona);
+		transaccionCheque.setObservacion(observacion);
+		transaccionCheque.setSaldoDisponible(saldoDisponible);		
+		transaccionCheque.setTrabajador("Doc:" + natural.getTipoDocumento().getAbreviatura() + "/" + natural.getNumeroDocumento() + "Trabajador:" + natural.getApellidoPaterno() + " " + natural.getApellidoMaterno() + "," + natural.getNombres());
+		transaccionChequeDAO.create(transaccionCheque);
+		
+		cheque.setEstado(EstadoCheque.COBRADO);
+		cheque.setFechaCambioEstado(calendar.getTime());
+		cheque.setMonto(monto);
+		cheque.setNumeroDocumento(cheque.getNumeroDocumento() == null ? numeroDocumento : cheque.getNumeroDocumento());
+		cheque.setTipoDocumento(cheque.getTipoDocumento() == null ? tipoDocumento : cheque.getTipoDocumento());
+		cheque.setPersona(cheque.getPersona() == null ? persona : cheque.getPersona());
+		chequeDAO.update(cheque);
+		
+		// actualizar saldo caja
+		this.actualizarSaldoCaja(monto, cuentaBancaria.getMoneda().getIdMoneda());
+
+		return transaccionCheque.getIdTransaccionCheque();
+	}
+	
+	@AllowedTo(Permission.ABIERTO)
+	@AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
+	@Override
 	public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException {
 		HistorialTransaccionCaja transaccion = historialTransaccionCajaDAO.find(idTransaccion);
 		if (transaccion.getTipoCuenta().equalsIgnoreCase("AHORRO") || transaccion.getTipoCuenta().equalsIgnoreCase("CORRIENTE"))
@@ -1481,4 +1573,6 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		transaccion.setEstadoConfirmacion(true);
 		transaccionCajaCajaDAO.update(transaccion);
 	}
+
+	
 }

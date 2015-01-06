@@ -9,6 +9,12 @@ define(['../../module'], function (controllers) {
                 observacion: undefined
             };
 
+            $scope.control = {
+                success: false,
+                inProcess: false,
+                submitted : false
+            };
+
             $scope.buscarCheque = function(){
                 CuentaBancariaService.getChequeByNumeroChequeUnico($scope.view.numeroCheque).then(
                     function(data){
@@ -96,8 +102,35 @@ define(['../../module'], function (controllers) {
                 }
             };
 
+            //transaccion
             $scope.crearTransaccion = function(){
+                if($scope.form.$valid){
+                    $scope.control.inProcess = true;
+                    var transaccion = {
+                        "numeroChequeUnico" : $scope.view.numeroCheque,
+                        "monto": (Math.abs(parseFloat($scope.view.monto.toString()))),
+                        "observacion": $scope.view.observacion,
+                        "tipoDocumento": $scope.view.observacion,
+                        "numeroDocumento": $scope.view.numeroDocumento,
+                        "persona": $scope.view.persona
+                    };
 
+                    SessionService.crearTransaccionCheque(transaccion).then(
+                        function(data){
+                            $scope.control.success = true;
+                            $scope.control.inProcess = false;
+                            $state.transitionTo('app.transaccion.chequeVoucher', { id: data.id });
+                        },
+                        function error(error){
+                            $scope.control.inProcess = false;
+                            $scope.control.success = false;
+                            $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                        }
+                    );
+                } else {
+                    $scope.control.submitted = true;
+                }
             };
 
 

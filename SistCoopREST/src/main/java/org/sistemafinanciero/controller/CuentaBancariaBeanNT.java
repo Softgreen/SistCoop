@@ -284,8 +284,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	public Cheque getCheque(BigInteger idCheque) {		
 		return chequeDAO.find(idCheque);
 	}
-
-	//ue devuelva CuentaBancariaView porque necesita de esos datos
+	
 	@Override
 	public CuentaBancariaView findByNumeroCheque(BigInteger numeroChequeUnico) {
 		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", numeroChequeUnico);
