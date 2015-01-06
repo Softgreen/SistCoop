@@ -1077,4 +1077,24 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		}	
 	}
 
+	@Override
+	public Response getChequeByNumeroUnico(BigInteger numeroChequeUnico) {
+		Cheque cheque = cuentaBancariaServiceNT.getChequeByNumeroUnico(numeroChequeUnico);
+		if (cheque != null) {			
+			return Response.status(Status.OK).entity(cheque).build();
+		} else {
+			return Response.status(Status.NO_CONTENT).build();
+		}	
+	}
+
+	@Override
+	public Response getChequeByNumeroUnicoCuentaBancaria(BigInteger numeroChequeUnico) {
+		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findByNumeroCheque(numeroChequeUnico);
+		if (cuentaBancariaView != null) {			
+			return Response.status(Status.OK).entity(cuentaBancariaView).build();
+		} else {
+			return Response.status(Status.NO_CONTENT).build();
+		}
+	}
+
 }

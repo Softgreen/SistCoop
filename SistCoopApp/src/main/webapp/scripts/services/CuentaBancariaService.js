@@ -130,6 +130,12 @@ define(['./module'], function (services) {
                 },
                 getCheque: function(idCuentaBancaria, idChequera, idCheque){
                     return Restangular.one(baseUrl+"/"+idCuentaBancaria+"/chequeras/"+idChequera+"/cheques/"+idCheque).get();
+                },
+                getChequeByNumeroChequeUnico: function(numeroChequeUnico){
+                    return Restangular.one(baseUrl+"/cheques/"+numeroChequeUnico).get();
+                },
+                getCuentaBancariaByNumeroChequeUnico: function(numeroChequeUnico){
+                    return Restangular.one(baseUrl+"/cheques/"+numeroChequeUnico+"/cuentaBancaria").get();
                 }
             }
         }])

@@ -56,5 +56,9 @@ public interface CuentaBancariaServiceNT extends AbstractServiceNT<CuentaBancari
 	public List<Cheque> getCheques(BigInteger idChequera);
 
 	public Cheque getCheque(BigInteger idCheque);
+
+	public CuentaBancariaView findByNumeroCheque(BigInteger numeroChequeUnico);
+
+	public Cheque getChequeByNumeroUnico(BigInteger numeroChequeUnico);
 	
 }
