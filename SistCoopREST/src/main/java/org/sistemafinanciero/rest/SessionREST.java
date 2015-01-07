@@ -22,6 +22,7 @@ import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
+import org.sistemafinanciero.rest.dto.TransaccionChequeDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
@@ -93,6 +94,12 @@ public interface SessionREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response crearTransaccionBancaria(TransaccionBancariaDTO transaccion);
 
+	@POST
+	@Path("/transaccionCheque")
+	@Consumes({ "application/xml", "application/json" })
+	@Produces({ "application/xml", "application/json" })
+	public Response crearTransaccionCheque(TransaccionChequeDTO transaccion);
+	
 	@POST
 	@Path("/transaccion/{id}/extornar")
 	@Consumes({ "application/xml", "application/json" })

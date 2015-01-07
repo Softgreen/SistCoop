@@ -43,6 +43,9 @@ define(['./module'], function (services) {
                 crearTransaccionBancaria: function(transaccion){
                     return Restangular.all(baseUrl+"/transaccionBancaria").post(transaccion);
                 },
+                crearTransaccionCheque: function(transaccion){
+                    return Restangular.all(baseUrl+"/transaccionCheque").post(transaccion);
+                },
                 crearTransferenciaBancaria: function(transaccion){
                     return Restangular.all(baseUrl+"/transferenciaBancaria").post(transaccion);
                 },
