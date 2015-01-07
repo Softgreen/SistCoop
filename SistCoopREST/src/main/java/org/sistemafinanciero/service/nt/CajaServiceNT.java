@@ -63,7 +63,7 @@ public interface CajaServiceNT extends AbstractServiceNT<Caja> {
 	public VoucherTransaccionCuentaAporte getVoucherCuentaAporte(BigInteger idTransaccion);
 
 	public VoucherTransaccionBancaria getVoucherTransaccionBancaria(BigInteger idTransaccionBancaria);
-
+	
 	public VoucherTransferenciaBancaria getVoucherTransferenciaBancaria(BigInteger idTransferencia);
 
 	public VoucherCompraVenta getVoucherCompraVenta(BigInteger idTransaccionCompraVenta);
@@ -72,6 +72,6 @@ public interface CajaServiceNT extends AbstractServiceNT<Caja> {
 
 	public List<HistorialTransaccionCaja> getHistorialTransaccion(BigInteger idCaja, BigInteger idHistorial, String filterText);
 	
-	public List<Trabajador> getTrabajadores(BigInteger idCaja);
+	public List<Trabajador> getTrabajadores(BigInteger idCaja);	
 
 }

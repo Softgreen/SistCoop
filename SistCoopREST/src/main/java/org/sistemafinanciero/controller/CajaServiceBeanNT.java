@@ -95,7 +95,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 	@Inject
 	private DAO<Object, TransaccionBancaria> transaccionBancariaDAO;
-
+	
 	@Inject
 	private DAO<Object, TransferenciaBancaria> transferenciaBancariaDAO;
 
@@ -898,7 +898,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		}
 		return voucherTransaccion;
 	}
-
+	
 	@Override
 	public VoucherTransferenciaBancaria getVoucherTransferenciaBancaria(BigInteger idTransferencia) {
 		VoucherTransferenciaBancaria voucher = new VoucherTransferenciaBancaria();
@@ -1094,5 +1094,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			return null;
 		}
 	}
+
+	
 
 }

@@ -917,6 +917,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		
 		if(cheque == null)
 			throw new RollbackFailureException("Cheque no encontrado");	
+		if(!cheque.getEstado().equals(EstadoCheque.POR_COBRAR)){
+			throw new RollbackFailureException("Cheque en estado "+cheque.getEstado().toString()+" no se puede realizar la operacion");
+		}
 		
 		Chequera chequera = cheque.getChequera();
 		CuentaBancaria cuentaBancaria = chequera.getCuentaBancaria();
