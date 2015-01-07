@@ -110,7 +110,7 @@ define(['../../module'], function (controllers) {
                         "numeroChequeUnico" : $scope.view.numeroCheque,
                         "monto": (Math.abs(parseFloat($scope.view.monto.toString()))),
                         "observacion": $scope.view.observacion,
-                        "tipoDocumento": $scope.view.observacion,
+                        "tipoDocumento": $scope.view.tipoDocumento,
                         "numeroDocumento": $scope.view.numeroDocumento,
                         "persona": $scope.view.persona
                     };

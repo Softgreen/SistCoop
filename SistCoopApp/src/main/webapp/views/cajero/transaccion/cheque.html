@@ -53,7 +53,7 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group" ng-class="{ 'has-error' : form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)}">
-                                        <label>Tipo documento</label>
+                                        <label>T. documento</label>
                                         <label style="color: brown;">(*)</label>
                                         <input type="text" name="tipoDocumento" ng-model="view.tipoDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="Tipo documento" required/>
                                         <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)">
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumento.$invalid && (control.submitted || form.monto.$dirty)}">
-                                        <label>Numero documento</label>
+                                        <label>Num. doc.</label>
                                         <label style="color: brown;">(*)</label>
                                         <input type="text" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="Numero documento" required/>
                                         <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)">
@@ -147,9 +147,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="form-group" ng-class="{ 'has-error' : form.referencia.$invalid && form.submitted}">
-                                        <label>Referencia</label>
-                                        <textarea name="referencia" class="form-control" rows="3" ng-model="view.referencia" placeholder="Referencia"></textarea>
+                                    <div class="form-group" ng-class="{ 'has-error' : form.observacion.$invalid && form.submitted}">
+                                        <label>Observacion</label>
+                                        <textarea name="observacion" class="form-control" rows="3" ng-model="view.observacion" placeholder="Observacion"></textarea>
                                     </div>
                                 </div>
                             </div>

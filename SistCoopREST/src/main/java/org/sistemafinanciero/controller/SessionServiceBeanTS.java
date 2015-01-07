@@ -906,9 +906,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	@AllowedTo(Permission.ABIERTO)
 	@AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
 	@Override
-	public BigInteger crearTransaccionCheque(String numeroChequeUnico, BigDecimal monto, String tipoDocumento, String numeroDocumento, String persona, String observacion) throws RollbackFailureException {
-		//TODO
-		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", numeroChequeUnico);
+	public BigInteger crearTransaccionCheque(String numeroChequeUnico, BigDecimal monto, String tipoDocumento, String numeroDocumento, String persona, String observacion) throws RollbackFailureException {		
+		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", new BigInteger(numeroChequeUnico.toString()));
 		List<Cheque> list = chequeDAO.findByNamedQuery(Cheque.findChequeByNumeroChequeUnico, queryParameter.parameters());
 		Cheque cheque = null;
 		for (Cheque item : list) {
@@ -969,6 +968,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		transaccionCheque.setPersona(persona);
 		transaccionCheque.setObservacion(observacion);
 		transaccionCheque.setSaldoDisponible(saldoDisponible);		
+		transaccionCheque.setNumeroOperacion(this.getNumeroOperacion());
 		transaccionCheque.setTrabajador("Doc:" + natural.getTipoDocumento().getAbreviatura() + "/" + natural.getNumeroDocumento() + "Trabajador:" + natural.getApellidoPaterno() + " " + natural.getApellidoMaterno() + "," + natural.getNombres());
 		transaccionChequeDAO.create(transaccionCheque);
 		
