@@ -119,7 +119,7 @@ public interface CajaREST {
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	public Response getVoucherTransaccionBancaria(@PathParam("id") BigInteger idTransaccionTransaccionBancaria);
-
+	
 	@GET
 	@Path("/voucherTransferenciaBancaria/{id}")
 	@Consumes({ "application/xml", "application/json" })
