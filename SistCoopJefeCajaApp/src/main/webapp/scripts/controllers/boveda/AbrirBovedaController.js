@@ -52,9 +52,9 @@ define(['../module'], function (controllers) {
                 data: 'detalle',
                 multiSelect: false,
                 columnDefs: [
-                    { field: "valor", cellFilter: "currency: ''",  displayName: "VALOR" },
+                    { field: "valor", cellFilter: "currency: ''", displayName: "DENOMINACION" },
                     { field: "cantidad", displayName: "CANTIDAD" },
-                    { field: "subtotal()", displayName: "SUBTOTAL" }
+                    { field: "subtotal()", cellFilter: "currency: ''", displayName: "SUBTOTAL" }
                 ]
             };
 

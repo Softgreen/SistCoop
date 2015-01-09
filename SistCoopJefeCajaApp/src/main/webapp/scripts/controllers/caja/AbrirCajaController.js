@@ -40,9 +40,9 @@ define(['../module'], function (controllers) {
                     plugins: [gridLayoutPlugin[index]],
                     multiSelect: false,
                     columnDefs: [
-                        { field: "valor", cellFilter: "currency : '"+simbolo+" '", displayName: "Valor" },
-                        { field: "cantidad", cellFilter: "number", displayName: "Cantidad" },
-                        { field: "subtotal()", cellFilter: "currency : '' ", displayName: "Subtotal" }
+                        { field: "valor", cellFilter: "currency : ''", displayName: "DENOMINACION" },
+                        { field: "cantidad", cellFilter: "number", displayName: "CANTIDAD" },
+                        { field: "subtotal()", cellFilter: "currency : ''", displayName: "SUBTOTAL" }
                     ]
                 };
                 $scope.total[index] = function(){
