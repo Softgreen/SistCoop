@@ -33,7 +33,7 @@ define(['../module'], function (controllers) {
                     plugins: [gridLayoutPlugin[index]],
                     multiSelect: false,
                     columnDefs: [
-                        { field: "valor | currency : '"+simbolo+" '", displayName: "Valor" },
+                        { field: "valor | currency : '"+simbolo+"'", displayName: "Valor" },
                         { field: "cantidad | number ", displayName: "Cantidad" },
                         { field: "subtotal() | currency : ''", displayName: "Subtotal" }
                     ]

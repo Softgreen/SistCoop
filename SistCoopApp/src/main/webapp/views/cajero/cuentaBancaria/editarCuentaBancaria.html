@@ -12,12 +12,14 @@
                 </div>
                 <div class="col-sm-6" nf-if="cuentaBancaria.estadoCuenta != 'INACTIVO'" style="text-align: right;font-size: 14px;">
                     <div class="btn-group">
+                    	<button type="button" ng-if="cuentaBancaria.tipoCuenta == 'CORRIENTE'" ng-click="goToChequera()" popover="Chequera" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-success">A&#241;adir Chequera</button>
+                    </div>
+                    <div class="btn-group">
                         <button type="button" ng-if="cuentaBancaria.tipoCuenta == 'PLAZO_FIJO'" ng-click="renovarPlazoFijo()" popover="Renovar cuenta" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-success">Renovar</button>
                         <button type="button" ng-if="cuentaBancaria.tipoCuenta == 'PLAZO_FIJO'" ng-click="recalcularPlazoFijo()" popover="Recalcular cuenta" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-warning">Recalcular</button>
-
-                        <button type="button" ng-if="cuentaBancaria.tipoCuenta == 'CORRIENTE'" ng-click="goToChequera()" popover="Chequera" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-default">Agregar Chequera</button>
-
-                        <button type="button" ng-if="cuentaBancaria.estadoCuenta == 'ACTIVO'" ng-click="congelarCuentaBancaria()" popover="Congelar cuenta" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-warning">Congelar</button>
+                    </div>
+                    <div class="btn-group">
+                    <button type="button" ng-if="cuentaBancaria.estadoCuenta == 'ACTIVO'" ng-click="congelarCuentaBancaria()" popover="Congelar cuenta" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-warning">Congelar</button>
                         <button type="button" ng-if="cuentaBancaria.estadoCuenta == 'CONGELADO'" ng-click="descongelarCuentaBancaria()" popover="Descongelar cuenta" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-info active">Descongelar</button>
                         <button type="button" ng-if="cuentaBancaria.estadoCuenta == 'ACTIVO' || cuentaBancaria.estadoCuenta == 'CONGELADO'" ng-click="cancelarCuentaBancaria()" popover="Cancelar cuenta" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-danger">Cancelar</button>
                     </div>
@@ -124,15 +126,13 @@
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Moneda:</strong></td>
-                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.moneda"></span></td>
+                        <td colspan="1" style="font-size: 12px;"><span ng-bind="cuentaBancaria.moneda"></span></td>
+                        <td colspan="1" style="font-size: 12px;"><strong>N&deg; Retirantes:</strong></td>
+                        <td colspan="1" style="font-size: 12px;"><span ng-bind="cuentaBancaria.cantidadRetirantes"></span></td>
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Saldo Disponible:</strong></td>
                         <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.saldo | currency : cuentaBancaria.moneda"></span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="1" style="font-size: 12px;"><strong>N&deg; Retirantes:</strong></td>
-                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.cantidadRetirantes"></span></td>
                     </tr>
                 </table>
             </div>
@@ -222,7 +222,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-7" style="font-weight: bold;">Chequeras&nbsp;
+                        <div class="col-md-7" style="font-weight: bold;">Chequera&nbsp;
                         </div>
                     </div>
                 </div>
@@ -232,22 +232,22 @@
                 <table class="table table-striped table-condensed" ng-show="chequeras.length">
                     <thead>
                     <tr>
-                        <td>Inicio</td>
-                        <td>Fin</td>
-                        <td>F.disponible</td>
-                        <td>F.expiracion</td>
-                        <td>Estado</td>
-                        <td>Inicio</td>
+                        <td style="font-size: 12px; text-align: center;"><strong>N&#176; Inicio</strong></td>
+                        <td style="font-size: 12px; text-align: center;"><strong>N&#176; Fin</strong></td>
+                        <td style="font-size: 12px; text-align: center;"><strong>Fec. Aper.</strong></td>
+                        <td style="font-size: 12px; text-align: center;"><strong>Fec. Exp.</strong></td>
+                        <td style="font-size: 12px; text-align: center;"><strong>Estado</strong></td>
+                        <td style="font-size: 12px; text-align: center;"><strong>Edit</strong></td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="item in chequeras">
-                        <td style="font-size: 12px;"><span ng-bind="item.numeroInicio"></span></td>
-                        <td style="font-size: 12px;"><span ng-bind="item.numeroFin"></span></td>
-                        <td style="font-size: 12px;"><span ng-bind="item.fechaDisponible | date : 'dd/MM/yyyy'"></span></td>
-                        <td style="font-size: 12px;"><span ng-bind="item.fechaExpiracion | date : 'dd/MM/yyyy'"></span></td>
-                        <td style="font-size: 12px;"><span ng-bind="item.estado"></span></td>
-                        <td>
+                        <td style="font-size: 12px; text-align: center;"><span ng-bind="item.numeroInicio"></span></td>
+                        <td style="font-size: 12px; text-align: center;"><span ng-bind="item.numeroFin"></span></td>
+                        <td style="font-size: 12px; text-align: center;"><span ng-bind="item.fechaDisponible | date : 'dd/MM/yyyy'"></span></td>
+                        <td style="font-size: 12px; text-align: center;"><span ng-bind="item.fechaExpiracion | date : 'dd/MM/yyyy'"></span></td>
+                        <td style="font-size: 12px; text-align: center;"><span ng-bind-template="{{item.estado ? 'ACTIVO' : 'INACTIVO'}}"></span></td>
+                        <td>													
                             <button type="button" class="btn btn-info btn-xs" ng-click="editChequera(item)"><span class="glyphicon glyphicon-share"></span>Edit</button>
                         </td>
                     </tr>

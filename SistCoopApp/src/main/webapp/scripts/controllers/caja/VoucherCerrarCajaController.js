@@ -152,7 +152,6 @@ define(['../module'], function (controllers) {
                 	qz.append("\t\t");
                 	qz.append($scope.voucherPrint.detalle[i].cantidad.toString());
                 	qz.append("\t" + "     ");
-                	//qz.append($filter('currency')(($scope.voucherPrint.detalle[i].valor * $scope.voucherPrint.detalle[i].cantidad), $scope.voucherPrint.moneda.simbolo)+ "\r\n");
                 	
                 	if($scope.voucherPrint.moneda.simbolo == "€"){            
                     	qz.append(($filter('currency')($scope.voucherPrint.detalle[i].valor * $scope.voucherPrint.detalle[i].cantidad,  chr(238))) + "\r\n");
