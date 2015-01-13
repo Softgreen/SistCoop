@@ -481,6 +481,17 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.transaccion.chequeVoucher', {
+                    url: "/cheque/voucher/:id",
+                    views: {
+                        "viewContent": {
+                            templateUrl: "views/cajero/voucher/transaccionChequeVoucher.html",
+                            controller: function($scope, $stateParams) {
+                                $scope.id = $stateParams.id;
+                            }
+                        }
+                    }
+                })
                 .state('app.transaccion.compraVenta', {
                     url: "/compraVenta",
                     views: {

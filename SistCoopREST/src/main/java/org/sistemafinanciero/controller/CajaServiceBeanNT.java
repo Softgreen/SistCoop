@@ -28,6 +28,8 @@ import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.BovedaCaja;
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.Cheque;
+import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.DetalleHistorialCaja;
@@ -48,6 +50,7 @@ import org.sistemafinanciero.entity.TransaccionBovedaCaja;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaDetalle;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
+import org.sistemafinanciero.entity.TransaccionCheque;
 import org.sistemafinanciero.entity.TransaccionCompraVenta;
 import org.sistemafinanciero.entity.TransaccionCuentaAporte;
 import org.sistemafinanciero.entity.TransferenciaBancaria;
@@ -59,6 +62,7 @@ import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.dto.ResumenOperacionesCaja;
 import org.sistemafinanciero.entity.dto.VoucherCompraVenta;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBancaria;
+import org.sistemafinanciero.entity.dto.VoucherTransaccionCheque;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCuentaAporte;
 import org.sistemafinanciero.entity.dto.VoucherTransferenciaBancaria;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
@@ -95,6 +99,9 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 	@Inject
 	private DAO<Object, TransaccionBancaria> transaccionBancariaDAO;
+
+	@Inject
+	private DAO<Object, TransaccionCheque> transaccionChequeDAO;
 	
 	@Inject
 	private DAO<Object, TransferenciaBancaria> transferenciaBancariaDAO;
@@ -113,7 +120,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 	@Inject
 	private EntityManagerProducer em;
-	
+
 	private HistorialCaja getHistorialActivo(BigInteger idCaja) {
 		Caja caja = cajaDAO.find(idCaja);
 		if (caja == null)
@@ -308,7 +315,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		Set<TransaccionCajaCaja> enviados = historial.getTransaccionCajaCajasForIdCajaHistorialOrigen();
 		for (TransaccionCajaCaja ts : enviados) {
 			Moneda moneda = ts.getMoneda();
-			
+
 			Hibernate.initialize(ts.getHistorialCajaDestino().getCaja());
 			Hibernate.initialize(ts);
 			Hibernate.initialize(moneda);
@@ -325,7 +332,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		Set<TransaccionCajaCaja> recibidos = historial.getTransaccionCajaCajasForIdCajaHistorialDestino();
 		for (TransaccionCajaCaja ts : recibidos) {
 			Moneda moneda = ts.getMoneda();
-			
+
 			Hibernate.initialize(ts.getHistorialCajaOrigen().getCaja());
 			Hibernate.initialize(ts);
 			Hibernate.initialize(moneda);
@@ -403,26 +410,24 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			return null;
 
 		// recuperando el historial del dia anterior
-		HistorialCaja historialAyer = null;		
+		HistorialCaja historialAyer = null;
 		TypedQuery<HistorialCaja> query = em.getEm().createNamedQuery(HistorialCaja.findHistorialAnterior, HistorialCaja.class);
 		query.setMaxResults(2);
 		query.setParameter("idcaja", caja.getIdCaja());
 		query.setParameter("fecha", historialCaja.getFechaCierre(), TemporalType.DATE);
 		query.setParameter("hora", historialCaja.getHoraCierre(), TemporalType.TIMESTAMP);
 		List<HistorialCaja> list2 = query.getResultList();
-		
-		
+
 		for (HistorialCaja hist : list2) {
-			if (!historialCaja.equals(hist)){
+			if (!historialCaja.equals(hist)) {
 				historialAyer = hist;
 				break;
-			}				
+			}
 		}
-
 
 		// recuperando las monedas de la trasaccion
 		Set<DetalleHistorialCaja> detalleHistorial = historialCaja.getDetalleHistorialCajas();
- 		Set<Moneda> monedasTransaccion = new HashSet<Moneda>();
+		Set<Moneda> monedasTransaccion = new HashSet<Moneda>();
 		for (DetalleHistorialCaja detHistcaja : detalleHistorial) {
 			Moneda moneda = detHistcaja.getMonedaDenominacion().getMoneda();
 			if (!monedasTransaccion.contains(moneda)) {
@@ -433,7 +438,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		// poniendo los datos por moneda
 		result = new HashSet<CajaCierreMoneda>();
 		for (Moneda moneda : monedasTransaccion) {
-			
+
 			CajaCierreMoneda cajaCierreMoneda = new CajaCierreMoneda();
 			cajaCierreMoneda.setAgencia(agencia.getDenominacion());
 			cajaCierreMoneda.setCaja(caja.getDenominacion());
@@ -480,7 +485,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 						saldoAyer = saldoAyer.add(subTotal);
 					}
 				}
-			}				
+			}
 
 			// recuperando las operaciones del dia
 			Set<TransaccionBancaria> transBancarias = historialCaja.getTransaccionBancarias();
@@ -489,7 +494,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			Set<TransaccionBovedaCaja> transBovCaj = historialCaja.getTransaccionBovedaCajas();
 			Set<TransaccionCajaCaja> transCajCajEnviados = historialCaja.getTransaccionCajaCajasForIdCajaHistorialOrigen();
 			Set<TransaccionCajaCaja> transCajCajRecibidos = historialCaja.getTransaccionCajaCajasForIdCajaHistorialDestino();
-			
+
 			for (TransaccionBancaria transBanc : transBancarias) {
 				Moneda moneda2 = transBanc.getCuentaBancaria().getMoneda();
 				if (moneda.equals(moneda2)) {
@@ -518,26 +523,26 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 						salidas = salidas.add(transAport.getMonto().abs().negate());
 				}
 			}
-			
-			//entradas y salidas de transacciones internas
-			for (TransaccionCajaCaja trans : transCajCajEnviados) {		
+
+			// entradas y salidas de transacciones internas
+			for (TransaccionCajaCaja trans : transCajCajEnviados) {
 				if (moneda.equals(trans.getMoneda())) {
-					if(trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()){
-						salidas = salidas.add(trans.getMonto().abs().negate());	
-					}	
-				}										
+					if (trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()) {
+						salidas = salidas.add(trans.getMonto().abs().negate());
+					}
+				}
 			}
 			for (TransaccionCajaCaja trans : transCajCajRecibidos) {
 				if (moneda.equals(trans.getMoneda())) {
-					if(trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()){
-						entradas = entradas.add(trans.getMonto());	
+					if (trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()) {
+						entradas = entradas.add(trans.getMonto());
 					}
-				}			
+				}
 			}
 			for (TransaccionBovedaCaja trans : transBovCaj) {
 				Moneda moneda2 = trans.getHistorialBoveda().getBoveda().getMoneda();
 				if (moneda.equals(moneda2)) {
-					if(trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()){
+					if (trans.getEstadoSolicitud() && trans.getEstadoConfirmacion()) {
 						Set<TransaccionBovedaCajaDetalle> det = trans.getTransaccionBovedaCajaDetalls();
 						BigDecimal total = BigDecimal.ZERO;
 						for (TransaccionBovedaCajaDetalle d : det) {
@@ -556,9 +561,9 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 							break;
 						}
 					}
-				}											
+				}
 			}
-						
+
 			// recuperando faltantes y sobrantes
 			Set<PendienteCaja> listPendientes = historialCaja.getPendienteCajas();
 			for (PendienteCaja pendiente : listPendientes) {
@@ -569,11 +574,11 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 					else
 						faltante = faltante.add(pendiente.getMonto());
 				}
-			}		
-			
-			//poner saldo por devolver
+			}
+
+			// poner saldo por devolver
 			porDevolver = entradas.add(salidas).add(saldoAyer);
-			
+
 			cajaCierreMoneda.setSaldoAyer(saldoAyer);
 			cajaCierreMoneda.setEntradas(entradas);
 			cajaCierreMoneda.setSalidas(salidas);
@@ -694,11 +699,11 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			if (trans.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
 				depositosAporte++;
 			else
-				retirosAporte++; 
+				retirosAporte++;
 		}
 
-		//transCajaCajaEnviado = transCajaCajaEnviados.size();
-		//transCajaCajaRecibido = transCajaCajaRecibidos.size();
+		// transCajaCajaEnviado = transCajaCajaEnviados.size();
+		// transCajaCajaRecibido = transCajaCajaRecibidos.size();
 
 		for (TransaccionCajaCaja transCajaCaja : transCajaCajaEnviados) {
 			if (transCajaCaja.getEstadoSolicitud() && transCajaCaja.getEstadoConfirmacion()) {
@@ -710,7 +715,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 				transCajaCajaRecibido++;
 			}
 		}
-		
+
 		for (TransaccionBovedaCaja transBovCaj : transBovedaCaja) {
 			if (transBovCaj.getEstadoSolicitud() && transBovCaj.getEstadoConfirmacion()) {
 				if (transBovCaj.getOrigen().equals(TransaccionBovedaCajaOrigen.CAJA))
@@ -844,16 +849,16 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			break;
 		}
 
-		//añadir titulares para las firmas 
+		// añadir titulares para las firmas
 		Set<Titular> titulares = cuentaBancaria.getTitulars();
 		String titularesCadena = "";
 		for (Titular titular : titulares) {
 			PersonaNatural pn = titular.getPersonaNatural();
-			titularesCadena = titularesCadena + pn.getNombres()+" "+pn.getApellidoPaterno()+" y ";
+			titularesCadena = titularesCadena + pn.getNombres() + " " + pn.getApellidoPaterno() + " y ";
 		}
-		titularesCadena = titularesCadena.substring(0, titularesCadena.length()-2);
+		titularesCadena = titularesCadena.substring(0, titularesCadena.length() - 2);
 		voucherTransaccion.setTitulares(titularesCadena);
-		
+
 		// Poniendo datos de transaccion
 		voucherTransaccion.setIdTransaccionBancaria(transaccionBancaria.getIdTransaccionBancaria());
 		Moneda moneda = transaccionBancaria.getMoneda();
@@ -898,7 +903,7 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		}
 		return voucherTransaccion;
 	}
-	
+
 	@Override
 	public VoucherTransferenciaBancaria getVoucherTransferenciaBancaria(BigInteger idTransferencia) {
 		VoucherTransferenciaBancaria voucher = new VoucherTransferenciaBancaria();
@@ -1009,6 +1014,80 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 	}
 
 	@Override
+	public VoucherTransaccionCheque getVoucherTransaccionCheque(BigInteger idTransaccionCheque) {
+		VoucherTransaccionCheque voucherTransaccion = new VoucherTransaccionCheque();				
+
+		// recuperando transaccion
+		TransaccionCheque transaccionCheque = transaccionChequeDAO.find(idTransaccionCheque);
+		Cheque cheque = transaccionCheque.getCheque();
+		Chequera chequera = cheque.getChequera();
+		CuentaBancaria cuentaBancaria = chequera.getCuentaBancaria();
+			
+		Socio socio = cuentaBancaria.getSocio();
+		Caja caja = transaccionCheque.getHistorialCaja().getCaja();
+		Set<BovedaCaja> list = caja.getBovedaCajas();
+		Agencia agencia = null;
+		for (BovedaCaja bovedaCaja : list) {
+			agencia = bovedaCaja.getBoveda().getAgencia();
+			break;
+		}
+
+		// añadir titulares para las firmas
+		Set<Titular> titulares = cuentaBancaria.getTitulars();
+		String titularesCadena = "";
+		for (Titular titular : titulares) {
+			PersonaNatural pn = titular.getPersonaNatural();
+			titularesCadena = titularesCadena + pn.getNombres() + " " + pn.getApellidoPaterno() + " y ";
+		}
+		titularesCadena = titularesCadena.substring(0, titularesCadena.length() - 2);
+		
+		voucherTransaccion.setTitulares(titularesCadena);
+
+		// Poniendo datos de transaccion
+		voucherTransaccion.setIdTransaccionBancaria(transaccionCheque.getIdTransaccionCheque());
+		
+		Moneda moneda = cuentaBancaria.getMoneda();
+		Hibernate.initialize(moneda);
+		voucherTransaccion.setMoneda(moneda);
+
+		voucherTransaccion.setFecha(transaccionCheque.getFecha());
+		voucherTransaccion.setHora(transaccionCheque.getHora());
+		voucherTransaccion.setNumeroOperacion(transaccionCheque.getNumeroOperacion());
+		voucherTransaccion.setMonto(transaccionCheque.getMonto());			
+		voucherTransaccion.setObservacion(transaccionCheque.getObservacion());
+
+		// Poniendo datos de cuenta bancaria
+		voucherTransaccion.setTipoCuentaBancaria(cuentaBancaria.getTipoCuentaBancaria());
+		voucherTransaccion.setNumeroCuenta(cuentaBancaria.getNumeroCuenta());
+		voucherTransaccion.setSaldoDisponible(cuentaBancaria.getSaldo());
+
+		// Poniendo datos de agencia
+		voucherTransaccion.setAgenciaDenominacion(agencia.getDenominacion());
+		voucherTransaccion.setAgenciaAbreviatura(agencia.getAbreviatura());
+
+		// Poniendo datos de caja
+		voucherTransaccion.setCajaDenominacion(caja.getDenominacion());
+		voucherTransaccion.setCajaAbreviatura(caja.getAbreviatura());
+
+		// Poniendo datos del socio
+		PersonaNatural personaNatural = socio.getPersonaNatural();
+		PersonaJuridica personaJuridica = socio.getPersonaJuridica();
+		if (personaJuridica == null) {
+			voucherTransaccion.setIdSocio(socio.getIdSocio());
+			voucherTransaccion.setTipoDocumento(socio.getPersonaNatural().getTipoDocumento()); //
+			voucherTransaccion.setNumeroDocumento(socio.getPersonaNatural().getNumeroDocumento());
+			voucherTransaccion.setSocio(personaNatural.getApellidoPaterno() + " " + personaNatural.getApellidoMaterno() + ", " + personaNatural.getNombres());
+		}
+		if (personaNatural == null) {
+			voucherTransaccion.setIdSocio(socio.getIdSocio());
+			voucherTransaccion.setTipoDocumento(socio.getPersonaJuridica().getTipoDocumento()); //
+			voucherTransaccion.setNumeroDocumento(socio.getPersonaJuridica().getNumeroDocumento());
+			voucherTransaccion.setSocio(personaJuridica.getRazonSocial());
+		}
+		return voucherTransaccion; 
+	}
+
+	@Override
 	public Set<PendienteCaja> getPendientes(BigInteger idCaja, BigInteger idHistorialCaja) {
 		Caja caja = cajaDAO.find(idCaja);
 		if (caja == null)
@@ -1068,7 +1147,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		if (idAgencia == null) {
 			list = cajaViewDAO.findAll();
 		} else {
-			//QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);
+			// QueryParameter queryParameter = QueryParameter.with("idAgencia",
+			// idAgencia);
 			Collection<CajaView> a = cajaViewDAO.findByNamedQuery(CajaView.findByIdAgencia);
 			list = new ArrayList<CajaView>(a);
 		}
@@ -1094,7 +1174,5 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			return null;
 		}
 	}
-
-	
 
 }

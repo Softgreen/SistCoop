@@ -42,11 +42,12 @@ define(['../../module'], function (controllers) {
             };
 
             $scope.buscar = function($event){
-                if(!angular.isUndefined){
+                if(!angular.isUndefined($event))
                     $event.preventDefault();
+                if(!angular.isUndefined($scope.view.numeroCheque)){
+                    $scope.buscarCheque();
+                    $scope.buscarCuentaBancaria();
                 }
-                $scope.buscarCheque();
-                $scope.buscarCuentaBancaria();
             };
 
 

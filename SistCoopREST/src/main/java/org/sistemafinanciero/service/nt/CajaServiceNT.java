@@ -22,6 +22,7 @@ import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.dto.ResumenOperacionesCaja;
 import org.sistemafinanciero.entity.dto.VoucherCompraVenta;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBancaria;
+import org.sistemafinanciero.entity.dto.VoucherTransaccionCheque;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCuentaAporte;
 import org.sistemafinanciero.entity.dto.VoucherTransferenciaBancaria;
 
@@ -68,6 +69,8 @@ public interface CajaServiceNT extends AbstractServiceNT<Caja> {
 
 	public VoucherCompraVenta getVoucherCompraVenta(BigInteger idTransaccionCompraVenta);
 
+	public VoucherTransaccionCheque getVoucherTransaccionCheque(BigInteger idTransaccionCheque);
+	
 	public Set<PendienteCaja> getPendientes(BigInteger idCaja, BigInteger idHistorialCaja);
 
 	public List<HistorialTransaccionCaja> getHistorialTransaccion(BigInteger idCaja, BigInteger idHistorial, String filterText);

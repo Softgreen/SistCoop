@@ -948,7 +948,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		PersonaNatural natural = trabajador.getPersonaNatural();
 
 		// obteniendo saldo disponible de cuenta
-		BigDecimal saldoDisponible = cuentaBancaria.getSaldo().add(monto);
+		BigDecimal saldoDisponible = cuentaBancaria.getSaldo().subtract(monto.abs());
 		if (saldoDisponible.compareTo(BigDecimal.ZERO) == -1) {
 			throw new RollbackFailureException("Saldo insuficiente para transaccion");
 		} else {
@@ -984,7 +984,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		chequeDAO.update(cheque);
 		
 		// actualizar saldo caja
-		this.actualizarSaldoCaja(monto, cuentaBancaria.getMoneda().getIdMoneda());
+		this.actualizarSaldoCaja(monto.abs().negate(), cuentaBancaria.getMoneda().getIdMoneda());
 
 		return transaccionCheque.getIdTransaccionCheque();
 	}

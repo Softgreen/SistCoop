@@ -42,6 +42,7 @@ import org.sistemafinanciero.entity.dto.VoucherCompraVenta;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBancaria;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionBovedaCaja;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCajaCaja;
+import org.sistemafinanciero.entity.dto.VoucherTransaccionCheque;
 import org.sistemafinanciero.entity.dto.VoucherTransaccionCuentaAporte;
 import org.sistemafinanciero.entity.dto.VoucherTransferenciaBancaria;
 import org.sistemafinanciero.exception.NonexistentEntityException;
@@ -248,6 +249,12 @@ public class CajaRESTService implements CajaREST {
 	}
 
 	@Override
+	public Response getVoucherCheque(BigInteger idTransaccionCheque) {
+		VoucherTransaccionCheque voucher = cajaServiceNT.getVoucherTransaccionCheque(idTransaccionCheque);
+		return Response.status(Response.Status.OK).entity(voucher).build();
+	}
+	
+	@Override
 	public Response getVoucherTransaccionBovedaCaja(BigInteger idTransaccionBovedaCaja) {
 		VoucherTransaccionBovedaCaja voucher = transaccionInternaServiceNT.getVoucherTransaccionBovedaCaja(idTransaccionBovedaCaja);
 		return Response.status(Response.Status.OK).entity(voucher).build();
@@ -348,5 +355,7 @@ public class CajaRESTService implements CajaREST {
 		}
 		return response;
 	}
+
+	
 
 }
