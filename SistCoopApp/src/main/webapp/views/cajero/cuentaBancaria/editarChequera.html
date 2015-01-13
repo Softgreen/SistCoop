@@ -1,71 +1,60 @@
 <div ng-controller="EditarChequeraController">
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title" style="font-weight: bold;">Datos de la chequera</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Cantidad</label>
-                                <span ng-bind="chequera.cantidad"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Numero inicio</label>
-                                <span ng-bind="chequera.numeroInicio"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Numero fin</label>
-                                <span ng-bind="chequera.numeroFin"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>Fecha disponible</label>
-                                <span ng-bind="chequera.fechaDisponible | date:'dd/MM/yyyy'"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>Fecha expiracion</label>
-                                <span ng-bind="chequera.fechaExpiracion | date:'dd/MM/yyyy'"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>Estado</label>
-                                <span ng-bind="chequera.estado"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title" style="font-weight: bold;">Datos de la
+						Chequera</h3>
+				</div>
+				<table class="table table-condensed">
+					<tr>
+						<td colspan="1" style="font-size: 12px;"><strong>Cantidad:</strong></td>
+						<td colspan="3" style="font-size: 12px;"><span
+							ng-bind="chequera.cantidad"></span></td>
+					</tr>
+					<tr>
+						<td colspan="1" style="font-size: 12px;"><strong>N&#176;
+								Inicio:</strong></td>
+						<td colspan="1" style="font-size: 12px;"><span
+							ng-bind="chequera.numeroInicio"></span></td>
+						<td colspan="1" style="font-size: 12px;"><strong>N&#176;
+								Fin:</strong></td>
+						<td colspan="1" style="font-size: 12px;"><span
+							ng-bind="chequera.numeroFin"></span></td>
+					</tr>
+					<tr>
+						<td colspan="1" style="font-size: 12px;"><strong>Fecha
+								Apertura:</strong></td>
+						<td colspan="1" style="font-size: 12px;"><span
+							ng-bind="chequera.fechaDisponible | date:'dd/MM/yyyy'"></span></td>
+						<td colspan="1" style="font-size: 12px;"><strong>Fecha
+								Expiraci&#243;n:</strong></td>
+						<td colspan="1" style="font-size: 12px;"><span
+							ng-bind="chequera.fechaExpiracion | date:'dd/MM/yyyy'"></span></td>
+					</tr>
+					<tr>
+						<td colspan="1" style="font-size: 12px;"><strong>Estado:</strong></td>
+						<td colspan="3" style="font-size: 12px;"><span
+							ng-bind-template="{{chequera.estado ? 'ACTIVO' : 'INACTIVO'}}"></span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 
-    <div class="row">
-        <div class="col-sm-12">
+	<div class="row">
+        <div class="col-sm-7">
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
                 <tr>
-                    <td>Numero Cheque</td>
-                    <td>Estado</td>
+                    <td style="font-size: 12px;"><strong>N&#250;mero Cheque</strong></td>
+                    <td style="font-size: 12px;"><strong>Estado</strong></td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in cheques | orderBy: 'numeroCheque' ">
-                    <td>{{item.numeroCheque}}</td>
-                    <td>{{item.estado}}</td>
+                    <td style="font-size: 12px;">{{item.numeroCheque}}</td>
+                    <td style="font-size: 12px;">{{item.estado}}</td>
                 </tr>
                 </tbody>
             </table>
