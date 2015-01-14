@@ -19,6 +19,7 @@ define([
     './caja/VoucherTransaccionAporteController',
     './caja/VoucherTransferenciaBancariaController',
     './caja/VoucherCompraVentaController',
+    './caja/VoucherTransaccionChequeController',
     './caja/HistorialCajaController',
 
     './caja/transaccion/CrearTransaccionDepositoRetiroController',

@@ -119,7 +119,7 @@ public interface CajaREST {
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	public Response getVoucherTransaccionBancaria(@PathParam("id") BigInteger idTransaccionTransaccionBancaria);
-	
+
 	@GET
 	@Path("/voucherTransferenciaBancaria/{id}")
 	@Consumes({ "application/xml", "application/json" })
@@ -132,7 +132,6 @@ public interface CajaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response getVoucherCheque(@PathParam("id") BigInteger idTransaccionCheque);
 
-	
 	@GET
 	@Path("/voucherTransaccionBovedaCaja/{id}")
 	@Produces({ "application/xml", "application/json" })
@@ -162,12 +161,12 @@ public interface CajaREST {
 	@Path("/{id}/trabajadores/{idTrabajador}")
 	@Produces({ "application/xml", "application/json" })
 	public Response deleteTrabajador(@PathParam("id") BigInteger idCaja, @PathParam("idTrabajador") BigInteger idTrabajador);
-	
+
 	@POST
 	@Path("/{id}/abrir")
 	@Produces({ "application/xml", "application/json" })
 	public Response abrirCaja(@PathParam("id") BigInteger idCaja);
-	
+
 	@POST
 	@Path("/{id}/congelar")
 	@Produces({ "application/xml", "application/json" })

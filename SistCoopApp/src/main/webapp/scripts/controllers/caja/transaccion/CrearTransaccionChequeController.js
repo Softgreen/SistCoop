@@ -120,8 +120,7 @@ define(['../../module'], function (controllers) {
                         function(data){
                             $scope.control.success = true;
                             $scope.control.inProcess = false;
-                            alert("La transaccion fue realizada con exito");
-                            $state.transitionTo('app.transaccion.cheque');
+                            $state.transitionTo('app.transaccion.chequeVoucher', {id: data.id});
                         },
                         function error(error){
                             $scope.control.inProcess = false;
