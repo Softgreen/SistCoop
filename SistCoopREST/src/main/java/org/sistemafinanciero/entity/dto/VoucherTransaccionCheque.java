@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
-import org.sistemafinanciero.entity.type.Tipotransaccionbancaria;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
@@ -25,68 +24,64 @@ public class VoucherTransaccionCheque implements java.io.Serializable {
 
 	@XmlElement
 	private BigInteger idTransaccionBancaria;
-	
+
 	@XmlElement
 	private Moneda moneda;
-	
+
 	@XmlElement
 	private TipoCuentaBancaria tipoCuentaBancaria;
-	
+
 	@XmlElement
 	private String numeroCuenta;
-	
+
+	@XmlElement
+	private String numeroCheque;
+
 	@XmlElement
 	private Date fecha;
-	
+
 	@XmlElement
 	private Date hora;
-	
+
 	@XmlElement
 	private BigInteger numeroOperacion;
-	
+
 	@XmlElement
 	private BigDecimal monto;
-	
-	@XmlElement
-	private String referencia;
-	
+
 	@XmlElement
 	private BigDecimal saldoDisponible;
-	
-	@XmlElement
-	private Tipotransaccionbancaria tipoTransaccion;
-	
+
 	@XmlElement
 	private String observacion;
 
 	@XmlElement
 	private String agenciaAbreviatura;
-	
+
 	@XmlElement
 	private String agenciaDenominacion;
-	
+
 	@XmlElement
 	private String cajaDenominacion;
-	
+
 	@XmlElement
 	private String cajaAbreviatura;
 
 	@XmlElement
 	private BigInteger idSocio;
-	
+
 	@XmlElement
 	private TipoDocumento tipoDocumento;
-	
+
 	@XmlElement
 	private String numeroDocumento;
-	
+
 	@XmlElement
 	private String socio;
 
-	
 	@XmlElement
 	private String titulares;
-	
+
 	public BigInteger getIdTransaccionBancaria() {
 		return idTransaccionBancaria;
 	}
@@ -151,28 +146,12 @@ public class VoucherTransaccionCheque implements java.io.Serializable {
 		this.monto = monto;
 	}
 
-	public String getReferencia() {
-		return referencia;
-	}
-
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-
 	public BigDecimal getSaldoDisponible() {
 		return saldoDisponible;
 	}
 
 	public void setSaldoDisponible(BigDecimal saldoDisponible) {
 		this.saldoDisponible = saldoDisponible;
-	}
-
-	public Tipotransaccionbancaria getTipoTransaccion() {
-		return tipoTransaccion;
-	}
-
-	public void setTipoTransaccion(Tipotransaccionbancaria tipoTransaccion) {
-		this.tipoTransaccion = tipoTransaccion;
 	}
 
 	public String getObservacion() {
@@ -253,5 +232,13 @@ public class VoucherTransaccionCheque implements java.io.Serializable {
 
 	public void setTitulares(String titulares) {
 		this.titulares = titulares;
+	}
+
+	public String getNumeroCheque() {
+		return numeroCheque;
+	}
+
+	public void setNumeroCheque(String numeroCheque) {
+		this.numeroCheque = numeroCheque;
 	}
 }

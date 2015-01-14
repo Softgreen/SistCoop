@@ -1050,6 +1050,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		Hibernate.initialize(moneda);
 		voucherTransaccion.setMoneda(moneda);
 
+		voucherTransaccion.setNumeroCheque(cheque.getNumeroChequeUnico().toString());
+		
 		voucherTransaccion.setFecha(transaccionCheque.getFecha());
 		voucherTransaccion.setHora(transaccionCheque.getHora());
 		voucherTransaccion.setNumeroOperacion(transaccionCheque.getNumeroOperacion());
