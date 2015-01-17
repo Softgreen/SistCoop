@@ -43,18 +43,18 @@
 	</div>
 
 	<div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-6">
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
                 <tr>
-                    <td style="font-size: 12px;"><strong>N&#250;mero Cheque</strong></td>
+                    <td style="font-size: 12px; width: 130px;"><strong>N&#250;mero Cheque</strong></td>
                     <td style="font-size: 12px;"><strong>Estado</strong></td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in cheques | orderBy: 'numeroCheque' ">
                     <td style="font-size: 12px;">{{item.numeroCheque}}</td>
-                    <td style="font-size: 12px;">{{item.estado}}</td>
+                    <td style="font-size: 12px;">{{item.estado == "COBRADO" ? 'C' : 'PC'}}</td>
                 </tr>
                 </tbody>
             </table>

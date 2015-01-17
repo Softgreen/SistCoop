@@ -3,6 +3,18 @@ define(['../../module'], function (controllers) {
     controllers.controller('CrearTransaccionChequeController', ["$scope", "$state", "$window", "$filter", "$modal","focus","CuentaBancariaService","SessionService","MonedaService",
         function($scope, $state, $window, $filter, $modal,focus, CuentaBancariaService, SessionService, MonedaService) {
 
+    		$scope.focusElements = {
+                numeroCheque: 'focusNumeroCheque'
+            };
+    		
+            $scope.setInitialFocus = function($event){
+                if(!angular.isUndefined($event))
+                    $event.preventDefault();
+                focus($scope.focusElements.numeroCheque);
+            };
+            
+            $scope.setInitialFocus();
+    		
             $scope.view = {
                 numeroCheque: undefined,
                 monto: undefined,

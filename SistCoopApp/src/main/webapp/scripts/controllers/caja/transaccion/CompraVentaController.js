@@ -14,6 +14,7 @@ define(['../../module'], function (controllers) {
                 linkEditar:'focusLinkEditar',
                 tasaInteres: 'focusTasaInteresEdited'
             };
+            
             $scope.setInitialFocus = function($event){
                 if(!angular.isUndefined($event))
                     $event.preventDefault();

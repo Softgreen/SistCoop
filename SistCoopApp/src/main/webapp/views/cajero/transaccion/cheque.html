@@ -12,16 +12,16 @@
                 <div class="col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="font-weight: bold;">Datos de la transaccion</h3>
+                            <h3 class="panel-title" style="font-weight: bold;">Datos de la Transacci&#243;n</h3>
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group" ng-class="{ 'has-error' : form.numeroCheque.$invalid && (control.submitted || form.numeroCheque.$dirty)}">
-                                        <label>N&uacute;mero cheque</label>
+                                        <label>N&uacute;mero Cheque</label>
                                         <label style="color: brown;">(*)</label>
                                         <div class="input-group">
-                                            <input focus-on="focusNumeroCheque" type="text" name="numeroCheque" ng-model="view.numeroCheque" ui-keypress="{13:'buscar($event)'}" class="form-control" placeholder="N&uacute;mero de cheque" required/>
+                                            <input focus-on="focusNumeroCheque" type="text" name="numeroCheque" ng-model="view.numeroCheque" ui-keypress="{13:'buscar($event)'}" class="form-control" placeholder="N&uacute;mero de Cheque" required/>
                                               <span class="input-group-btn">
                                                 <button focus-on="focusBuscarCheque" type="button" class="btn btn-default" ng-click="buscar()" autofocus>
                                                     <span class="glyphicon glyphicon-search"></span>
@@ -39,7 +39,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Numero cheque</label>
+                                        <label>N&#250;mero Cheque</label>
                                         <h4><span ng-bind="cheque.numeroCheque"></span></h4>
                                     </div>
                                 </div>
@@ -53,9 +53,9 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group" ng-class="{ 'has-error' : form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)}">
-                                        <label>T. documento</label>
+                                        <label>Tipo Documento</label>
                                         <label style="color: brown;">(*)</label>
-                                        <input type="text" name="tipoDocumento" ng-model="view.tipoDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="Tipo documento" required/>
+                                        <input type="text" name="tipoDocumento" ng-model="view.tipoDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="Tipo Documento" capitalize required/>
                                         <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)">
                                             <p class="help-block" ng-show="form.tipoDocumento.$error.required">
                                                 Ingrese tipo documento.
@@ -71,9 +71,9 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumento.$invalid && (control.submitted || form.monto.$dirty)}">
-                                        <label>Num. doc.</label>
+                                        <label>N&#250;mero Documento</label>
                                         <label style="color: brown;">(*)</label>
-                                        <input type="text" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="Numero documento" required/>
+                                        <input type="text" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="N&#250;mero documento" required/>
                                         <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)">
                                             <p class="help-block" ng-show="form.numeroDocumento.$error.required">
                                                 Ingrese numero documento.
