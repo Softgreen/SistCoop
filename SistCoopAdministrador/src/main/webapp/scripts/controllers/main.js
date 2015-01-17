@@ -21,6 +21,19 @@ define([
     './persona/juridica/CrearPersonaJuridicaController',
     './persona/juridica/EditarPersonaJuridicaController',
 
+    './cuentaBancaria/BeneficiarioController',
+    './cuentaBancaria/TitularController',
+    './cuentaBancaria/BuscarCuentaBancariaController',
+    './cuentaBancaria/EditarCuentaBancariaController',
+    './cuentaBancaria/BuscarCuentaBancariaPopUpController',
+    './cuentaBancaria/BeneficiarioPopUpController',
+    './cuentaBancaria/TitularPopUpController',
+    './cuentaBancaria/FirmasCuentaBancariaController',
+    './cuentaBancaria/RecalcularPlazoFijoController',
+    './cuentaBancaria/RenovarPlazoFijoController',
+    './cuentaBancaria/CrearChequeraController',
+    './cuentaBancaria/EditarChequeraController',
+
     './util/ConfirmPopUpController',
     './util/LoadImageController',
     './util/UbigeoController'

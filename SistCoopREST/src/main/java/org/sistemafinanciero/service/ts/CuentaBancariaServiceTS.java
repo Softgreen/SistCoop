@@ -46,8 +46,13 @@ public interface CuentaBancariaServiceTS extends AbstractServiceTS<CuentaBancari
 	public void deleteTitular(BigInteger idTitular) throws NonexistentEntityException, RollbackFailureException;
 
 	/**
-	 * Chequera*/
-	
+	 * Chequera
+	 */
+
 	public BigInteger crearChequera(BigInteger idCuentaBancaria, int cantidad) throws NonexistentEntityException, RollbackFailureException;
+
+	public void desactivarChequera(BigInteger idChequera) throws NonexistentEntityException, RollbackFailureException;
+
+	public void desactivarCheque(BigInteger numeroChequeUnico) throws NonexistentEntityException, RollbackFailureException;
 
 }

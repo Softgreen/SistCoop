@@ -1055,6 +1055,38 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		}
 		return response;
 	}
+	
+	@Override
+	public Response desactivarChequera(BigInteger idCuentaBancaria, BigInteger idChequera) {
+		Response response;
+		try {
+			cuentaBancariaServiceTS.desactivarChequera(idChequera);
+			response = Response.ok().build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
+
+	@Override
+	public Response desactivarCheque(BigInteger idCuentaBancaria, BigInteger numeroChequeUnico) {
+		Response response;
+		try {
+			cuentaBancariaServiceTS.desactivarCheque(numeroChequeUnico);
+			response = Response.ok().build();
+		} catch (NonexistentEntityException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.NOT_FOUND).entity(jsend).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
 
 	@Override
 	public Response getChequesOfChequera(BigInteger idCuentaBancaria, BigInteger idChequera) {
@@ -1096,5 +1128,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			return Response.status(Status.NO_CONTENT).build();
 		}
 	}
+
+
 
 }

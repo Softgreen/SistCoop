@@ -122,6 +122,24 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.socio', {
+                    url: "/socio",
+                    views: {
+                        "viewMenu":{
+                            controller: function($scope){
+                                $scope.menus = [
+                                    {'name':'Cuentas Bancarias', submenus:[
+                                        { 'name':'Buscar' , 'state':'app.socio.buscarCuentaBancaria'}
+                                    ]}
+                                ];
+                            }
+                        },
+                        "viewContent":{
+                            template: '<div ui-view style="min-height: 472px;"><h4 class="text-center" style="font-weight: bold; color: blue;">ADMINISTRAR CUENTAS BANCARIA</h4></div>'
+                        }
+                    }
+                })
+
 
                 .state('app.sucursal.nuevaSucursal', {
                     url: '/nuevo',
@@ -214,6 +232,26 @@ define(['./app'], function(app) {
                     templateUrl: "views/administrador/persona/juridica/editarPersonaJuridica.html",
                     controller: function($scope, $stateParams) {
                         $scope.id = $stateParams.id;
+                    }
+                })
+
+                .state('app.socio.buscarCuentaBancaria', {
+                    url: "/buscarCuentaBancaria",
+                    templateUrl: "views/administrador/cuentaBancaria/buscarCuentaBancaria.html"
+                })
+                .state('app.socio.editarCuentaBancaria', {
+                    url: "/cuentaBancaria/:id",
+                    templateUrl: "views/administrador/cuentaBancaria/editarCuentaBancaria.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                    }
+                })
+                .state('app.socio.editarChequera', {
+                    url: "/chequera/cuenta/:idCuentaBancaria/{id:[0-9]{1,8}}",
+                    templateUrl: "views/administrador/cuentaBancaria/editarChequera.html",
+                    controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                        $scope.idCuentaBancaria = $stateParams.idCuentaBancaria;
                     }
                 });
         }

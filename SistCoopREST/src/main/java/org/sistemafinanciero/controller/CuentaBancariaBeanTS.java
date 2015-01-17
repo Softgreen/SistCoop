@@ -562,4 +562,43 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 		return chequera.getIdChequera();
 	}
 
+	@Override
+	public void desactivarChequera(BigInteger idChequera) throws NonexistentEntityException, RollbackFailureException {
+		Chequera chequera = chequeraDAO.find(idChequera);
+		if (chequera == null)
+			throw new NonexistentEntityException("Chequera no encontrada");
+		
+		Calendar calendar = Calendar.getInstance();
+		Set<Cheque> cheques = chequera.getCheques();
+		for (Cheque cheque : cheques) {
+			if(!cheque.getEstado().equals(EstadoCheque.COBRADO)){
+				cheque.setEstado(EstadoCheque.ANULADO);
+				cheque.setFechaCambioEstado(calendar.getTime());
+				chequeDAO.update(cheque);
+			}
+		}
+		
+		chequera.setEstado(false);
+		chequeraDAO.update(chequera);
+	}
+
+	@Override
+	public void desactivarCheque(BigInteger numeroChequeUnico) throws NonexistentEntityException, RollbackFailureException {
+		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", numeroChequeUnico);
+		List<Cheque> list = chequeDAO.findByNamedQuery(Cheque.findChequeByNumeroChequeUnico, queryParameter.parameters());
+		Cheque cheque = null;
+		for (Cheque item : list) {
+			cheque = item;
+			break;
+		}		
+		
+		if(cheque == null)
+			throw new NonexistentEntityException("Cheque no encontrado");
+		
+		Calendar calendar = Calendar.getInstance();
+		cheque.setEstado(EstadoCheque.ANULADO);
+		cheque.setFechaCambioEstado(calendar.getTime());
+		chequeDAO.update(cheque);
+	}
+
 }

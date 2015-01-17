@@ -147,16 +147,6 @@
                         <div class="col-md-7" style="font-weight: bold;">Titulares&nbsp;
                         <span ng-cloak ng-show="control.titular.success" ng-bind-html="control.titular.message"></span>
                         </div>
-                        <div ng-if="titulares" class="col-md-5">
-                            <div class="text-right">
-                                <button type="button" ng-click="goToFirmas()" class="btn btn-link" style="padding: 0px 12px;">
-                                     Firmas
-                                </button>
-                                <button type="button" ng-click="addTitular()" class="btn btn-link" style="padding: 0px 12px;">
-                                    Nuevo
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="panel-body" ng-show="!titulares.length">
@@ -167,10 +157,6 @@
                     <tr ng-repeat="titular in titulares">
                         <td style="font-size: 12px;"><span ng-bind-template="{{titular.personaNatural.tipoDocumento.abreviatura}}/{{titular.personaNatural.numeroDocumento}}"></span></td>
                         <td style="font-size: 12px;"><span ng-bind-template="{{titular.personaNatural.apellidoPaterno}} {{titular.personaNatural.apellidoMaterno}}, {{titular.personaNatural.nombres}}"></span></td>
-                        <td>
-                            <button type="button" class="btn btn-info btn-xs" ng-click="editTitular($index)"><span class="glyphicon glyphicon-share"></span>Edit</button>
-                            <button type="button" class="btn btn-danger btn-xs" ng-click="deleteTitular($index)"><span class="glyphicon glyphicon-remove"></span>Del</button>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -185,13 +171,6 @@
                             Beneficiarios&nbsp;
                             <span ng-cloak ng-show="control.beneficiario.success" ng-bind-html="control.beneficiario.message"></span>
                         </div>
-                        <div class="col-md-4">
-                            <div class="text-right">
-                                <button type="button" ng-click="addBeneficiario()" class="btn btn-link" style="padding: 0px 12px;">
-                                    Nuevo
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="panel-body" ng-show="!beneficiarios.length">
@@ -205,10 +184,6 @@
                         <td style="font-size: 12px;">
                         	<span ng-bind="beneficiario.porcentajeBeneficio"></span>
                         	<span>%</span>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-info btn-xs" ng-click="editBeneficiario($index)"><span class="glyphicon glyphicon-share"></span>Edit</button>
-                            <button type="button" class="btn btn-danger btn-xs" ng-click="deleteBeneficiario($index)"><span class="glyphicon glyphicon-remove"></span>Del</button>
                         </td>
                     </tr>
                     </tbody>
@@ -247,66 +222,13 @@
                         <td style="font-size: 12px; text-align: center;"><span ng-bind="item.fechaDisponible | date : 'dd/MM/yyyy'"></span></td>
                         <td style="font-size: 12px; text-align: center;"><span ng-bind="item.fechaExpiracion | date : 'dd/MM/yyyy'"></span></td>
                         <td style="font-size: 12px; text-align: center;"><span ng-bind-template="{{item.estado ? 'ACTIVO' : 'INACTIVO'}}"></span></td>
-                        <td>													
+                        <td>
                             <button type="button" class="btn btn-info btn-xs" ng-click="editChequera(item)"><span class="glyphicon glyphicon-share"></span>Edit</button>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="anularChequera(item)"><span class="glyphicon glyphicon-share"></span>Anular</button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-    <!-- estado de cuenta-->
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-9" ng-hide="estadoCuentaSearcher" ng-animate="animate-show" style="font-weight: bold;">Estado de Cuenta</div>
-                        <form ng-submit="buscarEstadoCuenta()">
-                            <div ng-animate="animate-show" ng-show="estadoCuentaSearcher">
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Desde</span>
-                                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="desde" is-open="openedDesde" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="openDesde($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Hasta</span>
-                                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="hasta" is-open="openedHasta" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="openHasta($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="submit" class="btn btn-default">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="text-right">
-                                    <button type="button" class="btn btn-link" style="padding: 0px 12px;">
-                                        Pdf
-                                    </button>
-                                    <button type="button" ng-click="changeEstadoCuentaSearcher()" class="btn btn-link" style="padding: 0px 12px;">
-                                        Buscar
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); height: 190px; font-size: 12px"></div>
-                <div class="panel-footer">
-                    Saldo Disponible:
-                    <strong ng-bind="cuentaBancaria.saldo | currency : cuentaBancaria.moneda.simbolo"></strong>
-                </div>
             </div>
         </div>
     </div>

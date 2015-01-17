@@ -49,12 +49,16 @@
                 <tr>
                     <td style="font-size: 12px;"><strong>N&#250;mero Cheque</strong></td>
                     <td style="font-size: 12px;"><strong>Estado</strong></td>
+                    <td style="font-size: 12px;"><strong>Edit</strong></td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in cheques | orderBy: 'numeroCheque' ">
                     <td style="font-size: 12px;">{{item.numeroCheque}}</td>
                     <td style="font-size: 12px;">{{item.estado}}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="anularCheque(item)" ng-if="item.estado != 'ANULADO'"><span class="glyphicon glyphicon-share"></span>Anular</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>

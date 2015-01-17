@@ -8,6 +8,12 @@ define([
     './PersonaNaturalService',
     './PersonaJuridicaService',
 
+    './CuentaBancariaService',
+    './BeneficiarioService',
+    './TitularService',
+    './SocioService',
+    './VariablesService',
+
     './MaestroService',
     './ConfiguracionService'
 ], function () {
