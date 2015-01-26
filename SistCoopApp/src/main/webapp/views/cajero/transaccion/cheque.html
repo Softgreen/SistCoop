@@ -40,13 +40,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>N&#250;mero Cheque</label>
-                                        <h4><span ng-bind="cheque.numeroCheque"></span></h4>
+                                        <h5><span style="color: blue; font-weight: bold;" ng-bind="cheque.numeroCheque"></span></h5>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Estado</label>
-                                        <h4><span ng-bind="cheque.estado"></span></h4>
+                                        <h5><span style="color: blue; font-weight: bold;" ng-bind="cheque.estado"></span></h5>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : form.persona.$invalid && (control.submitted || form.monto.$dirty)}">
                                         <label>Persona</label>
                                         <label style="color: brown;">(*)</label>
-                                        <input type="text" name="persona" ng-model="view.persona" ng-minlength="1" ng-maxlength="130" class="form-control" placeholder="persona" required/>
+                                        <input type="text" name="persona" ng-model="view.persona" ng-minlength="1" ng-maxlength="130" class="form-control" placeholder="Persona" capitalize required/>
                                         <div ng-show="form.persona.$invalid && (control.submitted || form.monto.$dirty)">
                                             <p class="help-block" ng-show="form.persona.$error.required">
                                                 Ingrese persona.
@@ -150,7 +150,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group" ng-class="{ 'has-error' : form.observacion.$invalid && form.submitted}">
-                                        <label>Observacion</label>
+                                        <label>Observaci&#243;n</label>
                                         <textarea name="observacion" class="form-control" rows="3" ng-model="view.observacion" placeholder="Observacion"></textarea>
                                     </div>
                                 </div>

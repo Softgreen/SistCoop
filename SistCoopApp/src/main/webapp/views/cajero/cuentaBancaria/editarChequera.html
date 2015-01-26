@@ -54,7 +54,7 @@
                 <tbody>
                 <tr ng-repeat="item in cheques | orderBy: 'numeroCheque' ">
                     <td style="font-size: 12px;">{{item.numeroCheque}}</td>
-                    <td style="font-size: 12px;">{{item.estado == "COBRADO" ? 'C' : 'PC'}}</td>
+                    <td style="font-size: 12px;">{{item.estado}}</td>
                 </tr>
                 </tbody>
             </table>
