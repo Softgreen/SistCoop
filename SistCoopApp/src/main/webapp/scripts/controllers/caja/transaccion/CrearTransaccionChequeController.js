@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    controllers.controller('CrearTransaccionChequeController', ["$scope", "$state", "$window", "$filter", "$modal","focus","CuentaBancariaService","SessionService","MonedaService",
-        function($scope, $state, $window, $filter, $modal,focus, CuentaBancariaService, SessionService, MonedaService) {
+    controllers.controller('CrearTransaccionChequeController', ["$scope", "$state", "$window", "$filter", "$modal","focus","CuentaBancariaService","SessionService","MonedaService", "PersonaNaturalService",
+        function($scope, $state, $window, $filter, $modal,focus, CuentaBancariaService, SessionService, MonedaService, PersonaNaturalService) {
 
     		$scope.focusElements = {
                 numeroCheque: 'focusNumeroCheque'
@@ -14,11 +14,25 @@ define(['../../module'], function (controllers) {
             };
             
             $scope.setInitialFocus();
-    		
+
+            $scope.combo = {
+                tipoDocumentos: undefined
+            };
+
+            $scope.loadTipoDocumento = function(){
+                PersonaNaturalService.getTipoDocumentos().then(function(data){
+                    $scope.combo.tipoDocumentos = data;
+                });
+            };
+            $scope.loadTipoDocumento();
+
             $scope.view = {
                 numeroCheque: undefined,
                 monto: undefined,
-                observacion: undefined
+                observacion: undefined,
+                tipoDocumento: undefined,
+                numeroDocumento: undefined,
+                persona: undefined
             };
 
             $scope.control = {
@@ -59,6 +73,20 @@ define(['../../module'], function (controllers) {
                 if(!angular.isUndefined($scope.view.numeroCheque)){
                     $scope.buscarCheque();
                     $scope.buscarCuentaBancaria();
+                }
+            };
+            $scope.buscarPersona = function($event){
+                if(!angular.isUndefined($event))
+                    $event.preventDefault();
+                if(!angular.isUndefined($scope.view.numeroDocumento) && !angular.isUndefined($scope.view.tipoDocumento) ){
+                    PersonaNaturalService.findByTipoNumeroDocumento($scope.view.tipoDocumento.id, $scope.view.numeroDocumento).then(
+                        function(data){
+                            if(!angular.isUndefined(data))
+                                $scope.view.persona = data.apellidoPaterno +" "+ data.apellidoMaterno + " " + data.nombres;
+                            else
+                                $scope.view.persona = undefined;
+                        }
+                    );
                 }
             };
 
@@ -123,7 +151,7 @@ define(['../../module'], function (controllers) {
                         "numeroChequeUnico" : $scope.view.numeroCheque,
                         "monto": (Math.abs(parseFloat($scope.view.monto.toString()))),
                         "observacion": $scope.view.observacion,
-                        "tipoDocumento": $scope.view.tipoDocumento,
+                        "tipoDocumento": $scope.view.tipoDocumento.abreviatura,
                         "numeroDocumento": $scope.view.numeroDocumento,
                         "persona": $scope.view.persona
                     };
