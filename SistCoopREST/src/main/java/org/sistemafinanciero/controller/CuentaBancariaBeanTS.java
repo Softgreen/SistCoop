@@ -600,5 +600,48 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 		cheque.setFechaCambioEstado(calendar.getTime());
 		chequeDAO.update(cheque);
 	}
+	
+	@Override
+	public void congelarCheque(BigInteger numeroChequeUnico) throws NonexistentEntityException, RollbackFailureException {
+		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", numeroChequeUnico);
+		List<Cheque> list = chequeDAO.findByNamedQuery(Cheque.findChequeByNumeroChequeUnico, queryParameter.parameters());
+		Cheque cheque = null;
+		for (Cheque item : list) {
+			cheque = item;
+			break;
+		}		
+		
+		if(cheque == null)
+			throw new NonexistentEntityException("Cheque no encontrado");
+		
+		if(!cheque.getEstado().equals(EstadoCheque.POR_COBRAR))
+			throw new RollbackFailureException("Cheque debe estar en estado POR_COBRAR.");
+		
+		Calendar calendar = Calendar.getInstance();
+		cheque.setEstado(EstadoCheque.CONGELADO);
+		cheque.setFechaCambioEstado(calendar.getTime());
+		chequeDAO.update(cheque);
+	}
+	
+	@Override
+	public void descongelarCheque(BigInteger numeroChequeUnico) throws NonexistentEntityException, RollbackFailureException {
+		QueryParameter queryParameter = QueryParameter.with("numeroChequeUnico", numeroChequeUnico);
+		List<Cheque> list = chequeDAO.findByNamedQuery(Cheque.findChequeByNumeroChequeUnico, queryParameter.parameters());
+		Cheque cheque = null;
+		for (Cheque item : list) {
+			cheque = item;
+			break;
+		}		
+		
+		if(cheque == null)
+			throw new NonexistentEntityException("Cheque no encontrado");
+		if(!cheque.getEstado().equals(EstadoCheque.CONGELADO))
+			throw new RollbackFailureException("Cheque debe estar en estado CONGELADO.");
+			
+		Calendar calendar = Calendar.getInstance();
+		cheque.setEstado(EstadoCheque.POR_COBRAR);
+		cheque.setFechaCambioEstado(calendar.getTime());
+		chequeDAO.update(cheque);
+	}
 
 }

@@ -223,8 +223,12 @@
                         <td style="font-size: 12px; text-align: center;"><span ng-bind="item.fechaExpiracion | date : 'dd/MM/yyyy'"></span></td>
                         <td style="font-size: 12px; text-align: center;"><span ng-bind-template="{{item.estado ? 'ACTIVO' : 'INACTIVO'}}"></span></td>
                         <td>
-                            <button type="button" class="btn btn-info btn-xs" ng-click="editChequera(item)"><span class="glyphicon glyphicon-share"></span>Edit</button>
-                            <button type="button" class="btn btn-danger btn-xs" ng-click="anularChequera(item)"><span class="glyphicon glyphicon-share"></span>Anular</button>
+                            <button type="button" class="btn btn-info btn-xs" ng-click="editChequera(item)">
+                                <span class="glyphicon glyphicon-share"></span>Edit
+                            </button>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="anularChequera(item)" ng-if="item.estado == true">
+                                <span class="glyphicon glyphicon-share"></span>Anular
+                            </button>
                         </td>
                     </tr>
                     </tbody>

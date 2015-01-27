@@ -176,6 +176,16 @@ public interface CuentaBancariaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response desactivarCheque(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("numeroChequeUnico") BigInteger numeroChequeUnico);
 
+	@POST
+	@Path("/{id}/cheques/{numeroChequeUnico}/congelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response congelarCheque(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("numeroChequeUnico") BigInteger numeroChequeUnico);
+
+	@POST
+	@Path("/{id}/cheques/{numeroChequeUnico}/descongelar")
+	@Produces({ "application/xml", "application/json" })
+	public Response descongelarCheque(@PathParam("id") BigInteger idCuentaBancaria, @PathParam("numeroChequeUnico") BigInteger numeroChequeUnico);
+
 	
 	/**
 	 * Cheque

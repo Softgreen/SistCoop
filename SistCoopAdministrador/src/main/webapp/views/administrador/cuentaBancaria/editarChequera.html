@@ -57,7 +57,15 @@
                     <td style="font-size: 12px;">{{item.numeroCheque}}</td>
                     <td style="font-size: 12px;">{{item.estado}}</td>
                     <td>
-                        <button type="button" class="btn btn-danger btn-xs" ng-click="anularCheque(item)" ng-if="item.estado != 'ANULADO'"><span class="glyphicon glyphicon-share"></span>Anular</button>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="congelarCheque(item)" ng-if="item.estado == 'POR_COBRAR'">
+                            <span class="glyphicon glyphicon-share"></span>Congelar
+                        </button>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="descongelarCheque(item)" ng-if="item.estado == 'CONGELADO'">
+                            <span class="glyphicon glyphicon-share"></span>Descongelar
+                        </button>
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="anularCheque(item)" ng-if="item.estado == 'POR_COBRAR' || item.estado == 'CONGELADO'">
+                            <span class="glyphicon glyphicon-share"></span>Anular
+                        </button>
                     </td>
                 </tr>
                 </tbody>

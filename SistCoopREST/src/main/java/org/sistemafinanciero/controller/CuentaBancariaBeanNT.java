@@ -267,9 +267,14 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 			return null;
 		}
 		
-		QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", idCuentaBancaria).and("estado", true);
-		List<Chequera> list = chequeraDAO.findByNamedQuery(Chequera.findChequeraByEstado, queryParameter.parameters());
-		return list;
+		QueryParameter queryParameter1 = QueryParameter.with("idCuentaBancaria", idCuentaBancaria).and("estado", true);
+		QueryParameter queryParameter2 = QueryParameter.with("idCuentaBancaria", idCuentaBancaria).and("estado", false);
+		
+		List<Chequera> list1 = chequeraDAO.findByNamedQuery(Chequera.findChequeraByEstado, queryParameter1.parameters());
+		List<Chequera> list2 = chequeraDAO.findByNamedQuery(Chequera.findChequeraByEstado, queryParameter2.parameters());
+		
+		list1.addAll(list2);
+		return list1;
 	}
 
 	@Override

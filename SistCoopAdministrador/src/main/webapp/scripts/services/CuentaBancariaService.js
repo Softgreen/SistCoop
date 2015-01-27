@@ -131,6 +131,12 @@ define(['./module'], function (services) {
                 anularCheque: function(idCuentaBancaria, numeroChequeUnico){
                     return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/cheques/"+numeroChequeUnico+"/desactivar").post();
                 },
+                congelarCheque: function(idCuentaBancaria, numeroChequeUnico){
+                    return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/cheques/"+numeroChequeUnico+"/congelar").post();
+                },
+                descongelarCheque: function(idCuentaBancaria, numeroChequeUnico){
+                    return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/cheques/"+numeroChequeUnico+"/descongelar").post();
+                },
                 getCheques: function(idCuentaBancaria, idChequera){
                     return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/chequeras/"+idChequera+"/cheques").getList();
                 },

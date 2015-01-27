@@ -48,5 +48,31 @@ define(['../module'], function (controllers) {
                 });
             };
 
+            $scope.congelarCheque = function(cheque){
+                CuentaBancariaService.congelarCheque($scope.id, cheque.numeroChequeUnico).then(
+                    function(data){
+                        cheque.estado = "CONGELADO";
+                        $scope.alerts = [{ type: "success", msg: "Cheque congelado." }];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }, function error(error){
+                        $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
+            };
+
+            $scope.descongelarCheque = function(cheque){
+                CuentaBancariaService.descongelarCheque($scope.id, cheque.numeroChequeUnico).then(
+                    function(data){
+                        cheque.estado = "POR_COBRAR";
+                        $scope.alerts = [{ type: "success", msg: "Cheque descongelado." }];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }, function error(error){
+                        $scope.alerts = [{ type: "danger", msg: "Error:" + error.data.message +"." }];
+                        $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
+                    }
+                );
+            };
+
         }]);
 });
