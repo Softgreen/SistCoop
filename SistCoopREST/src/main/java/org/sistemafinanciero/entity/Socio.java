@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -71,8 +72,9 @@ public class Socio implements java.io.Serializable {
 		this.cuentaBancarias = cuentaBancarias;
 	}
 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="SOCIO_SEQ")
+	@SequenceGenerator(name="SOCIO_SEQ", initialValue=1, allocationSize=1, sequenceName="SOCIO_SEQ")
 	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_SOCIO", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdSocio() {

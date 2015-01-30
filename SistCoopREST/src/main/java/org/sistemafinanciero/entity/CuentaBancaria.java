@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -113,8 +114,9 @@ public class CuentaBancaria implements java.io.Serializable {
 		this.transaccionBancarias = transaccionBancarias;
 	}
 
-	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="CUENTABANCARIA_SEQ")
+	@SequenceGenerator(name="CUENTABANCARIA_SEQ", initialValue=1, allocationSize=1, sequenceName="CUENTABANCARIA_SEQ")
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_CUENTA_BANCARIA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdCuentaBancaria() {

@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -63,8 +64,9 @@ public class HistorialBoveda implements java.io.Serializable {
 	public HistorialBoveda() {
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="HISTORIALBOVEDA_SEQ")
+	@SequenceGenerator(name="HISTORIALBOVEDA_SEQ", initialValue=1, allocationSize=1, sequenceName="HISTORIALBOVEDA_SEQ")
+	@Id	
 	@Column(name = "ID_HISTORIAL_BOVEDA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdHistorialBoveda() {
 		return this.idHistorialBoveda;

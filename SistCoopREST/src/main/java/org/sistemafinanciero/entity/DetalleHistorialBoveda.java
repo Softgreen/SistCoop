@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -39,8 +40,9 @@ public class DetalleHistorialBoveda implements java.io.Serializable {
 		this.cantidad = cantidad;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="DETALLEHISTORIALBOVEDA_SEQ")
+	@SequenceGenerator(name="DETALLEHISTORIALBOVEDA_SEQ", initialValue=1, allocationSize=1, sequenceName="DETALLEHISTORIALBOVEDA_SEQ")
+	@Id	
 	@Column(name = "ID_DETALLE_HISTORIAL_BOVEDA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigDecimal getIdDetalleHistorialBoveda() {
 		return this.idDetalleHistorialBoveda;

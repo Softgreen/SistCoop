@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -65,8 +66,9 @@ public class CuentaAporte implements java.io.Serializable {
 		this.socios = socios;
 	}
 
-	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="CUENTAAPORTE_SEQ")
+	@SequenceGenerator(name="CUENTAAPORTE_SEQ", initialValue=1, allocationSize=1, sequenceName="CUENTAAPORTE_SEQ")
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_CUENTAAPORTE", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdCuentaaporte() {

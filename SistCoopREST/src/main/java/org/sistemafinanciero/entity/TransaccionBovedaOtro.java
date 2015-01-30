@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,7 +48,8 @@ public class TransaccionBovedaOtro implements java.io.Serializable {
 	public TransaccionBovedaOtro() {
 	}
 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TRANSBOVEDAOTRO_SEQ")
+	@SequenceGenerator(name="TRANSBOVEDAOTRO_SEQ", initialValue=1, allocationSize=1, sequenceName="TRANSBOVEDAOTRO_SEQ")
 	@Id
 	@Column(name = "ID_TRANSACCION_BOVEDA_OTRO", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdTransaccionBovedaOtro() {

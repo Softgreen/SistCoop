@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -104,9 +105,9 @@ public class HistorialCaja implements java.io.Serializable {
 		this.transferenciaBancarias = transferenciaBancarias;
 	}
 
-	@XmlElement(name = "id")
-	@DecimalMin(value = "1", inclusive = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="HISTORIALCAJA_SEQ")
+	@SequenceGenerator(name="HISTORIALCAJA_SEQ", initialValue=1, allocationSize=1, sequenceName="HISTORIALCAJA_SEQ")
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_HISTORIAL_CAJA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdHistorialCaja() {

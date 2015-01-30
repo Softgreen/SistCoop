@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,8 +62,9 @@ public class Cheque implements java.io.Serializable {
 
 	}
 
-	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="CHEQUE_SEQ")
+	@SequenceGenerator(name="CHEQUE_SEQ", initialValue=1, allocationSize=1, sequenceName="CHEQUE_SEQ")
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_CHEQUE", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdCheque() {

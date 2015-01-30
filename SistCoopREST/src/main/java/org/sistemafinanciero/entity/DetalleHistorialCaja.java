@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -44,7 +45,8 @@ public class DetalleHistorialCaja implements java.io.Serializable {
 		this.historialCaja = historialCaja;
 	}
 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="DETALLEHISTORIALCAJA_SEQ")
+	@SequenceGenerator(name="DETALLEHISTORIALCAJA_SEQ", initialValue=1, allocationSize=1, sequenceName="DETALLEHISTORIALCAJA_SEQ")
 	@Id
 	@Column(name = "ID_DETALLE_HISTORIAL_CAJA", unique = true, nullable = false, updatable = false, insertable = false, columnDefinition = "NUMBER")
 	public BigInteger getIdDetalleHistorialCaja() {

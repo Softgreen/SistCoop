@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -35,7 +36,8 @@ public class TransaccionBovedaOtroDetall implements java.io.Serializable {
 	public TransaccionBovedaOtroDetall() {
 	}
 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TRANSBOVEDAOTRODETALLE_SEQ")
+	@SequenceGenerator(name="TRANSBOVEDAOTRODETALLE_SEQ", initialValue=1, allocationSize=1, sequenceName="TRANSBOVEDAOTRODETALLE_SEQ")
 	@Id
 	@Column(name = "ID_TRANSACCION_BOVEDA_OTRO_DET", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdTransaccionBovedaOtroDet() {

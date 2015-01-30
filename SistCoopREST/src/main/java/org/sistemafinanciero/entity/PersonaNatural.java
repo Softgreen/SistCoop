@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -121,8 +122,9 @@ public class PersonaNatural implements java.io.Serializable {
 		this.trabajadors = trabajadors;
 	}
 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PERSONANATURAL_SEQ")
+	@SequenceGenerator(name="PERSONANATURAL_SEQ", initialValue=1, allocationSize=1, sequenceName="PERSONANATURAL_SEQ")
 	@XmlAttribute(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_PERSONA_NATURAL", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdPersonaNatural() {

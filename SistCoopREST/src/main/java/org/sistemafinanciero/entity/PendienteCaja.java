@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -78,8 +79,9 @@ public class PendienteCaja implements java.io.Serializable {
 		this.tipoPendiente = tipoPendiente;
 	}
 
-	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PENDIENTECAJA_SEQ")
+	@SequenceGenerator(name="PENDIENTECAJA_SEQ", initialValue=1, allocationSize=1, sequenceName="PENDIENTECAJA_SEQ")
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_PENDIENTE_CAJA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdPendienteCaja() {

@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -83,10 +84,11 @@ public class Boveda implements java.io.Serializable {
 		this.historialBovedas = historialBovedas;
 	}
 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="BOVEDA_SEQ")
+	@SequenceGenerator(name="BOVEDA_SEQ", initialValue=1, allocationSize=1, sequenceName="BOVEDA_SEQ")
 	@XmlElement(name = "id")
 	@DecimalMin(value = "0", inclusive = false)
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id	
 	@Column(name = "ID_BOVEDA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdBoveda() {
 		return this.idBoveda;

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -79,10 +80,11 @@ public class Caja implements java.io.Serializable {
 		this.historialCajas = historialCajas;
 	}
 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="CAJA_SEQ")
+	@SequenceGenerator(name="CAJA_SEQ", initialValue=1, allocationSize=1, sequenceName="CAJA_SEQ")
 	@XmlElement(name = "id")
 	@DecimalMin(value = "0", inclusive = false)
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID_CAJA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdCaja() {
 		return this.idCaja;
