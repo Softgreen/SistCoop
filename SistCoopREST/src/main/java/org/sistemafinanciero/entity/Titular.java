@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -69,8 +70,9 @@ public class Titular implements java.io.Serializable {
 		this.estado = (estado ? 1 : 0);
 	}
 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TITULAR_SEQ")
+	@SequenceGenerator(name="TITULAR_SEQ", initialValue=1, allocationSize=1, sequenceName="TITULAR_SEQ")
 	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "ID_TITULAR", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdTitular() {

@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -51,8 +52,9 @@ public class TransaccionBovedaCajaDetalle implements java.io.Serializable {
 		this.cantidad = cantidad;
 	}
 
-	@XmlTransient
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TRANSBOVEDACAJADETALLE_SEQ")
+	@SequenceGenerator(name="TRANSBOVEDACAJADETALLE_SEQ", initialValue=1, allocationSize=1, sequenceName="TRANSBOVEDACAJADETALLE_SEQ")
+	@XmlTransient	
 	@Id
 	@Column(name = "ID_TRANSACCION_BOVEDA_CAJA_DET", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigDecimal getIdTransaccionBovedaCajaDet() {

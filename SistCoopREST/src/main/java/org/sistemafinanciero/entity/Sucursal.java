@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -44,8 +45,9 @@ public class Sucursal implements java.io.Serializable {
 	public Sucursal() {
 	}
 
-	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="SUCURSAL_SEQ")
+	@SequenceGenerator(name="SUCURSAL_SEQ", initialValue=1, allocationSize=1, sequenceName="SUCURSAL_SEQ")
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_SUCURSAL", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdSucursal() {

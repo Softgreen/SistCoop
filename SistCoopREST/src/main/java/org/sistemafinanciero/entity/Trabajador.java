@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -71,9 +72,10 @@ public class Trabajador implements java.io.Serializable {
 		this.trabajadorCajas = trabajadorCajas;
 	}
 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TRABAJADOR_SEQ")
+	@SequenceGenerator(name="TRABAJADOR_SEQ", initialValue=1, allocationSize=1, sequenceName="TRABAJADOR_SEQ")
 	@XmlElement(name = "id")
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id	
 	@Column(name = "ID_TRABAJADOR", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdTrabajador() {
 		return this.idTrabajador;

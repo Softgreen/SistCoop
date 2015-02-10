@@ -2,7 +2,6 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigInteger;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.ejb.EJB;

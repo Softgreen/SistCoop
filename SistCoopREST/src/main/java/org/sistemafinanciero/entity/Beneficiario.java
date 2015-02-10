@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -66,8 +67,9 @@ public class Beneficiario implements java.io.Serializable {
 		this.porcentajeBeneficio = porcentajeBeneficio;
 	}
 
-	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="BENEFICIARO_SEQ")
+	@SequenceGenerator(name="BENEFICIARO_SEQ", initialValue=1, allocationSize=1, sequenceName="BENEFICIARO_SEQ")																								
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_BENEFICIARIO", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdBeneficiario() {

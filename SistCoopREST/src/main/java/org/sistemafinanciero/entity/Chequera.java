@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -62,8 +63,9 @@ public class Chequera implements java.io.Serializable {
 
 	}
 
-	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="CHEQUERA_SEQ")
+	@SequenceGenerator(name="CHEQUERA_SEQ", initialValue=1, allocationSize=1, sequenceName="CHEQUERA_SEQ")
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_CHEQUERA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdChequera() {

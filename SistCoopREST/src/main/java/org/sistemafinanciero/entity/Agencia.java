@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -57,8 +58,9 @@ public class Agencia implements java.io.Serializable {
 	public Agencia() {
 	}
 
-	@XmlElement(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="AGENCIA_SEQ")
+	@SequenceGenerator(name="AGENCIA_SEQ", initialValue=1, allocationSize=1, sequenceName="AGENCIA_SEQ")
+	@XmlElement(name = "id")	
 	@Id
 	@Column(name = "ID_AGENCIA", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdAgencia() {
