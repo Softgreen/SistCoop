@@ -454,6 +454,17 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.transaccion.transaccionMayorCuantia', {
+                    url: "/depositoRetiro/:id/voucher/mayorCuantia",
+                    views: {
+                        "viewContent": {
+                            templateUrl: "views/cajero/voucher/transaccionMayorCuantia.html",
+                            controller: function($scope, $stateParams) {
+                                $scope.id = $stateParams.id;
+                            }
+                        }
+                    }
+                })
                 .state('app.transaccion.transferencia', {
                     url: "/transferencia",
                     views: {

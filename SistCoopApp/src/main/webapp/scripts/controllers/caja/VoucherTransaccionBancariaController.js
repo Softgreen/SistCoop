@@ -26,6 +26,10 @@ define(['../module'], function (controllers) {
                 }
             };
 
+            $scope.mayorCuantia = function(){
+                $state.transitionTo('app.transaccion.transaccionMayorCuantia', {id: $scope.id});
+            };
+
             $scope.imprimir = function(){
                 if (notReady()) {return;}
 

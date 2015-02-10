@@ -1,0 +1,346 @@
+<div class="row">
+    <h3>Datos de la operacion</h3>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>T.operacion</label>
+                <h4>Deposito</h4>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Cta.del beneficiario</label>
+                <h4>Deposito</h4>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <label>Moneda</label>
+                <h4>$</h4>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label>Importe</label>
+                <h4>125412542.30</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group" ng-class="{ 'has-error' : form.origenImporte.$invalid && form.submitted}">
+                <label>El importe del efectivo proviene de</label>
+                <textarea name="origenImporte" class="form-control" rows="3" ng-model="view.origenImporte"></textarea>
+                <div ng-show="form.origenImporte.$invalid && (control.submitted || form.origenImporte.$dirty)">
+                    <p class="help-block" ng-show="form.origenImporte.$error.required">
+                        Ingrese origen del importe.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group" ng-class="{ 'has-error' : form.propositoOperacion.$invalid && form.submitted}">
+                <label>El proposito o destino de  esta operacion es</label>
+                <textarea name="propositoOperacion" class="form-control" rows="3" ng-model="view.propositoOperacion"></textarea>
+                <div ng-show="form.propositoOperacion.$invalid && (control.submitted || form.propositoOperacion.$dirty)">
+                    <p class="help-block" ng-show="form.propositoOperacion.$error.required">
+                        Ingrese el proposito de la operacion
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <h3>Solicitante (quien fisicamente realiza la operacion)</h3>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>T.documento</label>
+                <input type="text" name="tipoDocumentoSolicitante">
+                <div ng-show="form.tipoDocumentoSolicitante.$invalid && (control.submitted || form.tipoDocumentoSolicitante.$dirty)">
+                    <p class="help-block" ng-show="form.tipoDocumentoSolicitante.$error.required">
+                        Tipo documento solicitante
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Num.documento</label>
+                <input type="text" name="numeroDocumentoSolicitante">
+                <div ng-show="form.numeroDocumentoSolicitante.$invalid && (control.submitted || form.numeroDocumentoSolicitante.$dirty)">
+                    <p class="help-block" ng-show="form.numeroDocumentoSolicitante.$error.required">
+                        Numero documento solicitante
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Nacionalidad</label>
+                <input type="text" name="nacionalidadSolicitante">
+                <div ng-show="form.nacionalidadSolicitante.$invalid && (control.submitted || form.nacionalidadSolicitante.$dirty)">
+                    <p class="help-block" ng-show="form.nacionalidadSolicitante.$error.required">
+                        Numero documento solicitante
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Apellidos y nombres</label>
+                <input name="apellidosNombresSolicitante">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
+                <input name="direccionSolicitante">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Departamento</label>
+                <input name="departamentoSolicitante">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Provincia</label>
+                <input name="provinciaSolicitante">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Distrito</label>
+                <input name="distritoSolicitante">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Telefono</label>
+                <input name="telefonoSolicitante">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>F.nacimiento</label>
+                <input name="fechaNacimientoSolicitante">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Ocupacion</label>
+                <input name="ocupacionSolicitante">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <h3>Beneficiario (a favor de quien se realiza la operacion)</h3>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>T.documento</label>
+                <input type="text" name="tipoDocumentoBeneficiario">
+                <div ng-show="form.tipoDocumentoBeneficiario.$invalid && (control.submitted || form.tipoDocumentoBeneficiario.$dirty)">
+                    <p class="help-block" ng-show="form.tipoDocumentoBeneficiario.$error.required">
+                        Tipo documento
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Num.documento</label>
+                <input type="text" name="numeroDocumentoBeneficiario">
+                <div ng-show="form.numeroDocumentoBeneficiario.$invalid && (control.submitted || form.numeroDocumentoBeneficiario.$dirty)">
+                    <p class="help-block" ng-show="form.numeroDocumentoBeneficiario.$error.required">
+                        Numero documento
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Nacionalidad</label>
+                <input type="text" name="nacionalidadBeneficiario">
+                <div ng-show="form.nacionalidadBeneficiario.$invalid && (control.submitted || form.nacionalidadBeneficiario.$dirty)">
+                    <p class="help-block" ng-show="form.nacionalidadBeneficiario.$error.required">
+                        Nacionalidad
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Apellidos y nombres/Razon social</label>
+                <input name="apellidosNombresBeneficiario">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
+                <input name="direccionBeneficiario">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Departamento</label>
+                <input name="departamentoBeneficiario">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Provincia</label>
+                <input name="provinciaBeneficiario">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Distrito</label>
+                <input name="distritoBeneficiario">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Telefono</label>
+                <input name="telefonoBeneficiario">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>F.nacim./Constitucion</label>
+                <input name="fechaNacimientoBeneficiario">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Ocupacion/Actividad economica</label>
+                <input name="ocupacionBeneficiario">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <h3>Ordenante (nombre de quien ordena la operacion)</h3>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>T.documento</label>
+                <input type="text" name="tipoDocumentoOrdenante">
+                <div ng-show="form.tipoDocumentoOrdenante.$invalid && (control.submitted || form.tipoDocumentoOrdenante.$dirty)">
+                    <p class="help-block" ng-show="form.tipoDocumentoOrdenante.$error.required">
+                        Tipo documento
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Num.documento</label>
+                <input type="text" name="numeroDocumentoOrdenante">
+                <div ng-show="form.numeroDocumentoOrdenante.$invalid && (control.submitted || form.numeroDocumentoOrdenante.$dirty)">
+                    <p class="help-block" ng-show="form.numeroDocumentoOrdenante.$error.required">
+                        Numero documento
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Nacionalidad</label>
+                <input type="text" name="nacionalidadOrdenante">
+                <div ng-show="form.nacionalidadOrdenante.$invalid && (control.submitted || form.nacionalidadOrdenante.$dirty)">
+                    <p class="help-block" ng-show="form.nacionalidadOrdenante.$error.required">
+                        Nacionalidad
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Apellidos y nombres/Razon social</label>
+                <input name="apellidosNombresOrdenante">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
+                <input name="direccionOrdenante">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Departamento</label>
+                <input name="departamentoOrdenante">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Provincia</label>
+                <input name="provinciaOrdenante">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Distrito</label>
+                <input name="distritoOrdenante">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Telefono</label>
+                <input name="telefonoOrdenante">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>F.nacim./Constitucion</label>
+                <input name="fechaNacimientoOrdenante">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Ocupacion/Actividad economica</label>
+                <input name="ocupacionOrdenante">
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button">Imprimir</button>
