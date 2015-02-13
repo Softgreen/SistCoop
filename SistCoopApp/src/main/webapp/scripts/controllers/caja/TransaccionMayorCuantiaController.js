@@ -7,7 +7,7 @@ define(['../module'], function (controllers) {
                 origenImporte: undefined,
                 propositoOperacion: undefined,
 
-                idTipoDocumentoSolicitante: undefined,
+                tipoDocumentoSolicitante: undefined,
                 numeroDocumentoSolicitante: undefined,
                 codigoPaisSolicitante: undefined,
                 apellidosNombresSolicitante: undefined,
@@ -19,7 +19,7 @@ define(['../module'], function (controllers) {
                 fechaNacimientoSolicitante: undefined,
                 ocupacionSolicitante: undefined,
 
-                idTipoDocumentoBeneficiario: undefined,
+                tipoDocumentoBeneficiario: undefined,
                 numeroDocumentoBeneficiario: undefined,
                 codigoPaisBeneficiario: undefined,
                 apellidosNombresBeneficiario: undefined,
@@ -30,7 +30,7 @@ define(['../module'], function (controllers) {
                 fechaNacimientoBeneficiaro: undefined,
                 ocupacionBeneficiario: undefined,
 
-                idTipoDocumentoOrdenante: undefined,
+                tipoDocumentoOrdenante: undefined,
                 numeroDocumentoOrdenante: undefined,
                 codigoPaisOrdenante: undefined,
                 apellidosNombresOrdenante: undefined,
@@ -77,8 +77,8 @@ define(['../module'], function (controllers) {
 
             $scope.buscarSolicitante = function($event){
                 if(!angular.isUndefined($event)){$event.preventDefault();}
-                if(!angular.isUndefined($scope.view.idTipoDocumentoSolicitante) && !angular.isUndefined($scope.view.numeroDocumentoSolicitante)){
-                    var tipoDoc = $scope.view.idTipoDocumentoSolicitante;
+                if(!angular.isUndefined($scope.view.tipoDocumentoSolicitante) && !angular.isUndefined($scope.view.numeroDocumentoSolicitante)){
+                    var tipoDoc = $scope.view.tipoDocumentoSolicitante.id;
                     var numDoc = $scope.view.numeroDocumentoSolicitante;
                     PersonaNaturalService.findByTipoNumeroDocumento(tipoDoc, numDoc).then(function(data){
                         $scope.view.codigoPaisSolicitante = data.codigoPais;
@@ -98,8 +98,8 @@ define(['../module'], function (controllers) {
             };
             $scope.buscarBeneficiario = function($event){
                 if(!angular.isUndefined($event)){$event.preventDefault();}
-                if(!angular.isUndefined($scope.view.idTipoDocumentoBeneficiario) && !angular.isUndefined($scope.view.numeroDocumentoBeneficiario)){
-                    var tipoDoc = $scope.view.idTipoDocumentoBeneficiario;
+                if(!angular.isUndefined($scope.view.tipoDocumentoBeneficiario) && !angular.isUndefined($scope.view.numeroDocumentoBeneficiario)){
+                    var tipoDoc = $scope.view.tipoDocumentoBeneficiario.id;
                     var numDoc = $scope.view.numeroDocumentoBeneficiario;
                     PersonaNaturalService.findByTipoNumeroDocumento(tipoDoc, numDoc).then(function(data){
                         $scope.view.codigoPaisBeneficiario = data.codigoPais;
@@ -119,8 +119,8 @@ define(['../module'], function (controllers) {
             };
             $scope.buscarOrdenante = function($event){
                 if(!angular.isUndefined($event)){$event.preventDefault();}
-                if(!angular.isUndefined($scope.view.idTipoDocumentoOrdenante) && !angular.isUndefined($scope.view.numeroDocumentoOrdenante)){
-                    var tipoDoc = $scope.view.idTipoDocumentoOrdenante;
+                if(!angular.isUndefined($scope.view.tipoDocumentoOrdenante) && !angular.isUndefined($scope.view.numeroDocumentoOrdenante)){
+                    var tipoDoc = $scope.view.tipoDocumentoOrdenante.id;
                     var numDoc = $scope.view.numeroDocumentoOrdenante;
                     PersonaNaturalService.findByTipoNumeroDocumento(tipoDoc, numDoc).then(function(data){
                         $scope.view.codigoPaisOrdenante = data.codigoPais;
@@ -237,6 +237,66 @@ define(['../module'], function (controllers) {
 
 
 
+
+            //getter
+            $scope.getPais = function(codigoPais){
+                if(!angular.isUndefined($scope.combo.pais)){
+                    for(var i=0; i<$scope.combo.pais.length; i++){
+                        if($scope.combo.pais[i].abreviatura == codigoPais)
+                            return $scope.combo.pais[i];
+                    }
+                }
+                return undefined;
+            };
+            $scope.getDepartamento = function(codigo){
+                if(!angular.isUndefined($scope.combo.departamento)){
+                    for(var i=0; i<$scope.combo.departamento.length; i++){
+                        if($scope.combo.departamento[i].codigo == codigo)
+                            return $scope.combo.departamento[i];
+                    }
+                }
+                return undefined;
+            };
+            $scope.getProvincia = function(codigo, origen){
+                var combo;
+                if(origen == 'solicitante')
+                    combo = $scope.combo.provinciaSolicitante;
+                else if(origen == 'beneficiario')
+                    combo = $scope.combo.provinciaBeneficiario;
+                else if(origen == 'ordenante')
+                    combo = $scope.combo.provinciaOrdenante;
+                else
+                    combo = undefined;
+                if(!angular.isUndefined(combo)){
+                    for(var i=0; i<combo.length; i++){
+                        if(combo[i].codigo == codigo)
+                            return combo[i];
+                    }
+                }
+                return undefined;
+            };
+            $scope.getDistrito = function(codigo, origen){
+                var combo;
+                if(origen == 'solicitante')
+                    combo = $scope.combo.distritoSolicitante;
+                else if(origen == 'beneficiario')
+                    combo = $scope.combo.distritoBeneficiario;
+                else if(origen == 'ordenante')
+                    combo = $scope.combo.distritoOrdenante;
+                else
+                    combo = undefined;
+                if(!angular.isUndefined(combo)){
+                    for(var i=0; i<combo.length; i++){
+                        if(combo[i].codigo == codigo)
+                            return combo[i];
+                    }
+                }
+                return undefined;
+            };
+
+
+
+
             $scope.salir = function(){
                 $scope.redireccion();
             };
@@ -251,12 +311,5 @@ define(['../module'], function (controllers) {
                 }
             };
 
-            $scope.mayorCuantia = function(){
-                $state.transitionTo('app.transaccion.transaccionMayorCuantia', {id: $scope.id});
-            };
-
-            $scope.imprimir = function(){
-                alert("imprimiendo");
-            };
         }]);
 });

@@ -1,5 +1,7 @@
 <div ng-controller="TransaccionMayorCuantiaController">
 
+<div>
+
 <div class="row">
     <div class="col-sm-12">
         <h3>Datos de la operacion</h3>
@@ -56,7 +58,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>T.documento</label>
-                    <select name="tipoDocumentoSolicitante" ng-options="tipodocumento.id as tipodocumento.abreviatura for tipodocumento in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.idTipoDocumentoSolicitante" class="form-control">
+                    <select name="tipoDocumentoSolicitante" ng-options="item as item.abreviatura for item in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.tipoDocumentoSolicitante" class="form-control">
                         <option value="">--Seleccione--</option>
                     </select>
                 </div>
@@ -160,7 +162,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>T.documento</label>
-                    <select name="tipoDocumentoBeneficiario" ng-options="tipodocumento.id as tipodocumento.abreviatura for tipodocumento in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.idTipoDocumentoBeneficiario" class="form-control">
+                    <select name="tipoDocumentoBeneficiario" ng-options="item as item.abreviatura for item in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.tipoDocumentoBeneficiario" class="form-control">
                         <option value="">--Seleccione--</option>
                     </select>
                 </div>
@@ -264,7 +266,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>T.documento</label>
-                    <select name="tipoDocumentoOrdenante" ng-options="tipodocumento.id as tipodocumento.abreviatura for tipodocumento in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.idTipoDocumentoOrdenante" class="form-control">
+                    <select name="tipoDocumentoOrdenante" ng-options="item as item.abreviatura for item in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.tipoDocumentoOrdenante" class="form-control">
                         <option value="">--Seleccione--</option>
                     </select>
                 </div>
@@ -360,5 +362,210 @@
     </div>
 </div>
 
-<button type="button">Imprimir</button>
+<button class="btn btn-primary" ng-print print-element-id="printArea"><i class="fa fa-print"></i>Print</button>
+<button type="button" ng-click="salir()" class="btn btn-default">Salir</button>
+
+</div>
+
+
+
+<!--PRINT AREA-->
+<div id="printArea" style="display: none;">
+    <table width="100%">
+        <thead>
+        <tr style="background-color: red;">
+            <td colspan="4" style="background-color: red;"><strong>DATOS DE LA OPERACION</strong></stron></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="25%"><strong>Tipo de operacion</strong></td>
+            <td width="35%"><strong>Cuenta del beneficiario</strong></td>
+            <td width="15%"><strong>Moneda</strong></td>
+            <td width="25%"><strong>Importe</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="transaccion.tipoTransaccion"></span></td>
+            <td><span ng-bind="transaccion.numeroCuenta"></span></td>
+            <td><span ng-bind="transaccion.moneda.simbolo"></span></td>
+            <td><span ng-bind="transaccion.monto | currency : ''"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>El importe en efectivo proviene de:</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.origenImporte"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>El proposito o destino de esta operacion es:</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.propositoOperacion"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br/>
+    <table width="100%">
+        <thead>
+        <tr>
+            <td colspan="4"><strong>SOLICITANTE (QUIEN FISICAMENTE REALIZA LA OPERACION)</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="25%"><strong>Tipo de documento</strong></td>
+            <td width="35%"><strong>Numero de documento</strong></td>
+            <td width="40%"><strong>Nacionalidad</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.tipoDocumentoSolicitante.abreviatura"></span></td>
+            <td><span ng-bind="view.numeroDocumentoSolicitante"></span></td>
+            <td><span ng-bind="getPais(view.codigoPaisSolicitante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Apellidos y nombres</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.apellidosNombresSolicitante"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.direccionSolicitante"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Distrito</strong></td>
+            <td width="33%"><strong>Provincia</strong></td>
+            <td width="33%"><strong>Departamento</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="getDistrito(view.codigoDistritoSolicitante, 'solicitante').denominacion"></span></td>
+            <td><span ng-bind="getProvincia(view.codigoProvinciaSolicitante, 'solicitante').denominacion"></span></td>
+            <td><span ng-bind="getDepartamento(view.codigoDepartamentoSolicitante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Telefono</strong></td>
+            <td width="33%"><strong>Fecha de nacimiento</strong></td>
+            <td width="33%"><strong>Ocupacion</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.telefonoSolicitante"></span></td>
+            <td><span ng-bind="view.fechaNacimientoSolicitante | date: 'dd/MM/yyyy'"></span></td>
+            <td><span ng-bind="view.ocupacionSolicitante"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br/>
+    <table width="100%">
+        <thead>
+        <tr>
+            <td colspan="4"><strong>BENEFICIARIO (A FAVOR DE QUIEN SE REALIZA LA OPERACION)</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="25%"><strong>Tipo de documento</strong></td>
+            <td width="35%"><strong>Numero de documento</strong></td>
+            <td width="40%"><strong>Nacionalidad</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.tipoDocumentoBeneficiario.abreviatura"></span></td>
+            <td><span ng-bind="view.numeroDocumentoBeneficiario"></span></td>
+            <td><span ng-bind="getPais(view.codigoPaisBeneficiario).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Apellidos y nombres/Razon social</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.apellidosNombresBeneficiario"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Direccion</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.direccionBeneficiario"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Distrito</strong></td>
+            <td width="33%"><strong>Provincia</strong></td>
+            <td width="33%"><strong>Departamento</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="getDistrito(view.codigoDistritoBeneficiario, 'beneficiario').denominacion"></span></td>
+            <td><span ng-bind="getProvincia(view.codigoProvinciaBeneficiario, 'beneficiario').denominacion"></span></td>
+            <td><span ng-bind="getDepartamento(view.codigoDepartamentoSolicitante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Telefono</strong></td>
+            <td width="33%"><strong>Fecha de nacim./Constitucion</strong></td>
+            <td width="33%"><strong>Ocupacion/Actividad economica</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.telefonoBeneficiario"></span></td>
+            <td><span ng-bind="view.fechaNacimientoBeneficiario | date: 'dd/MM/yyyy'"></span></td>
+            <td><span ng-bind="view.ocupacionBeneficiario"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br/>
+    <table width="100%">
+        <thead>
+        <tr>
+            <td colspan="4"><strong>ORDENANTE (NOMBRE DE QUIEN ORDENA LA OPERACION)</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="25%"><strong>Tipo de documento</strong></td>
+            <td width="35%"><strong>Numero de documento</strong></td>
+            <td width="40%"><strong>Nacionalidad</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.tipoDocumentoOrdenante.abreviatura"></span></td>
+            <td><span ng-bind="view.numeroDocumentoOrdenante"></span></td>
+            <td><span ng-bind="getPais(view.codigoPaisOrdenante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Apellidos y nombres/Razon social</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.apellidosNombresOrdenante"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Direccion</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.direccionOrdenante"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Distrito</strong></td>
+            <td width="33%"><strong>Provincia</strong></td>
+            <td width="33%"><strong>Departamento</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="getDistrito(view.codigoDistritoOrdenante, 'ordenante').denominacion"></span></td>
+            <td><span ng-bind="getProvincia(view.codigoProvinciaOrdenante, 'ordenante').denominacion"></span></td>
+            <td><span ng-bind="getDepartamento(view.codigoDepartamentoOrdenante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Telefono</strong></td>
+            <td width="33%"><strong>Fecha de nacim./Constitucion</strong></td>
+            <td width="33%"><strong>Ocupacion/Actividad economica</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.telefonoOrdenante"></span></td>
+            <td><span ng-bind="view.fechaNacimientoOrdenante | date: 'dd/MM/yyyy'"></span></td>
+            <td><span ng-bind="view.ocupacionOrdenante"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
 </div>
