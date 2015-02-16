@@ -1,3 +1,25 @@
+/*PRINTER CSS*/
+@media screen {
+    #printSection {
+        display: none;
+    }
+}
+
+@media print {
+    body * {
+        visibility:hidden;
+    }
+    #printSection, #printSection * {
+        visibility:visible;
+    }
+    #printSection {
+        position:absolute;
+        left:0;
+        top:0;
+    }
+}
+
+
 /*botstrap UI*/
 @media (min-width: 768px){
     .container{

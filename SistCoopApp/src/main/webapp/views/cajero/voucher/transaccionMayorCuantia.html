@@ -1,53 +1,49 @@
+<div ng-controller="TransaccionMayorCuantiaController">
+
+<div>
+
 <div class="row">
-    <h3>Datos de la operacion</h3>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>T.operacion</label>
-                <h4>Deposito</h4>
+    <div class="col-sm-12">
+        <h3>Datos de la operacion</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>T.operacion</label>
+                    <h5 ng-bind="transaccion.tipoTransaccion"></h5>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Cta.del beneficiario</label>
-                <h4>Deposito</h4>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Cta.del beneficiario</label>
+                    <h5 ng-bind="transaccion.numeroCuenta"></h5>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-1">
-            <div class="form-group">
-                <label>Moneda</label>
-                <h4>$</h4>
+            <div class="col-sm-1">
+                <div class="form-group">
+                    <label>Moneda</label>
+                    <h5 ng-bind="transaccion.moneda.simbolo"></h5>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="form-group">
-                <label>Importe</label>
-                <h4>125412542.30</h4>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group" ng-class="{ 'has-error' : form.origenImporte.$invalid && form.submitted}">
-                <label>El importe del efectivo proviene de</label>
-                <textarea name="origenImporte" class="form-control" rows="3" ng-model="view.origenImporte"></textarea>
-                <div ng-show="form.origenImporte.$invalid && (control.submitted || form.origenImporte.$dirty)">
-                    <p class="help-block" ng-show="form.origenImporte.$error.required">
-                        Ingrese origen del importe.
-                    </p>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Importe</label>
+                    <h5 ng-bind="transaccion.monto | currency : ''"></h5>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group" ng-class="{ 'has-error' : form.propositoOperacion.$invalid && form.submitted}">
-                <label>El proposito o destino de  esta operacion es</label>
-                <textarea name="propositoOperacion" class="form-control" rows="3" ng-model="view.propositoOperacion"></textarea>
-                <div ng-show="form.propositoOperacion.$invalid && (control.submitted || form.propositoOperacion.$dirty)">
-                    <p class="help-block" ng-show="form.propositoOperacion.$error.required">
-                        Ingrese el proposito de la operacion
-                    </p>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>El importe del efectivo proviene de:</label>
+                    <textarea name="origenImporte" class="form-control" rows="2" ng-model="view.origenImporte"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>El proposito o destino de  esta operacion es:</label>
+                    <textarea name="propositoOperacion" class="form-control" rows="2" ng-model="view.propositoOperacion"></textarea>
                 </div>
             </div>
         </div>
@@ -56,192 +52,103 @@
 
 
 <div class="row">
-    <h3>Solicitante (quien fisicamente realiza la operacion)</h3>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>T.documento</label>
-                <input type="text" name="tipoDocumentoSolicitante">
-                <div ng-show="form.tipoDocumentoSolicitante.$invalid && (control.submitted || form.tipoDocumentoSolicitante.$dirty)">
-                    <p class="help-block" ng-show="form.tipoDocumentoSolicitante.$error.required">
-                        Tipo documento solicitante
-                    </p>
+    <div class="col-sm-12">
+        <h3>Solicitante (quien fisicamente realiza la operacion)</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>T.documento</label>
+                    <select name="tipoDocumentoSolicitante" ng-options="item as item.abreviatura for item in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.tipoDocumentoSolicitante" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Num.documento</label>
+                    <input name="numeroDocumentoSolicitante" type="text" ng-model="view.numeroDocumentoSolicitante" ui-keypress="{13:'buscarSolicitante($event)'}" ng-pattern="/^[0-9]+$/" ng-minlength="1" ng-maxlength="20" class="form-control"/>
+                    <div ng-show="form.numeroDocumentoSolicitante.$invalid && (control.submitted || form.numeroDocumentoSolicitante.$dirty)">
+                        <p class="help-block" ng-show="form.numeroDocumentoSolicitante.$error.pattern">
+                            Numero de documento no valido.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Nacionalidad</label>
+                    <div class="input-group">
+                        <span ng-bind="view.codigoPaisSolicitante" class="input-group-addon"></span>
+                        <select name="paisSolicitante" ng-options="pais.abreviatura as pais.denominacion for pais in combo.pais" ng-model="view.codigoPaisSolicitante" class="form-control">
+                            <option value="">--Seleccione--</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Num.documento</label>
-                <input type="text" name="numeroDocumentoSolicitante">
-                <div ng-show="form.numeroDocumentoSolicitante.$invalid && (control.submitted || form.numeroDocumentoSolicitante.$dirty)">
-                    <p class="help-block" ng-show="form.numeroDocumentoSolicitante.$error.required">
-                        Numero documento solicitante
-                    </p>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Apellidos y nombres</label>
+                    <input name="apellidosNombresSolicitante" type="text" ng-model="view.apellidosNombresSolicitante" ng-minlength="1" ng-maxlength="120" class="form-control" capitalize/>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Nacionalidad</label>
-                <input type="text" name="nacionalidadSolicitante">
-                <div ng-show="form.nacionalidadSolicitante.$invalid && (control.submitted || form.nacionalidadSolicitante.$dirty)">
-                    <p class="help-block" ng-show="form.nacionalidadSolicitante.$error.required">
-                        Numero documento solicitante
-                    </p>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
+                    <input name="direccionSolicitante" type="text" ng-model="view.direccionSolicitante" ng-maxlength="120" class="form-control" capitalize />
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label>Apellidos y nombres</label>
-                <input name="apellidosNombresSolicitante">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Departamento</label>
+                    <select name="departamentoSolicitante" ng-options="item.codigo as item.denominacion for item in combo.departamento" ng-model="view.codigoDepartamentoSolicitante" ng-change="changeDepartamentoSolicitante()" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
-                <input name="direccionSolicitante">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Provincia</label>
+                    <select name="provincia" ng-options="item.codigo as item.denominacion for item in combo.provinciaSolicitante" ng-model="view.codigoProvinciaSolicitante" ng-change="changeProvinciaSolicitante()" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Departamento</label>
-                <input name="departamentoSolicitante">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Provincia</label>
-                <input name="provinciaSolicitante">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Distrito</label>
-                <input name="distritoSolicitante">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Telefono</label>
-                <input name="telefonoSolicitante">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>F.nacimiento</label>
-                <input name="fechaNacimientoSolicitante">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Ocupacion</label>
-                <input name="ocupacionSolicitante">
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="row">
-    <h3>Beneficiario (a favor de quien se realiza la operacion)</h3>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>T.documento</label>
-                <input type="text" name="tipoDocumentoBeneficiario">
-                <div ng-show="form.tipoDocumentoBeneficiario.$invalid && (control.submitted || form.tipoDocumentoBeneficiario.$dirty)">
-                    <p class="help-block" ng-show="form.tipoDocumentoBeneficiario.$error.required">
-                        Tipo documento
-                    </p>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Distrito</label>
+                    <select name="distrito" ng-options="item.codigo as item.denominacion for item in combo.distritoSolicitante" ng-model="view.codigoDistritoSolicitante" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Num.documento</label>
-                <input type="text" name="numeroDocumentoBeneficiario">
-                <div ng-show="form.numeroDocumentoBeneficiario.$invalid && (control.submitted || form.numeroDocumentoBeneficiario.$dirty)">
-                    <p class="help-block" ng-show="form.numeroDocumentoBeneficiario.$error.required">
-                        Numero documento
-                    </p>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <input name="telefonoSolicitante" type="text" ng-model="view.telefonoSolicitante" ng-maxlength="15" class="form-control"/>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Nacionalidad</label>
-                <input type="text" name="nacionalidadBeneficiario">
-                <div ng-show="form.nacionalidadBeneficiario.$invalid && (control.submitted || form.nacionalidadBeneficiario.$dirty)">
-                    <p class="help-block" ng-show="form.nacionalidadBeneficiario.$error.required">
-                        Nacionalidad
-                    </p>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>F.nacimiento</label>
+                    <div class="input-group">
+                        <input type="text" name="fechaNacimientoSolicitante" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="view.fechaNacimientoSolicitante" placeholder="dd/mm/yyyy">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button></span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label>Apellidos y nombres/Razon social</label>
-                <input name="apellidosNombresBeneficiario">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
-                <input name="direccionBeneficiario">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Departamento</label>
-                <input name="departamentoBeneficiario">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Provincia</label>
-                <input name="provinciaBeneficiario">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Distrito</label>
-                <input name="distritoBeneficiario">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Telefono</label>
-                <input name="telefonoBeneficiario">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>F.nacim./Constitucion</label>
-                <input name="fechaNacimientoBeneficiario">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Ocupacion/Actividad economica</label>
-                <input name="ocupacionBeneficiario">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Ocupacion</label>
+                    <input name="ocupacion" type="text" ng-model="view.ocupacionSolicitante" ng-maxlength="120" class="form-control" capitalize />
+                </div>
             </div>
         </div>
     </div>
@@ -249,98 +156,416 @@
 
 
 <div class="row">
-    <h3>Ordenante (nombre de quien ordena la operacion)</h3>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>T.documento</label>
-                <input type="text" name="tipoDocumentoOrdenante">
-                <div ng-show="form.tipoDocumentoOrdenante.$invalid && (control.submitted || form.tipoDocumentoOrdenante.$dirty)">
-                    <p class="help-block" ng-show="form.tipoDocumentoOrdenante.$error.required">
-                        Tipo documento
-                    </p>
+    <div class="col-sm-12">
+        <h3>Beneficiario (a favor de quien se realiza la operacion)</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>T.documento</label>
+                    <select name="tipoDocumentoBeneficiario" ng-options="item as item.abreviatura for item in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.tipoDocumentoBeneficiario" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Num.documento</label>
+                    <input name="numeroDocumentoBeneficiario" type="text" ng-model="view.numeroDocumentoBeneficiario" ui-keypress="{13:'buscarBeneficiario($event)'}" ng-pattern="/^[0-9]+$/" ng-minlength="1" ng-maxlength="20" class="form-control"/>
+                    <div ng-show="form.numeroDocumentoBeneficiario.$invalid && (control.submitted || form.numeroDocumentoBeneficiario.$dirty)">
+                        <p class="help-block" ng-show="form.numeroDocumentoBeneficiario.$error.pattern">
+                            Numero de documento no valido.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Nacionalidad</label>
+                    <div class="input-group">
+                        <span ng-bind="view.codigoPaisBeneficiario" class="input-group-addon"></span>
+                        <select name="paisBeneficiario" ng-options="pais.abreviatura as pais.denominacion for pais in combo.pais" ng-model="view.codigoPaisBeneficiario" class="form-control">
+                            <option value="">--Seleccione--</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Num.documento</label>
-                <input type="text" name="numeroDocumentoOrdenante">
-                <div ng-show="form.numeroDocumentoOrdenante.$invalid && (control.submitted || form.numeroDocumentoOrdenante.$dirty)">
-                    <p class="help-block" ng-show="form.numeroDocumentoOrdenante.$error.required">
-                        Numero documento
-                    </p>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Apellidos y nombres/Razon social</label>
+                    <input name="apellidosNombresBeneficiario" type="text" ng-model="view.apellidosNombresBeneficiario" ng-minlength="1" ng-maxlength="120" class="form-control" capitalize/>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Nacionalidad</label>
-                <input type="text" name="nacionalidadOrdenante">
-                <div ng-show="form.nacionalidadOrdenante.$invalid && (control.submitted || form.nacionalidadOrdenante.$dirty)">
-                    <p class="help-block" ng-show="form.nacionalidadOrdenante.$error.required">
-                        Nacionalidad
-                    </p>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
+                    <input name="direccionBeneficiario" type="text" ng-model="view.direccionBeneficiario" ng-maxlength="120" class="form-control" capitalize />
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label>Apellidos y nombres/Razon social</label>
-                <input name="apellidosNombresOrdenante">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Departamento</label>
+                    <select name="departamentoBeneficiario" ng-options="item.codigo as item.denominacion for item in combo.departamento" ng-model="view.codigoDepartamentoBeneficiario" ng-change="changeDepartamentoBeneficiario()" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Provincia</label>
+                    <select name="provincia" ng-options="item.codigo as item.denominacion for item in combo.provinciaBeneficiario" ng-model="view.codigoProvinciaBeneficiario" ng-change="changeProvinciaBeneficiario()" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Distrito</label>
+                    <select name="distrito" ng-options="item.codigo as item.denominacion for item in combo.distritoBeneficiario" ng-model="view.codigoDistritoBeneficiario" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
-                <input name="direccionOrdenante">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <input name="telefonoBeneficiario" type="text" ng-model="view.telefonoBeneficiario" ng-maxlength="15" class="form-control"/>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Departamento</label>
-                <input name="departamentoOrdenante">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>F.nacimiento</label>
+                    <div class="input-group">
+                        <input type="text" name="fechaNacimientoBeneficiario" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="view.fechaNacimientoBeneficiario" placeholder="dd/mm/yyyy">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button></span>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Provincia</label>
-                <input name="provinciaOrdenante">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Distrito</label>
-                <input name="distritoOrdenante">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Telefono</label>
-                <input name="telefonoOrdenante">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>F.nacim./Constitucion</label>
-                <input name="fechaNacimientoOrdenante">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Ocupacion/Actividad economica</label>
-                <input name="ocupacionOrdenante">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Ocupacion</label>
+                    <input name="ocupacion" type="text" ng-model="view.ocupacionBeneficiario" ng-maxlength="120" class="form-control" capitalize />
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<button type="button">Imprimir</button>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Ordenante (nombre de quien ordena la operacion)</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>T.documento</label>
+                    <select name="tipoDocumentoOrdenante" ng-options="item as item.abreviatura for item in combo.tipoDocumentoPN | orderBy : 'id'" ng-model="view.tipoDocumentoOrdenante" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Num.documento</label>
+                    <input name="numeroDocumentoOrdenante" type="text" ng-model="view.numeroDocumentoOrdenante" ui-keypress="{13:'buscarOrdenante($event)'}" ng-pattern="/^[0-9]+$/" ng-minlength="1" ng-maxlength="20" class="form-control"/>
+                    <div ng-show="form.numeroDocumentoOrdenante.$invalid && (control.submitted || form.numeroDocumentoOrdenante.$dirty)">
+                        <p class="help-block" ng-show="form.numeroDocumentoOrdenante.$error.pattern">
+                            Numero de documento no valido.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Nacionalidad</label>
+                    <div class="input-group">
+                        <span ng-bind="view.codigoPaisOrdenante" class="input-group-addon"></span>
+                        <select name="paisOrdenante" ng-options="pais.abreviatura as pais.denominacion for pais in combo.pais" ng-model="view.codigoPaisOrdenante" class="form-control">
+                            <option value="">--Seleccione--</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Apellidos y nombres/Razon social</label>
+                    <input name="apellidosNombresOrdenante" type="text" ng-model="view.apellidosNombresOrdenante" ng-minlength="1" ng-maxlength="120" class="form-control" capitalize/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</label>
+                    <input name="direccionOrdenante" type="text" ng-model="view.direccionOrdenante" ng-maxlength="120" class="form-control" capitalize />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Departamento</label>
+                    <select name="departamentoOrdenante" ng-options="item.codigo as item.denominacion for item in combo.departamento" ng-model="view.codigoDepartamentoOrdenante" ng-change="changeDepartamentoOrdenante()" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Provincia</label>
+                    <select name="provincia" ng-options="item.codigo as item.denominacion for item in combo.provinciaOrdenante" ng-model="view.codigoProvinciaOrdenante" ng-change="changeProvinciaOrdenante()" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Distrito</label>
+                    <select name="distrito" ng-options="item.codigo as item.denominacion for item in combo.distritoOrdenante" ng-model="view.codigoDistritoOrdenante" class="form-control">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <input name="telefonoOrdenante" type="text" ng-model="view.telefonoOrdenante" ng-maxlength="15" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>F.nacimiento</label>
+                    <div class="input-group">
+                        <input type="text" name="fechaNacimientoOrdenante" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="view.fechaNacimientoOrdenante" placeholder="dd/mm/yyyy">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Ocupacion</label>
+                    <input name="ocupacion" type="text" ng-model="view.ocupacionOrdenante" ng-maxlength="120" class="form-control" capitalize />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-primary" ng-print print-element-id="printArea"><i class="fa fa-print"></i>Print</button>
+<button type="button" ng-click="salir()" class="btn btn-default">Salir</button>
+
+</div>
+
+
+
+<!--PRINT AREA-->
+<div id="printArea" style="display: none;">
+    <table width="100%">
+        <thead>
+        <tr style="background-color: red;">
+            <td colspan="4" style="background-color: red;"><strong>DATOS DE LA OPERACION</strong></stron></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="25%"><strong>Tipo de operacion</strong></td>
+            <td width="35%"><strong>Cuenta del beneficiario</strong></td>
+            <td width="15%"><strong>Moneda</strong></td>
+            <td width="25%"><strong>Importe</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="transaccion.tipoTransaccion"></span></td>
+            <td><span ng-bind="transaccion.numeroCuenta"></span></td>
+            <td><span ng-bind="transaccion.moneda.simbolo"></span></td>
+            <td><span ng-bind="transaccion.monto | currency : ''"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>El importe en efectivo proviene de:</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.origenImporte"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>El proposito o destino de esta operacion es:</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.propositoOperacion"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br/>
+    <table width="100%">
+        <thead>
+        <tr>
+            <td colspan="4"><strong>SOLICITANTE (QUIEN FISICAMENTE REALIZA LA OPERACION)</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="25%"><strong>Tipo de documento</strong></td>
+            <td width="35%"><strong>Numero de documento</strong></td>
+            <td width="40%"><strong>Nacionalidad</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.tipoDocumentoSolicitante.abreviatura"></span></td>
+            <td><span ng-bind="view.numeroDocumentoSolicitante"></span></td>
+            <td><span ng-bind="getPais(view.codigoPaisSolicitante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Apellidos y nombres</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.apellidosNombresSolicitante"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Direccion(si se encuentra en transito indicar el lugar donde se aloja)</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.direccionSolicitante"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Distrito</strong></td>
+            <td width="33%"><strong>Provincia</strong></td>
+            <td width="33%"><strong>Departamento</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="getDistrito(view.codigoDistritoSolicitante, 'solicitante').denominacion"></span></td>
+            <td><span ng-bind="getProvincia(view.codigoProvinciaSolicitante, 'solicitante').denominacion"></span></td>
+            <td><span ng-bind="getDepartamento(view.codigoDepartamentoSolicitante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Telefono</strong></td>
+            <td width="33%"><strong>Fecha de nacimiento</strong></td>
+            <td width="33%"><strong>Ocupacion</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.telefonoSolicitante"></span></td>
+            <td><span ng-bind="view.fechaNacimientoSolicitante | date: 'dd/MM/yyyy'"></span></td>
+            <td><span ng-bind="view.ocupacionSolicitante"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br/>
+    <table width="100%">
+        <thead>
+        <tr>
+            <td colspan="4"><strong>BENEFICIARIO (A FAVOR DE QUIEN SE REALIZA LA OPERACION)</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="25%"><strong>Tipo de documento</strong></td>
+            <td width="35%"><strong>Numero de documento</strong></td>
+            <td width="40%"><strong>Nacionalidad</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.tipoDocumentoBeneficiario.abreviatura"></span></td>
+            <td><span ng-bind="view.numeroDocumentoBeneficiario"></span></td>
+            <td><span ng-bind="getPais(view.codigoPaisBeneficiario).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Apellidos y nombres/Razon social</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.apellidosNombresBeneficiario"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Direccion</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.direccionBeneficiario"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Distrito</strong></td>
+            <td width="33%"><strong>Provincia</strong></td>
+            <td width="33%"><strong>Departamento</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="getDistrito(view.codigoDistritoBeneficiario, 'beneficiario').denominacion"></span></td>
+            <td><span ng-bind="getProvincia(view.codigoProvinciaBeneficiario, 'beneficiario').denominacion"></span></td>
+            <td><span ng-bind="getDepartamento(view.codigoDepartamentoSolicitante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Telefono</strong></td>
+            <td width="33%"><strong>Fecha de nacim./Constitucion</strong></td>
+            <td width="33%"><strong>Ocupacion/Actividad economica</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.telefonoBeneficiario"></span></td>
+            <td><span ng-bind="view.fechaNacimientoBeneficiario | date: 'dd/MM/yyyy'"></span></td>
+            <td><span ng-bind="view.ocupacionBeneficiario"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br/>
+    <table width="100%">
+        <thead>
+        <tr>
+            <td colspan="4"><strong>ORDENANTE (NOMBRE DE QUIEN ORDENA LA OPERACION)</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="25%"><strong>Tipo de documento</strong></td>
+            <td width="35%"><strong>Numero de documento</strong></td>
+            <td width="40%"><strong>Nacionalidad</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.tipoDocumentoOrdenante.abreviatura"></span></td>
+            <td><span ng-bind="view.numeroDocumentoOrdenante"></span></td>
+            <td><span ng-bind="getPais(view.codigoPaisOrdenante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Apellidos y nombres/Razon social</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.apellidosNombresOrdenante"></span></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Direccion</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><span ng-bind="view.direccionOrdenante"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Distrito</strong></td>
+            <td width="33%"><strong>Provincia</strong></td>
+            <td width="33%"><strong>Departamento</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="getDistrito(view.codigoDistritoOrdenante, 'ordenante').denominacion"></span></td>
+            <td><span ng-bind="getProvincia(view.codigoProvinciaOrdenante, 'ordenante').denominacion"></span></td>
+            <td><span ng-bind="getDepartamento(view.codigoDepartamentoOrdenante).denominacion"></span></td>
+        </tr>
+        <tr>
+            <td width="33%"><strong>Telefono</strong></td>
+            <td width="33%"><strong>Fecha de nacim./Constitucion</strong></td>
+            <td width="33%"><strong>Ocupacion/Actividad economica</strong></td>
+        </tr>
+        <tr>
+            <td><span ng-bind="view.telefonoOrdenante"></span></td>
+            <td><span ng-bind="view.fechaNacimientoOrdenante | date: 'dd/MM/yyyy'"></span></td>
+            <td><span ng-bind="view.ocupacionOrdenante"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+</div>
