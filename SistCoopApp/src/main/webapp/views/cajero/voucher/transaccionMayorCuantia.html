@@ -385,8 +385,8 @@
         </tr>
         <tr>
             <td width="50%"></td>
-            <td width="20%">Fecha: <span ng-bind="view.fecha | 'dd/MM/yyyy'"></span></td>
-            <td width="20%">Hora: <span ng-bind="view.hora | 'HH:mm'"></span></td>
+            <td width="20%">Fecha: <span ng-bind="view.fecha | date: 'dd/MM/yyyy'"></span></td>
+            <td width="20%">Hora: <span ng-bind="view.hora | date: 'HH:mm'"></span></td>
         </tr>
         </tbody>
     </table>
