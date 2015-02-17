@@ -109,4 +109,23 @@ public class VariableSistemaServiceBeanNT implements VariableSistemaServiceNT {
 		return null;
 	}
 
+	@Override
+	public BigDecimal getMayorCuantia(BigInteger idMoneda) {
+		Moneda moneda = monedaDAO.find(idMoneda);
+		if(moneda == null)
+			return null;		
+		
+		VariableSistema variableSistema = new VariableSistema();
+		
+		if(moneda.getSimbolo().toUpperCase() == "S/."){
+			variableSistema = getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_NUEVOS_SOLES);			
+		} else if(moneda.getSimbolo().toUpperCase() == "$"){
+			variableSistema = getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_DOLARES);
+		} else if(moneda.getSimbolo().toUpperCase() == "€"){
+			variableSistema = getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_EUROS);
+		}			
+					
+		return variableSistema.getValor();
+	}
+
 }

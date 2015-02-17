@@ -16,10 +16,14 @@ define(['./module'], function (directives) {
                     printElement(elemToPrint);
                 }
             });
+            window.onbeforeprint = function () {
+                // clean the print section before adding new content
+                printSection.innerHTML = '';
+            };
             window.onafterprint = function () {
                 // clean the print section before adding new content
                 printSection.innerHTML = '';
-            }
+            };
         }
         function printElement(elem) {
             // clones the element you want to print

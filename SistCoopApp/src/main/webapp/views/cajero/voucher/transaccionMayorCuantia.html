@@ -370,11 +370,30 @@
 
 
 <!--PRINT AREA-->
-<div id="printArea" style="display: none;">
+<div id="printArea" style="display: none; font-size: 12px;">
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td width="50%"></td>
+            <td width="50%"><strong style="font-size: 15px;">Caja Ventura</strong><img src="../images/logos_coop/logo_coop_header.png"></td>
+        </tr>
+        <tr>
+            <td colspan="3"><span style="font-size: 13px;">Registro de operaciones en efectivo de mayor cuantia</span></td>
+        </tr>
+        <tr>
+            <td colspan="3"><span style="font-size: 9px;">Ley Nº 27693 y su modificatoria Ley Nº 28306</span></td>
+        </tr>
+        <tr>
+            <td width="50%"></td>
+            <td width="20%">Fecha: <span ng-bind="view.fecha | 'dd/MM/yyyy'"></span></td>
+            <td width="20%">Hora: <span ng-bind="view.hora | 'HH:mm'"></span></td>
+        </tr>
+        </tbody>
+    </table>
     <table width="100%">
         <thead>
-        <tr style="background-color: red;">
-            <td colspan="4" style="background-color: red;"><strong>DATOS DE LA OPERACION</strong></stron></td>
+        <tr style="background-color: #ffff00;">
+            <td colspan="4"><strong>DATOS DE LA OPERACION</strong></strong></td>
         </tr>
         </thead>
         <tbody>
@@ -560,6 +579,27 @@
             <td><span ng-bind="view.telefonoOrdenante"></span></td>
             <td><span ng-bind="view.fechaNacimientoOrdenante | date: 'dd/MM/yyyy'"></span></td>
             <td><span ng-bind="view.ocupacionOrdenante"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    </br>
+    <table width="100%" border="1">
+        <tbody>
+        <tr>
+            <td width="50%"></br></br></br></br></td>
+            <td width="50%"></br></br></br></br></td>
+        </tr>
+        </tbody>
+    </table>
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td width="50%"><span>Firma o huella del solicitante</span></td>
+            <td width="50%"><span>Sello y VºBº del Promotor de Servicio</span></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span>El suscrito declara que los datos cocnsignados son correctos y en señal de conformidad firma.</span></td>
         </tr>
         </tbody>
     </table>
