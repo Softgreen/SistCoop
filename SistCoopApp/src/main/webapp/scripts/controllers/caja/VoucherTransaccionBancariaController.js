@@ -35,7 +35,7 @@ define(['../module'], function (controllers) {
                 }
             };
 
-            $scope.mayorCuantia = function(){
+            $scope.goToMayorCuantia = function(){
                 $state.transitionTo('app.transaccion.transaccionMayorCuantia', {id: $scope.id});
             };
 
