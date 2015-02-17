@@ -15,4 +15,6 @@ public interface VariableSistemaServiceNT extends AbstractServiceNT<VariableSist
 
 	public BigDecimal getTasaCambio(BigInteger idMonedaRecibida, BigInteger idMonedaEntregada);
 
+	public BigDecimal getMayorCuantia(BigInteger idMoneda);
+
 }

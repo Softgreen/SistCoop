@@ -39,7 +39,10 @@ define(['../module'], function (controllers) {
                 codigoDistritoOrdenante: undefined,
                 telefonoOrdenante: undefined,
                 fechaNacimientoOrdenante: undefined,
-                ocupacionOrdenante: undefined
+                ocupacionOrdenante: undefined,
+
+                fecha: new Date(),
+                hora: new Date()
             };
 
             $scope.combo = {

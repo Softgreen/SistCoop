@@ -23,6 +23,7 @@ define([
     './BovedaService',
     './SessionService',
     './ConfiguracionService',
+    './VariablesSistema',
 
     './HotKeysFunctionsService',
     './VariablesService'

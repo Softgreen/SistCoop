@@ -1,11 +1,20 @@
 define(['../module'], function (controllers) {
     'use strict';
-    controllers.controller('VoucherTransaccionBancariaController', ["$scope", "$state", "$filter", "CajaService","CuentaBancariaService", "RedirectService",
-        function($scope, $state, $filter, CajaService, CuentaBancariaService, RedirectService) {
+    controllers.controller('VoucherTransaccionBancariaController', ["$scope", "$state", "$filter", "CajaService","CuentaBancariaService", "VariablesSistema", "RedirectService",
+        function($scope, $state, $filter, CajaService, CuentaBancariaService, VariablesSistema, RedirectService) {
 
             CajaService.getVoucherTransaccionBancaria($scope.id).then(
                 function(data){
                     $scope.transaccionCuentaBancaria = data;
+
+                    VariablesSistema.findMayorCuantiaByMoneda(data.moneda.id).then(function(data){
+                        if($scope.transaccionCuentaBancaria.monto>=data){
+                            $scope.mayorCuantia = true;
+                        }else{
+                            $scope.mayorCuantia = false;
+                        }
+                    });
+
                 },
                 function error(error){
                     alert("Transaccion Cuenta Bancaria no Encontrado");

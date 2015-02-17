@@ -16,14 +16,20 @@
  */
 package org.sistemafinanciero.rest.impl;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.rest.VariableSistemaREST;
+import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
 
 public class VariableSistemaRESTService implements VariableSistemaREST {
 
+	@EJB
+	private VariableSistemaServiceNT variableSistemaServiceNT;
+	
 	@Override
 	public Response findVariable(int id) {
 		// TODO Auto-generated method stub
@@ -35,6 +41,13 @@ public class VariableSistemaRESTService implements VariableSistemaREST {
 			BigInteger idMonedaEntregada) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Response findMayorCuantia(BigInteger idMoneda) {
+		BigDecimal valor = variableSistemaServiceNT.getMayorCuantia(idMoneda);
+		Response response = Response.status(Response.Status.OK).entity(valor).build();
+		return response;		
 	}
 
 }
