@@ -117,11 +117,11 @@ public class VariableSistemaServiceBeanNT implements VariableSistemaServiceNT {
 		
 		VariableSistema variableSistema = new VariableSistema();
 		
-		if(moneda.getSimbolo().toUpperCase() == "S/."){
+		if(moneda.getSimbolo().toUpperCase().equals("S/.")){
 			variableSistema = getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_NUEVOS_SOLES);			
-		} else if(moneda.getSimbolo().toUpperCase() == "$"){
+		} else if(moneda.getSimbolo().toUpperCase().equals("$")){
 			variableSistema = getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_DOLARES);
-		} else if(moneda.getSimbolo().toUpperCase() == "€"){
+		} else if(moneda.getSimbolo().toUpperCase().equals("€")){
 			variableSistema = getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_EUROS);
 		}			
 					

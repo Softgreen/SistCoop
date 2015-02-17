@@ -8,8 +8,10 @@ define(['../module'], function (controllers) {
                     $scope.transaccionCuentaBancaria = data;
 
                     VariablesSistema.findMayorCuantiaByMoneda(data.moneda.id).then(function(data){
-                        if(data.monto>=data){
+                        if($scope.transaccionCuentaBancaria.monto>=data){
                             $scope.mayorCuantia = true;
+                        }else{
+                            $scope.mayorCuantia = false;
                         }
                     });
 

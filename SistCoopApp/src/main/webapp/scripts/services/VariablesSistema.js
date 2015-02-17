@@ -9,7 +9,7 @@ define(['./module'], function (services) {
                     return Restangular.one(baseUrl, id).get();
                 },
                 findMayorCuantiaByMoneda: function(idMoneda){
-                    return Restangular.one(baseUrl+'/mayorCuantia'+'/'+idMoneda).get();
+                    return Restangular.one(baseUrl+'/mayorCuantia').get({idMoneda: idMoneda});
                 }
             }
 

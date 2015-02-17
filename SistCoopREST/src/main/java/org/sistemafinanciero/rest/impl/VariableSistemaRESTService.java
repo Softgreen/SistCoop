@@ -23,7 +23,6 @@ import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.rest.VariableSistemaREST;
-import org.sistemafinanciero.service.nt.TrabajadorServiceNT;
 import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
 
 public class VariableSistemaRESTService implements VariableSistemaREST {
@@ -47,7 +46,8 @@ public class VariableSistemaRESTService implements VariableSistemaREST {
 	@Override
 	public Response findMayorCuantia(BigInteger idMoneda) {
 		BigDecimal valor = variableSistemaServiceNT.getMayorCuantia(idMoneda);
-		return null;
+		Response response = Response.status(Response.Status.OK).entity(valor).build();
+		return response;		
 	}
 
 }
