@@ -16,24 +16,24 @@ import java.util.Date;
 @Entity
 @Table(name = "ESTADOCUENTA_BANCARIA_VIEW")
 @NamedQuery(name = "EstadocuentaBancariaView.findAll", query = "SELECT e FROM EstadocuentaBancariaView e")
-@NamedQueries({ @NamedQuery(name = EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta, query = "SELECT e FROM EstadocuentaBancariaView e WHERE e.numeroCuenta = :numeroCuenta AND e.fecha BETWEEN :desde AND :hasta") })
+@NamedQueries({ @NamedQuery(name = EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta, query = "SELECT e FROM EstadocuentaBancariaView e WHERE e.numeroCuenta = :numeroCuenta AND e.fecha BETWEEN :desde AND :hasta ORDER BY e.hora DESC") })
 public class EstadocuentaBancariaView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String findByNumeroCuentaAndDesdeHasta = "EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta";
 
-	@XmlElement
 	@Id
+	@Column(name = "ID_TRANSACCION_TRANSFERENCIA")
+	private BigDecimal idTransaccionTransferencia;
+	
+	@XmlElement	
 	@Column(name = "NUMERO_CUENTA", nullable = false, length = 40, columnDefinition = "nvarchar2")
 	private String numeroCuenta;
 
 	@XmlElement
 	@Column(name = "SALDO", nullable = false, precision = 18)
-	private BigDecimal saldo;
-
-	@Column(name = "ID_TRANSACCION_TRANSFERENCIA")
-	private BigDecimal idTransaccionTransferencia;
+	private BigDecimal saldo;	
 
 	@Column(name = "NUMERO_OPERACION")
 	private BigInteger numeroOperacion;
