@@ -123,7 +123,7 @@ define(['../../module'], function (controllers) {
                     {field:'nombres', displayName:'NOMBRES'},
                     {field:'sexo', displayName:'SEXO', width:90},
                     {field:"fechaNacimiento | date:'dd/MM/yyyy'", displayName:'F. NACIMIENTO', width:100},
-                    {displayName: 'EDITAR', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)" ng-disabled="true"><span class="glyphicon glyphicon-share"></span>Edit</button></div>', width:80}]
+                    {displayName: 'EDITAR', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>', width:80}]
             };
         }]);
 });

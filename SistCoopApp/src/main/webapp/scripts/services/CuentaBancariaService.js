@@ -136,6 +136,10 @@ define(['./module'], function (services) {
                 },
                 getCuentaBancariaByNumeroChequeUnico: function(numeroChequeUnico){
                     return Restangular.one(baseUrl+"/cheques/"+numeroChequeUnico+"/cuentaBancaria").get();
+                },
+
+                enviarEstadoCuentaByEmail: function(idCuentaBancaria){
+                    return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/enviarEstadoCuenta").post();
                 }
             }
         }])
