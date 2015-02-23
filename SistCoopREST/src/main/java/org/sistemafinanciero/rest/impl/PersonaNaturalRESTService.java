@@ -80,7 +80,7 @@ public class PersonaNaturalRESTService implements PersonaNaturalREST {
 
 	@NoCache
 	@Override
-	public Response listAll(String filterText, Integer offset, Integer limit) {
+	public Response listAll(String filterText, Integer offset, Integer limit) {			
 		List<PersonaNatural> list = personaNaturalServiceNT.findAll(filterText, offset, limit);
 		Response response = Response.status(Response.Status.OK).entity(list).build();
 		return response;

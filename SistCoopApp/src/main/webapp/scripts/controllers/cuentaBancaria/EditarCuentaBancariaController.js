@@ -158,6 +158,11 @@ define(['../module'], function (controllers) {
                     }
                 );
             };
+            $scope.enviarEmail = function(){
+                CuentaBancariaService.enviarEstadoCuentaByEmail($scope.id).then(function(){
+                    alert("correos enviados");
+                });
+            };
 
             //editar persona socio
             $scope.editarSocioPersonaNatural = function(){

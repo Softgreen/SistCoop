@@ -209,4 +209,12 @@ public interface CuentaBancariaREST {
 	@Path("/cheques/{numeroChequeUnico}/cuentaBancaria")
 	@Produces({ "application/xml", "application/json" })
 	public Response getChequeByNumeroUnicoCuentaBancaria(@PathParam("numeroChequeUnico") BigInteger numeroChequeUnico);
+	
+	/**MAIL*/
+	
+	@POST
+	@Path("/{id}/enviarEstadoCuenta")
+	@Produces({ "application/xml", "application/json" })
+	public Response enviarEstadoCuenta(@PathParam("id") BigInteger idCuentaBancaria, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
+	
 }

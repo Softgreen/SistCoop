@@ -28,7 +28,6 @@ import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
-import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.Titular;
@@ -203,7 +202,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		}
 
 		QueryParameter queryParameter = QueryParameter.with("numeroCuenta", cuenta.getNumeroCuenta()).and("desde", desdeQuery).and("hasta", hastaQuery);
-		List<EstadocuentaBancariaView> list = estadocuentaBancariaViewDAO.findByNamedQuery(EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta, queryParameter.parameters());
+		List<EstadocuentaBancariaView> list = estadocuentaBancariaViewDAO.findByNamedQuery(EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta, queryParameter.parameters());		
 
 		return list;
 	}

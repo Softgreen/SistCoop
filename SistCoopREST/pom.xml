@@ -192,7 +192,13 @@
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-servlet-oauth-client</artifactId>
-			<version>1.0.4.Final</version>			
+			<version>1.0.4.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>smtp</artifactId>
+			<version>1.5.2</version>
 		</dependency>
 
 		<dependency>

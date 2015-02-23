@@ -32,6 +32,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +63,7 @@ import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.mail.EmailSessionBean;
 import org.sistemafinanciero.rest.CuentaBancariaREST;
 import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
@@ -106,6 +108,9 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	// private final static String cartillaURL = "D:\\cartilla";
 	private final static String cartillaURL = "//usr//share//jboss//archivos//cartillaInformacion//";
 
+	@EJB
+	EmailSessionBean emailSessionBean;
+	
 	@EJB
 	private CuentaBancariaServiceNT cuentaBancariaServiceNT;
 
@@ -1159,6 +1164,27 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		} else {
 			return Response.status(Status.NO_CONTENT).build();
 		}
+	}
+
+	@Override
+	public Response enviarEstadoCuenta(BigInteger idCuentaBancaria, Long desde, Long hasta) {
+		Date dateDesde = (desde != null ? new Date(desde) : null);
+		Date dateHasta = (desde != null ? new Date(hasta) : null);
+		
+		Set<Titular> titulares = cuentaBancariaServiceNT.getTitulares(idCuentaBancaria, true);
+		List<String> emails = new ArrayList<String>();
+		for (Titular titular : titulares) {
+			PersonaNatural personaNatural = titular.getPersonaNatural();
+			String email = personaNatural.getEmail();
+			emails.add(email);			
+		}
+		
+		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
+		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
+		
+		emailSessionBean.sendMail(cuentaBancariaView, list, emails, dateDesde, dateHasta);
+
+		return Response.status(Status.NO_CONTENT).build();
 	}
 
 
