@@ -16,7 +16,7 @@ define(['../module'], function (controllers) {
             $scope.setInitialFocus();
 
             $scope.tipoCuentasBancarias = [];
-            $scope.tipoPersonas = VariablesService.getTipoPersonas();;
+            $scope.tipoPersonas = VariablesService.getTipoPersonas();
             $scope.tipoEstadoCuenta = [];
             $scope.tipoEstadoCuenta.push(VariablesService.getEstadoBancarioActivo());
             $scope.tipoCuentasBancarias.push(VariablesService.getAhorro());
@@ -114,27 +114,27 @@ define(['../module'], function (controllers) {
                 plugins: [gridLayoutPlugin],
                 columnDefs: [
                     {field:"tipoCuenta", displayName:'TIPO CTA', width:90},
-                    {field:"numeroCuenta", displayName:'NUMERO CUENTA', width:120},
-                    {field:"tipoDocumento", displayName:'TIPO DOC', width:75},
-                    {field:"numeroDocumento", displayName:'Nº DOCUMENTO', width:100},
-                    {field:"socio", displayName:'SOCIO'},
-                    {field:"moneda", displayName:'MONEDA', width:60},
-                    {field:"estadoCuenta", displayName:'ESTADO', width:70},
-                    {displayName: 'Select', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="selectCuenta(row.entity)"><span class="glyphicon glyphicon-share"></span>Select</button></div>',  width:70}
+                    {field:"numeroCuenta", displayName:'NUMERO CUENTA', width:125},
+                    {field:"tipoDocumento", displayName:'T DOC.', width:60},
+                    {field:"numeroDocumento", displayName:'Nº DOC.',width:100},
+                    {field:"titulares", displayName:'SOCIO'},
+                    {field:"moneda", displayName:'MONEDA', width:70},
+                    {field:"estadoCuenta", displayName:'ESTADO',width:100},
+                    {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="selectCuenta(row.entity)"><span class="glyphicon glyphicon-share"></span>Editar</button></div>', width:80}
                 ]
             };
 
             $scope.updateGridLayout = function(){
                 gridLayoutPlugin.updateGridLayout();
-            }
+            };
             setTimeout(function () {
                 $scope.updateGridLayout();
-            }, 500);
+            }, 600);
 
             $scope.selectCuenta = function(row){
                 $scope.cuentaSelected = row;
                 $scope.ok();
-            }
+            };
 
             $scope.ok = function () {
                 var cta = $scope.gridOptions.selectedItems[0];

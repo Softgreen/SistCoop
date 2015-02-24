@@ -1,8 +1,11 @@
 package org.sistemafinanciero.mail;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,12 +30,19 @@ import javax.mail.util.ByteArrayDataSource;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfCell;
 
 @Stateless
 @LocalBean
@@ -191,50 +201,87 @@ public class EmailSessionBean {
 
 		document.open();
 
-		document.addTitle("Test PDF");
-		document.addSubject("Testing email PDF");
-		document.addKeywords("iText, email");
-		document.addAuthor("Jee Vang");
-		document.addCreator("Jee Vang");
+		document.addTitle("Estado de cuenta bancaria.");
+		document.addSubject("Estado de cuenta");
+		document.addKeywords("email");
+		document.addAuthor("Cooperativa Ventura");
+		document.addCreator("Cooperativa Ventura");
+		
+		Paragraph saltoDeLinea = new Paragraph();
+		document.add(saltoDeLinea);
+		
+		/******************* TITULO ******************/
+		try{
+			// Image img = Image.getInstance("/images/logo.png");
+			Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo.png");
+			img.setAlignment(Image.LEFT | Image.UNDERLYING);
+			document.add(img);
 
-		Font font = FontFactory.getFont("Times-Roman", 7);
+			Paragraph parrafoPrincipal = new Paragraph();
+			parrafoPrincipal.setSpacingAfter(30);
+			parrafoPrincipal.setSpacingBefore(50);
+			parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
+			parrafoPrincipal.setIndentationLeft(100);
+			parrafoPrincipal.setIndentationRight(50);
+
+			Chunk titulo = new Chunk("ESTADO DE CUENTA\n");
+			Font fuenteTitulo = new Font();
+			fuenteTitulo.setSize(18);
+			fuenteTitulo.setFamily("Arial");
+			fuenteTitulo.setStyle(Font.BOLD | Font.UNDERLINE);
+			titulo.setFont(fuenteTitulo);
+			parrafoPrincipal.add(titulo);
+				
+			Chunk subTituloAhorro = new Chunk("APERTURA CUENTA DE AHORRO\n");
+			Font fuenteSubtituloAhorro = new Font();
+			fuenteSubtituloAhorro.setSize(13);
+			fuenteSubtituloAhorro.setFamily("Arial");
+			fuenteSubtituloAhorro.setStyle(Font.BOLD | Font.UNDERLINE);
+			subTituloAhorro.setFont(fuenteSubtituloAhorro);
+			parrafoPrincipal.add(subTituloAhorro);
+
+			document.add(parrafoPrincipal);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}			
 		
-		document.add(new Paragraph("\n"));
-		document.add(new Paragraph("\n"));
-		document.add(new Paragraph("\n"));
-		document.add(new Paragraph("\n"));
-		document.add(new Paragraph("\n"));
-		document.add(new Paragraph("\n"));
+		PdfPTable table = new PdfPTable(3);
+		PdfPCell cellCabecera1 = new PdfPCell(new Paragraph("SOCIO: " + cuentaBancaria.getSocio()));
+		cellCabecera1.setColspan(3);
+		table.addCell(cellCabecera1);
 		
-		Paragraph paragraph1 = new Paragraph();
-		paragraph1.setFont(font);
-		Chunk numeroCuenta1 = new Chunk("Nº CUENTA:");
-		Chunk numeroCuenta2 = new Chunk(cuentaBancaria.getNumeroCuenta());
-		paragraph1.add(numeroCuenta1);
-		paragraph1.add(Chunk.SPACETABBING);
-		paragraph1.add(numeroCuenta2);
-		document.add(paragraph1);
+		PdfPCell cellCabecera2 = new PdfPCell(new Paragraph("CUENTA Nº: " + cuentaBancaria.getNumeroCuenta()));
+		cellCabecera2.setColspan(3);
+		table.addCell(cellCabecera2);
 		
+		PdfPCell cellFecha = new PdfPCell(new Paragraph("FECHA"));		
+		cellFecha.setBackgroundColor(new BaseColor(51, 144, 66));
+		PdfPCell cellDescripcion = new PdfPCell(new Paragraph("DESCRIPCION"));		
+		cellDescripcion.setBackgroundColor(new BaseColor(51, 144, 66));
+		PdfPCell cellMonto = new PdfPCell(new Paragraph("MONTO"));		
+		cellMonto.setBackgroundColor(new BaseColor(51, 144, 66));
 		
-		Paragraph paragraph4 = new Paragraph();
-		paragraph4.setFont(font);
-		Chunk socio1 = new Chunk("SOCIO:");
-		Chunk socio2 = new Chunk(cuentaBancaria.getSocio());
-		Chunk codigoSocio1 = new Chunk("CODIGO SOCIO:");
-		Chunk codigoSocio2 = new Chunk(cuentaBancaria.getIdSocio().toString());
-		paragraph4.add(socio1);
-		paragraph4.add(Chunk.SPACETABBING);
-		paragraph4.add(Chunk.SPACETABBING);
-		paragraph4.add(socio2);
-		paragraph4.add(Chunk.SPACETABBING);
-		paragraph4.add(codigoSocio1);
-		paragraph4.add(Chunk.SPACETABBING);
-		paragraph4.add(codigoSocio2);
-		document.add(paragraph4);
+		table.addCell(cellFecha);
+		table.addCell(cellDescripcion);
+		table.addCell(cellMonto);
 		
-		Paragraph paragraph = new Paragraph();
-		paragraph.add(new Chunk("hello!"));
-		document.add(paragraph);
+		for (EstadocuentaBancariaView estadocuentaBancariaView : list) {	
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm"); // Set your date format
+			String fechaString = sdf.format(estadocuentaBancariaView.getHora());
+			table.addCell(fechaString);
+			table.addCell(estadocuentaBancariaView.getTipoTransaccionTransferencia());
+			table.addCell(estadocuentaBancariaView.getMonto().toString());						
+		}
+		
+		table.addCell("");
+		table.addCell("Saldo:");
+		table.addCell(cuentaBancaria.getSaldo().toString());
+		
+		document.add(table);
 
 		document.close();
 	}
