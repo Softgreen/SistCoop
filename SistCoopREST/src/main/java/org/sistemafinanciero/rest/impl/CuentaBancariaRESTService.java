@@ -1164,10 +1164,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		} else {
 			return Response.status(Status.NO_CONTENT).build();
 		}
-	}
+	}	
 
 	@Override
-	public Response enviarEstadoCuenta(BigInteger idCuentaBancaria, Long desde, Long hasta) {
+	public Response enviarEstadoCuentaPdf(BigInteger idCuentaBancaria, Long desde, Long hasta) {
 		Date dateDesde = (desde != null ? new Date(desde) : null);
 		Date dateHasta = (desde != null ? new Date(hasta) : null);
 		
@@ -1182,8 +1182,29 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
 		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
 		
-		emailSessionBean.sendMail(cuentaBancariaView, list, emails, dateDesde, dateHasta);
+		emailSessionBean.sendMailPdf(cuentaBancariaView, list, emails, dateDesde, dateHasta);
+		
+		return Response.status(Status.NO_CONTENT).build();
+	}
 
+	@Override
+	public Response enviarEstadoCuentaExcel(BigInteger idCuentaBancaria, Long desde, Long hasta) {
+		Date dateDesde = (desde != null ? new Date(desde) : null);
+		Date dateHasta = (desde != null ? new Date(hasta) : null);
+		
+		Set<Titular> titulares = cuentaBancariaServiceNT.getTitulares(idCuentaBancaria, true);
+		List<String> emails = new ArrayList<String>();
+		for (Titular titular : titulares) {
+			PersonaNatural personaNatural = titular.getPersonaNatural();
+			String email = personaNatural.getEmail();
+			emails.add(email);			
+		}
+		
+		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
+		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
+		
+		emailSessionBean.sendMailExcel(cuentaBancariaView, list, emails, dateDesde, dateHasta);
+		
 		return Response.status(Status.NO_CONTENT).build();
 	}
 

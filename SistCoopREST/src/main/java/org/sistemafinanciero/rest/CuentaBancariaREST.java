@@ -213,8 +213,13 @@ public interface CuentaBancariaREST {
 	/**MAIL*/
 	
 	@POST
-	@Path("/{id}/enviarEstadoCuenta")
+	@Path("/{id}/enviarEstadoCuenta/pdf")
 	@Produces({ "application/xml", "application/json" })
-	public Response enviarEstadoCuenta(@PathParam("id") BigInteger idCuentaBancaria, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
+	public Response enviarEstadoCuentaPdf(@PathParam("id") BigInteger idCuentaBancaria, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
+	
+	@POST
+	@Path("/{id}/enviarEstadoCuenta/excel")
+	@Produces({ "application/xml", "application/json" })
+	public Response enviarEstadoCuentaExcel(@PathParam("id") BigInteger idCuentaBancaria, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
 	
 }
