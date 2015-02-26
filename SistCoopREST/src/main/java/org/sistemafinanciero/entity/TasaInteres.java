@@ -31,7 +31,7 @@ public class TasaInteres implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private BigInteger idTasaInteres;
 	private String denominacion;
 	private String abreviatura;
@@ -39,9 +39,9 @@ public class TasaInteres implements java.io.Serializable {
 	private Set valorTasasInteres = new HashSet(0);
 
 	public TasaInteres() {
-	}	
+	}
 
-	@XmlElement(name="id")
+	@XmlElement(name = "id")
 	@Id
 	@Column(name = "ID_TASA_INTERES", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigInteger getIdTasaInteres() {
@@ -61,7 +61,7 @@ public class TasaInteres implements java.io.Serializable {
 	public void setDenominacion(String denominacion) {
 		this.denominacion = denominacion;
 	}
-	
+
 	@XmlElement
 	@Column(name = "ABREVIATURA", length = 20, columnDefinition = "nvarchar2")
 	public String getAbreviatura() {
@@ -80,7 +80,7 @@ public class TasaInteres implements java.io.Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}	
+	}
 
 	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tasaInteres")
@@ -91,5 +91,5 @@ public class TasaInteres implements java.io.Serializable {
 	public void setValorTasasInteres(Set valorTasasInteres) {
 		this.valorTasasInteres = valorTasasInteres;
 	}
-	
+
 }
