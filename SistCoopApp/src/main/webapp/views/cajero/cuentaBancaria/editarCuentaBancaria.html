@@ -298,9 +298,18 @@
                                         Buscar
                                     </button>
 
-                                    <button type="button" ng-click="enviarEmail()" class="btn btn-link" style="padding: 0px 12px;">
-                                        Enviar email
-                                    </button>
+                                    <span class="dropdown">
+                                      <a href class="dropdown-toggle">
+                                          Enviar email
+                                      </a>
+                                      <ul class="dropdown-menu">
+                                          <li>
+                                              <a href ng-click="enviarEmail('pdf')">Pdf</a>
+                                              <a href ng-click="enviarEmail('excel')">Excel</a>
+                                          </li>
+                                      </ul>
+                                    </span>
+
                                 </div>
                             </div>
                         </form>

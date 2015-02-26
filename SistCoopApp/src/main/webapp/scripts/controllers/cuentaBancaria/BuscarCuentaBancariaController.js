@@ -97,8 +97,8 @@ define(['../module'], function (controllers) {
             };
             $scope.totalServerItems = 0;
             $scope.pagingOptions = {
-                pageSizes: [10, 20, 40],
-                pageSize: 10,
+                pageSizes: [15, 50, 100],
+                pageSize: 15,
                 currentPage: 1
             };
             $scope.setPagingData = function(data, page, pageSize){
