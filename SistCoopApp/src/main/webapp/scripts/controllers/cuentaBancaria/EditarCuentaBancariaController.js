@@ -118,8 +118,10 @@ define(['../module'], function (controllers) {
                 enablePaging: true,
                 columnDefs: [
                     {field:"fecha", cellFilter: "date:'dd/MM/yyyy'", displayName:'FECHA'},
-                    {field:"tipoTransaccion", displayName:'DESCRIPCION'},
-                    {field:"monto", displayName:'MONTO'}
+                    {field:"hora", cellFilter:"date : 'HH:mm:ss'", displayName:'HORA'},
+                    {field:"tipoTransaccion", displayName:'TIPO TRANSACCION'},
+                    {displayName: 'MONEDA', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span>{{cuentaBancaria.moneda}}</span></div>', width:70},
+                    {field:"monto", displayName:'MONTO', width:100}
                 ]
             };
 

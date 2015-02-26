@@ -55,9 +55,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)}">
                                         <label>Tipo Documento</label>
                                         <label style="color: brown;">(*)</label>
-                                        <select name="tipoDocumento" ng-options="item as item.abreviatura for item in combo.tipoDocumentos | orderBy : 'id'" ng-model="view.tipoDocumento" class="form-control" required>
-                                            <option value="">--Seleccione--</option>
-                                        </select>
+                                        <input type="text" name="tipoDocumento" ng-model="view.tipoDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="Tipo Documento" capitalize required/>
                                         <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)">
                                             <p class="help-block" ng-show="form.tipoDocumento.$error.required">
                                                 Ingrese tipo documento.
@@ -75,7 +73,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumento.$invalid && (control.submitted || form.monto.$dirty)}">
                                         <label>N&#250;mero Documento</label>
                                         <label style="color: brown;">(*)</label>
-                                        <input type="text" name="numeroDocumento" ng-model="view.numeroDocumento" ui-keypress="{13:'buscarPersona($event)'}" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="N&#250;mero documento" required/>
+                                        <input type="text" name="numeroDocumento" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="18" class="form-control" placeholder="N&#250;mero documento" required/>
                                         <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.monto.$dirty)">
                                             <p class="help-block" ng-show="form.numeroDocumento.$error.required">
                                                 Ingrese numero documento.
