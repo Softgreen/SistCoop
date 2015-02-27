@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">TITULAR</h4>
             </div>
-            <form name="$parent.formTitular" class="form-horizontal" ng-submit="addTitular()" novalidate>
+            <form name="formTitular" class="form-horizontal" ng-submit="addTitular()" novalidate>
                 <div class="modal-body">
                     <alert ng-repeat="alert in alertsTitular" type="{{alert.type}}" close="closeAlert($index)">
                         <span ng-bind-html="alert.msg"></span>

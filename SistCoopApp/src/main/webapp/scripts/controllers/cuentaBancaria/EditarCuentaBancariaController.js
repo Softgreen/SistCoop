@@ -120,8 +120,10 @@ define(['../module'], function (controllers) {
                     {field:"fecha", cellFilter: "date:'dd/MM/yyyy'", displayName:'FECHA'},
                     {field:"hora", cellFilter:"date : 'HH:mm:ss'", displayName:'HORA'},
                     {field:"tipoTransaccion", displayName:'TIPO TRANSACCION'},
+                    {field:"referencia", displayName:'REFERENCIA'},
                     {displayName: 'MONEDA', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span>{{cuentaBancaria.moneda}}</span></div>', width:70},
-                    {field:"monto", displayName:'MONTO', width:100}
+                    {field:"monto", displayName:'MONTO', width:100},
+                    {field:"saldoDisponible", cellFilter: "currency: ''", displayName:'S.DISPONIBLE', width:100}
                 ]
             };
 
