@@ -1,9 +1,7 @@
 package org.sistemafinanciero.mail;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -33,7 +31,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
@@ -186,27 +183,49 @@ public class EmailSessionBean {
 		Cell cellFechaCabecera = row3.createCell(0);			
 		cellFechaCabecera.setCellValue("FECHA");	
 		cellFechaCabecera.setCellStyle(styleBold);
-		Cell cellTipoTransaccionCabecera = row3.createCell(1);			
+		Cell cellHoraCabecera = row3.createCell(1);			
+		cellHoraCabecera.setCellValue("HORA");	
+		cellHoraCabecera.setCellStyle(styleBold);
+		Cell cellTipoTransaccionCabecera = row3.createCell(2);			
 		cellTipoTransaccionCabecera.setCellValue("DESCRIPCION");	
 		cellTipoTransaccionCabecera.setCellStyle(styleBold);
-		Cell cellMontoCabecera = row3.createCell(2);			
+		Cell cellReferenciaCabecera = row3.createCell(3);			
+		cellReferenciaCabecera.setCellValue("REFERENCIA");	
+		cellReferenciaCabecera.setCellStyle(styleBold);
+		Cell cellMontoCabecera = row3.createCell(4);			
 		cellMontoCabecera.setCellValue("MONTO");
 		cellMontoCabecera.setCellStyle(styleBold);
+		Cell cellSaldoDisponibleCabecera = row3.createCell(5);			
+		cellSaldoDisponibleCabecera.setCellValue("S.DISPONIBLE");	
+		cellSaldoDisponibleCabecera.setCellStyle(styleBold);
 		
 		for (int i = 0; i < list.size(); i++) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-			String fechaString = sdf.format(list.get(i).getHora());
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			String fechaString = sdf.format(list.get(i).getFecha());
 			
+			sdf = new SimpleDateFormat("HH:mm:ss");
+			String horaString = sdf.format(list.get(i).getHora());
+			
+			/*****EXCEL*****/
 			Row row = sheet.createRow(i+3);
 			
 			Cell cellFecha = row.createCell(0);			
 			cellFecha.setCellValue(fechaString);
 			
-			Cell cellTipoTransaccion = row.createCell(1);			
+			Cell cellHora = row.createCell(1);			
+			cellHora.setCellValue(horaString);
+			
+			Cell cellTipoTransaccion = row.createCell(2);			
 			cellTipoTransaccion.setCellValue(list.get(i).getTipoTransaccionTransferencia());
 			
-			Cell cellMonto = row.createCell(2, Cell.CELL_TYPE_NUMERIC);			
+			Cell cellReferencia = row.createCell(3);			
+			cellReferencia.setCellValue(list.get(i).getReferencia());
+			
+			Cell cellMonto = row.createCell(4, Cell.CELL_TYPE_NUMERIC);			
 			cellMonto.setCellValue(list.get(i).getMonto().doubleValue());
+			
+			Cell cellSaldoDisponible = row.createCell(5, Cell.CELL_TYPE_NUMERIC);			
+			cellSaldoDisponible.setCellValue(list.get(i).getSaldoDisponible().doubleValue());
 		}
 		
 		Row rowSaldo = sheet.createRow(list.size() + 3);	
