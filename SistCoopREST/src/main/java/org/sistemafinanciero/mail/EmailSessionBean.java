@@ -198,6 +198,9 @@ public class EmailSessionBean {
 		Cell cellSaldoDisponibleCabecera = row3.createCell(5);			
 		cellSaldoDisponibleCabecera.setCellValue("S.DISPONIBLE");	
 		cellSaldoDisponibleCabecera.setCellStyle(styleBold);
+		Cell cellEstadoCabecera = row3.createCell(6);	
+		cellEstadoCabecera.setCellValue("ESTADO");	
+		cellEstadoCabecera.setCellStyle(styleBold);
 		
 		for (int i = 0; i < list.size(); i++) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -226,6 +229,9 @@ public class EmailSessionBean {
 			
 			Cell cellSaldoDisponible = row.createCell(5, Cell.CELL_TYPE_NUMERIC);			
 			cellSaldoDisponible.setCellValue(list.get(i).getSaldoDisponible().doubleValue());
+			
+			Cell cellEstado = row.createCell(6);			
+			cellEstado.setCellValue(list.get(i).getEstado() ?  "" : "EXTORNADO");
 		}
 		
 		Row rowSaldo = sheet.createRow(list.size() + 3);	
