@@ -1012,6 +1012,16 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 			extornarCuentaBancariaDeposito(transaccionBancaria);
 		else
 			extornarCuentaBancariaRetiro(transaccionBancaria);
+		
+		//despues de extornar se debe de recalcular los saldos disponibles de la cuenta bancaria
+		QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", transaccionBancaria.getCuentaBancaria().getIdCuentaBancaria()).and("fecha", transaccionBancaria.getHora());
+		
+		List<TransaccionBancaria> transaccionesBancarias = transaccionBancariaDAO.findByNamedQuery(TransaccionBancaria.findByIdCuentaAndFecha, queryParameter.parameters());		
+		for (TransaccionBancaria transaccionBancariaPosterior : transaccionesBancarias) {
+			BigDecimal nuevoSaldoDisponible = transaccionBancariaPosterior.getSaldoDisponible().subtract(transaccionBancaria.getMonto());
+			transaccionBancariaPosterior.setSaldoDisponible(nuevoSaldoDisponible);
+			transaccionBancariaDAO.update(transaccionBancariaPosterior);
+		}
 	}
 
 	private void extornarCuentaBancariaDeposito(TransaccionBancaria transaccionBancaria) throws RollbackFailureException {

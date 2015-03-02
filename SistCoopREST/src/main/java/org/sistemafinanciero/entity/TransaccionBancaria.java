@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,6 +37,7 @@ import org.sistemafinanciero.entity.type.Tipotransaccionbancaria;
 @Table(name = "TRANSACCION_BANCARIA", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "transaccionBancaria")
 @XmlAccessorType(XmlAccessType.NONE)
+@NamedQueries({ @NamedQuery(name = TransaccionBancaria.findByIdCuentaAndFecha, query = "SELECT t FROM TransaccionBancaria t INNER JOIN t.cuentaBancaria c WHERE c.idCuentaBancaria = :idCuentaBancaria AND t.hora >= :fecha")})
 public class TransaccionBancaria implements java.io.Serializable {
 
 	/**
@@ -42,6 +45,8 @@ public class TransaccionBancaria implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public final static String findByIdCuentaAndFecha = "TransaccionBancaria.findByIdCuentaAndFecha";
+	
 	private BigInteger idTransaccionBancaria;
 	private Moneda moneda;
 	private HistorialCaja historialCaja;
@@ -58,44 +63,7 @@ public class TransaccionBancaria implements java.io.Serializable {
 
 	public TransaccionBancaria() {
 	}
-
-	public TransaccionBancaria(BigInteger idTransaccionBancaria,
-			HistorialCaja historialCaja, CuentaBancaria cuentaBancaria,
-			Date fecha, Date hora, BigInteger numeroOperacion,
-			BigDecimal monto, boolean estado, BigDecimal saldoDisponible,
-			Tipotransaccionbancaria tipoTransaccion) {
-		this.idTransaccionBancaria = idTransaccionBancaria;
-		this.historialCaja = historialCaja;
-		this.cuentaBancaria = cuentaBancaria;
-		this.fecha = fecha;
-		this.hora = hora;
-		this.numeroOperacion = numeroOperacion;
-		this.monto = monto;
-		this.estado = (estado ? 1 : 0);
-		this.saldoDisponible = saldoDisponible;
-		this.tipoTransaccion = tipoTransaccion;
-	}
-
-	public TransaccionBancaria(BigInteger idTransaccionBancaria,
-			HistorialCaja historialCaja, CuentaBancaria cuentaBancaria,
-			Date fecha, Date hora, BigInteger numeroOperacion,
-			BigDecimal monto, String referencia, boolean estado,
-			BigDecimal saldoDisponible,
-			Tipotransaccionbancaria tipoTransaccion, String observacion) {
-		this.idTransaccionBancaria = idTransaccionBancaria;
-		this.historialCaja = historialCaja;
-		this.cuentaBancaria = cuentaBancaria;
-		this.fecha = fecha;
-		this.hora = hora;
-		this.numeroOperacion = numeroOperacion;
-		this.monto = monto;
-		this.referencia = referencia;
-		this.estado = (estado ? 1 : 0);
-		this.saldoDisponible = saldoDisponible;
-		this.tipoTransaccion = tipoTransaccion;
-		this.observacion = observacion;
-	}
-
+	
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="secuencia_transaccion_bancaria")
 	@SequenceGenerator(name="secuencia_transaccion_bancaria", initialValue=1, allocationSize=1, sequenceName="TRANSACCION_SEQUENCE")
 	@XmlElement(name = "id")
