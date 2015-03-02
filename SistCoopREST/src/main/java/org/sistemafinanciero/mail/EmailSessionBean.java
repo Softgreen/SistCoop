@@ -53,10 +53,10 @@ public class EmailSessionBean {
 
 	private int port = 587;
 	private String host = "smtp.gmail.com";
-	private String from = "carlosthe19916@gmail.com";
+	private String from = "coop.caja.ventura@gmail.com";
 	private boolean auth = true;
-	private String username = "carlosthe19916@gmail.com";
-	private String password = "zarate19916";
+	private String username = "coop.caja.ventura@gmail.com";
+	private String password = "caja.ventura";
 	private Protocol protocol = Protocol.SMTP;
 	private boolean debug = true;
 
