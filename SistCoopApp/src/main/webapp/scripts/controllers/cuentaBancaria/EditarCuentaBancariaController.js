@@ -117,13 +117,16 @@ define(['../module'], function (controllers) {
                 multiSelect: false,
                 enablePaging: true,
                 columnDefs: [
-                    {field:"fecha", cellFilter: "date:'dd/MM/yyyy'", displayName:'FECHA'},
-                    {field:"hora", cellFilter:"date : 'HH:mm:ss'", displayName:'HORA'},
-                    {field:"tipoTransaccion", displayName:'TIPO TRANSACCION'},
+                    {field:"fecha", cellFilter: "date:'dd/MM/yyyy'", displayName:'FECHA', width:70},
+                    {field:"hora", cellFilter:"date : 'HH:mm:ss'", displayName:'HORA', width:60},
+                    {field:"tipoTransaccion", displayName:'TIPO TRANS.', width:80},
+                    {field:"idTransaccionTransferencia", displayName:'Nº TRANS.', width:70},
+                    {field:"numeroOperacion", displayName:'Nº OP.', width:50},
                     {field:"referencia", displayName:'REFERENCIA'},
-                    {displayName: 'MONEDA', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span>{{cuentaBancaria.moneda}}</span></div>', width:70},
-                    {field:"monto", displayName:'MONTO', width:100},
-                    {field:"saldoDisponible", cellFilter: "currency: ''", displayName:'S.DISPONIBLE', width:100}
+                    {displayName: 'MONEDA', width:60, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span>{{cuentaBancaria.moneda}}</span></div>'},
+                    {field:"monto", displayName:'MONTO', width:70},
+                    {field:"saldoDisponible", cellFilter: "currency: ''", displayName:'DISPONIBLE', width:90},
+                    {displayName:'ESTADO', width: 80, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6"><span ng-show="row.entity.estado" style="color: blue; font-weight: bold;">ACTIVO</span><span ng-hide="row.entity.estado" style="color: red; font-weight: bold;">EXTORNADO</span></div>'},
                 ]
             };
 
