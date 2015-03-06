@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -34,6 +35,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.sistemafinanciero.entity.CuentaBancariaView;
 import org.sistemafinanciero.entity.EstadocuentaBancariaView;
+import org.sistemafinanciero.entity.type.TipoPersona;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -62,7 +64,7 @@ public class EmailSessionBean {
 
 	private String mailMessage = "";
 	private String fileName = "estado_cuenta";	
-	private String subject = "Estado de cuenta";
+	private String subject = "Estado de Cuenta";
 
 	public void writePdf(OutputStream outputStream, List<EstadocuentaBancariaView> list, CuentaBancariaView cuentaBancaria) throws Exception {
 		Document document = new Document();
@@ -70,19 +72,19 @@ public class EmailSessionBean {
 
 		document.open();
 
-		document.addTitle("Estado de cuenta bancaria.");
-		document.addSubject("Estado de cuenta");
+		document.addTitle("Estado de Cuenta");
+		document.addSubject("Estado de Cuenta");
 		document.addKeywords("email");
-		document.addAuthor("Cooperativa Ventura");
-		document.addCreator("Cooperativa Ventura");
+		document.addAuthor("Cooperativa de Ahorro y Crédito Caja Ventura");
+		document.addCreator("Cooperativa de Ahorro y Crédito Caja Ventura");
 
 		Paragraph saltoDeLinea = new Paragraph();
 		document.add(saltoDeLinea);
 
 		/******************* TITULO ******************/
 		try {
-			// Image img = Image.getInstance("/images/logo.png");
-			Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo.png");
+			Image img = Image.getInstance("/images/logo_coop_contrato.png");
+			//Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo.png");
 			img.setAlignment(Image.LEFT | Image.UNDERLYING);
 			document.add(img);
 
@@ -92,24 +94,59 @@ public class EmailSessionBean {
 			parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
 			parrafoPrincipal.setIndentationLeft(100);
 			parrafoPrincipal.setIndentationRight(50);
+			
+			Paragraph parrafoSecundario = new Paragraph();
+			parrafoSecundario.setSpacingAfter(50);
+			parrafoSecundario.setSpacingBefore(-20);
+			parrafoSecundario.setAlignment(Element.ALIGN_LEFT);
+			parrafoSecundario.setIndentationLeft(160);
+			parrafoSecundario.setIndentationRight(10);
 
-			Chunk titulo = new Chunk("ESTADO DE CUENTA\n");
+			Chunk titulo = new Chunk("ESTADO DE CUENTA");
 			Font fuenteTitulo = new Font();
-			fuenteTitulo.setSize(18);
+			fuenteTitulo.setSize(16);
 			fuenteTitulo.setFamily("Arial");
-			fuenteTitulo.setStyle(Font.BOLD | Font.UNDERLINE);
+			fuenteTitulo.setStyle(Font.BOLD | Font.NORMAL);
 			titulo.setFont(fuenteTitulo);
 			parrafoPrincipal.add(titulo);
 
-			Chunk subTituloAhorro = new Chunk("APERTURA CUENTA DE AHORRO\n");
-			Font fuenteSubtituloAhorro = new Font();
-			fuenteSubtituloAhorro.setSize(13);
-			fuenteSubtituloAhorro.setFamily("Arial");
-			fuenteSubtituloAhorro.setStyle(Font.BOLD | Font.UNDERLINE);
-			subTituloAhorro.setFont(fuenteSubtituloAhorro);
-			parrafoPrincipal.add(subTituloAhorro);
+			Chunk titular = new Chunk("TITULAR(ES): \n");
+			Font fuenteTitular = new Font();
+			fuenteTitular.setSize(11);
+			fuenteTitular.setFamily("Arial");
+			fuenteTitular.setStyle(Font.NORMAL | Font.NORMAL);
+			titular.setFont(fuenteTitular);
+			parrafoSecundario.add(titular);
+			
+			
+			//if (cuentaBancaria.getTipoPersona().equals(TipoPersona.JURIDICA)) {
+				Chunk RUC = new Chunk("RUC:" + cuentaBancaria.getNumeroDocumento() + "\n");
+				Font fuenteRUC = new Font();
+				fuenteRUC.setSize(11);
+				fuenteRUC.setFamily("Arial");
+				fuenteRUC.setStyle(Font.NORMAL | Font.NORMAL);
+				RUC.setFont(fuenteRUC);
+				parrafoSecundario.add(RUC);
+			//}
+			
+			Date fechaSistema = new Date();
+			SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat formatHora = new SimpleDateFormat("HH:mm:ss");
+			String fechaActual = formatFecha.format(fechaSistema);
+			String horaActual = formatHora.format(fechaSistema);
+				
+			
+			Chunk fecha = new Chunk("FECHA:" + fechaActual + " " + horaActual);
+			Font fuenteFecha = new Font();
+			fuenteFecha.setSize(11);
+			fuenteFecha.setFamily("Arial");
+			fuenteFecha.setStyle(Font.NORMAL | Font.NORMAL);
+			fecha.setFont(fuenteFecha);
+			parrafoSecundario.add(fecha);
+			
 
 			document.add(parrafoPrincipal);
+			document.add(parrafoSecundario);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (DocumentException e) {
