@@ -1176,7 +1176,8 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		for (Titular titular : titulares) {
 			PersonaNatural personaNatural = titular.getPersonaNatural();
 			String email = personaNatural.getEmail();
-			emails.add(email);			
+			if(email != null)
+				emails.add(email);			
 		}
 		
 		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
