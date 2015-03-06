@@ -135,7 +135,7 @@ define(['./app'], function(app) {
                             }
                         },
                         "viewContent":{
-                            template: '<div ui-view style="min-height: 472px;"><h4 class="text-center" style="font-weight: bold; color: blue;">ADMINISTRAR CUENTAS BANCARIA</h4></div>'
+                            template: '<div ui-view style="min-height: 472px;"><h4 class="text-center" style="font-weight: bold; color: blue;">ADMINISTRAR CUENTAS BANCARIAS</h4></div>'
                         }
                     }
                 })
