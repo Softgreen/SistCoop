@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "ESTADOCUENTA_BANCARIA_VIEW")
 @NamedQuery(name = "EstadocuentaBancariaView.findAll", query = "SELECT e FROM EstadocuentaBancariaView e")
-@NamedQueries({ @NamedQuery(name = EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta, query = "SELECT e FROM EstadocuentaBancariaView e WHERE e.numeroCuenta = :numeroCuenta AND e.fecha BETWEEN :desde AND :hasta ORDER BY e.hora DESC") })
+@NamedQueries({ @NamedQuery(name = EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta, query = "SELECT e FROM EstadocuentaBancariaView e WHERE e.numeroCuenta = :numeroCuenta AND e.fecha BETWEEN :desde AND :hasta ORDER BY e.hora ASC") })
 public class EstadocuentaBancariaView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
