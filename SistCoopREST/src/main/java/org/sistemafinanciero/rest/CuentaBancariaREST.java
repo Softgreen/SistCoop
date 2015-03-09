@@ -210,6 +210,13 @@ public interface CuentaBancariaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response getChequeByNumeroUnicoCuentaBancaria(@PathParam("numeroChequeUnico") BigInteger numeroChequeUnico);
 	
+	
+	
+	@GET
+	@Path("{id}/estadoCuenta/pdf")
+	public Response getEstadoCuentaPdf(@PathParam("id") BigInteger id);
+
+	
 	/**MAIL*/
 	
 	@POST

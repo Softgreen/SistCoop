@@ -1209,6 +1209,159 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		return Response.status(Status.NO_CONTENT).build();
 	}
 
+	@Override
+	public Response getEstadoCuentaPdf(BigInteger idCuentaBancaria) { 									
+		
+		Date dateDesde = null;
+		Date dateHasta = null;		
+		Set<Titular> titulares = cuentaBancariaServiceNT.getTitulares(idCuentaBancaria, true);
+		List<String> emails = new ArrayList<String>();
+		for (Titular titular : titulares) {
+			PersonaNatural personaNatural = titular.getPersonaNatural();
+			String email = personaNatural.getEmail();
+			if(email != null)
+				emails.add(email);			
+		}	
+		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
+		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
+			
+		
+		/**PDF**/
+		ByteArrayOutputStream outputStream = null;
+		outputStream = new ByteArrayOutputStream();
+		
+		Document document = new Document();
+		try {
+			PdfWriter.getInstance(document, outputStream);
+			document.open();
 
+			document.addTitle("Estado de Cuenta");
+			document.addSubject("Estado de Cuenta");
+			document.addKeywords("email");
+			document.addAuthor("Cooperativa de Ahorro y Crédito Caja Ventura");
+			document.addCreator("Cooperativa de Ahorro y Crédito Caja Ventura");
+
+			Paragraph saltoDeLinea = new Paragraph();
+			document.add(saltoDeLinea);
+		} catch (DocumentException e1) {			
+			e1.printStackTrace();
+		}
+		
+		/******************* TITULO ******************/
+		try {
+			Image img = Image.getInstance("/images/logo_coop_contrato.png");
+			//Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo.png");
+			img.setAlignment(Image.LEFT | Image.UNDERLYING);
+			document.add(img);
+
+			Paragraph parrafoPrincipal = new Paragraph();
+			parrafoPrincipal.setSpacingAfter(30);
+			parrafoPrincipal.setSpacingBefore(50);
+			parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
+			parrafoPrincipal.setIndentationLeft(100);
+			parrafoPrincipal.setIndentationRight(50);
+			
+			Paragraph parrafoSecundario = new Paragraph();
+			parrafoSecundario.setSpacingAfter(50);
+			parrafoSecundario.setSpacingBefore(-20);
+			parrafoSecundario.setAlignment(Element.ALIGN_LEFT);
+			parrafoSecundario.setIndentationLeft(160);
+			parrafoSecundario.setIndentationRight(10);
+
+			Chunk titulo = new Chunk("ESTADO DE CUENTA");
+			Font fuenteTitulo = new Font();
+			fuenteTitulo.setSize(16);
+			fuenteTitulo.setFamily("Arial");
+			fuenteTitulo.setStyle(Font.BOLD | Font.NORMAL);
+			titulo.setFont(fuenteTitulo);
+			parrafoPrincipal.add(titulo);
+
+			Chunk titular = new Chunk("TITULAR(ES): \n");
+			Font fuenteTitular = new Font();
+			fuenteTitular.setSize(11);
+			fuenteTitular.setFamily("Arial");
+			fuenteTitular.setStyle(Font.NORMAL | Font.NORMAL);
+			titular.setFont(fuenteTitular);
+			parrafoSecundario.add(titular);
+			
+			
+			//if (cuentaBancaria.getTipoPersona().equals(TipoPersona.JURIDICA)) {
+				Chunk RUC = new Chunk("RUC:" + cuentaBancariaView.getNumeroDocumento() + "\n");
+				Font fuenteRUC = new Font();
+				fuenteRUC.setSize(11);
+				fuenteRUC.setFamily("Arial");
+				fuenteRUC.setStyle(Font.NORMAL | Font.NORMAL);
+				RUC.setFont(fuenteRUC);
+				parrafoSecundario.add(RUC);
+			//}
+			
+			Date fechaSistema = new Date();
+			SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat formatHora = new SimpleDateFormat("HH:mm:ss");
+			String fechaActual = formatFecha.format(fechaSistema);
+			String horaActual = formatHora.format(fechaSistema);
+				
+			
+			Chunk fecha = new Chunk("FECHA:" + fechaActual + " " + horaActual);
+			Font fuenteFecha = new Font();
+			fuenteFecha.setSize(11);
+			fuenteFecha.setFamily("Arial");
+			fuenteFecha.setStyle(Font.NORMAL | Font.NORMAL);
+			fecha.setFont(fuenteFecha);
+			parrafoSecundario.add(fecha);
+			
+
+			document.add(parrafoPrincipal);
+			document.add(parrafoSecundario);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		PdfPTable table = new PdfPTable(3);
+		PdfPCell cellCabecera1 = new PdfPCell(new Paragraph("SOCIO: " + cuentaBancariaView.getSocio()));
+		cellCabecera1.setColspan(3);
+		table.addCell(cellCabecera1);
+
+		PdfPCell cellCabecera2 = new PdfPCell(new Paragraph("CUENTA Nº: " + cuentaBancariaView.getNumeroCuenta()));
+		cellCabecera2.setColspan(3);
+		table.addCell(cellCabecera2);
+
+		PdfPCell cellFecha = new PdfPCell(new Paragraph("FECHA"));
+		cellFecha.setBackgroundColor(new BaseColor(51, 144, 66));
+		PdfPCell cellDescripcion = new PdfPCell(new Paragraph("DESCRIPCION"));
+		cellDescripcion.setBackgroundColor(new BaseColor(51, 144, 66));
+		PdfPCell cellMonto = new PdfPCell(new Paragraph("MONTO"));
+		cellMonto.setBackgroundColor(new BaseColor(51, 144, 66));
+
+		table.addCell(cellFecha);
+		table.addCell(cellDescripcion);
+		table.addCell(cellMonto);
+
+		for (EstadocuentaBancariaView estadocuentaBancariaView : list) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			String fechaString = sdf.format(estadocuentaBancariaView.getHora());
+			table.addCell(fechaString);
+			table.addCell(estadocuentaBancariaView.getTipoTransaccionTransferencia());
+			table.addCell(estadocuentaBancariaView.getMonto().toString());
+		}
+
+		table.addCell("");
+		table.addCell("Saldo:");
+		table.addCell(cuentaBancariaView.getSaldo().toString());
+
+		try {
+			document.add(table);
+		} catch (DocumentException e) {			
+			e.printStackTrace();
+		}
+
+		document.close();
+				
+		return Response.ok(outputStream.toByteArray()).type("application/pdf").build();					
+	}
 
 }
