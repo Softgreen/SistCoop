@@ -164,7 +164,7 @@ define(['../module'], function (controllers) {
                             var listenerTrabajador = $scope.$watch('trabajador', function(){
                                 if(!angular.isUndefined($scope.trabajador)){
                                     for(var i=0;i<$scope.usuarios.length;i++){
-                                        if($scope.usuarios[i].username = $scope.trabajador.usuario){
+                                        if($scope.usuarios[i].username == $scope.trabajador.usuario){
                                             $scope.view.usuario = $scope.usuarios[i];
                                             break;
                                         }
