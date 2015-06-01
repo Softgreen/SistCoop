@@ -6,6 +6,5 @@
   "resource": "SistCoopApp",
   "credentials": {
     "secret": "02f97aed-374b-40b2-98a7-b50bd12a5f58"
-  },
-  "enable-cors": true
+  }
 }

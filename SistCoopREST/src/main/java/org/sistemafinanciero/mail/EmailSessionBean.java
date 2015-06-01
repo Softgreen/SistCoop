@@ -116,16 +116,13 @@ public class EmailSessionBean {
 			titular.setFont(fuenteTitular);
 			parrafoSecundario.add(titular);
 			
-			
-			//if (cuentaBancaria.getTipoPersona().equals(TipoPersona.JURIDICA)) {
-				Chunk RUC = new Chunk("RUC:" + cuentaBancaria.getNumeroDocumento() + "\n");
-				Font fuenteRUC = new Font();
-				fuenteRUC.setSize(11);
-				fuenteRUC.setFamily("Arial");
-				fuenteRUC.setStyle(Font.NORMAL | Font.NORMAL);
-				RUC.setFont(fuenteRUC);
-				parrafoSecundario.add(RUC);
-			//}
+			Chunk RUC = new Chunk(cuentaBancaria.getTipoDocumento() + ": " + cuentaBancaria.getNumeroDocumento() + "\n");
+			Font fuenteRUC = new Font();
+			fuenteRUC.setSize(11);
+			fuenteRUC.setFamily("Arial");
+			fuenteRUC.setStyle(Font.NORMAL | Font.NORMAL);
+			RUC.setFont(fuenteRUC);
+			parrafoSecundario.add(RUC);
 			
 			Date fechaSistema = new Date();
 			SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
