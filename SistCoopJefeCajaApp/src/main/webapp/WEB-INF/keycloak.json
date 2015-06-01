@@ -3,9 +3,8 @@
   "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhFGLWBN4DoW/cnc1hXdMpWAydspj9OXjN2a7EZediW+P+ZKEymFjpESYk+8cWc8bqiLKD3OqcCkWcWSxqk7pDB8loZ5K5HivzkrX+aCRxLEfZTJaTr8fNKSNHGdHLAHoIPhJ6o7fJCDKFyC61TQ5bbhcjW9/8mPWqUy6OYMC8ouXTKCM6NAPVI3Nr8tBvGYGtOqTBfjQAyAWsDWLn60x21NkSButhHX/t6K/IBUkQRQ61vBbPp1Ot20W54XnNKWaT9YS9X7587JPSmE8Fuj+gwa/iG6EUyW0VEDRhs5XIUaRXeQ37eLxF1aRQBLc4mE6Q1h5tpwxkZN9cqLUnzV/mQIDAQAB",
   "auth-server-url": "http://192.168.1.11:8080/auth",
   "ssl-required": "external",
-  "resource": "SistCoopApp",
+  "resource": "SistCoopJefeCajaApp",
   "credentials": {
-    "secret": "02f97aed-374b-40b2-98a7-b50bd12a5f58"
-  },
-  "enable-cors": true
+    "secret": "59b32e65-e36b-4424-b708-9b166ddde5ab"
+  }
 }
