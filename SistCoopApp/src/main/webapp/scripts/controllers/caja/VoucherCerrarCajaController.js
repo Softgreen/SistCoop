@@ -31,7 +31,7 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x40");
                 qz.append("\x1B\x21\x08");
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-                qz.append("C.A.C. CAJA VENTURA\r\n");
+                qz.append("CASA DE CAMBIOS VENTURA\r\n");
                 qz.append("RESUMEN DE OPERACIONES\r\n");
                 
                 qz.append("\x1B\x21\x01");
@@ -122,7 +122,7 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x40"); // 1
                 qz.append("\x1B\x21\x08"); // 2
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-                qz.append("C.A.C. CAJA VENTURA\r\n");
+                qz.append("CASA DE CAMBIOS VENTURA\r\n");
                 qz.append("BALANCE CAJA\r\n");
 
                 qz.append("\x1B\x21\x01");

@@ -37,7 +37,7 @@ define(['../module'], function (controllers) {
 
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
-                qz.append("C.A.C. CAJA VENTURA \r\n");											// \r\n salto de linea
+                qz.append("CASA DE CAMBIOS VENTURA\r\n");											// \r\n salto de linea
                 if ($scope.transaccionBovedaCaja.origen == "CAJA") {
                 	qz.append("TRANSACCION CAJA/BOVEDA " + "\r\n");
 				}
