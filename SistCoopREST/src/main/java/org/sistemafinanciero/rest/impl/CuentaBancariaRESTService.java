@@ -440,11 +440,11 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			PdfPTable table1 = new PdfPTable(4);
 			table1.setWidthPercentage(100);
 
-			PdfPCell cabecera1 = new PdfPCell(new Paragraph("DATOS BÁSICOS DEL SOCIO", fontBold));
+			PdfPCell cabecera1 = new PdfPCell(new Paragraph("DATOS BÁSICOS DEL CLIENTE", fontBold));
 			cabecera1.setColspan(4);
 			cabecera1.setBackgroundColor(baseColor);
 
-			PdfPCell cellCodigoSocio = new PdfPCell(new Paragraph("Codigo Socio:", fontBold));
+			PdfPCell cellCodigoSocio = new PdfPCell(new Paragraph("Codigo Cliente:", fontBold));
 			cellCodigoSocio.setColspan(1);
 			cellCodigoSocio.setBorder(Rectangle.NO_BORDER);
 
@@ -625,7 +625,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				enumeracionAH01.add(chunkAH01);
 
 				Paragraph enumeracionAH02 = new Paragraph();
-				Chunk chunkAH02 = new Chunk("- El (LOS) CLIENTE(S) tendrán a su disposición en nuestras ventanillas de atención, los estados de cuenta mensuales de las cuentas de ahorro.\n", font);
+				Chunk chunkAH02 = new Chunk("- El CLIENTE tendrán a su disposición en nuestras ventanillas de atención, los estados de cuenta mensuales de las cuentas de ahorro.\n", font);
 				chunkAH02.setLineHeight(13);
 				enumeracionAH02.add(chunkAH02);
 
@@ -677,7 +677,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				enumeracionPF07.add(chunkPF07);
 
 				Paragraph enumeracionPF08 = new Paragraph();
-				Chunk chunkPF08 = new Chunk("- EL CLIENTE deberá dar inmediatamente aviso por escrito en caso de pérdida, extravío o sustracción de esta cartilla, caso contrario LA COOPERATIVA no se responsabiliza de las operaciones efectuadas, por falta de aviso previo.\n", font);
+				Chunk chunkPF08 = new Chunk("- EL CLIENTE deberá dar inmediatamente aviso por escrito en caso de pérdida, extravío o sustracción de esta cartilla, caso contrario la CASA DE CAMBIOS VENTURA no se responsabiliza de las operaciones efectuadas, por falta de aviso previo.\n", font);
 				chunkPF08.setLineHeight(12);
 				enumeracionPF08.add(chunkPF08);
 
@@ -748,7 +748,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			// firmas
 			Chunk firmaP01 = new Chunk("..........................................");
 			Chunk firmaP02 = new Chunk("..........................................\n");
-			Chunk firma01 = new Chunk("Caja Ventura");
+			Chunk firma01 = new Chunk("Casa de Cambios Ventura");
 			Chunk firma02 = new Chunk("El Cliente   ");
 
 			Paragraph firmas = new Paragraph("\n\n\n");
