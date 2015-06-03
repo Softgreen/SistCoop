@@ -108,13 +108,13 @@
                 <div class="form-group" ng-class="{ 'has-error' : formCrearCuenta.periodo.$invalid && (control.submitted || formCrearCuenta.periodo.$dirty)}">
                     <label>Periodo (D&iacute;as)</label>
                     <label style="color: brown;">(*)</label>
-                    <input type="number" name="periodo" ng-model="view.periodo" ng-minlength="1" ng-maxlength="3" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Periodo" required/>
+                    <input type="number" name="periodo" ng-model="view.periodo" ng-minlength="1" ng-maxlength="4" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Periodo" required/>
                     <div ng-show="formCrearCuenta.periodo.$invalid && (control.submitted || formCrearCuenta.periodo.$dirty)">
                         <p class="help-block" ng-show="formCrearCuenta.periodo.$error.required">
                             Ingrese Numero de Dias valido.
                         </p>
                         <p class="help-block" ng-show="formCrearCuenta.periodo.$error.maxlength">
-                            Maximo 3 Caracteres.
+                            Maximo 4 Caracteres.
                         </p>
                     </div>
                 </div>
