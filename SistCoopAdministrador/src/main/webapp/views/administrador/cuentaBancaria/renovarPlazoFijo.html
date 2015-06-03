@@ -52,13 +52,13 @@
                                     <div class="form-group" ng-class="{ 'has-error' : formRecalcularCuenta.periodo.$invalid && control.submitted}">
                                         <label>Periodo</label>
                                         <label style="color: brown;">(*)</label>
-                                        <input type="number" name="periodo" ng-model="view.periodo" ng-minlength="1" ng-maxlength="3" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Periodo" required/>
+                                        <input type="number" name="periodo" ng-model="view.periodo" ng-minlength="1" ng-maxlength="4" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Periodo" required/>
                                         <div ng-show="formRecalcularCuenta.periodo.$invalid && (control.submitted || formRecalcularCuenta.periodo.$dirty)">
                                             <p class="help-block" ng-show="formRecalcularCuenta.periodo.$error.required">
                                                 Ingrese Numero de Dias valido.
                                             </p>
                                             <p class="help-block" ng-show="formRecalcularCuenta.periodo.$error.maxlength">
-                                                Maximo 3 Caracteres.
+                                                Maximo 4 Caracteres.
                                             </p>
                                         </div>
                                     </div>
