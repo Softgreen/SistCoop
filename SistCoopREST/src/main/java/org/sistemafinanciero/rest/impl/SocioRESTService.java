@@ -274,8 +274,8 @@ public class SocioRESTService implements SocioREST {
 			document.open();
 
 			/******************* TITULO ******************/
-			Image img = Image.getInstance("/images/logo_coop_contrato.png");
-			//Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo_coop_contrato.png");
+			//Image img = Image.getInstance("/images/logo_coop_contrato.png");
+			Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo_coop_contrato.png");
 			img.setAlignment(Image.LEFT | Image.UNDERLYING);
 			document.add(img);
 
