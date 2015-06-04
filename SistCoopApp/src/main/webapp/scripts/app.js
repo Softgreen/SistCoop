@@ -2,6 +2,8 @@
 define([
         'angular',
         'uiRouter',
+        'jquery',
+        'jquery-maskedinput',
         './controllers/main',
         './directives/main',
         './filters/main',
@@ -31,6 +33,21 @@ define([
             'focusOn',
             'cfp.hotkeys',
             'angular-ladda'
-        ]);
+        ]).config(function ($provide) {
+
+            $provide.decorator('datepickerPopupDirective', function ($delegate) {
+              var directive = $delegate[0];
+              var link = directive.link;
+
+              directive.compile = function () {
+                return function (scope, element, attrs) {
+                  link.apply(this, arguments);
+                  element.mask("99/99/9999");
+                };
+              };
+
+              return $delegate;
+            });
+          });
     }
 );

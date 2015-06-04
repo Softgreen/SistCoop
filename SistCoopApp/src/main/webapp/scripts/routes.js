@@ -147,7 +147,7 @@ define(['./app'], function(app) {
                 })
                 .state('app.home', {
                     url: '/home',
-                    template: '</br><div class="center-block"><h2 class="text-center" style="font-weight: bold; color: seagreen;">Bienvenido al Sistema Financiero</h2></div></br></br>' +
+                    template: '</br><div class="center-block"><h2 class="text-center" style="font-weight: bold; color: seagreen;">Bienvenido al Sistema Financiero</h2></div></br>' +
                         '<h3 class="text-center"><img alt="Caja Ventura" src="images/logos_coop/logo_coop.png"></h3></br></br></br>'
                 })
                 .state('app.configuracion', {
@@ -747,22 +747,7 @@ define(['./app'], function(app) {
                     }
                 })
         }
-    ]).config(function ($provide) {
-
-        $provide.decorator('datepickerPopupDirective', function ($delegate) {
-          var directive = $delegate[0];
-          var link = directive.link;
-
-          directive.compile = function () {
-            return function (scope, element, attrs) {
-              link.apply(this, arguments);
-              element.mask("99/99/9999");
-            };
-          };
-
-          return $delegate;
-        });
-      }).run(['$rootScope', '$state', '$stateParams',
+    ]).run(['$rootScope', '$state', '$stateParams',
             function ($rootScope,   $state,   $stateParams) {
                 $rootScope.$state = $state;
                 $rootScope.$stateParams = $stateParams;
