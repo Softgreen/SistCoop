@@ -1,6 +1,8 @@
 /*jshint unused: vars */
 define([
         'angular',
+        'jquery',
+        'jquery-maskedinput',
         './controllers/main',
         './directives/main',
         './filters/main',
@@ -31,6 +33,21 @@ define([
             'cfp.hotkeys',
             'angular-ladda',
             'fxpicklist'
-        ]);
+        ]).config(function ($provide) {
+
+            $provide.decorator('datepickerPopupDirective', function ($delegate) {
+              var directive = $delegate[0];
+              var link = directive.link;
+
+              directive.compile = function () {
+                return function (scope, element, attrs) {
+                  link.apply(this, arguments);
+                  element.mask("99/99/9999");
+                };
+              };
+
+              return $delegate;
+            });
+          });
     }
 );

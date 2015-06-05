@@ -3,6 +3,7 @@ require.config({
     paths: {
         'domReady': '../bower_components/requirejs-domready/domReady',
         jquery: '../bower_components/jquery/dist/jquery',
+        'jquery-maskedinput': '../bower_components/jquery.maskedinput/dist/jquery.maskedinput',
         angular: '../bower_components/angular/angular',
         'angular-scenario': '../bower_components/angular-scenario/angular-scenario',
         'angular-mocks': '../bower_components/angular-mocks/angular-mocks',
@@ -30,6 +31,9 @@ require.config({
         },
         jquery: {
             'exports' : 'jquery'
+        },
+        'jquery-maskedinput': {            
+            deps: ['jquery']
         },
         'angular-sanitize':{
             deps: ['angular']
@@ -105,6 +109,7 @@ require([
     'angular',
     'app',
     'jquery',
+    'jquery-maskedinput',
     'routes',
     'angular-sanitize',
     'angular-animate',
