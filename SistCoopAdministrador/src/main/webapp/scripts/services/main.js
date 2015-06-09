@@ -15,7 +15,9 @@ define([
     './VariablesService',
 
     './MaestroService',
-    './ConfiguracionService'
+    './ConfiguracionService',
+
+  './TasaInteresService'
 ], function () {
 
 });

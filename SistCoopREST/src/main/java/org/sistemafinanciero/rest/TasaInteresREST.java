@@ -20,11 +20,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+
+import org.sistemafinanciero.rest.dto.TasaCambioDTO;
 
 @Path("/tasa")
 public interface TasaInteresREST {
@@ -53,5 +56,10 @@ public interface TasaInteresREST {
 	@Path("/tasaCambio")
 	@Produces({ "application/xml", "application/json" })
 	public Response getTasaCambio(@QueryParam("idMonedaRecibida") BigInteger idMonedaRecibida, @QueryParam("idMonedaEntregada") BigInteger idMonedaEntregada);
+
+	@POST
+	@Path("/tasaCambio")
+	@Produces({ "application/xml", "application/json" })
+	public Response setTasaCambio(TasaCambioDTO tasaCambioDTO);
 
 }

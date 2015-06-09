@@ -15,7 +15,7 @@ define([
     './persona/natural/BuscarPersonaNaturalController',
     './persona/natural/CrearPersonaNaturalController',
     './persona/natural/EditarPersonaNaturalController',
-    
+
     './persona/juridica/AccionistaController',
     './persona/juridica/BuscarPersonaJuridicaController',
     './persona/juridica/CrearPersonaJuridicaController',
@@ -36,7 +36,9 @@ define([
 
     './util/ConfirmPopUpController',
     './util/LoadImageController',
-    './util/UbigeoController'
+    './util/UbigeoController',
+
+    './configuracion/TipoCambioController'
 
 ], function () {
 

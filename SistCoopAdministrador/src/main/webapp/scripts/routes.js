@@ -139,7 +139,23 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-
+              .state('app.configuracion', {
+                url: "/configuracion",
+                views: {
+                  "viewMenu":{
+                    controller: function($scope){
+                      $scope.menus = [
+                        {'name':'Monedas', submenus:[
+                          { 'name':'Tipo cambio' , 'state':'app.configuracion.tipoCambio'}
+                        ]}
+                      ];
+                    }
+                  },
+                  "viewContent":{
+                    template: '<div ui-view style="min-height: 472px;"><h4 class="text-center" style="font-weight: bold; color: blue;">ADMINISTRAR TIPO DE CAMBIO</h4></div>'
+                  }
+                }
+              })
 
                 .state('app.sucursal.nuevaSucursal', {
                     url: '/nuevo',
@@ -194,7 +210,7 @@ define(['./app'], function(app) {
                     templateUrl: 'views/administrador/persona/natural/buscarPersonaNatural.html',
                     controller: 'BuscarPersonaNaturalController'
                 })
-                
+
                 .state('app.administracion.crearPersonaNatural', {
                     url: "/personaNatural?tipoDocumento&numeroDocumento",
                     templateUrl: "views/administrador/persona/natural/crearPersonaNatural.html",
@@ -204,7 +220,7 @@ define(['./app'], function(app) {
                         $scope.params.numeroDocumento = $stateParams.numeroDocumento;
                     }
                 })
-                
+
                 .state('app.administracion.editarPersonaNatural', {
                     url: "/personaNatural/:id",
                     templateUrl: "views/administrador/persona/natural/editarPersonaNatural.html",
@@ -212,7 +228,7 @@ define(['./app'], function(app) {
                         $scope.id = $stateParams.id;
                     }
                 })
-                
+
                 .state('app.administracion.buscarPersonaJuridica', {
                     url: "/personaJuridica/buscar",
                     templateUrl: "views/administrador/persona/juridica/buscarPersonaJuridica.html",
@@ -253,6 +269,11 @@ define(['./app'], function(app) {
                         $scope.id = $stateParams.id;
                         $scope.idCuentaBancaria = $stateParams.idCuentaBancaria;
                     }
+                })
+
+                .state('app.configuracion.tipoCambio', {
+                  url: "/tipoCambio",
+                  templateUrl: "views/administrador/configuracion/tipoCambio.html"
                 });
         }
     ]).config(function ($provide) {

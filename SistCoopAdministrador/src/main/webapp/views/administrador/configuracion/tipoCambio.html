@@ -1,0 +1,103 @@
+<div ng-controller="TipoCambioController">
+
+  <div class="row">
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">Dolar Americano - Compra</div>
+        <div class="panel-body">
+
+          <form ng-submit="guardarTasaCompraDolar()" class="form-horizontal" novalidate>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Tasa:</label>
+              <div class="col-sm-10">
+                <input type="number" name="periodo" ng-model="view.tasaCompraDolar" ng-minlength="1" ng-maxlength="4" class="form-control" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Guardar</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">Dolar americano- Venta</div>
+        <div class="panel-body">
+
+          <form ng-submit="guardarTasaVentaDolar()" class="form-horizontal" novalidate>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Tasa:</label>
+              <div class="col-sm-10">
+                <input type="number" name="periodo" ng-model="view.tasaVentaDolar" ng-minlength="1" ng-maxlength="4" class="form-control" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Guardar</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">Euro compra</div>
+        <div class="panel-body">
+
+          <form ng-submit="guardarTasaCompraEuro()" class="form-horizontal" novalidate>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Tasa:</label>
+              <div class="col-sm-10">
+                <input type="number" name="periodo" ng-model="view.tasaCompraEuro" ng-minlength="1" ng-maxlength="4" class="form-control" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Guardar</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">Euro - Venta</div>
+        <div class="panel-body">
+
+          <form ng-submit="guardarTasaVentaEuro()" class="form-horizontal" novalidate>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Tasa:</label>
+              <div class="col-sm-10">
+                <input type="number" name="periodo" ng-model="view.tasaVentaEuro" ng-minlength="1" ng-maxlength="4" class="form-control" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Guardar</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
