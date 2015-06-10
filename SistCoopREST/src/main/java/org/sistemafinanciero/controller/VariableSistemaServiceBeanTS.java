@@ -23,7 +23,7 @@ import org.sistemafinanciero.service.ts.VariableSistemaServiceTS;
 
 @Named
 @Stateless
-@Remote(VariableSistemaServiceBeanTS.class)
+@Remote(VariableSistemaServiceTS.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class VariableSistemaServiceBeanTS implements VariableSistemaServiceTS {
 
