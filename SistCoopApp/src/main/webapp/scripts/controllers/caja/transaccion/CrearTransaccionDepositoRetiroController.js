@@ -3,7 +3,7 @@ define(['../../module'], function (controllers) {
     controllers.controller('CrearTransaccionDepositoRetiroController', ["$scope", "$state", "$window", "$filter", "$modal","focus","CuentaBancariaService", "SessionService","MonedaService","RedirectService",
         function($scope, $state, $window, $filter, $modal,focus,CuentaBancariaService, SessionService, MonedaService,RedirectService) {
 
-            $scope.viewState = 'app.socio.crearCuentaBancaria';
+            $scope.viewState = 'app.transaccion';
 
             $scope.focusElements = {
                 buscarCuenta: 'focusBuscarCuenta',

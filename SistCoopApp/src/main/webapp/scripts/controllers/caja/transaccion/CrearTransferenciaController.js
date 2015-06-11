@@ -218,7 +218,7 @@ define(['../../module'], function (controllers) {
             };
 
             $scope.cancel = function(){
-
+            	$state.transitionTo('app.transaccion');
             };
 
         }]);

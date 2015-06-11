@@ -295,7 +295,7 @@ define(['../module'], function (controllers) {
                     var parametros = RedirectService.getNextParamsState();
                     $state.transitionTo(nextState,parametros);
                 } else {
-                    $state.transitionTo('app.socio.buscarSocio');
+                    $state.transitionTo('app.socio');
                 }
             };
 

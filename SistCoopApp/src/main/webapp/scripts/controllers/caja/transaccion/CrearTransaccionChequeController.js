@@ -173,7 +173,10 @@ define(['../../module'], function (controllers) {
                     $scope.control.submitted = true;
                 }
             };
-
+            
+            $scope.cancel = function(){
+                $state.transitionTo('app.transaccion');
+            };
 
         }]);
 });
