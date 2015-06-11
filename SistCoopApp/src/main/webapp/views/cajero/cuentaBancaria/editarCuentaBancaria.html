@@ -33,7 +33,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-6" style="font-weight: bold;">Cliente</div>
+                        <div class="col-md-6" style="font-weight: bold;">Datos B&aacute;sicos</div>
                         <div class="col-md-6">
                             <div class="text-right">
                                 <button ng-if="socio.personaNatural" type="button" ng-click="editarSocioPersonaNatural()" class="btn btn-link" style="padding: 0px 12px;">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="panel-body" ng-show="!socio">
-                    <p>Socio no Encontrado</p>
+                    <p>Cliente no Encontrado</p>
                 </div>
                 <table class="table table-condensed">
                     <tr>
@@ -55,7 +55,7 @@
                         <td colspan="1" style="font-size: 12px;"><span ng-bind-template="{{socio.tipoDocumento}}/{{socio.numeroDocumento}}"></span></td>
                     </tr>
                     <tr>
-                        <td colspan="1" style="font-size: 12px;"><strong>Socio:</strong></td>
+                        <td colspan="1" style="font-size: 12px;"><strong>Cliente:</strong></td>
                         <td colspan="1" style="font-size: 12px;"><span ng-bind="socio.socio"></span></td>
                     </tr>
                     <tr>

@@ -13,7 +13,7 @@
 <form ng-submit="crearCuenta()" novalidate>
 <ng-form name="$parent.formCrearCuenta">
 <fieldset>
-    <legend style="background: whitesmoke;">Socio</legend>
+    <legend style="background: whitesmoke;">Datos del Cliente</legend>
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group" ng-class="{ 'has-error' : formCrearCuenta.tipoPersona.$invalid && control.submitted}">
@@ -50,7 +50,7 @@
                 <label>N&uacute;mero Documento</label>
                 <label style="color: brown;">(*)</label>
                 <div class="input-group">
-                    <input focus-on="focusNumeroDocumento" type="text" name="numeroDocumento" ui-keypress="{13:'buscarPersonaSocio($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="Numero Documento" required/>
+                    <input focus-on="focusNumeroDocumento" type="text" name="numeroDocumento" ui-keypress="{13:'buscarPersonaSocio($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required/>
                      <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="buscarPersonaSocio()" >
                             <span class="glyphicon glyphicon-search"></span>
@@ -164,9 +164,9 @@
             <div class="col-sm-4">
                 <div class="panel panel-default" style="width: 315px;">
                     <!-- Default panel contents -->
-                    <div class="panel-heading" style="font-weight: bold;">Socio</div>
+                    <div class="panel-heading" style="font-weight: bold;">Cliente</div>
                     <div class="panel-body" ng-show="!objetosCargados.socioNatural && !objetosCargados.socioJuridico">
-                        <p>Socio no Encontrado</p>
+                        <p>Cliente no Encontrado</p>
                     </div>
                     <table class="table table-condensed" ng-show="objetosCargados.socioNatural">
                         <tbody>
@@ -175,7 +175,7 @@
                             <td style="font-size: 12px;"><span ng-bind-template="{{objetosCargados.socioNatural.tipoDocumento.abreviatura}}/{{objetosCargados.socioNatural.numeroDocumento}}"></span></td>
                         </tr>
                         <tr>
-                            <td style="font-weight: bold; font-size: 12px;">Socio:</td>
+                            <td style="font-weight: bold; font-size: 12px;">Cliente:</td>
                             <td style="font-size: 12px;"><span ng-bind-template="{{objetosCargados.socioNatural.apellidoPaterno}} {{objetosCargados.socioNatural.apellidoMaterno}}, {{objetosCargados.socioNatural.nombres}}"></span></td>
                         </tr>
                         <tr>

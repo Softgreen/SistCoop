@@ -64,7 +64,7 @@ public class VariableSistemaServiceBeanNT implements VariableSistemaServiceNT {
 			if (simboloMonedaEntregada.equalsIgnoreCase("€")) {
 				VariableSistema var1 = getVariable(Variable.TASA_COMPRA_DOLAR);
 				VariableSistema var2 = getVariable(Variable.TASA_VENTA_EURO);
-				result = var2.getValor().divide(var1.getValor(), 3, RoundingMode.FLOOR);
+				result = var1.getValor().divide(var2.getValor(), 3, RoundingMode.FLOOR);
 			}
 			break;
 		case "€":
@@ -75,7 +75,7 @@ public class VariableSistemaServiceBeanNT implements VariableSistemaServiceNT {
 			if (simboloMonedaEntregada.equalsIgnoreCase("$")) {
 				VariableSistema var1 = getVariable(Variable.TASA_COMPRA_EURO);
 				VariableSistema var2 = getVariable(Variable.TASA_VENTA_DOLAR);
-				result = var2.getValor().divide(var1.getValor(), 3, RoundingMode.FLOOR);
+				result = var1.getValor().divide(var2.getValor(), 3, RoundingMode.FLOOR);
 			}
 			break;
 		default:
