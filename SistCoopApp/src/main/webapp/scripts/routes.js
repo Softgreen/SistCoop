@@ -201,9 +201,9 @@ define(['./app'], function(app) {
                         "viewMenu":{
                             controller: function($scope){
                                 $scope.menus = [
-                                    {'name':'Cuenta Aporte', submenus:[
+                                    /*{'name':'Cuenta Aporte', submenus:[
                                         { 'name':'Aporte' , 'state':'app.transaccion.aporte'}
-                                    ]},
+                                    ]},*/
                                     {'name':'Cuenta Bancaria', submenus:[
                                         { 'name':'Deposito/Retiro' , 'state':'app.transaccion.depositoRetiro'},
                                         { 'name':'Transferencia' , 'state':'app.transaccion.transferencia'},
