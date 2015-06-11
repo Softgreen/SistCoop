@@ -554,7 +554,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				if (cuentaBancaria.getCantidadRetirantes() == 1)
 					value = "INDIVIDUAL";
 				else
-					value = "CONJUNTA";
+					value = "MANCOMUNADA";
 
 				Chunk modalidadValue = new Chunk(value + "\n\n", font);
 				modalidadCuenta.add(modalidad);
@@ -588,7 +588,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			table3.addCell(cellNumeroCuentaCab);
 			table3.addCell(cellFechaAperturaCab);
 
-			PdfPCell cellProducto = new PdfPCell(new Paragraph(cuentaBancaria.getTipoCuenta().toString(), font));
+			PdfPCell cellProducto = new PdfPCell(new Paragraph("CUENTA" + cuentaBancaria.getTipoCuenta().toString(), font));
 			PdfPCell cellMoneda = new PdfPCell(new Paragraph(moneda.getDenominacion(), font));
 			PdfPCell cellNumeroCuenta = new PdfPCell(new Paragraph(cuentaBancaria.getNumeroCuenta(), font));
 			PdfPCell cellFechaApertura = new PdfPCell(new Paragraph(DATE_FORMAT.format(cuentaBancaria.getFechaApertura()), font));
