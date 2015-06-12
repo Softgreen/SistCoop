@@ -611,9 +611,11 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			PdfPCell cabecera4 = new PdfPCell(new Paragraph("DECLARACIONES Y FIRMAS", fontBold));
 			cabecera4.setBackgroundColor(baseColor);
 			table4.addCell(cabecera4);
-
+			
 			Paragraph parrafoDeclaraciones = new Paragraph();
 
+			
+			/*
 			Chunk subTitulo1 = new Chunk("\nINFORMACIÓN ADICIONAL\n", fontBold);
 			parrafoDeclaraciones.add(subTitulo1);
 
@@ -726,12 +728,13 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				parrafoDeclaraciones.add(enumeracionCC03);
 				parrafoDeclaraciones.add(enumeracionCC04);
 			}
-
+			*/
+			
 			// Declaraciones Finales
 			Chunk parrafoDeclaracionesFinalesCab = new Chunk("\nDECLARACIÓN FINAL DEL CLIENTE: ", fontBold);
 			Paragraph parrafoDeclaracionesFinalesValue = new Paragraph();
 
-			Chunk declaracionFinal = new Chunk("Declaro haber leido previamente las condiciones establecidas en el Contrato de Depósito y la Cartilla de Información, asi como haber sido instruido acerca de los alcances y significados de los términos y condiciones establecidos en dicho documento habiendo sido absueltas y aclaradas a mi satisfacción todas las consultas efectuadas y/o dudas, suscribe el presente documento en duplicado y con pleno y exacto conocimiento de los mismos.\n", font);
+			Chunk declaracionFinal = new Chunk("Declaro haber leido previamente las condiciones establecidas en el Contrato y la Cartilla de Información, asi como haber sido instruido acerca de los alcances y significados de los términos y condiciones establecidos en dicho documento habiendo sido absueltas y aclaradas a mi satisfacción todas las consultas efectuadas y/o dudas, suscribe el presente documento en duplicado y con pleno y exacto conocimiento de los mismos.\n", font);
 			declaracionFinal.setLineHeight(13);
 			parrafoDeclaracionesFinalesValue.add(declaracionFinal);
 
@@ -749,9 +752,9 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			Chunk firmaP01 = new Chunk("..........................................");
 			Chunk firmaP02 = new Chunk("..........................................\n");
 			Chunk firma01 = new Chunk("Casa de Cambios Ventura");
-			Chunk firma02 = new Chunk("El Cliente   ");
+			Chunk firma02 = new Chunk("      El Cliente       ");
 
-			Paragraph firmas = new Paragraph("\n\n\n");
+			Paragraph firmas = new Paragraph("\n\n\n\n\n\n");
 			firmas.setAlignment(Element.ALIGN_CENTER);
 
 			firmas.add(firmaP01);
@@ -763,7 +766,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			firmas.add(Chunk.SPACETABBING);
 			firmas.add(Chunk.SPACETABBING);
 			firmas.add(Chunk.SPACETABBING);
-			firmas.add(Chunk.SPACETABBING);
+			//firmas.add(Chunk.SPACETABBING);
 			firmas.add(firma02);
 
 			document.add(firmas);
