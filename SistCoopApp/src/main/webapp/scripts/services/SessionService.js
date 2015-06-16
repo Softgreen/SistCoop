@@ -52,6 +52,9 @@ define(['./module'], function (services) {
                 crearTransaccionCompraVenta: function(transaccion){
                     return Restangular.all(baseUrl+"/transaccionCompraVenta").post(transaccion);
                 },
+                crearTransaccionGiro: function(transaccion){
+                  return Restangular.all(baseUrl+"/transaccionGiro").post(transaccion);
+                },
 
                 crearTransaccionBovedaCajaOrigenCaja: function(boveda, detalle){
                     var copy = Restangular.copy(detalle);

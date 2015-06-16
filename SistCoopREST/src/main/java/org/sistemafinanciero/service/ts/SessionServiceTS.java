@@ -12,6 +12,7 @@ import org.sistemafinanciero.entity.Beneficiario;
 import org.sistemafinanciero.entity.Boveda;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.type.LugarPagoComision;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
@@ -38,6 +39,8 @@ public interface SessionServiceTS {
 	public BigInteger crearTransferenciaBancaria(String numeroCuentaOrigen, String numeroCuentaDestino, BigDecimal monto, String referencia) throws RollbackFailureException;
 
 	public BigInteger crearTransaccionCheque(String numeroChequeUnico, BigDecimal monto, String tipoDocumento, String numeroDocumento, String persona, String observacion) throws RollbackFailureException;
+	
+	public BigInteger crearTransaccionGiro(BigInteger idAgenciaOrigen, BigInteger idAgenciaDestino, String tipoDocumento, String cliente, BigInteger idMoneda, BigDecimal monto, BigDecimal comision, LugarPagoComision lugarPagoComision, boolean estadoPagoComision) throws RollbackFailureException;
 	
 	public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException;
 

@@ -38,6 +38,7 @@ import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
 import org.sistemafinanciero.entity.DetalleHistorialBoveda;
 import org.sistemafinanciero.entity.DetalleHistorialCaja;
+import org.sistemafinanciero.entity.Giro;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.HistorialTransaccionCaja;
@@ -61,6 +62,8 @@ import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.type.EstadoCheque;
 import org.sistemafinanciero.entity.type.EstadoCuentaAporte;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
+import org.sistemafinanciero.entity.type.EstadoGiro;
+import org.sistemafinanciero.entity.type.LugarPagoComision;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPendiente;
 import org.sistemafinanciero.entity.type.TipoPersona;
@@ -166,6 +169,12 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	@Inject
 	private DAO<Object, CuentaBancaria> cuentaBancariaDAO;
 
+	@Inject
+	private DAO<Object, Agencia> agenciaDAO;
+	
+	@Inject
+	private DAO<Object, Giro> giroDAO;
+	
 	@Inject
 	private EntityManagerProducer em;
 
@@ -1585,6 +1594,45 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		this.actualizarSaldoCaja(idCajaOrigen, monto.negate(), moneda.getIdMoneda());
 		transaccion.setEstadoConfirmacion(true);
 		transaccionCajaCajaDAO.update(transaccion);
+	}
+
+	@AllowedTo(Permission.ABIERTO)
+	@AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
+	@Override
+	public BigInteger crearTransaccionGiro(BigInteger idAgenciaOrigen,
+			BigInteger idAgenciaDestino, String tipoDocumento, String cliente,
+			BigInteger idMoneda, BigDecimal monto, BigDecimal comision,
+			LugarPagoComision lugarPagoComision, boolean estadoPagoComision)
+			throws RollbackFailureException {
+
+		Calendar calendar = Calendar.getInstance();
+
+		Agencia agenciaOrigen = agenciaDAO.find(idAgenciaOrigen);
+		Agencia agenciaDestino = agenciaDAO.find(idAgenciaDestino);
+		Moneda moneda = monedaDAO.find(idMoneda);
+		
+		Giro giro = new Giro();
+		
+		giro.setAgenciaOrigen(agenciaOrigen);
+		giro.setAgenciaDestino(agenciaDestino);
+		
+		giro.setTipoDocumento(tipoDocumento);
+		giro.setCliente(cliente);
+		
+		giro.setMoneda(moneda);
+		giro.setMonto(monto);
+		giro.setComision(comision);
+		giro.setLugarPagoComision(lugarPagoComision);
+		giro.setEstadoPagoComision(estadoPagoComision);
+		
+		giro.setEstado(EstadoGiro.ENVIADO);
+		
+		giro.setFechaEnvio(calendar.getTime());
+		
+		giroDAO.create(giro);
+		
+		return giro.getIdGiro();
+		
 	}
 
 	

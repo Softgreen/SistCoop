@@ -43,6 +43,7 @@ import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.type.LugarPagoComision;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
@@ -55,6 +56,7 @@ import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionChequeDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
+import org.sistemafinanciero.rest.dto.TransaccionGiroDTO;
 import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
 import org.sistemafinanciero.service.nt.PersonaJuridicaServiceNT;
 import org.sistemafinanciero.service.nt.PersonaNaturalServiceNT;
@@ -452,7 +454,41 @@ public class SessionRESTService implements SessionREST {
 		}
 		return response;
 	}
-
 	
+	@Override
+	public Response crearTransaccionGiro(TransaccionGiroDTO transaccion) {
+		Response response;
+		try {
+			BigInteger idAgenciaOrigen = transaccion.getIdAgenciaOrigen();
+			BigInteger idAgenciaDestino = transaccion.getIdAgenciaDestino();
+			String tipoDocumento = transaccion.getTipoDocumento();
+			String cliente = transaccion.getCliente();
+			BigInteger idMoneda = transaccion.getIdMoneda();
+			BigDecimal monto = transaccion.getMonto();
+			BigDecimal comision = transaccion.getComision();
+			LugarPagoComision lugarPagoComision = transaccion.getLugarPagoComision();
+			boolean estadoPagoComision = transaccion.isEstadoPagoComision();
+			
+			BigInteger idTransaccion = sessionServiceTS.crearTransaccionGiro(
+					idAgenciaOrigen, 
+					idAgenciaDestino,
+					tipoDocumento, 
+					cliente, 
+					idMoneda,
+					monto, 
+					comision, 
+					lugarPagoComision, 
+					estadoPagoComision);			
+			
+			response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion)).build();
+		} catch (RollbackFailureException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		} catch (EJBException e) {
+			Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+			response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+		}
+		return response;
+	}
 
 }

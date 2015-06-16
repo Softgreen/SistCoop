@@ -208,7 +208,8 @@ define(['./app'], function(app) {
                                         { 'name':'Deposito/Retiro' , 'state':'app.transaccion.depositoRetiro'},
                                         { 'name':'Transferencia' , 'state':'app.transaccion.transferencia'},
                                         { 'name':'Cheque' , 'state':'app.transaccion.cheque'},
-                                        { 'name':'Compra/Venta' , 'state':'app.transaccion.compraVenta'}
+                                        { 'name':'Compra/Venta' , 'state':'app.transaccion.compraVenta'},
+                                        { 'name':'Giros' , 'state':'app.transaccion.giro'}
                                     ]},
                                     {'name':'Historial', submenus:[
                                         { 'name':'Buscar Transacción' , 'state':'app.transaccion.buscarTransaccion'}
@@ -245,12 +246,12 @@ define(['./app'], function(app) {
                         },
                         "viewContent":{
                             template: "<div ui-view='viewContent' style='min-height: 472px;'><h4 class='text-center' style='font-weight: bold; color: blue;'>CUENTAS PERSONALES</h4>" +
-                            "<table style='width: 930px;'> <tr style='text-align: center; color: red; font-size: 16px;'><td><strong>Cuenta Aporte</strong></td> <td></td> <td><strong>Cuenta Ahorro</strong></td> <td></td> <td><strong>Cuenta Plazo Fijo</strong></td></tr>" + 
-                            "<tr><td style='width: 290px; text-align: justify;'>Tu Aporte te sirve de garantía para solicitar un préstamo y forma parte del capital social de la Cooperativa. </br>El monto mínimo a depositar mensualmente es de S/. 10.00 para socios adultos y S/. 5.00 para socios menores de edad. </br>Los depósitos en la cuenta de Aporte son acumulativos, pero no están a disposición del socio, salvo el caso en que el asociado se retire de la Cooperativa (previa solicitud de renuncia).</td>" + 
-                            "<td style='width: 30px;'></td>" + 
-                            "<td style='width: 290px; text-align: justify;'>Te pagamos intereses mensuales y los mejores del mercado. <ul type=square><li>No cobramos portes ni mantenimiento de cuentas.</li><li>Te ofrecemos las mejores tasas de interés del mercado.</li><li>Son de libre disponibilidad.</li><li>No cobramos ITF (Impuesto a las Transacciones Financieras).</li><li>Depósitos y retiros en cualquiera de nuestras agencias.</li></ul></td>" + 
-                            "<td style='width: 30px;'></td>" + 
-                            "<td style='width: 290px; text-align: justify;'>Tu Ahorro no es de libre disponibilidad hasta cumplir con el plazo del contrato. </br>Para ahorrar a plazo fijo necesitas ser socio de la Cooperativa y contar con lo siguiente:<ul type=square><li>Copia de tu D.N.I.</li><li>Monto mínimo de apertura S/.500.- n.s., o $.200.- dólares americanos.</li><li>Tiempo mínimo: 03 meses.</li><li>Puedes renovar automáticamente al culminar el plazo elegido y sigues ganando más intereses.</li></ul></td></tr> </table>" + 
+                            "<table style='width: 930px;'> <tr style='text-align: center; color: red; font-size: 16px;'><td><strong>Cuenta Aporte</strong></td> <td></td> <td><strong>Cuenta Ahorro</strong></td> <td></td> <td><strong>Cuenta Plazo Fijo</strong></td></tr>" +
+                            "<tr><td style='width: 290px; text-align: justify;'>Tu Aporte te sirve de garantía para solicitar un préstamo y forma parte del capital social de la Cooperativa. </br>El monto mínimo a depositar mensualmente es de S/. 10.00 para socios adultos y S/. 5.00 para socios menores de edad. </br>Los depósitos en la cuenta de Aporte son acumulativos, pero no están a disposición del socio, salvo el caso en que el asociado se retire de la Cooperativa (previa solicitud de renuncia).</td>" +
+                            "<td style='width: 30px;'></td>" +
+                            "<td style='width: 290px; text-align: justify;'>Te pagamos intereses mensuales y los mejores del mercado. <ul type=square><li>No cobramos portes ni mantenimiento de cuentas.</li><li>Te ofrecemos las mejores tasas de interés del mercado.</li><li>Son de libre disponibilidad.</li><li>No cobramos ITF (Impuesto a las Transacciones Financieras).</li><li>Depósitos y retiros en cualquiera de nuestras agencias.</li></ul></td>" +
+                            "<td style='width: 30px;'></td>" +
+                            "<td style='width: 290px; text-align: justify;'>Tu Ahorro no es de libre disponibilidad hasta cumplir con el plazo del contrato. </br>Para ahorrar a plazo fijo necesitas ser socio de la Cooperativa y contar con lo siguiente:<ul type=square><li>Copia de tu D.N.I.</li><li>Monto mínimo de apertura S/.500.- n.s., o $.200.- dólares americanos.</li><li>Tiempo mínimo: 03 meses.</li><li>Puedes renovar automáticamente al culminar el plazo elegido y sigues ganando más intereses.</li></ul></td></tr> </table>" +
                             '<h3 class="text-center"><img alt="Caja Ventura" src="images/modules/plazoFijo.jpg"></h3>' +
                                 "</div>"
                         }
@@ -522,6 +523,25 @@ define(['./app'], function(app) {
                         }
                     }
                 })
+                .state('app.transaccion.giro', {
+                  url: "/giro",
+                  views: {
+                    "viewContent": {
+                      templateUrl: "views/cajero/transaccion/giro.html"
+                    }
+                  }
+                })
+                .state('app.transaccion.giroVoucher', {
+                  url: "/giro/:id/voucher",
+                  views: {
+                    "viewContent": {
+                      templateUrl: "views/cajero/voucher/giroVoucher.html",
+                      controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                      }
+                    }
+                  }
+                })
                 .state('app.transaccion.buscarTransaccion', {
                     url: "/buscarTransaccion",
                     views: {
@@ -530,7 +550,7 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-                
+
                 .state('app.socio.crearSocio', {
                     url: "/crearSocio",
                     views: {
@@ -712,7 +732,7 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-                
+
                 .state('app.administracion.buscarPersonaJuridica', {
                     url: "/personaJuridica/buscar",
                     views: {
