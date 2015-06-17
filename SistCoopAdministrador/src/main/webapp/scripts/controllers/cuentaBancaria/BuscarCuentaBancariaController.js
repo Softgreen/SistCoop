@@ -179,7 +179,7 @@ define(['../module'], function (controllers) {
                     {field:"numeroCuenta", displayName:'NUMERO CUENTA', width:125},
                     {field:"tipoDocumento", displayName:'T DOC.', width:60},
                     {field:"numeroDocumento", displayName:'Nº DOC.',width:100},
-                    {field:"titulares", displayName:'SOCIO'},
+                    {field:"titulares", displayName:'CLIENTE'},
                     {field:"moneda", displayName:'MONEDA', width:70},
                     {field:"estadoCuenta", displayName:'ESTADO',width:100},
                     {displayName: 'Edit', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editCuenta(row.entity)"><span class="glyphicon glyphicon-share"></span>Editar</button></div>', width:80}
