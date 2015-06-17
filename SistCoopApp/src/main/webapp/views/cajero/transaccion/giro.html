@@ -43,7 +43,7 @@
                     <div class="form-group" ng-class="{ 'has-error' : form.nombreCliente.$invalid && (control.submitted || form.nombreCliente.$dirty)}">
                       <label>Apellidos y Nombres / Raz&oacute;n Social</label>
                       <label style="color: brown;">(*)</label>
-                      <input type="text" name="nombreCliente" ng-model="view.nombreCliente" class="form-control" ng-minlength="1" ng-maxlength="40" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize/>
+                      <input type="text" name="nombreCliente" ng-model="view.nombreCliente" class="form-control" ng-minlength="1" ng-maxlength="200" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize/>
                       <div ng-show="form.nombreCliente.$invalid && (control.submitted || form.nombreCliente.$dirty)">
                         <p class="help-block" ng-show="form.nombreCliente.$error.required">
                           Ingrese Numero Documento Valido.
