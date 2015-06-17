@@ -7,7 +7,7 @@
 
 
   <div class="row">
-    <div class="col-sm-6" ng-controller="CrearTransaccionGiroController">
+    <div class="col-sm-6" ng-controller="EnviarTransaccionGiroController">
 
       <form name="form" ng-submit="crearTransaccion()" novalidate>
         <div class="row">
@@ -251,8 +251,130 @@
 
     </div>
 
-    <div class="col-sm-6">
-      prueba
+    <div class="col-sm-6" ng-controller="DesembolsarTransaccionGiroController">
+      <form name="form" ng-submit="crearTransaccion()" novalidate>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title" style="font-weight: bold;">Desembolso de giros</h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumentoReceptor.$invalid && (control.submitted || form.numeroDocumentoReceptor.$dirty)}">
+                      <label>Receptor DNI</label>
+                      <label style="color: brown;">(*)</label>
+                      <input type="text" name="numeroDocumentoReceptor" ui-keypress="{13:'buscarClienteReceptor($event)'}" ng-model="view.numeroDocumentoReceptor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required/>
+                      <div ng-show="form.numeroDocumentoReceptor.$invalid && (control.submitted || form.numeroDocumentoReceptor.$dirty)">
+                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.required">
+                          Ingrese Numero Documento Valido.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.minlength">
+                          Minimo 1 Caracter.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.maxlength">
+                          Maximo 20 Caracteres.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.pattern">
+                          Numero Documento Invalido.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="form-group" ng-class="{ 'has-error' : form.nombreClienteReceptor.$invalid && (control.submitted || form.nombreClienteReceptor.$dirty)}">
+                      <label>Apellidos y Nombres / Raz&oacute;n Social</label>
+                      <label style="color: brown;">(*)</label>
+                      <input type="text" name="nombreClienteReceptor" ng-model="view.nombreClienteReceptor" class="form-control" ng-minlength="1" ng-maxlength="200" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize disabled/>
+                      <div ng-show="form.nombreClienteReceptor.$invalid && (control.submitted || form.nombreClienteReceptor.$dirty)">
+                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.required">
+                          Ingrese Numero Documento Valido.
+                        </p>
+                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.minlength">
+                          Minimo 1 Caracter.
+                        </p>
+                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.maxlength">
+                          Maximo 50 Caracteres.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Origen</label>
+                      <input type="text" ng-value="objetosCargados.agenciaOrigen.denominacion" class="form-control" disabled/>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Destino</label>
+                      <input type="text" ng-value="objetosCargados.agenciaDestino.denominacion" class="form-control" disabled/>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Moneda</label>
+                      <input type="text" ng-value="objetosCargados.moneda.simbolo" class="form-control" disabled/>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Monto</label>
+                      <div class="input-group">
+                        <span ng-bind="objetosCargados.moneda.simbolo" class="input-group-addon"></span>
+                        <input type="text" ng-model="view.objetosCargados.transaccion.monto" class="form-control" disabled/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Comision</label>
+                      <div class="input-group">
+                        <input type="text" ng-model="view.objetosCargados.transaccion.comision" class="form-control" disabled/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Total</label>
+                      <kbd style="display: block;margin-top: 3px;">
+                        <p>
+                          Enviado:
+                          <span ng-bind="getTipoMoneda().simbolo"></span>
+                          <span ng-bind="transaccion.monto | currency : ''"/>
+                        </p>
+                        <p>
+                          Comision:
+                          <span ng-bind="getTipoMoneda().simbolo"></span>
+                          <span ng-bind="transaccion.comision | currency : ''"/>
+                        </p>
+                        <p>
+                          Total:
+                          <span ng-bind="getTipoMoneda().simbolo"></span>
+                          <span ng-bind="transaccion.total | currency : ''"/>
+                        </p>
+                      </kbd>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" ng-disabled="buttonDisableState()" ladda="control.inProcess" data-style="expand-right">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
