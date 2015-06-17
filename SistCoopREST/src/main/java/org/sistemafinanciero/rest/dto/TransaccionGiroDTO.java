@@ -23,8 +23,10 @@ public class TransaccionGiroDTO implements Serializable {
 	private BigInteger idAgenciaOrigen;
 	private BigInteger idAgenciaDestino;
 
-	private String tipoDocumento;
-	private String cliente;
+	private String numeroDocumentoEmisor;
+	private String clienteEmisor;
+	private String numeroDocumentoReceptor;
+	private String clienteReceptor;
 
 	private BigInteger idMoneda;
 	private BigDecimal monto;
@@ -50,20 +52,36 @@ public class TransaccionGiroDTO implements Serializable {
 		this.idAgenciaDestino = idAgenciaDestino;
 	}
 
-	public String getTipoDocumento() {
-		return tipoDocumento;
+	public String getNumeroDocumentoEmisor() {
+		return numeroDocumentoEmisor;
 	}
 
-	public void setTipoDocumento(String tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
+	public void setNumeroDocumentoEmisor(String numeroDocumentoEmisor) {
+		this.numeroDocumentoEmisor = numeroDocumentoEmisor;
 	}
 
-	public String getCliente() {
-		return cliente;
+	public String getClienteEmisor() {
+		return clienteEmisor;
 	}
 
-	public void setCliente(String cliente) {
-		this.cliente = cliente;
+	public void setClienteEmisor(String clienteEmisor) {
+		this.clienteEmisor = clienteEmisor;
+	}
+
+	public String getNumeroDocumentoReceptor() {
+		return numeroDocumentoReceptor;
+	}
+
+	public void setNumeroDocumentoReceptor(String numeroDocumentoReceptor) {
+		this.numeroDocumentoReceptor = numeroDocumentoReceptor;
+	}
+
+	public String getClienteReceptor() {
+		return clienteReceptor;
+	}
+
+	public void setClienteReceptor(String clienteReceptor) {
+		this.clienteReceptor = clienteReceptor;
 	}
 
 	public BigInteger getIdMoneda() {

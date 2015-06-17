@@ -48,8 +48,11 @@ public class Giro implements java.io.Serializable {
 	private Agencia agenciaOrigen;
 	private Agencia agenciaDestino;
 	
-	private String tipoDocumento;
-	private String cliente;
+	private String numeroDocumentoEmisor;
+	private String clienteEmisor;
+
+	private String numeroDocumentoReceptor;
+	private String clienteReceptor;
 	
 	private Moneda moneda;
 	private BigDecimal monto;
@@ -103,28 +106,52 @@ public class Giro implements java.io.Serializable {
 		this.agenciaDestino = agenciaDestino;
 	}
 
-	@XmlAttribute(name = "tipoDocumento")
+	@XmlAttribute(name = "numeroDocumentoEmisor")
 	@Size(min = 0, max = 20)
-	@Column(name = "TIPO_DOCUMENTO", nullable = false, length = 40, columnDefinition = "nvarchar2")
-	public String getTipoDocumento() {
-		return tipoDocumento;
+	@Column(name = "NUMERO_DOCUMENTO_EMISOR", nullable = false, length = 40, columnDefinition = "nvarchar2")
+	public String getNumeroDocumentoEmisor() {
+		return numeroDocumentoEmisor;
 	}
 
-	public void setTipoDocumento(String tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
+	public void setNumeroDocumentoEmisor(String numeroDocumentoEmisor) {
+		this.numeroDocumentoEmisor = numeroDocumentoEmisor;
 	}
 
-	@XmlAttribute(name = "cliente")
+	@XmlAttribute(name = "numeroDocumentoReceptor")
+	@Size(min = 0, max = 20)
+	@Column(name = "NUMERO_DOCUMENTO_RECEPTOR", nullable = false, length = 40, columnDefinition = "nvarchar2")
+	public String getNumeroDocumentoReceptor() {
+		return numeroDocumentoReceptor;
+	}
+
+	public void setNumeroDocumentoReceptor(String numeroDocumentoReceptor) {
+		this.numeroDocumentoReceptor = numeroDocumentoReceptor;
+	}
+	
+	@XmlAttribute(name = "clienteEmisor")
 	@NotNull
 	@NotBlank
 	@Size(min = 1, max = 200)
-	@Column(name = "CLIENTE", nullable = false, length = 200, columnDefinition = "nvarchar2")
-	public String getCliente() {
-		return cliente;
+	@Column(name = "CLIENTE_EMISOR", nullable = false, length = 200, columnDefinition = "nvarchar2")
+	public String getClienteEmisor() {
+		return clienteEmisor;
 	}
 
-	public void setCliente(String cliente) {
-		this.cliente = cliente;
+	public void setClienteEmisor(String clienteEmisor) {
+		this.clienteEmisor = clienteEmisor;
+	}
+	
+	@XmlAttribute(name = "clienteReceptor")
+	@NotNull
+	@NotBlank
+	@Size(min = 1, max = 200)
+	@Column(name = "CLIENTE_RECEPTOR", nullable = false, length = 200, columnDefinition = "nvarchar2")
+	public String getClienteReceptor() {
+		return clienteReceptor;
+	}
+
+	public void setClienteReceptor(String clienteReceptor) {
+		this.clienteReceptor = clienteReceptor;
 	}
 
 	@XmlElement

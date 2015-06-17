@@ -4,8 +4,10 @@ define(['../../module'], function (controllers) {
     function ($scope, $state, PersonaNaturalService, AgenciaService, SessionService, MonedaService) {
 
       $scope.view = {
-        "numeroDocumento": undefined,
-        "nombreCliente": undefined,
+        "numeroDocumentoEmisor": undefined,
+        "nombreClienteEmisor": undefined,
+        "numeroDocumentoReceptor": undefined,
+        "nombreClienteReceptor": undefined,
         idAgenciaOrigen: undefined,
         idAgenciaDestino: undefined,
         idMoneda: undefined,
@@ -84,17 +86,9 @@ define(['../../module'], function (controllers) {
         }
 
         $scope.transaccion = {
-          "idAgenciaOrigen": $scope.view.idAgenciaOrigen,
-          "idAgenciaDestino": $scope.view.idAgenciaDestino,
-
-          "tipoDocumento": $scope.view.tipoDocumento,
-          "cliente": $scope.view.nombreCliente,
-
-          "idMoneda": $scope.view.idMoneda,
           "monto": monto,
           "comision": comision,
           "total": total,
-          "lugarPagoComision": $scope.view.lugarPagoComision,
           "estadoPagoComision": estadoPagoComision
         };
 
@@ -158,13 +152,15 @@ define(['../../module'], function (controllers) {
             "idAgenciaOrigen": $scope.view.idAgenciaOrigen,
             "idAgenciaDestino": $scope.view.idAgenciaDestino,
 
-            "tipoDocumento": $scope.view.tipoDocumento,
-            "cliente": $scope.view.nombreCliente,
+            "numeroDocumentoEmisor": $scope.view.numeroDocumentoEmisor,
+            "clienteEmisor": $scope.view.nombreClienteEmisor,
+            "numeroDocumentoReceptor": $scope.view.numeroDocumentoReceptor,
+            "clienteReceptor": $scope.view.nombreClienteReceptor,
 
             "idMoneda": $scope.view.idMoneda,
+            "lugarPagoComision": $scope.view.lugarPagoComision,
             "monto": $scope.transaccion.monto,
             "comision": $scope.transaccion.comision,
-            "lugarPagoComision": $scope.transaccion.lugarPagoComision,
             "estadoPagoComision": $scope.transaccion.estadoPagoComision
           };
 

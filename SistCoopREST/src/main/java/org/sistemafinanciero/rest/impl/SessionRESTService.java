@@ -461,8 +461,10 @@ public class SessionRESTService implements SessionREST {
 		try {
 			BigInteger idAgenciaOrigen = transaccion.getIdAgenciaOrigen();
 			BigInteger idAgenciaDestino = transaccion.getIdAgenciaDestino();
-			String tipoDocumento = transaccion.getTipoDocumento();
-			String cliente = transaccion.getCliente();
+			String numeroDocumentoEmisor = transaccion.getNumeroDocumentoEmisor();
+			String clienteEmisor = transaccion.getClienteEmisor();
+			String numeroDocumentoReceptor = transaccion.getNumeroDocumentoReceptor();
+			String clienteReceptor = transaccion.getClienteReceptor();
 			BigInteger idMoneda = transaccion.getIdMoneda();
 			BigDecimal monto = transaccion.getMonto();
 			BigDecimal comision = transaccion.getComision();
@@ -472,8 +474,10 @@ public class SessionRESTService implements SessionREST {
 			BigInteger idTransaccion = sessionServiceTS.crearTransaccionGiro(
 					idAgenciaOrigen, 
 					idAgenciaDestino,
-					tipoDocumento, 
-					cliente, 
+					numeroDocumentoEmisor, 
+					clienteEmisor,
+					numeroDocumentoReceptor, 
+					clienteReceptor,
 					idMoneda,
 					monto, 
 					comision, 

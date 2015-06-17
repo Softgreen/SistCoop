@@ -19,39 +19,80 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="col-sm-4">
-                    <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumento.$invalid && (control.submitted || form.numeroDocumento.$dirty)}">
-                      <label>DNI/RUC</label>
+                    <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumentoEmisor.$invalid && (control.submitted || form.numeroDocumentoEmisor.$dirty)}">
+                      <label>Emisor DNI</label>
                       <label style="color: brown;">(*)</label>
-                      <input type="text" name="numeroDocumento" ui-keypress="{13:'buscarCliente($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required autofocus/>
-                      <div ng-show="form.numeroDocumento.$invalid && (control.submitted || form.numeroDocumento.$dirty)">
-                        <p class="help-block" ng-show="form.numeroDocumento.$error.required">
+                      <input type="text" name="numeroDocumentoEmisor" ui-keypress="{13:'buscarClienteEmisor($event)'}" ng-model="view.numeroDocumentoEmisor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required autofocus/>
+                      <div ng-show="form.numeroDocumentoEmisor.$invalid && (control.submitted || form.numeroDocumentoEmisor.$dirty)">
+                        <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.required">
                           Ingrese Numero Documento Valido.
                         </p>
-                        <p class="help-block" ng-show="form.numeroDocumento.$error.minlength">
+                        <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.minlength">
                           Minimo 1 Caracter.
                         </p>
-                        <p class="help-block" ng-show="form.numeroDocumento.$error.maxlength">
+                        <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.maxlength">
                           Maximo 20 Caracteres.
                         </p>
-                        <p class="help-block" ng-show="form.numeroDocumento.$error.pattern">
+                        <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.pattern">
                           Numero Documento Invalido.
                         </p>
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-8">
-                    <div class="form-group" ng-class="{ 'has-error' : form.nombreCliente.$invalid && (control.submitted || form.nombreCliente.$dirty)}">
+                    <div class="form-group" ng-class="{ 'has-error' : form.nombreClienteEmisor.$invalid && (control.submitted || form.nombreClienteEmisor.$dirty)}">
                       <label>Apellidos y Nombres / Raz&oacute;n Social</label>
                       <label style="color: brown;">(*)</label>
-                      <input type="text" name="nombreCliente" ng-model="view.nombreCliente" class="form-control" ng-minlength="1" ng-maxlength="200" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize/>
-                      <div ng-show="form.nombreCliente.$invalid && (control.submitted || form.nombreCliente.$dirty)">
-                        <p class="help-block" ng-show="form.nombreCliente.$error.required">
+                      <input type="text" name="nombreClienteEmisor" ng-model="view.nombreClienteEmisor" class="form-control" ng-minlength="1" ng-maxlength="200" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize/>
+                      <div ng-show="form.nombreClienteEmisor.$invalid && (control.submitted || form.nombreClienteEmisor.$dirty)">
+                        <p class="help-block" ng-show="form.nombreClienteEmisor.$error.required">
                           Ingrese Numero Documento Valido.
                         </p>
-                        <p class="help-block" ng-show="form.nombreCliente.$error.minlength">
+                        <p class="help-block" ng-show="form.nombreClienteEmisor.$error.minlength">
                           Minimo 1 Caracter.
                         </p>
-                        <p class="help-block" ng-show="form.nombreCliente.$error.maxlength">
+                        <p class="help-block" ng-show="form.nombreClienteEmisor.$error.maxlength">
+                          Maximo 50 Caracteres.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumentoReceptor.$invalid && (control.submitted || form.numeroDocumentoReceptor.$dirty)}">
+                      <label>Receptor DNI</label>
+                      <label style="color: brown;">(*)</label>
+                      <input type="text" name="numeroDocumentoReceptor" ui-keypress="{13:'buscarClienteReceptor($event)'}" ng-model="view.numeroDocumentoReceptor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required/>
+                      <div ng-show="form.numeroDocumentoReceptor.$invalid && (control.submitted || form.numeroDocumentoReceptor.$dirty)">
+                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.required">
+                          Ingrese Numero Documento Valido.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.minlength">
+                          Minimo 1 Caracter.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.maxlength">
+                          Maximo 20 Caracteres.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.pattern">
+                          Numero Documento Invalido.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="form-group" ng-class="{ 'has-error' : form.nombreClienteReceptor.$invalid && (control.submitted || form.nombreClienteReceptor.$dirty)}">
+                      <label>Apellidos y Nombres / Raz&oacute;n Social</label>
+                      <label style="color: brown;">(*)</label>
+                      <input type="text" name="nombreClienteReceptor" ng-model="view.nombreClienteReceptor" class="form-control" ng-minlength="1" ng-maxlength="200" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize/>
+                      <div ng-show="form.nombreClienteReceptor.$invalid && (control.submitted || form.nombreClienteReceptor.$dirty)">
+                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.required">
+                          Ingrese Numero Documento Valido.
+                        </p>
+                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.minlength">
+                          Minimo 1 Caracter.
+                        </p>
+                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.maxlength">
                           Maximo 50 Caracteres.
                         </p>
                       </div>

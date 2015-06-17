@@ -40,7 +40,7 @@ public interface SessionServiceTS {
 
 	public BigInteger crearTransaccionCheque(String numeroChequeUnico, BigDecimal monto, String tipoDocumento, String numeroDocumento, String persona, String observacion) throws RollbackFailureException;
 	
-	public BigInteger crearTransaccionGiro(BigInteger idAgenciaOrigen, BigInteger idAgenciaDestino, String tipoDocumento, String cliente, BigInteger idMoneda, BigDecimal monto, BigDecimal comision, LugarPagoComision lugarPagoComision, boolean estadoPagoComision) throws RollbackFailureException;
+	public BigInteger crearTransaccionGiro(BigInteger idAgenciaOrigen, BigInteger idAgenciaDestino, String numeroDocumentoEmisor, String clienteEmisor, String numeroDocumentoReceptor, String clienteReceptor, BigInteger idMoneda, BigDecimal monto, BigDecimal comision, LugarPagoComision lugarPagoComision, boolean estadoPagoComision) throws RollbackFailureException;
 	
 	public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException;
 

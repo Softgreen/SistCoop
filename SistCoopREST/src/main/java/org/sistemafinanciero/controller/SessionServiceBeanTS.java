@@ -1600,7 +1600,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 	@AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
 	@Override
 	public BigInteger crearTransaccionGiro(BigInteger idAgenciaOrigen,
-			BigInteger idAgenciaDestino, String tipoDocumento, String cliente,
+			BigInteger idAgenciaDestino, 
+			String numeroDocumentoEmisor, String clienteEmisor, String numeroDocumentoReceptor, String clienteReceptor,
 			BigInteger idMoneda, BigDecimal monto, BigDecimal comision,
 			LugarPagoComision lugarPagoComision, boolean estadoPagoComision)
 			throws RollbackFailureException {
@@ -1616,8 +1617,10 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 		giro.setAgenciaOrigen(agenciaOrigen);
 		giro.setAgenciaDestino(agenciaDestino);
 		
-		giro.setTipoDocumento(tipoDocumento);
-		giro.setCliente(cliente);
+		giro.setNumeroDocumentoEmisor(numeroDocumentoEmisor);
+		giro.setClienteEmisor(clienteEmisor);
+		giro.setNumeroDocumentoReceptor(numeroDocumentoReceptor);
+		giro.setClienteReceptor(clienteReceptor);
 		
 		giro.setMoneda(moneda);
 		giro.setMonto(monto);
