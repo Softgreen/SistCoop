@@ -25,7 +25,12 @@ define(['../module'], function (controllers) {
                     );
                 }
             };
+            
             $scope.loadChequera();
+            
+            $scope.cancel = function(){
+            	$state.transitionTo('app.socio');
+            };
 
         }]);
 });

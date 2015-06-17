@@ -343,6 +343,13 @@ define(['../module'], function (controllers) {
 
             $scope.loadRedireccion();
             $scope.loadMonedas();
+            
+            
+            $scope.cancel = function(){
+        		$state.transitionTo('app.socio');
+        	};
+        	
 
         }]);
+      	
 });

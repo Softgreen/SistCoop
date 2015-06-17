@@ -46,9 +46,6 @@ define(['../module'], function (controllers) {
 
 
             $scope.defaulPrinterName = undefined;
-
-
-
-
+            
         }]);
 });

@@ -77,8 +77,8 @@ define(['../module'], function (controllers) {
                 }
             };
 
-            $scope.salir = function(){
-                $scope.redireccion();
+            $scope.cancel = function(){
+            	$state.transitionTo('app.socio');
             };
 
         }]);
