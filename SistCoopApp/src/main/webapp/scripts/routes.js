@@ -171,9 +171,9 @@ define(['./app'], function(app) {
                         "viewMenu":{
                             controller: function($scope){
                                 $scope.menus = [
-                                    {'name':'Panel Control', submenus:[
+                                    /*{'name':'Panel Control', submenus:[
                                         { 'name':'Panel Control' , 'state':'app.caja.panelControl'}
-                                    ]},
+                                    ]},*/
                                     {'name':'Abrir/Cerrar', submenus:[
                                         { 'name':'Cerrar Caja' , 'state':'app.caja.cerrarCaja'},
                                         { 'name':'Pendientes Caja' , 'state':'app.caja.pendiente'},

@@ -411,6 +411,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				parrafoIntroPF.setLeading(11f);
 				parrafoIntroPF.add(mensajeIntroPF);
 				parrafoIntroPF.setAlignment(Element.ALIGN_JUSTIFIED);
+				
 				document.add(parrafoIntroPF);
 			}
 
@@ -427,7 +428,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 				document.add(parrafoPrincipal);
 
-				Chunk mensajeIntroCC = new Chunk("\n", font);
+				Chunk mensajeIntroCC = new Chunk("El cliente podrá disponer del saldo de su cuenta en cualquier momento a través de ventanillas (en horarios de atención al público de las Agencias y Oficinas de la Casa de Cambios Ventura). Asimismo, podrá realizar abonos en su cuenta en efectivo, a través de cheques u órdenes de pago en cualquier momento a través de las ventanillas.\n\n", font);
 				mensajeIntroCC.setLineHeight(12);
 
 				Paragraph parrafoIntroCC = new Paragraph();
@@ -781,7 +782,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			Font fontSubtituloContrato = FontFactory.getFont("Arial", 10f, Font.BOLD);
 			Font fontDescripcionContrato = FontFactory.getFont("Arial", 10f);
 			
-			Paragraph tituloContrato = new Paragraph("\n\n\n\n\n\n\n\n\n");
+			Paragraph tituloContrato = new Paragraph("\n\n\n\n\n\n\n\n");
 			Paragraph contenidoContrato = new Paragraph();
 			Paragraph piePaginaContrato = new Paragraph();
 			tituloContrato.setAlignment(Element.ALIGN_CENTER);
@@ -1375,7 +1376,8 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		}	
 		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
 		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
-			
+		
+		Moneda moneda = monedaServiceNT.findById(cuentaBancariaView.getIdMoneda());
 		
 		/**PDF**/
 		ByteArrayOutputStream outputStream = null;
