@@ -391,7 +391,7 @@ define(['./app'], function(app) {
                     }
                 })
                 .state('app.caja.createTransaccionCajaCaja', {
-                    url: "/crearCajaCaja",
+                    url: "/transaccionCajaCaja",
                     views: {
                         "viewContent":{
                             templateUrl: "views/cajero/caja/crearTransaccionCajaCaja.html"
