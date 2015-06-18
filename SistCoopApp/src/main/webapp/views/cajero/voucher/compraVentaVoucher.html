@@ -37,11 +37,21 @@
                             </td>
                         </tr>
                         <tr>
+                            <td style="font-size: 13px;">CLIENTE:</td>
+                            <td colspan="3" style="font-size: 13px;">
+                                <span ng-bind="compraVentaMoneda.referencia"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td style="font-size: 13px;">FECHA:</td>
                             <td colspan="3" style="font-size: 13px;">
                                 <span ng-bind="compraVentaMoneda.fecha | date : 'dd/MM/yyyy'"/>
                                 <span ng-bind="compraVentaMoneda.hora | date : 'HH:mm:ss'"/>
                             </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 13px;">TIPO CAMBIO:</td>
+                            <td colspan="3" style="font-size: 13px;"><span ng-bind="compraVentaMoneda.tipoCambio"/> </td>
                         </tr>
                         <tr>
                             <td style="font-size: 13px;">RECIBIDO:</td>
@@ -51,16 +61,7 @@
                             <td style="font-size: 13px;">ENTREGADO:</td>
                             <td colspan="3" style="font-size: 13px;"><span ng-bind="compraVentaMoneda.montoEntregado | currency : compraVentaMoneda.monedaEntregada.simbolo"/> </td>
                         </tr>
-                        <tr>
-                            <td style="font-size: 13px;">TIPO CAMBIO:</td>
-                            <td colspan="3" style="font-size: 13px;"><span ng-bind="compraVentaMoneda.tipoCambio | currency : compraVentaMoneda.monedaEntregada.simbolo"/> </td>
-                        </tr>
-                        <tr>
-                            <td style="font-size: 13px;">CLIENTE:</td>
-                            <td colspan="3" style="font-size: 13px;">
-                                <span ng-bind="compraVentaMoneda.referencia"/>
-                            </td>
-                        </tr>
+                        
                         <tr>
                             <td colspan="4" style="text-align: center; font-size: 12px">
                                 <p>&nbsp;</p>

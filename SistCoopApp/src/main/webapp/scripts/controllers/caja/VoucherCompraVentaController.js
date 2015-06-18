@@ -49,7 +49,7 @@ define(['../module'], function (controllers) {
                 qz.append("FECHA:\t\t" + ($filter('date')($scope.compraVentaMoneda.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.compraVentaMoneda.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("RECIBIDO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoRecibido, $scope.compraVentaMoneda.monedaRecibida.simbolo)) + "\r\n");
                 qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, $scope.compraVentaMoneda.monedaEntregada.simbolo)) + "\r\n");
-                qz.append("TIP.CAMBIO:\t" + ($filter('currency')($scope.compraVentaMoneda.tipoCambio, $scope.compraVentaMoneda.monedaEntregada.simbolo)) + "\r\n");
+                qz.append("TIP.CAMBIO:\t" + $scope.compraVentaMoneda.tipoCambio + "\r\n");
                 var elem = $scope.compraVentaMoneda.referencia.split('/');
                 qz.append("CLIENTE:\t" + (elem[0]) + "\r\n");
                 qz.append("\t\t" + (elem[1]) + "\r\n");

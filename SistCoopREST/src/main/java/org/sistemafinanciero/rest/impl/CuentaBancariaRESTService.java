@@ -733,10 +733,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			*/
 			
 			// Declaraciones Finales
-			Chunk parrafoDeclaracionesFinalesCab = new Chunk("\nDECLARACIÓN FINAL DEL CLIENTE: ", fontBold);
+			Chunk parrafoDeclaracionesFinalesCab = new Chunk("\nDECLARACIONES FINALES: ", fontBold);
 			Paragraph parrafoDeclaracionesFinalesValue = new Paragraph();
 
-			Chunk declaracionFinal = new Chunk("Declaro haber leido previamente las condiciones establecidas en el Contrato y la Cartilla de Información, asi como haber sido instruido acerca de los alcances y significados de los términos y condiciones establecidos en dicho documento habiendo sido absueltas y aclaradas a mi satisfacción todas las consultas efectuadas y/o dudas, suscribe el presente documento en duplicado y con pleno y exacto conocimiento de los mismos.\n", font);
+			Chunk declaracionFinal = new Chunk("EL CLIENTE, declara expresamente que previamente a la suscripción del presente Contrato y la “Cartilla de Información” que le ha sido entregada para su lectura, ha recibido toda la información necesaria acerca de las Condiciones Generales y Especiales aplicables al tipo de servicio contratado, tasas de interés, comisiones y gastos, habiéndosele absuelto todas sus consultas y/o dudas, por lo que declara tener pleno y exacto conocimiento de las condiciones de el(los) servicio(s) contratado(s).\n", font);
 			declaracionFinal.setLineHeight(13);
 			parrafoDeclaracionesFinalesValue.add(declaracionFinal);
 
@@ -774,9 +774,8 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			
 			
 			// Contrato de Cuentas bancarias
-			Date date = new Date();
 			DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
-			String fechaAhora = df.format(date);
+			String fechaAhora = df.format(cuentaBancaria.getFechaApertura());
 			
 			Font fontTituloContrato = FontFactory.getFont("Arial", 12f, Element.ALIGN_CENTER);
 			Font fontSubtituloContrato = FontFactory.getFont("Arial", 10f, Font.BOLD);
@@ -814,7 +813,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				
 				//tercer subtitulo y descripcion
 				Chunk subtitulo3ContratoAhorro = new Chunk("CONDICIONES ESPECIALES APLICABLES A LAS CUENTAS DE AHORROS\n", fontSubtituloContrato);
-				Chunk contenido3ContratoAhorro = new Chunk("6. Las cuentas de depósito de ahorro están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. CAMBIOS VENTURA entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta de depósito de ahorros constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n\n\n\n", fontDescripcionContrato);
+				Chunk contenido3ContratoAhorro = new Chunk("6. Las cuentas de depósito de ahorro están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. CAMBIOS VENTURA entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta de depósito de ahorros constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n", fontDescripcionContrato);
 				
 				//pie pagina contrato
 				Chunk piePagina = new Chunk("Ayacucho" + ", " + fechaAhora, fontDescripcionContrato);
@@ -836,28 +835,20 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 			if (cuentaBancaria.getTipoCuenta().toString() == "PLAZO_FIJO") {
 				//titulo y descripcion
-				Chunk tituloContratoPF = new Chunk("CONTRATO DE CUENTA DE AHORROS Y SERVICIOS FINANCIEROS CONEXOS\n", fontTituloContrato);
-				Chunk descripcionContratoPF = new Chunk("Conste por el presente documento el CONTRATO DE CUENTA CORRIENTE Y SERVICIOS FINANCIEROS CONEXOS, que celebran, de una parte CASA DE CAMBIOS “VENTURA”, a quien en adelante se le denominará CAMBIOS VENTURA, y de la otra parte EL CLIENTE, cuyas generales de Ley y su firma puesta en señal de conformidad y aceptación de todos los términos del presente contrato, constan en el presente instrumento.\n"
-														 + "Los términos y condiciones de este contrato que constan a continuación, serán de observancia y aplicación respecto de la cuenta corriente y servicios financieros conexos, así como las transacciones y operaciones sobre las cuentas corrientes que mantenga EL CLIENTE con CAMBIOS VENTURA (en conjunto los “Servicios Financieros”), en tanto no se contrapongan a otros de carácter específico contenidos y/o derivados de contratos y/o solicitudes suscritas y/o aceptadas bajo cualquier medio o mecanismo entre EL CLIENTE y CAMBIOS VENTURA.\n"
-														 + "Ninguno de los términos de este contrato exonera a EL CLIENTE de cumplir los requisitos y formalidades que la ley y/o CAMBIOS VENTURA exijan para la prestación y/o realización de determinados servicios, y/o productos y/u operaciones y/o transacciones.\n\n", fontDescripcionContrato);
+				Chunk tituloContratoPF = new Chunk("CONTRATO DE DEPOSITO A PLAZO FIJO\n", fontTituloContrato);
+				Chunk descripcionContratoPF = new Chunk("El presente contrato regula las Condiciones que CASA DE CAMBIOS “VENTURA”, en adelante CAMBIOS VENTURA, establece para el servicio de DEPOSITO A PLAZO FIJO que brindará a favor de EL CLIENTE, cuyas generales de ley y domicilio constan al final del presente documento.\n\n", fontDescripcionContrato);
 				
 				//primer subtitulo y descripcion
-				Chunk subtitulo1ContratoPF = new Chunk("OPERACIONES Y SERVICIOS FINANCIEROS  EN GENERAL\n", fontSubtituloContrato);
-				Chunk contenido1ContratoPF = new Chunk("1. El presente contrato, concede a EL CLIENTE, el derecho de usar los productos y servicios de CAMBIOS VENTURA, que integran sus canales terminales de depósitos y/o retiros y Consulta, banca telefónica, banca Internet y aquellos otros que CAMBIOS VENTURA pudiera poner a disposición de EL CLIENTE cualquier canal de distribución que estime pertinente, tales como página Web, e-mail, mensaje de texto, mensajes, entre otros.\n"
-														 + "EL CLIENTE declara que CAMBIOS VENTURA ha cumplido con las disposiciones legales sobre transparencia en la información y en ese sentido le ha brindado en forma previa toda la información relevante.\n"
-														 + "2. Las partes acuerdan que la(s) cuenta(s) y/o el(los) depósito(s) que EL CLIENTE tuviese abiertos o constituidos y/o que abra o constituya en el futuro, podrán ser objeto de afiliaciones a prestaciones adicionales o de ampliaciones de los servicios que ofrece CAMBIOS VENTURA.\n\n", fontDescripcionContrato);
-				
-				//segundo subtitulo y descripcion
-				Chunk subtitulo2ContratoPF = new Chunk("DISPOSICIONES GENERALES\n",fontSubtituloContrato);
-				Chunk contenido2ContratoPF = new Chunk("3. Queda acordado por las partes que, como consecuencia de variaciones en las condiciones de mercado, cambios en las estructuras de costos, decisiones comerciales internas, CAMBIOS VENTURA podrá modificar las tasas de interés, que son fijas, comisiones y gastos aplicables a los Servicios Financieros, y en general, cualquiera de las condiciones aquí establecidas, debiendo comunicar la modificación a EL CLIENTE con una anticipación no menor a cuarenta y cinco (45) días calendario a la fecha o momento a partir de la cual entrará en vigencia la respectiva modificación.\n"
-														 + "De no estar EL CLIENTE conforme con las modificaciones comunicadas tendrá la facultad de dar por concluido el presente contrato de pleno derecho, sin penalización alguna cursando una comunicación escrita a CAMBIOS VENTURA.\n"
-														 + "4. En caso que EL CLIENTE sea persona jurídica o persona natural representada por apoderados o representantes legales debidamente autorizados y registrados en CAMBIOS VENTURA, este último no asumirá responsabilidad alguna por las consecuencias de las operaciones que los citados representantes o apoderados hubieren efectuado en su representación, aún cuando sus poderes hubieren sido revocados o modificados, salvo que tales revocaciones o modificaciones hubieren sido puestas en conocimiento de CAMBIOS VENTURA por escrito y adjuntando los instrumentos pertinentes.\n"
-														 + "5. CAMBIOS VENTURA no asume responsabilidad alguna si por caso fortuito o de fuerza mayor no pudiera cumplir con cualquiera de las obligaciones materia del presente contrato y/o con las instrucciones de EL CLIENTE que tengan relación con los Servicios Financieros, materia del presente contrato. En tales casos CAMBIOS VENTURA, sin responsabilidad alguna para sí, dará cumplimiento a la obligación y/o instrucción tan pronto desaparezca la causa que impidiera su atención oportuna.\n"
-														 + "Se consideran como causas de fuerza mayor o caso fortuito, sin que la enumeración sea limitativa, las siguientes: a) Interrupción del sistema de cómputo, red de teleproceso local o de telecomunicaciones; b) Falta de fluido eléctrico; c) Terremotos, incendios, inundaciones y otros similares; d) Actos y consecuencias de vandalismo, terrorismo y conmoción civil; e) Huelgas y paros; f) Actos y consecuencias imprevisibles debidamente justificadas por CAMBIOS VENTURA; g) Suministros y abastecimientos a sistemas y canales de distribución de productos y servicios.\n\n", fontDescripcionContrato);
-				
-				//tercer subtitulo y descripcion
-				Chunk subtitulo3ContratoPF = new Chunk("CONDICIONES ESPECIALES APLICABLES A LAS CUENTAS DE AHORROS\n", fontSubtituloContrato);
-				Chunk contenido3ContratoPF = new Chunk("6. Las cuentas de depósito de ahorro están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. CAMBIOS VENTURA entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta de depósito de ahorros constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n\n\n\n", fontDescripcionContrato);
+				Chunk subtitulo1ContratoPF = new Chunk("CONDICIONES GENERALES\n\n", fontSubtituloContrato);
+				Chunk contenido1ContratoPF = new Chunk("1. CAMBIOS VENTURA abre la cuenta de depósito a plazo fijo a solicitud de EL CLIENTE, con la información necesaria proporcionada por EL CLIENTE para su identificación y manejo, la misma que tiene el carácter de declaración jurada y que se obliga actualizar cuando exista algún cambio.\n"
+													 + "CAMBIOS VENTURA, se reserva el derecho de aceptar o denegar la solicitud de apertura de la(s) cuenta(s), así como verificar la información proporcionada. Tratándose de personas naturales, la(s) cuenta(s) de depósito podrá(n) ser: i) Individuales; ii) Mancomunadas o conjuntas,  a elección y libre decisión de EL CLIENTE. Las personas naturales, se identificarán y presentarán copia de su documento oficial de identidad y las Personas Jurídicas presentarán copia del Registro Único del Contribuyente, del documento de su constitución y la acreditación de sus representantes legales o apoderados con facultades suficientes para abrir y operar cuentas bancarias.\n"
+													 + "2. La(s) cuenta(s), sin excepción alguna, que mantenga EL CLIENTE en CAMBIOS VENTURA, deberá(n) ser manejada(s) personalmente por él o por sus representantes legales acreditados ante CAMBIOS VENTURA. Los menores de edad, los analfabetos, los que adolezcan de incapacidad relativa o absoluta, serán representados por personas autorizadas legalmente. La(s) cuenta(s) y todas las operaciones que sobre ésta(s) realice(n) directamente EL CLIENTE o a través de sus representantes a través de los medios proporcionados por CAMBIOS VENTURA se considerarán hechas por EL CLIENTE, bajo su responsabilidad. Será obligación de EL CLIENTE comunicar a CAMBIOS VENTURA de cualquier designación, modificación o revocación de poderes otorgados a sus representantes, acreditándose en su caso con los instrumentos públicos o privados que se requieran conforme a las normas sobre la materia. Tratándose de cuentas mancomunadas conjuntas el retiro procederá en ventanilla con los titulares acreditados para tal fin.\n"
+													 + "3. Las partes acuerdan que CAMBIOS VENTURA pagará a EL CLIENTE una tasa de interés compensatoria efectiva anual que tenga vigente en su tarifario, para este tipo de operaciones pasivas, por el tiempo efectivo de permanencia de su(s) depósito(s), según el periodo de capitalización pactado. En los casos en que CAMBIOS VENTURA considere el cobro de comisiones por los servicios prestados a EL CLIENTE, así como los gastos que haya tenido que asumir directamente con terceros derivados de la(s) operaciones solicitado(s) por EL CLIENTE.\n"
+													 + "4. El(los) depósito(s) podrá(n) efectuarse en dinero en efectivo.\n"
+													 + "5. CAMBIOS VENTURA queda facultada por EL CLIENTE respecto a su(s) cuenta(s) de depósito a plazo fijo que mantenga para cargar el costo de comisiones, seguros, tributos y otros gastos.\n"
+													 + "6. Los fondos existentes en todos los depósitos que EL CLIENTE pudiera mantener en CAMBIOS VENTURA, podrán ser afectados para respaldar las obligaciones directas o indirectas, existentes o futuras, en cualquier moneda que EL CLIENTE adeude o que expresamente haya garantizado frente a CAMBIOS VENTURA, por capital, intereses, comisiones, tributos, gastos, u otro concepto, quedando CAMBIOS VENTURA facultada a aplicarlos de manera parcial o total para la amortización y/o cancelación de dichas obligaciones, para tal efecto CAMBIOS VENTURA podrá en cualquier momento, y a su sólo criterio, realizar la consolidación y/o la compensación entre los saldos deudores y acreedores que EL CLIENTE pudiera tener en los depósitos que mantenga abiertos en CAMBIOS VENTURA, conforme a la Ley General del Sistema Financiero.\n"
+													 + "7. Realizar todas las operaciones de cambio de moneda que sean necesarias, y al tipo de cambio vigente en el día en que se realiza la operación.\n"
+													 + "8. CAMBIOS VENTURA podrá cerrar o cancelar la(s) cuenta(s) de depósito: a) A solicitud de EL CLIENTE y previo pago de todo saldo deudor u obligación que pudiera mantener pendiente; b) Cuando sea informada por escrito o tome conocimiento del fallecimiento o liquidación del patrimonio del titular.\n\n\n\n\n\n", fontDescripcionContrato);
 				
 				//pie pagina contrato
 				Chunk piePagina = new Chunk("Ayacucho" + ", " + fechaAhora, fontDescripcionContrato);
@@ -866,10 +857,6 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				contenidoContrato.add(descripcionContratoPF);
 				contenidoContrato.add(subtitulo1ContratoPF);
 				contenidoContrato.add(contenido1ContratoPF);
-				contenidoContrato.add(subtitulo2ContratoPF);
-				contenidoContrato.add(contenido2ContratoPF);
-				contenidoContrato.add(subtitulo3ContratoPF);
-				contenidoContrato.add(contenido3ContratoPF);
 				piePaginaContrato.add(piePagina);
 				
 				document.add(tituloContrato);
@@ -900,7 +887,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				
 				//tercer subtitulo y descripcion
 				Chunk subtitulo3ContratoCC = new Chunk("CONDICIONES ESPECIALES APLICABLES A LAS CUENTAS CORRIENTES\n", fontSubtituloContrato);
-				Chunk contenido3ContratoCC = new Chunk("6. Las cuentas de depósito, están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. CAMBIOS VENTURA entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta de depósito de ahorros constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n\n\n\n", fontDescripcionContrato);
+				Chunk contenido3ContratoCC = new Chunk("6. Las cuentas de depósito, están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. CAMBIOS VENTURA entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta de depósito de ahorros constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n\n\n", fontDescripcionContrato);
 				
 				//pie pagina contrato
 				Chunk piePagina = new Chunk("Ayacucho" + ", " + fechaAhora, fontDescripcionContrato);
