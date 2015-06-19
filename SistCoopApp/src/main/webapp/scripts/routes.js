@@ -209,7 +209,7 @@ define(['./app'], function(app) {
                                         { 'name':'Transferencia' , 'state':'app.transaccion.transferencia'},
                                         { 'name':'Cheque' , 'state':'app.transaccion.cheque'},
                                         { 'name':'Compra/Venta' , 'state':'app.transaccion.compraVenta'},
-                                        { 'name':'Giros' , 'state':'app.transaccion.giro'}
+                                        { 'name':'Giros' , 'state':'app.transaccion.buscarGiros'}
                                     ]},
                                     {'name':'Historial', submenus:[
                                         { 'name':'Buscar Transacción' , 'state':'app.transaccion.buscarTransaccion'}
@@ -523,8 +523,16 @@ define(['./app'], function(app) {
                         }
                     }
                 })
-                .state('app.transaccion.giro', {
-                  url: "/giro",
+                .state('app.transaccion.buscarGiros', {
+                  url: "/buscarGiros",
+                  views: {
+                    "viewContent": {
+                      templateUrl: "views/cajero/transaccion/buscarGiros.html"
+                    }
+                  }
+                })
+                .state('app.transaccion.crearGiro', {
+                  url: "/crearGiro",
                   views: {
                     "viewContent": {
                       templateUrl: "views/cajero/transaccion/giro.html"

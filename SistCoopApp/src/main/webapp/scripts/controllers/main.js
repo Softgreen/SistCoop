@@ -30,7 +30,8 @@ define([
     './caja/transaccion/BuscarTransaccionHistorialController',
     './caja/transaccion/CrearTransaccionChequeController',
     './caja/transaccion/EnviarTransaccionGiroController',
-  './caja/transaccion/DesembolsarTransaccionGiroController',
+    './caja/transaccion/DesembolsarTransaccionGiroController',
+    './caja/transaccion/BuscarGirosController',
 
     './cuentaBancaria/BeneficiarioController',
     './cuentaBancaria/TitularController',
