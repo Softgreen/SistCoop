@@ -19,29 +19,45 @@ public interface AgenciaREST {
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public Response findAll(@QueryParam("estado") Boolean estado);
-	
+
 	@GET
 	@Path("/{id}")
 	@Produces({ "application/xml", "application/json" })
 	public Response findById(@PathParam("id") BigInteger id);
-	
+
 	@POST
 	@Produces({ "application/xml", "application/json" })
 	public Response create(Agencia agencia);
-	
+
 	@PUT
 	@Path("/{id}")
 	@Produces({ "application/xml", "application/json" })
 	public Response update(@PathParam("id") BigInteger id, Agencia agencia);
-	
+
 	@GET
 	@Path("/{id}/bovedas")
 	@Produces({ "application/json" })
 	public Response getBovedasOfAgencia(@PathParam("id") BigInteger id);
-	
+
 	@GET
 	@Path("/{id}/cajas")
 	@Produces({ "application/json" })
 	public Response getCajasOfAgencia(@PathParam("id") BigInteger id);
+
+	@GET
+	@Path("/{id}/giros/enviados")
+	@Produces({ "application/json" })
+	public Response getGirosEnviados(@PathParam("id") BigInteger id,
+			@QueryParam("filterText") String filterText,
+			@QueryParam("offset") Integer offset,
+			@QueryParam("limit") Integer limit);
+
+	@GET
+	@Path("/{id}/giros/recibidos")
+	@Produces({ "application/json" })
+	public Response getGirosRecibidos(@PathParam("id") BigInteger id,
+			@QueryParam("filterText") String filterText,
+			@QueryParam("offset") Integer offset,
+			@QueryParam("limit") Integer limit);
 
 }

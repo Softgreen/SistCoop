@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -39,10 +41,16 @@ import org.sistemafinanciero.entity.type.LugarPagoComision;
 @Table(name = "GIRO", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "giro")
 @XmlAccessorType(XmlAccessType.NONE)
+@NamedQueries({ 
+	@NamedQuery(name = Giro.findEnviadosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor"),
+	@NamedQuery(name = Giro.findRecibidosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor")})
 public class Giro implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public final static String findEnviadosByIdAgenciaFilterText = "Giro.findEnviadosByIdAgenciaFilterText";
+	public final static String findRecibidosByIdAgenciaFilterText = "Giro.findRecibidosByIdAgenciaFilterText";
+	
 	private BigInteger idGiro;
 	
 	private Agencia agenciaOrigen;

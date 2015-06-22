@@ -25,21 +25,18 @@ define(['../../module'], function (controllers) {
         data: 'transaccionesRecibidas',
         multiSelect: false,
         columnDefs: [
-          {field: "fecha", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'Fecha', width: 70},
-          {field: "hora", cellFilter: "date : 'HH:mm:ss'", displayName: 'Hora', width: 60},
-          {
-            displayName: 'Estado solicitud',
-            width: 100,
-            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 85px;"><span ng-show="row.entity.estadoSolicitud" style="color: blue; font-weight: bold;">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud" style="color: red; font-weight: bold;">CANCELADO</span></div>'
-          },
-          {
-            displayName: 'Estado confirmación',
-            width: 125,
-            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 110px;"><span ng-show="row.entity.estadoConfirmacion" style="color: blue; font-weight: bold;">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion" style="color: red; font-weight: bold;">NO CONFIRMADO</span></div>'
-          },
-          {field: "boveda", displayName: 'Origen'},
-          {field: 'caja', displayName: 'Destino', width: 80},
-          {field: "monto", cellFilter: "currency :''", displayName: 'Monto', width: 80},
+          {field: "numeroDocumentoEmisor", displayName: 'Emisor', width: 70},
+          {field: "clienteEmisor", displayName: 'Emisor', width: 70},
+          {field: "numeroDocumentoReceptor", displayName: 'Receptor', width: 70},
+          {field: "clienteReceptor", displayName: 'Receptor', width: 70},
+          {field: "moneda", displayName: 'Moneda', width: 70},
+          {field: "monto", displayName: 'Monto', width: 70},
+          {field: "comision", displayName: 'Comision', width: 70},
+          {field: "lugarPagoComision", displayName: 'Comision lugar pago', width: 70},
+          {field: "estadoPagoComision", displayName: 'Estado lugar pago', width: 70},
+          {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Envio', width: 70},
+          {field: "fechaDesembolso", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Desembolso', width: 60},
+          {field: "estado", displayName: 'Estado lugar pago', width: 70},
           {
             displayName: 'Edit',
             width: 170,
@@ -51,25 +48,22 @@ define(['../../module'], function (controllers) {
         data: 'transaccionesEnviadas',
         multiSelect: false,
         columnDefs: [
-          {field: "fecha", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'Fecha', width: 80},
-          {field: "hora", cellFilter: "date : 'HH:mm:ss'", displayName: 'Hora', width: 70},
-          {
-            displayName: 'Estado Solicitud',
-            width: 100,
-            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 85px;"><span ng-show="row.entity.estadoSolicitud" style="color: blue; font-weight: bold;">SOLICITADO</span><span ng-hide="row.entity.estadoSolicitud" style="color: red; font-weight: bold;">CANCELADO</span></div>'
-          },
-          {
-            displayName: 'Estado Confirmación',
-            width: 125,
-            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center; width: 110px;"><span ng-show="row.entity.estadoConfirmacion" style="color: blue; font-weight: bold;">CONFIRMADO</span><span ng-hide="row.entity.estadoConfirmacion" style="color: red; font-weight: bold;">NO CONFIRMADO</span></div>'
-          },
-          {field: "caja", displayName: 'Origen', width: 90},
-          {field: 'boveda', displayName: 'Destino'},
-          {field: "monto", cellFilter: "currency :''", displayName: 'Monto', width: 90},
+          {field: "numeroDocumentoEmisor", displayName: 'Emisor', width: 70},
+          {field: "clienteEmisor", displayName: 'Emisor', width: 70},
+          {field: "numeroDocumentoReceptor", displayName: 'Receptor', width: 70},
+          {field: "clienteReceptor", displayName: 'Receptor', width: 70},
+          {field: "moneda", displayName: 'Moneda', width: 70},
+          {field: "monto", displayName: 'Monto', width: 70},
+          {field: "comision", displayName: 'Comision', width: 70},
+          {field: "lugarPagoComision", displayName: 'Comision lugar pago', width: 70},
+          {field: "estadoPagoComision", displayName: 'Estado lugar pago', width: 70},
+          {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Envio', width: 70},
+          {field: "fechaDesembolso", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Desembolso', width: 60},
+          {field: "estado", displayName: 'Estado lugar pago', width: 70},
           {
             displayName: 'Edit',
-            width: 180,
-            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)" ng-disabled="getDisabledStateVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-danger btn-xs" ng-click="cancelarTransaccion(row.entity)" ng-disabled="getDisabledStateButton(row.entity)"><span class="glyphicon glyphicon-remove"></span>Cancelar</button></div>'
+            width: 170,
+            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="getVoucher(row.entity)" ng-disabled="getDisabledStateVoucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-success btn-xs" ng-click="confirmarTransaccion(row.entity)" ng-disabled="getDisabledStateButton(row.entity)"><span class="glyphicon glyphicon-ok"></span>Confirmar</button></div>'
           }]
       };
 

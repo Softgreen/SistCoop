@@ -9,12 +9,14 @@ import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Caja;
+import org.sistemafinanciero.entity.Giro;
 import org.sistemafinanciero.exception.NonexistentEntityException;
 import org.sistemafinanciero.exception.PreexistingEntityException;
 import org.sistemafinanciero.exception.RollbackFailureException;
 import org.sistemafinanciero.rest.AgenciaREST;
 import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.service.nt.AgenciaServiceNT;
+import org.sistemafinanciero.service.nt.GiroServiceNT;
 import org.sistemafinanciero.service.ts.AgenciaServiceTS;
 
 public class AgenciaRESTService implements AgenciaREST {
@@ -24,6 +26,9 @@ public class AgenciaRESTService implements AgenciaREST {
 
 	@EJB
 	private AgenciaServiceTS agenciaServiceTS;
+	
+	@EJB
+	private GiroServiceNT giroServiceNT;
 	
 	@Override
 	public Response findAll(Boolean estado) {
@@ -79,6 +84,22 @@ public class AgenciaRESTService implements AgenciaREST {
 	public Response getCajasOfAgencia(BigInteger id) {
 		Set<Caja> cajas = agenciaServiceNT.getCajasOfAgencia(id);
 		Response response = Response.status(Response.Status.OK).entity(cajas).build();
+		return response;
+	}
+
+	@Override
+	public Response getGirosEnviados(BigInteger id, String filterText,
+			Integer offset, Integer limit) {
+		List<Giro> list = giroServiceNT.getGirosEnviados(id, filterText, offset, limit);
+		Response response = Response.status(Response.Status.OK).entity(list).build();
+		return response;
+	}
+
+	@Override
+	public Response getGirosRecibidos(BigInteger id, String filterText,
+			Integer offset, Integer limit) {
+		List<Giro> list = giroServiceNT.getGirosRecibidos(id, filterText, offset, limit);
+		Response response = Response.status(Response.Status.OK).entity(list).build();
 		return response;
 	}
 
