@@ -10,9 +10,11 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Giro;
+import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.service.nt.GiroServiceNT;
 
 @Named
@@ -53,8 +55,12 @@ public class GiroServiceBeanNT implements GiroServiceNT {
 			limit = Math.abs(limit);
 		}
 
-		QueryParameter queryParameter = QueryParameter.with("idAgencia",idAgencia).and("filterText", filterText);
+		QueryParameter queryParameter = QueryParameter.with("idAgencia",idAgencia).and("filterText", '%' + filterText + '%');
 		List<Giro> list = giroDAO.findByNamedQuery(Giro.findEnviadosByIdAgenciaFilterText, queryParameter.parameters(), offset, limit);
+		for (Giro giro : list) {
+			Moneda moneda = giro.getMoneda();
+			Hibernate.initialize(moneda);
+		}
 		return list;
 	}
 
@@ -72,8 +78,12 @@ public class GiroServiceBeanNT implements GiroServiceNT {
 			limit = Math.abs(limit);
 		}
 		
-		QueryParameter queryParameter = QueryParameter.with("idAgencia",idAgencia).and("filterText", filterText);
+		QueryParameter queryParameter = QueryParameter.with("idAgencia",idAgencia).and("filterText", '%' + filterText + '%');
 		List<Giro> list = giroDAO.findByNamedQuery(Giro.findRecibidosByIdAgenciaFilterText, queryParameter.parameters(), offset, limit);
+		for (Giro giro : list) {
+			Moneda moneda = giro.getMoneda();
+			Hibernate.initialize(moneda);
+		}
 		return list;
 	}
 
