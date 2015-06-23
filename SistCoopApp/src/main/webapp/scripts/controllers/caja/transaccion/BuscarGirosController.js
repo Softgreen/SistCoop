@@ -25,18 +25,19 @@ define(['../../module'], function (controllers) {
         data: 'transaccionesRecibidas',
         multiSelect: false,
         columnDefs: [
-          {field: "numeroDocumentoEmisor", displayName: 'Emisor', width: 70},
-          {field: "clienteEmisor", displayName: 'Emisor', width: 70},
           {field: "numeroDocumentoReceptor", displayName: 'Receptor', width: 70},
-          {field: "clienteReceptor", displayName: 'Receptor', width: 70},
-          {field: "moneda", displayName: 'Moneda', width: 70},
-          {field: "monto", displayName: 'Monto', width: 70},
-          {field: "comision", displayName: 'Comision', width: 70},
-          {field: "lugarPagoComision", displayName: 'Comision lugar pago', width: 70},
-          {field: "estadoPagoComision", displayName: 'Estado lugar pago', width: 70},
+          {field: "clienteReceptor", displayName: 'Receptor', width: 170},
+
+          {field: "moneda.simbolo", displayName: 'M.', width: 30},
+          {field: "monto", displayName: 'Monto', cellFilter: "currency: ''", width: 70},
+
+          {field: "comision", displayName: 'Comision', cellFilter: "currency: ''", width: 70},
+          {field: "lugarPagoComision", displayName: 'Comision', width: 90},
+          {displayName: 'Comision', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoPagoComision">PAGADO</span><span ng-hide="row.entity.estadoPagoComision">NO PAGADO</span></div>', width:90},
+
           {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Envio', width: 70},
           {field: "fechaDesembolso", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Desembolso', width: 60},
-          {field: "estado", displayName: 'Estado lugar pago', width: 70},
+          {field: "estado", displayName: 'Estado', width: 70},
           {
             displayName: 'Edit',
             width: 170,
@@ -48,18 +49,19 @@ define(['../../module'], function (controllers) {
         data: 'transaccionesEnviadas',
         multiSelect: false,
         columnDefs: [
-          {field: "numeroDocumentoEmisor", displayName: 'Emisor', width: 70},
-          {field: "clienteEmisor", displayName: 'Emisor', width: 70},
           {field: "numeroDocumentoReceptor", displayName: 'Receptor', width: 70},
-          {field: "clienteReceptor", displayName: 'Receptor', width: 70},
-          {field: "moneda", displayName: 'Moneda', width: 70},
-          {field: "monto", displayName: 'Monto', width: 70},
-          {field: "comision", displayName: 'Comision', width: 70},
-          {field: "lugarPagoComision", displayName: 'Comision lugar pago', width: 70},
-          {field: "estadoPagoComision", displayName: 'Estado lugar pago', width: 70},
+          {field: "clienteReceptor", displayName: 'Receptor', width: 170},
+
+          {field: "moneda.simbolo", displayName: 'M.', width: 30},
+          {field: "monto", displayName: 'Monto', cellFilter: "currency: ''", width: 70},
+
+          {field: "comision", displayName: 'Comision', cellFilter: "currency: ''", width: 70},
+          {field: "lugarPagoComision", displayName: 'Comision', width: 90},
+          {displayName: 'Comision', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoPagoComision">PAGADO</span><span ng-hide="row.entity.estadoPagoComision">NO PAGADO</span></div>', width:90},
+
           {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Envio', width: 70},
           {field: "fechaDesembolso", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Desembolso', width: 60},
-          {field: "estado", displayName: 'Estado lugar pago', width: 70},
+          {field: "estado", displayName: 'Estado', width: 70},
           {
             displayName: 'Edit',
             width: 170,
