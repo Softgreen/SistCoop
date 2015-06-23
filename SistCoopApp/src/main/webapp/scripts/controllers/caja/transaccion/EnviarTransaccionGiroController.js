@@ -133,12 +133,20 @@ define(['../../module'], function (controllers) {
         }
       };
 
-      $scope.buscarCliente = function ($event) {
+      $scope.buscarClienteEmisor = function ($event) {
         if (!angular.isUndefined($event)) {
           $event.preventDefault();
         }
-        PersonaNaturalService.findByTipoNumeroDocumento(1, $scope.view.numeroDocumento).then(function (data) {
-          $scope.view.nombreCliente = data.apellidoPaterno + " " + data.apellidoMaterno + " " + data.nombres;
+        PersonaNaturalService.findByTipoNumeroDocumento(1, $scope.view.numeroDocumentoEmisor).then(function (data) {
+          $scope.view.nombreClienteEmisor = data.apellidoPaterno + " " + data.apellidoMaterno + " " + data.nombres;
+        });
+      };
+      $scope.buscarClienteReceptor = function ($event) {
+        if (!angular.isUndefined($event)) {
+          $event.preventDefault();
+        }
+        PersonaNaturalService.findByTipoNumeroDocumento(1, $scope.view.numeroDocumentoReceptor).then(function (data) {
+          $scope.view.nombreClienteReceptor = data.apellidoPaterno + " " + data.apellidoMaterno + " " + data.nombres;
         });
       };
 

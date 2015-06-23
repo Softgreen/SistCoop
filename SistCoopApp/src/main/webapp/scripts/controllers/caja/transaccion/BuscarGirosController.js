@@ -28,16 +28,16 @@ define(['../../module'], function (controllers) {
           {field: "numeroDocumentoReceptor", displayName: 'Receptor', width: 70},
           {field: "clienteReceptor", displayName: 'Receptor', width: 170},
 
-          {field: "moneda.simbolo", displayName: 'M.', width: 30},
-          {field: "monto", displayName: 'Monto', cellFilter: "currency: ''", width: 70},
+          {field: "moneda.simbolo", displayName: 'M.', width: 25},
+          {field: "monto", displayName: 'Monto', cellFilter: "currency: ''", width: 60},
 
-          {field: "comision", displayName: 'Comision', cellFilter: "currency: ''", width: 70},
-          {field: "lugarPagoComision", displayName: 'Comision', width: 90},
-          {displayName: 'Comision', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoPagoComision">PAGADO</span><span ng-hide="row.entity.estadoPagoComision">NO PAGADO</span></div>', width:90},
+          {field: "comision", displayName: 'Comision', cellFilter: "currency: ''", width: 60},
+          {field: "lugarPagoComision", displayName: 'Comision', width: 110},
+          {displayName: 'Comision', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoPagoComision">PAGADO</span><span ng-hide="row.entity.estadoPagoComision">NO PAGADO</span></div>', width:80},
 
           {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Envio', width: 70},
-          {field: "fechaDesembolso", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Desembolso', width: 60},
-          {field: "estado", displayName: 'Estado', width: 70},
+          {field: "fechaDesembolso", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Desembolso', width: 70},
+          {field: "estado", displayName: 'Estado', width: 80},
           {
             displayName: 'Edit',
             width: 170,
@@ -52,16 +52,16 @@ define(['../../module'], function (controllers) {
           {field: "numeroDocumentoReceptor", displayName: 'Receptor', width: 70},
           {field: "clienteReceptor", displayName: 'Receptor', width: 170},
 
-          {field: "moneda.simbolo", displayName: 'M.', width: 30},
-          {field: "monto", displayName: 'Monto', cellFilter: "currency: ''", width: 70},
+          {field: "moneda.simbolo", displayName: 'M.', width: 25},
+          {field: "monto", displayName: 'Monto', cellFilter: "currency: ''", width: 60},
 
-          {field: "comision", displayName: 'Comision', cellFilter: "currency: ''", width: 70},
-          {field: "lugarPagoComision", displayName: 'Comision', width: 90},
-          {displayName: 'Comision', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoPagoComision">PAGADO</span><span ng-hide="row.entity.estadoPagoComision">NO PAGADO</span></div>', width:90},
+          {field: "comision", displayName: 'Comision', cellFilter: "currency: ''", width: 60},
+          {field: "lugarPagoComision", displayName: 'Comision', width: 110},
+          {displayName: 'Comision', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span ng-show="row.entity.estadoPagoComision">PAGADO</span><span ng-hide="row.entity.estadoPagoComision">NO PAGADO</span></div>', width: 80},
 
           {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Envio', width: 70},
-          {field: "fechaDesembolso", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Desembolso', width: 60},
-          {field: "estado", displayName: 'Estado', width: 70},
+          {field: "fechaDesembolso", cellFilter: "date : 'dd/MM/yyyy'", displayName: 'F.Desembolso', width: 70},
+          {field: "estado", displayName: 'Estado', width: 80},
           {
             displayName: 'Edit',
             width: 170,
