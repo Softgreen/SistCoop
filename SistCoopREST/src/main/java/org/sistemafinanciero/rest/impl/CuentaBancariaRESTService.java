@@ -43,6 +43,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.poi.hssf.record.FnGroupCountRecord;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.sistemafinanciero.entity.Agencia;
@@ -615,122 +616,6 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			table4.addCell(cabecera4);
 			
 			Paragraph parrafoDeclaraciones = new Paragraph();
-
-			
-			/*
-			Chunk subTitulo1 = new Chunk("\nINFORMACIÓN ADICIONAL\n", fontBold);
-			parrafoDeclaraciones.add(subTitulo1);
-
-			if (cuentaBancaria.getTipoCuenta().toString() == "AHORRO") {
-				// añadiendo las viñetas
-				Paragraph enumeracionAH01 = new Paragraph();
-				Chunk chunkAH01 = new Chunk("- La Tasa de Rendimiento Efectiva Anual (TREA) de una cuenta de ahorros es igual a la Tasa Efectiva Anual (TEA), descontándole las comisiones o gastos aplicables a la cuenta. Por ejemplo, para un depósito de personas naturales de S/. 1,000.00 a 360 días, considerando que durante dicho plazo no existen transacciones adicionales a la apertura de la cuenta, la TEA de 0.25% es igual a la TREA, pues no hay descuento de comisiones ni gastos.\n", font);
-				chunkAH01.setLineHeight(13);
-				enumeracionAH01.add(chunkAH01);
-
-				Paragraph enumeracionAH02 = new Paragraph();
-				Chunk chunkAH02 = new Chunk("- El CLIENTE tendrán a su disposición en nuestras ventanillas de atención, los estados de cuenta mensuales de las cuentas de ahorro.\n", font);
-				chunkAH02.setLineHeight(13);
-				enumeracionAH02.add(chunkAH02);
-
-				Paragraph enumeracionAH03 = new Paragraph();
-				Chunk chunkAH03 = new Chunk("- La cancelación de las cuentas de ahorro se efectúa a solicitud del (los) titular(es) de la cuenta, sólo en la Agencia de origen y en casos excepcionales al fallecimiento del titular previa presentación de la documentación legal correspondiente (sucesión intestada o declaratoria de herederos debidamente inscrita en registros públicos), por incapacidad física del titular o por mandato judicial.\n", font);
-				chunkAH03.setLineHeight(13);
-				enumeracionAH03.add(chunkAH03);
-
-				parrafoDeclaraciones.add(enumeracionAH01);
-				parrafoDeclaraciones.add(enumeracionAH02);
-				parrafoDeclaraciones.add(enumeracionAH03);
-			}
-
-			if (cuentaBancaria.getTipoCuenta().toString() == "PLAZO_FIJO") {
-				// añadiendo las viñetas
-				Paragraph enumeracionPF01 = new Paragraph();
-				Chunk chunkPF01 = new Chunk("- Para el cálculo de intereses se aplica tasas de Interés Compensatorio Efectiva Fija Anual (TEA 360 días).\n", font);
-				chunkPF01.setLineHeight(12);
-				enumeracionPF01.add(chunkPF01);
-
-				Paragraph enumeracionPF02 = new Paragraph();
-				Chunk chunkPF02 = new Chunk("- La Fecha de Cancelación del plazo fijo, se realizará al día siguiente de la fecha de vencimiento del PLAZO FIJO.\n", font);
-				chunkPF02.setLineHeight(12);
-				enumeracionPF02.add(chunkPF02);
-
-				Paragraph enumeracionPF03 = new Paragraph();
-				Chunk chunkPF03 = new Chunk("- La cancelación de la cuenta se realizará en la misma Agencia donde se apertura, en caso de cancelar en otra Agencia se le cobrará la comisión que corresponda a dicha Agencia.\n", font);
-				chunkPF03.setLineHeight(12);
-				enumeracionPF03.add(chunkPF03);
-
-				Paragraph enumeracionPF04 = new Paragraph();
-				Chunk chunkPF04 = new Chunk("- Al vencimiento de la fecha del depósito a Plazo Fijo, se le otorga 7 días calendarios para su cobro, caso contrario se tomará como renovación automática por el mismo periodo y a la tasa de interés del tarifario vigente.\n", font);
-				chunkPF04.setLineHeight(12);
-				enumeracionPF04.add(chunkPF04);
-
-				Paragraph enumeracionPF05 = new Paragraph();
-				Chunk chunkPF05 = new Chunk("- Si EL CLIENTE no se apersona a renovar sus depósitos a Plazo Fijo, la renovación es automático por el mismo periodo y a la tasa de interés del tarifario vigente, para todas las modalidades de retiros de intereses.\n", font);
-				chunkPF05.setLineHeight(12);
-				enumeracionPF05.add(chunkPF05);
-
-				Paragraph enumeracionPF06 = new Paragraph();
-				Chunk chunkPF06 = new Chunk("- Si EL CLIENTE retira el monto del depósito antes del vencimiento del plazo estipulado, los intereses devengados se abonarán de acuerdo a la tasa de interés fijada para el Ahorro Corriente por el periodo de permanencia efectiva del depósito, si fuera el caso, se descontará los pagos adelantados de intereses que se pudieran haberse otorgado.\n", font);
-				chunkPF06.setLineHeight(12);
-				enumeracionPF06.add(chunkPF06);
-
-				Paragraph enumeracionPF07 = new Paragraph();
-				Chunk chunkPF07 = new Chunk("- LA COOPERATIVA tiene la facultad de modificar las condiciones aplicables, conforme a las disposiciones de la ley 28587 y su reglamento aprobado mediante Resolución SBS 1765-2005.\n", font);
-				chunkPF07.setLineHeight(12);
-				enumeracionPF07.add(chunkPF07);
-
-				Paragraph enumeracionPF08 = new Paragraph();
-				Chunk chunkPF08 = new Chunk("- EL CLIENTE deberá dar inmediatamente aviso por escrito en caso de pérdida, extravío o sustracción de esta cartilla, caso contrario la CASA DE CAMBIOS VENTURA no se responsabiliza de las operaciones efectuadas, por falta de aviso previo.\n", font);
-				chunkPF08.setLineHeight(12);
-				enumeracionPF08.add(chunkPF08);
-
-				Paragraph enumeracionPF09 = new Paragraph();
-				Chunk chunkPF09 = new Chunk("- Tasas de Interés sujetas a variaciones de acuerdo a las condiciones del mercado.", font);
-				chunkPF09.setLineHeight(12);
-				enumeracionPF09.add(chunkPF09);
-
-				parrafoDeclaraciones.add(enumeracionPF01);
-				parrafoDeclaraciones.add(enumeracionPF02);
-				parrafoDeclaraciones.add(enumeracionPF03);
-				parrafoDeclaraciones.add(enumeracionPF04);
-				parrafoDeclaraciones.add(enumeracionPF05);
-				parrafoDeclaraciones.add(enumeracionPF06);
-				parrafoDeclaraciones.add(enumeracionPF07);
-				parrafoDeclaraciones.add(enumeracionPF08);
-				parrafoDeclaraciones.add(enumeracionPF09);
-			}
-
-			if (cuentaBancaria.getTipoCuenta().toString() == "CORRIENTE") {
-				// añadiendo las viñetas
-				Paragraph enumeracionCC01 = new Paragraph();
-				Chunk chunkCC01 = new Chunk(
-						"- La tasa de rendimiento efectiva anual (trea), es aquella que permite igualar el monto que se ha depositado con el valor actual del monto que efectivamente se recibe al vencimiento del plazo, considerando todos los cargos por comisiones y gastos, incluidos los seguros, cuando corresponda, y bajo el supuesto de cumplimiento de todas las condiciones pactadas. no se incluyen en este cálculo aquellos pagos por servicios provistos por terceros que directamente sean pagados por el cliente ni los tributos que resulten aplicables. como ejemplo corresponde a un saldo inicial de s/.1,000.00 o usd 1,000.00 que se mantiene sin movimientos durante 12 meses.\n",
-						font);
-				chunkCC01.setLineHeight(13);
-				enumeracionCC01.add(chunkCC01);
-
-				Paragraph enumeracionCC02 = new Paragraph();
-				Chunk chunkCC02 = new Chunk("- Los intereses se capitalizan mensualmente, y para su cálculo se establece que el año base tiene 360 días.\n", font);
-				chunkCC02.setLineHeight(13);
-				enumeracionCC02.add(chunkCC02);
-
-				Paragraph enumeracionCC03 = new Paragraph();
-				Chunk chunkCC03 = new Chunk("- La fecha de corte para el abono de los intereses generados es el último día calendario de cada mes y se realiza mediante el abono respectivo en la misma cuenta.\n", font);
-				chunkCC03.setLineHeight(13);
-				enumeracionCC03.add(chunkCC03);
-
-				Paragraph enumeracionCC04 = new Paragraph();
-				Chunk chunkCC04 = new Chunk("- El saldo mínimo de equilibrio es aquel que se requiere mantener en una cuenta en la cual no se realice ninguna operación, y que permita generar intereses suficientes en un mes de 30 días que compensen las comisiones y gastos asociados con el mantenimiento de dicha cuenta, de tal forma que no se pierda ni se gane rendimientos al final del mes.\n", font);
-				chunkCC04.setLineHeight(13);
-				enumeracionCC04.add(chunkCC04);
-
-				parrafoDeclaraciones.add(enumeracionCC01);
-				parrafoDeclaraciones.add(enumeracionCC02);
-				parrafoDeclaraciones.add(enumeracionCC03);
-				parrafoDeclaraciones.add(enumeracionCC04);
-			}
-			*/
 			
 			// Declaraciones Finales
 			Chunk parrafoDeclaracionesFinalesCab = new Chunk("\nDECLARACIONES FINALES: ", fontBold);
@@ -1364,7 +1249,15 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
 		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
 		
+		/**obteniendo la moneda y dando formato**/
 		Moneda moneda = monedaServiceNT.findById(cuentaBancariaView.getIdMoneda());
+		NumberFormat df1 = NumberFormat.getCurrencyInstance();
+		DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+		dfs.setCurrencySymbol("");
+		dfs.setGroupingSeparator(',');
+		dfs.setMonetaryDecimalSeparator('.');
+		((DecimalFormat) df1).setDecimalFormatSymbols(dfs);
+		
 		
 		/**PDF**/
 		ByteArrayOutputStream outputStream = null;
@@ -1396,61 +1289,73 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 			Paragraph parrafoPrincipal = new Paragraph();
 			parrafoPrincipal.setSpacingAfter(30);
-			parrafoPrincipal.setSpacingBefore(50);
+			//parrafoPrincipal.setSpacingBefore(50);
 			parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
 			parrafoPrincipal.setIndentationLeft(100);
 			parrafoPrincipal.setIndentationRight(50);
 			
 			Paragraph parrafoSecundario = new Paragraph();
-			parrafoSecundario.setSpacingAfter(50);
+			parrafoSecundario.setSpacingAfter(20);
 			parrafoSecundario.setSpacingBefore(-20);
 			parrafoSecundario.setAlignment(Element.ALIGN_LEFT);
 			parrafoSecundario.setIndentationLeft(160);
 			parrafoSecundario.setIndentationRight(10);
 
 			Chunk titulo = new Chunk("ESTADO DE CUENTA");
-			Font fuenteTitulo = new Font();
-			fuenteTitulo.setSize(16);
-			fuenteTitulo.setFamily("Arial");
-			fuenteTitulo.setStyle(Font.BOLD | Font.NORMAL);
+			Font fuenteTitulo = new Font(FontFamily.UNDEFINED, 13, Font.BOLD);
 			titulo.setFont(fuenteTitulo);
 			parrafoPrincipal.add(titulo);
-
-			Chunk titular = new Chunk("TITULAR(ES): \n");
-			Font fuenteTitular = new Font();
-			fuenteTitular.setSize(11);
-			fuenteTitular.setFamily("Arial");
-			fuenteTitular.setStyle(Font.NORMAL | Font.NORMAL);
-			titular.setFont(fuenteTitular);
-			parrafoSecundario.add(titular);
 			
-			
-			//if (cuentaBancaria.getTipoPersona().equals(TipoPersona.JURIDICA)) {
-				Chunk RUC = new Chunk("RUC:" + cuentaBancariaView.getNumeroDocumento() + "\n");
-				Font fuenteRUC = new Font();
-				fuenteRUC.setSize(11);
-				fuenteRUC.setFamily("Arial");
-				fuenteRUC.setStyle(Font.NORMAL | Font.NORMAL);
-				RUC.setFont(fuenteRUC);
-				parrafoSecundario.add(RUC);
-			//}
-			
+			Font fuenteDatosCliente = new Font(FontFamily.UNDEFINED, 10);
 			Date fechaSistema = new Date();
-			SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
-			SimpleDateFormat formatHora = new SimpleDateFormat("HH:mm:ss");
+			SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			String fechaActual = formatFecha.format(fechaSistema);
-			String horaActual = formatHora.format(fechaSistema);
+			
+			if (cuentaBancariaView.getTipoPersona() == TipoPersona.NATURAL) {
+				Chunk clientePNNombres = new Chunk("CLIENTE       : " + cuentaBancariaView.getSocio() + "\n");
+				Chunk clientePNDni = new Chunk(cuentaBancariaView.getTipoDocumento() + "                : " + cuentaBancariaView.getNumeroDocumento() + "\n");
+				Chunk clientePNTitulares = new Chunk("TITULAR(ES): " + cuentaBancariaView.getTitulares() + "\n");
+				Chunk clientePNFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
 				
+				Chunk tipoCuentaPN = new Chunk("CUENTA " + cuentaBancariaView.getTipoCuenta() + " Nº "+ cuentaBancariaView.getNumeroCuenta() + "\n");
+				Chunk tipoMonedaPN;
+				
+				if (cuentaBancariaView.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
+					tipoMonedaPN = new Chunk("MONEDA: " + "DOLARES AMERICANOS" + "\n");
+				} else if (cuentaBancariaView.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
+					tipoMonedaPN = new Chunk("MONEDA: " + "NUEVOS SOLES" + "\n");
+				} else {
+					tipoMonedaPN = new Chunk("MONEDA: " + "EUROS" + "\n");
+				}
+				
+				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + "00/00/0000" + " AL "+ "00/00/0000");
+				//obteniedo titulares
+				/*String tPN = cuentaBancariaView.getTitulares();
+				String[] arrayTitulares = tPN.split(",");
+				Chunk clientePNTitulares = new Chunk("Titular(es):");
+				for (int i = 0; i < arrayTitulares.length; i++) {
+					String string = arrayTitulares[i];
+				}*/
+				
+				clientePNNombres.setFont(fuenteDatosCliente);
+				clientePNDni.setFont(fuenteDatosCliente);
+				clientePNTitulares.setFont(fuenteDatosCliente);
+				clientePNFecha.setFont(fuenteDatosCliente);
+				tipoCuentaPN.setFont(fuenteDatosCliente);
+				tipoMonedaPN.setFont(fuenteDatosCliente);
+				fechaEstadoCuenta.setFont(fuenteDatosCliente);
+				
+				parrafoSecundario.add(clientePNNombres);
+				parrafoSecundario.add(clientePNDni);
+				parrafoSecundario.add(clientePNTitulares);
+				parrafoSecundario.add(clientePNFecha);
+				parrafoSecundario.add(tipoCuentaPN);
+				parrafoSecundario.add(tipoMonedaPN);
+				parrafoSecundario.add(fechaEstadoCuenta);
+			} else {
+				
+			}
 			
-			Chunk fecha = new Chunk("FECHA:" + fechaActual + " " + horaActual);
-			Font fuenteFecha = new Font();
-			fuenteFecha.setSize(11);
-			fuenteFecha.setFamily("Arial");
-			fuenteFecha.setStyle(Font.NORMAL | Font.NORMAL);
-			fecha.setFont(fuenteFecha);
-			parrafoSecundario.add(fecha);
-			
-
 			document.add(parrafoPrincipal);
 			document.add(parrafoSecundario);
 		} catch (FileNotFoundException e) {
@@ -1461,63 +1366,63 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			e.printStackTrace();
 		}
 		
-		Font fontTableCabecera = new Font(FontFamily.TIMES_ROMAN, 10, Font.BOLD);
-		Font fontTableCuerpo = new Font(FontFamily.TIMES_ROMAN, 11, Font.NORMAL);
+		Font fontTableCabecera = new Font(FontFamily.UNDEFINED, 9, Font.BOLD);
+		Font fontTableCuerpo = new Font(FontFamily.UNDEFINED, 9, Font.NORMAL);
 		
-		float[] columnWidths = { 5f, 5f, 5f, 5f, 5f, 5f};
+		float[] columnWidths = { 5f, 4f, 2.8f, 10f, 3.5f, 4f, 2.8f};
 		PdfPTable table = new PdfPTable(columnWidths);
 		table.setWidthPercentage(100);
-		
-		PdfPCell cellCabecera1 = new PdfPCell(new Paragraph("SOCIO: " + cuentaBancariaView.getSocio(), fontTableCuerpo));
-		cellCabecera1.setColspan(6);
-		table.addCell(cellCabecera1);
-
-		PdfPCell cellCabecera2 = new PdfPCell(new Paragraph("CUENTA Nº: " + cuentaBancariaView.getNumeroCuenta(), fontTableCuerpo));
-		cellCabecera2.setColspan(6);
-		table.addCell(cellCabecera2);
 
 		PdfPCell cellFechaHoraCabecera = new PdfPCell(new Paragraph("FECHA Y HORA", fontTableCabecera));
-		PdfPCell cellOperacionCabecera = new PdfPCell(new Paragraph("OP.", fontTableCabecera));
-		PdfPCell cellTransaccionCabecera = new PdfPCell(new Paragraph("TRANSACCION", fontTableCabecera));
+		PdfPCell cellTransaccionCabecera = new PdfPCell(new Paragraph("TIPO TRANS.", fontTableCabecera));
+		PdfPCell cellOperacionCabecera = new PdfPCell(new Paragraph("NUM. OP.", fontTableCabecera));
 		PdfPCell cellReferenciaCabecera = new PdfPCell(new Paragraph("REFERENCIA", fontTableCabecera));
 		PdfPCell cellMontoCabecera = new PdfPCell(new Paragraph("MONTO", fontTableCabecera));
-		PdfPCell cellSaldoDisponibleCabecera = new PdfPCell(new Paragraph("SALDO DISPONIBLE", fontTableCabecera));
+		PdfPCell cellSaldoDisponibleCabecera = new PdfPCell(new Paragraph("DISPONIBLE", fontTableCabecera));
+		PdfPCell cellEstado = new PdfPCell(new Paragraph("ESTADO", fontTableCabecera));
 
 		table.addCell(cellFechaHoraCabecera);
-		table.addCell(cellOperacionCabecera);
 		table.addCell(cellTransaccionCabecera);
+		table.addCell(cellOperacionCabecera);
 		table.addCell(cellReferenciaCabecera);
 		table.addCell(cellMontoCabecera);
 		table.addCell(cellSaldoDisponibleCabecera);
+		table.addCell(cellEstado);
 
 		for (EstadocuentaBancariaView estadocuentaBancariaView : list) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			String fecHoraFormat = sdf.format(estadocuentaBancariaView.getHora());
 			
 			PdfPCell cellFechaHora = new PdfPCell(new Paragraph(fecHoraFormat, fontTableCuerpo));
 			table.addCell(cellFechaHora);
-			PdfPCell cellNumOperacion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getNumeroOperacion().toString(), fontTableCuerpo));
-			table.addCell(cellNumOperacion);
 			PdfPCell cellTipoTrasaccion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getTipoTransaccionTransferencia(), fontTableCuerpo));
 			table.addCell(cellTipoTrasaccion);
+			PdfPCell cellNumOperacion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getNumeroOperacion().toString(), fontTableCuerpo));
+			table.addCell(cellNumOperacion);
 			PdfPCell cellReferencia = new PdfPCell(new Paragraph(estadocuentaBancariaView.getReferencia(), fontTableCuerpo));
 			table.addCell(cellReferencia);
-			PdfPCell cellMonto = new PdfPCell(new Paragraph(estadocuentaBancariaView.getMonto().toString(), fontTableCuerpo));
+			PdfPCell cellMonto = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getMonto()), fontTableCuerpo));
 			table.addCell(cellMonto);
-			PdfPCell cellSaldoDisponible = new PdfPCell(new Paragraph(estadocuentaBancariaView.getSaldoDisponible().toString(), fontTableCuerpo));
+			PdfPCell cellSaldoDisponible = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getSaldoDisponible()), fontTableCuerpo));
 			table.addCell(cellSaldoDisponible);
+			if (estadocuentaBancariaView.getEstado()) {
+				PdfPCell cellEstadoActivo = new PdfPCell(new Paragraph("Activo", fontTableCuerpo));
+				table.addCell(cellEstadoActivo);
+			} else {
+				PdfPCell cellEstadoExtornado = new PdfPCell(new Paragraph("Extornado", fontTableCuerpo));
+				table.addCell(cellEstadoExtornado);
+			}
 		}
-
-		/*table.addCell("");
-		table.addCell("Saldo:");
-		table.addCell(cuentaBancariaView.getSaldo().toString());*/
-			
-		PdfPCell saldoTotal = new PdfPCell(new Paragraph("SALDO DISPONIBLE: " + cuentaBancariaView.getSaldo().toString(), fontTableCabecera));
-		saldoTotal.setColspan(6);
-		table.addCell(saldoTotal);
+		
+		Paragraph saldoDisponible = new Paragraph();
+		saldoDisponible.setAlignment(Element.ALIGN_CENTER);
+		Chunk textoSaldoDisponible = new Chunk("SALDO DISPONIBLE: "+ moneda.getSimbolo() + df1.format(cuentaBancariaView.getSaldo()), fontTableCabecera);
+		textoSaldoDisponible.setFont(fontTableCabecera);
+		saldoDisponible.add(textoSaldoDisponible);
 
 		try {
 			document.add(table);
+			document.add(saldoDisponible);
 		} catch (DocumentException e) {			
 			e.printStackTrace();
 		}
