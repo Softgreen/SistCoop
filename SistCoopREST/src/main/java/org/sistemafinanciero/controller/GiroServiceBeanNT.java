@@ -13,6 +13,7 @@ import javax.inject.Named;
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
+import org.sistemafinanciero.entity.Agencia;
 import org.sistemafinanciero.entity.Giro;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.service.nt.GiroServiceNT;
@@ -28,6 +29,15 @@ public class GiroServiceBeanNT implements GiroServiceNT {
 
 	@Override
 	public Giro findById(BigInteger id) {
+		Giro giro = giroDAO.find(id);
+		Agencia agenciaOrigen = giro.getAgenciaOrigen();
+		Agencia agenciaDestino = giro.getAgenciaDestino();
+		Moneda moneda = giro.getMoneda();
+		
+		Hibernate.initialize(agenciaOrigen);
+		Hibernate.initialize(agenciaDestino);
+		Hibernate.initialize(moneda);
+		
 		return giroDAO.find(id);
 	}
 

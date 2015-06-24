@@ -535,7 +535,18 @@ define(['./app'], function(app) {
                   url: "/crearGiro",
                   views: {
                     "viewContent": {
-                      templateUrl: "views/cajero/transaccion/giro.html"
+                      templateUrl: "views/cajero/transaccion/crearGiro.html"
+                    }
+                  }
+                })
+                .state('app.transaccion.editarGiro', {
+                  url: "/editarGiro/:id",
+                  views: {
+                    "viewContent": {
+                      templateUrl: "views/cajero/transaccion/editarGiro.html",
+                      controller: function($scope, $stateParams) {
+                        $scope.id = $stateParams.id;
+                      }
                     }
                   }
                 })

@@ -29,8 +29,8 @@ define([
     './caja/transaccion/CompraVentaController',
     './caja/transaccion/BuscarTransaccionHistorialController',
     './caja/transaccion/CrearTransaccionChequeController',
-    './caja/transaccion/EnviarTransaccionGiroController',
-    './caja/transaccion/DesembolsarTransaccionGiroController',
+    './caja/transaccion/CrearTransaccionGiroController',
+    './caja/transaccion/EditarTransaccionGiroController',
     './caja/transaccion/BuscarGirosController',
 
     './cuentaBancaria/BeneficiarioController',

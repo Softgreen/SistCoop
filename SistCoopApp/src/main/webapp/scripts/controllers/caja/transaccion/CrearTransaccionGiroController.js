@@ -1,6 +1,6 @@
 define(['../../module'], function (controllers) {
   'use strict';
-  controllers.controller('EnviarTransaccionGiroController', ["$scope", "$state", "PersonaNaturalService", "AgenciaService", "SessionService", "MonedaService",
+  controllers.controller('CrearTransaccionGiroController', ["$scope", "$state", "PersonaNaturalService", "AgenciaService", "SessionService", "MonedaService",
     function ($scope, $state, PersonaNaturalService, AgenciaService, SessionService, MonedaService) {
 
       $scope.view = {

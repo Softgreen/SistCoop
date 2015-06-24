@@ -25,6 +25,8 @@ define([
     './ConfiguracionService',
     './VariablesSistema',
 
+    './GiroService',
+
     './HotKeysFunctionsService',
     './VariablesService'
 ], function () {
