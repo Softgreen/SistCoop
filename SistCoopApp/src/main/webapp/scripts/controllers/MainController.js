@@ -60,7 +60,7 @@ define(['./module'], function (controllers) {
                 SessionService.getCajaOfSession().then(
                     function(data){
                         $scope.cajaSession = data;
-                        $scope.cajaNotFound = "<span>holaaaaaaaaaaaaa</span>";
+                        $scope.cajaNotFound = "<span>hola</span>";
                         if(angular.isUndefined($scope.cajaSession)){
                             //$scope.cajaNotFound = '<div class="modal-backdrop fade in" ng-class="{in: animate}" style="z-index: 1040" modal-backdrop="" style="z-index: 1040;"></div>';
                         }
