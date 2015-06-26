@@ -106,7 +106,7 @@ define(['../../module'], function (controllers) {
 
       };
 
-      $scope.cancelar = function(){
+      $scope.cancelar = function () {
         $state.transitionTo("app.transaccion.crearGiro");
       };
 
