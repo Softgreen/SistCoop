@@ -236,5 +236,72 @@
             </div>
         </div>
     </div>
+    <!-- estado de cuenta-->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-md-8" ng-hide="estadoCuentaSearcher" ng-animate="animate-show" style="font-weight: bold;">Estado de Cuenta</div>
+              <form ng-submit="buscarEstadoCuenta()">
+                <div ng-animate="animate-show" ng-show="estadoCuentaSearcher">
+                  <div class="col-md-3">
+                    <div class="input-group">
+                      <span class="input-group-addon">Desde</span>
+                      <input type="date" class="form-control" datepicker-popup="{{format}}" ng-model="desde" is-open="openedDesde" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                                      <span class="input-group-btn">
+                                          <button type="button" class="btn btn-default" ng-click="openDesde($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="input-group">
+                      <span class="input-group-addon">Hasta</span>
+                      <input type="date" class="form-control" datepicker-popup="{{format}}" ng-model="hasta" is-open="openedHasta" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                                      <span class="input-group-btn">
+                                          <button type="button" class="btn btn-default" ng-click="openHasta($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <button type="submit" class="btn btn-info">
+                      <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="text-right">
+                    <button type="button" ng-click="imprimirEstadoCuentaPdf()" class="btn btn-link" style="padding: 0px 12px;">
+                      Pdf
+                    </button>
+                    <button type="button" ng-click="changeEstadoCuentaSearcher()" class="btn btn-link" style="padding: 0px 12px;">
+                      Buscar
+                    </button>
+
+                                      <span class="dropdown">
+                                        <a href class="dropdown-toggle">
+                                          Enviar Email
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                          <li>
+                                            <a href ng-click="enviarEmail('pdf')">Pdf</a>
+                                            <a href ng-click="enviarEmail('excel')">Excel</a>
+                                          </li>
+                                        </ul>
+                                      </span>
+
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); height: 400px; font-size: 11px"></div>
+          <div class="panel-footer">
+            <strong>Saldo Disponible:</strong>
+            <strong ng-bind="cuentaBancaria.saldo | currency : cuentaBancaria.moneda"></strong>
+          </div>
+        </div>
+      </div>
+    </div>
     <button type="button" ng-click="salir()" class="btn btn-primary">Salir</button>
 </div>
