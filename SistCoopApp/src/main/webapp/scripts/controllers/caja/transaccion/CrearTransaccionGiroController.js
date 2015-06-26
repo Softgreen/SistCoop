@@ -62,7 +62,7 @@ define(['../../module'], function (controllers) {
         //hallando comision
         if ($scope.view.modoPagoComision == 'ANADIR') {
           if ($scope.view.tipoComision == 'PORCENTURAL') {
-            comision = parseFloat($scope.view.monto) * parseFloat($scope.view.comision) /100;
+            comision = parseFloat($scope.view.monto) * parseFloat($scope.view.comision) / 100;
             //redondeo a un decimal y hacia arriba
             comision = Math.round(comision * 10) / 10;
           } else {
@@ -184,6 +184,10 @@ define(['../../module'], function (controllers) {
             }
           );
         }
+      };
+
+      $scope.cancelar = function () {
+        $state.transitionTo("app.transaccion.buscarGiros");
       };
 
     }]);
