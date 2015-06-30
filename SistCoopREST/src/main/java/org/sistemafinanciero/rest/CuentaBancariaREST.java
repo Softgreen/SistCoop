@@ -214,7 +214,7 @@ public interface CuentaBancariaREST {
 	
 	@GET
 	@Path("{id}/estadoCuenta/pdf")
-	public Response getEstadoCuentaPdf(@PathParam("id") BigInteger id);
+	public Response getEstadoCuentaPdf(@PathParam("id") BigInteger id, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
 
 	
 	/**MAIL*/

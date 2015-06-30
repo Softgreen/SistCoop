@@ -173,7 +173,7 @@ define(['../module'], function (controllers) {
 
             $scope.imprimirEstadoCuentaPdf = function(){
                 var restApiUrl = ConfiguracionService.getRestApiUrl();
-                $window.open(restApiUrl+'/cuentasBancarias/'+ $scope.id+'/estadoCuenta/pdf');
+                $window.open(restApiUrl+'/cuentasBancarias/'+ $scope.id+'/estadoCuenta/pdf?desde='+$scope.desde.getTime()+'&hasta='+$scope.hasta.getTime());
             };
 
             //editar persona socio
