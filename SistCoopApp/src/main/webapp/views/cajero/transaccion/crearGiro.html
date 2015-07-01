@@ -1,5 +1,5 @@
 <fieldset>
-  <legend>Compra Venta de Moneda Extranjera</legend>
+  <legend>Emisi&oacute;n de Giros</legend>
 
   <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
     <span ng-bind="alert.msg"></span>
@@ -7,22 +7,21 @@
 
 
   <div class="row">
-    <div class="col-sm-6" ng-controller="CrearTransaccionGiroController">
+    <div class="col-sm-8" ng-controller="CrearTransaccionGiroController">
 
       <form name="form" ng-submit="crearTransaccion()" novalidate>
         <div class="row">
           <div class="col-sm-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h3 class="panel-title" style="font-weight: bold;">Envio de giros</h3>
+                <h3 class="panel-title" style="font-weight: bold;">Creaci&oacute;n de Giro</h3>
               </div>
               <div class="panel-body">
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumentoEmisor.$invalid && (control.submitted || form.numeroDocumentoEmisor.$dirty)}">
-                      <label>Emisor DNI</label>
-                      <label style="color: brown;">(*)</label>
-                      <input type="text" name="numeroDocumentoEmisor" ui-keypress="{13:'buscarClienteEmisor($event)'}" ng-model="view.numeroDocumentoEmisor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required autofocus/>
+                      <label>(DNI) Emisor</label>
+                      <input type="text" name="numeroDocumentoEmisor" ui-keypress="{13:'buscarClienteEmisor($event)'}" ng-model="view.numeroDocumentoEmisor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="DNI" autofocus/>
                       <div ng-show="form.numeroDocumentoEmisor.$invalid && (control.submitted || form.numeroDocumentoEmisor.$dirty)">
                         <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.required">
                           Ingrese Numero Documento Valido.
@@ -46,13 +45,13 @@
                       <input type="text" name="nombreClienteEmisor" ng-model="view.nombreClienteEmisor" class="form-control" ng-minlength="1" ng-maxlength="200" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize/>
                       <div ng-show="form.nombreClienteEmisor.$invalid && (control.submitted || form.nombreClienteEmisor.$dirty)">
                         <p class="help-block" ng-show="form.nombreClienteEmisor.$error.required">
-                          Ingrese Numero Documento Valido.
+                          Ingrese Apellidos y Nombres Validos.
                         </p>
                         <p class="help-block" ng-show="form.nombreClienteEmisor.$error.minlength">
                           Minimo 1 Caracter.
                         </p>
                         <p class="help-block" ng-show="form.nombreClienteEmisor.$error.maxlength">
-                          Maximo 50 Caracteres.
+                          Maximo 200 Caracteres.
                         </p>
                       </div>
                     </div>
@@ -61,9 +60,8 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumentoReceptor.$invalid && (control.submitted || form.numeroDocumentoReceptor.$dirty)}">
-                      <label>Receptor DNI</label>
-                      <label style="color: brown;">(*)</label>
-                      <input type="text" name="numeroDocumentoReceptor" ui-keypress="{13:'buscarClienteReceptor($event)'}" ng-model="view.numeroDocumentoReceptor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required/>
+                      <label>(DNI) Receptor</label>
+                      <input type="text" name="numeroDocumentoReceptor" ui-keypress="{13:'buscarClienteReceptor($event)'}" ng-model="view.numeroDocumentoReceptor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="DNI"/>
                       <div ng-show="form.numeroDocumentoReceptor.$invalid && (control.submitted || form.numeroDocumentoReceptor.$dirty)">
                         <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.required">
                           Ingrese Numero Documento Valido.
@@ -93,7 +91,7 @@
                           Minimo 1 Caracter.
                         </p>
                         <p class="help-block" ng-show="form.nombreClienteReceptor.$error.maxlength">
-                          Maximo 50 Caracteres.
+                          Maximo 200 Caracteres.
                         </p>
                       </div>
                     </div>
@@ -102,13 +100,13 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label>Origen</label>
-                      <input type="text" ng-value="objetosCargados.agenciaOrigen.denominacion" class="form-control" disabled/>
+                      <label>Agencia Origen</label>
+                      <input type="text" ng-value="objetosCargados.agenciaOrigen.abreviatura" class="form-control" disabled/>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.agenciaDestino.$invalid && control.submitted}">
-                      <label>Destino</label>
+                      <label>Agencia Destino</label>
                       <label style="color: brown;">(*)</label>
                       <select name="agenciaDestino" ng-options="agen.id as agen.denominacion for agen in combo.agencia" ng-model="view.idAgenciaDestino" class="form-control" required>
                         <option value="">--Seleccione--</option>
@@ -138,7 +136,8 @@
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.monto.$invalid && (control.submitted || form.monto.$dirty)}">
-                      <label>Monto</label>
+                      <label>Monto a Girar</label>
+                      <label style="color: brown;">(*)</label>
                       <div class="input-group">
                         <span ng-bind="getTipoMoneda().simbolo" class="input-group-addon"></span>
                         <input type="text" name="monto" ng-model="view.monto" ng-minlength="1" ng-maxlength="18" ng-pattern="/^(\d+|\d+.\d{1,2})$/" class="form-control" placeholder="Monto" required/>
@@ -154,9 +153,9 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.tipoComision.$invalid && (control.submitted || form.tipoComision.$dirty)}">
-                      <label>Tipo</label>
+                      <label>Tipo Comisi&oacute;n</label>
                       <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="tipoComision" ng-model="view.tipoComision" value="FIJO">Fijo</label>
+                        <label class="radio-inline"><input type="radio" name="tipoComision" ng-model="view.tipoComision" value="FIJO">Monto Fijo</label>
                         <label class="radio-inline"><input type="radio" name="tipoComision" ng-model="view.tipoComision" value="PORCENTURAL">Porcentual</label>
                       </div>
                       <div ng-show="form.tipoComision.$invalid && (control.submitted || form.tipoComision.$dirty)">
@@ -168,7 +167,7 @@
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.comision.$invalid && (control.submitted || form.comision.$dirty)}">
-                      <label>Comision</label>
+                      <label>Monto por Comisi&oacute;n</label>
                       <label style="color: brown;">(*)</label>
                       <div class="input-group">
                         <input type="text" name="comision" ng-model="view.comision" ng-minlength="1" ng-maxlength="18" ng-pattern="/^(\d+|\d+.\d{1,2})$/" class="form-control" placeholder="Comision" required/>
@@ -186,11 +185,10 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.modoPagoComision.$invalid && (control.submitted || form.modoPagoComision.$dirty)}">
-                      <label>Modo pago comision</label>
-                      <label style="color: brown;">(*)</label>
+                      <label>Modo de Pago Comisi&oacute;n</label>
                       <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="ANADIR">Anadir</label>
-                        <label class="radio-inline"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="REDUCIR">Reducir</label>
+                        <label class="radio-inline"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="ANADIR">Agregar al Monto</label>
+                        <label class="radio-inline"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="REDUCIR">Quitar del Monto</label>
                       </div>
                       <div ng-show="form.modoPagoComision.$invalid && (control.submitted || form.modoPagoComision.$dirty)">
                         <p class="help-block" ng-show="form.modoPagoComision.$error.required">
@@ -201,11 +199,10 @@
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.lugarPago.$invalid && (control.submitted || form.lugarPago.$dirty)}">
-                      <label>Lugar pago</label>
-                      <label style="color: brown;">(*)</label>
+                      <label>Lugar de Pago Comisi&oacute;n</label>
                       <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="PAGO_EN_ENVIO">Al enviar</label>
-                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="PAGO_EN_DESEMBOLSO">Al recibir</label>
+                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="PAGO_EN_ENVIO">Al Enviar</label>
+                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="PAGO_EN_DESEMBOLSO">Al Cobrar</label>
                       </div>
                       <div ng-show="form.lugarPago.$invalid && (control.submitted || form.lugarPago.$dirty)">
                         <p class="help-block" ng-show="form.lugarPago.$error.required">
@@ -218,20 +215,20 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label>Total</label>
-                      <kbd style="display: block;margin-top: 3px;">
+                      <label style="color: blue; margin-top: 10px">RESUMEN</label>
+                      <kbd style="display: block;margin-top: 1px;">
                         <p>
-                          Enviado:
+                          Monto a Girar:
                           <span ng-bind="getTipoMoneda().simbolo"></span>
                           <span ng-bind="transaccion.monto | currency : ''"/>
                         </p>
                         <p>
-                          Comision:
+                          Monto por Comisi&oacute;n:
                           <span ng-bind="getTipoMoneda().simbolo"></span>
                           <span ng-bind="transaccion.comision | currency : ''"/>
                         </p>
                         <p>
-                          Total:
+                          Total a Recibir por Giro:
                           <span ng-bind="getTipoMoneda().simbolo"></span>
                           <span ng-bind="transaccion.total | currency : ''"/>
                         </p>
