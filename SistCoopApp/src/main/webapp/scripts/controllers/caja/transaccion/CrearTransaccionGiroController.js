@@ -174,7 +174,7 @@ define(['../../module'], function (controllers) {
 
           SessionService.crearTransaccionGiro(transaccion).then(
             function (data) {
-              $state.transitionTo('app.transaccion.giroVoucher', {id: data.id});
+              $state.transitionTo('app.transaccion.editarGiro', {id: data.id});
             },
             function error(error) {
               $scope.alerts = [{type: "danger", msg: "Error: " + error.data.message + "."}];
