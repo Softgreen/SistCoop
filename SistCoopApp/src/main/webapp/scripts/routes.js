@@ -206,9 +206,9 @@ define(['./app'], function(app) {
                                     ]},*/
                                     {'name':'Cuenta Bancaria', submenus:[
                                         { 'name':'Deposito/Retiro' , 'state':'app.transaccion.depositoRetiro'},
+                                        { 'name':'Compra/Venta' , 'state':'app.transaccion.compraVenta'},
                                         { 'name':'Transferencia' , 'state':'app.transaccion.transferencia'},
                                         { 'name':'Cheque' , 'state':'app.transaccion.cheque'},
-                                        { 'name':'Compra/Venta' , 'state':'app.transaccion.compraVenta'},
                                         { 'name':'Giros' , 'state':'app.transaccion.buscarGiros'}
                                     ]},
                                     {'name':'Historial', submenus:[
