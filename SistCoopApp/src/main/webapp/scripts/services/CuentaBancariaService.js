@@ -138,11 +138,11 @@ define(['./module'], function (services) {
                     return Restangular.one(baseUrl+"/cheques/"+numeroChequeUnico+"/cuentaBancaria").get();
                 },
 
-                enviarEstadoCuentaByEmail: function(idCuentaBancaria, formato){
+                enviarEstadoCuentaByEmail: function(idCuentaBancaria, formato, desde, hasta){
                     if(formato == 'excel')
-                        return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/enviarEstadoCuenta/excel").post();
+                        return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/enviarEstadoCuenta/excel?desde="+desde+"&hasta="+hasta).post();
                     else
-                        return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/enviarEstadoCuenta/pdf").post();
+                        return Restangular.all(baseUrl+"/"+idCuentaBancaria+"/enviarEstadoCuenta/pdf?desde="+desde+"&hasta="+hasta).post();
                 }
             }
         }])

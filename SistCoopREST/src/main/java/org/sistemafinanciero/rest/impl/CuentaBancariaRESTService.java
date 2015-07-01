@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
@@ -183,38 +184,12 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 		try {
 			file = new FileOutputStream(new File(certificadoURL + "\\" + id + ".pdf"));
-			Document document = new Document(PageSize.A5.rotate());
+			//Document document = new Document(PageSize.A5.rotate());
+			Document document = new Document(PageSize.A4);
 			PdfWriter writer = PdfWriter.getInstance(document, file);
 			document.open();
-
-			Font font = FontFactory.getFont("Times-Roman", 7);
-
-			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("\n"));
-
-			Paragraph paragraph1 = new Paragraph();
-			paragraph1.setFont(font);
-			Chunk numeroCuenta1 = new Chunk("Nº CUENTA:");
-			Chunk numeroCuenta2 = new Chunk(cuentaBancaria.getNumeroCuenta());
-			paragraph1.add(numeroCuenta1);
-			paragraph1.add(Chunk.SPACETABBING);
-			paragraph1.add(numeroCuenta2);
-			document.add(paragraph1);
-
-			Paragraph paragraph2 = new Paragraph();
-			paragraph2.setFont(font);
-			Chunk agencia1 = new Chunk("AGENCIA:");
-			Chunk agencia2 = new Chunk(agencia.getCodigo() + " - " + agencia.getDenominacion().toUpperCase());
-			paragraph2.add(agencia1);
-			paragraph2.add(Chunk.SPACETABBING);
-			paragraph2.add(Chunk.SPACETABBING);
-			paragraph2.add(agencia2);
-			document.add(paragraph2);
-
+			
+			//recuperando moneda, redondeando y dando formato
 			Moneda moneda = monedaServiceNT.findById(cuentaBancaria.getIdMoneda());
 			BigDecimal saldo = cuentaBancaria.getSaldo();
 			BigDecimal decimalValue = saldo.subtract(saldo.setScale(0, RoundingMode.FLOOR)).movePointRight(saldo.scale());
@@ -230,76 +205,225 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			dfs.setGroupingSeparator(',');
 			dfs.setMonetaryDecimalSeparator('.');
 			((DecimalFormat) df1).setDecimalFormatSymbols(dfs);
-
-			Paragraph paragraph3 = new Paragraph();
-			paragraph3.setFont(font);
-			Chunk monto1 = new Chunk("MONTO:");
-			Chunk monto2 = new Chunk(moneda.getSimbolo() + df1.format(saldo) + " - " + NumLetrasJ.Convierte(integerValue.toString() + "", Tipo.Pronombre).toUpperCase() + " Y " + decimalString + "/100 " + moneda.getDenominacion());
-			paragraph3.add(monto1);
-			paragraph3.add(Chunk.SPACETABBING);
-			paragraph3.add(Chunk.SPACETABBING);
-			paragraph3.add(monto2);
-			document.add(paragraph3);
-
-			Paragraph paragraph4 = new Paragraph();
-			paragraph4.setFont(font);
-			Chunk socio1 = new Chunk("SOCIO:");
-			Chunk socio2 = new Chunk(cuentaBancaria.getSocio());
-			Chunk codigoSocio1 = new Chunk("CODIGO SOCIO:");
-			Chunk codigoSocio2 = new Chunk(cuentaBancaria.getIdSocio().toString());
-			paragraph4.add(socio1);
-			paragraph4.add(Chunk.SPACETABBING);
-			paragraph4.add(Chunk.SPACETABBING);
-			paragraph4.add(socio2);
-			paragraph4.add(Chunk.SPACETABBING);
-			paragraph4.add(codigoSocio1);
-			paragraph4.add(Chunk.SPACETABBING);
-			paragraph4.add(codigoSocio2);
-			document.add(paragraph4);
-
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			String fechaAperturaString = df.format(cuentaBancaria.getFechaApertura());
-			String fechaVencimientoString = df.format(cuentaBancaria.getFechaCierre());
-
-			Paragraph paragraph6 = new Paragraph();
-			paragraph6.setFont(font);
-			Chunk fechaApertura1 = new Chunk("FEC. APERTURA:");
-			Chunk fechaApertura2 = new Chunk(fechaAperturaString);
-			Chunk fechaVencimiento1 = new Chunk("FEC. VENCIMIENTO:");
-			Chunk fechaVencimiento2 = new Chunk(fechaVencimientoString);
-			paragraph6.add(fechaApertura1);
-			paragraph6.add(Chunk.SPACETABBING);
-			paragraph6.add(fechaApertura2);
-			paragraph6.add(Chunk.SPACETABBING);
-			paragraph6.add(Chunk.SPACETABBING);
-			paragraph6.add(Chunk.SPACETABBING);
-			paragraph6.add(fechaVencimiento1);
-			paragraph6.add(Chunk.SPACETABBING);
-			paragraph6.add(fechaVencimiento2);
-			document.add(paragraph6);
-
+			
+			//recuperando el plazo en dias
 			Date fechaApertura = cuentaBancaria.getFechaApertura();
 			Date fechaCierre = cuentaBancaria.getFechaCierre();
 			LocalDate localDateApertura = new LocalDate(fechaApertura);
 			LocalDate localDateCierre = new LocalDate(fechaCierre);
 			Days days = Days.daysBetween(localDateApertura, localDateCierre);
+			
+			//fuentes
+			Font fontTitulo = FontFactory.getFont("Times New Roman", 14, Font.BOLD);
+			Font fontSubTitulo = FontFactory.getFont("Times New Roman", 8);
+			Font fontContenidoNegrita = FontFactory.getFont("Times New Roman", 10, Font.BOLD);
+			Font fontContenidoNormal = FontFactory.getFont("Times New Roman", 10);
+			
+			
+			//dando formato a las fechas
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			String fechaAperturaString = df.format(cuentaBancaria.getFechaApertura());
+			String fechaVencimientoString = df.format(cuentaBancaria.getFechaCierre());
+			
+			//ingresando datos al documento
+			document.add(new Paragraph("\n"));
+			document.add(new Paragraph("\n"));
+			
+			//parrafo titulo
+			Paragraph parrafoTitulo = new Paragraph();
+			parrafoTitulo.setFont(fontTitulo);
+			parrafoTitulo.setSpacingBefore(30);
+			parrafoTitulo.setAlignment(Element.ALIGN_CENTER);
+			
+			//parrafo subtitulo
+			Paragraph parrafoSubTitulo = new Paragraph();
+			parrafoSubTitulo.setFont(fontSubTitulo);
+			parrafoSubTitulo.setSpacingAfter(30);
+			parrafoSubTitulo.setAlignment(Element.ALIGN_CENTER);
 
-			Paragraph paragraph5 = new Paragraph();
-			paragraph5.setFont(font);
-			Chunk tasa1 = new Chunk("TASA INTERES EFECTIVA:");
-			Chunk tasa2 = new Chunk(cuentaBancaria.getTasaInteres().multiply(new BigDecimal(100)).toString() + "%");
-			Chunk plazo1 = new Chunk("PLAZO:");
-			Chunk plazo2 = new Chunk(days.getDays() + " DIAS");
-			paragraph5.add(tasa1);
-			paragraph5.add(Chunk.SPACETABBING);
-			paragraph5.add(tasa2);
-			paragraph5.add(Chunk.SPACETABBING);
-			paragraph5.add(Chunk.SPACETABBING);
-			paragraph5.add(plazo1);
-			paragraph5.add(Chunk.SPACETABBING);
-			paragraph5.add(plazo2);
-			document.add(paragraph5);
+			//parrafo contenido
+			Paragraph parrafoContenido = new Paragraph();
+			parrafoContenido.setIndentationLeft(50);
+			parrafoContenido.setAlignment(Element.ALIGN_LEFT);
+			
+			//parrafo firmas
+			Paragraph parrafoFirmas = new Paragraph();
+			parrafoFirmas.setAlignment(Element.ALIGN_CENTER);
+			
+			//agregar titulo al documento
+			Chunk titulo = new Chunk("CERTIFICADO DE PLAZO FIJO");
+			parrafoTitulo.add(titulo);
+			
+			//agregar titulo al documento
+			Chunk subTitulo;
+			if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
+				subTitulo = new Chunk("DEPÓSITO A PLAZO FIJO - DOLARES AMERICANOS");
+			} else if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
+				subTitulo = new Chunk("DEPÓSITO A PLAZO FIJO - NUEVOS SOLES");
+			} else {
+				subTitulo = new Chunk("DEPÓSITO A PLAZO FIJO - EUROS");
+			}
+			parrafoSubTitulo.add(subTitulo);
+			
+			//agregando contenido al documento
+			//Agencia
+			Chunk agencia1 = new Chunk("AGENCIA", fontContenidoNegrita);
+			Chunk agencia2 = new Chunk(": " + agencia.getCodigo() + " - " + agencia.getDenominacion().toUpperCase(), fontContenidoNormal);
+			parrafoContenido.add(agencia1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(agencia2);
+			parrafoContenido.add("\n");
+			
+			//cuenta
+			Chunk numeroCuenta1 = new Chunk("Nº CUENTA", fontContenidoNegrita);
+			Chunk numeroCuenta2 = new Chunk(": " + cuentaBancaria.getNumeroCuenta(), fontContenidoNormal);
+			parrafoContenido.add(numeroCuenta1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(numeroCuenta2);
+			parrafoContenido.add("\n");
+			
+			//codigo cliente
+			Chunk codigoSocio1 = new Chunk("CODIGO CLIENTE", fontContenidoNegrita);
+			Chunk codigoSocio2 = new Chunk(": " + cuentaBancaria.getIdSocio().toString(), fontContenidoNormal);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(codigoSocio1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(codigoSocio2);
+			parrafoContenido.add("\n");
+			
+			//cliente
+			Chunk socio1 = new Chunk("CLIENTE", fontContenidoNegrita);
+			Chunk socio2 = new Chunk(": " + cuentaBancaria.getSocio(), fontContenidoNormal);
+			parrafoContenido.add(socio1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(socio2);
+			parrafoContenido.add("\n");
+			
+			//tipo cuenta
+			Chunk tipoCuenta1 = new Chunk("TIPO CUENTA", fontContenidoNegrita);
+			Chunk tipoCuenta2 = new Chunk(": " + "INDIVIDUAL", fontContenidoNormal);
+			parrafoContenido.add(tipoCuenta1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(tipoCuenta2);
+			parrafoContenido.add("\n");
+			
+			//tipo moneda
+			Chunk tipoMoneda1 = new Chunk("TIPO MONEDA", fontContenidoNegrita);
+			Chunk tipoMoneda2;
+			if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
+				tipoMoneda2 = new Chunk(": " + "DOLARES AMERICANOS", fontContenidoNormal);
+			} else if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
+				tipoMoneda2 = new Chunk(": " + "NUEVOS SOLES", fontContenidoNormal);
+			} else {
+				tipoMoneda2 = new Chunk(": " + "EUROS", fontContenidoNormal);
+			}
+			parrafoContenido.add(tipoMoneda1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(tipoMoneda2);
+			parrafoContenido.add("\n");
+			
+			//Monto
+			Chunk monto1 = new Chunk("MONTO", fontContenidoNegrita);
+			Chunk monto2 = new Chunk(": " + moneda.getSimbolo() + df1.format(saldo) + " - " + NumLetrasJ.Convierte(integerValue.toString() + "", Tipo.Pronombre).toUpperCase() + " Y " + decimalString + "/100 " + moneda.getDenominacion(), fontContenidoNormal);
+			parrafoContenido.add(monto1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(monto2);
+			parrafoContenido.add("\n");
 
+			//Plazo
+			Chunk plazo1 = new Chunk("PLAZO", fontContenidoNegrita);
+			Chunk plazo2 = new Chunk(": " + days.getDays() + " DÍAS", fontContenidoNormal);
+			parrafoContenido.add(plazo1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(plazo2);
+			parrafoContenido.add("\n");
+			
+			//Fecha Apertura
+			Chunk fechaApertura1 = new Chunk("FEC. APERTURA", fontContenidoNegrita);
+			Chunk fechaApertura2 = new Chunk(": " + fechaAperturaString, fontContenidoNormal);
+			parrafoContenido.add(fechaApertura1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(fechaApertura2);
+			parrafoContenido.add("\n");
+			
+			//Fecha Vencimiento
+			Chunk fechaVencimiento1 = new Chunk("FEC. VENCIMIENTO", fontContenidoNegrita);
+			Chunk fechaVencimiento2 = new Chunk(": " + fechaVencimientoString, fontContenidoNormal);
+			parrafoContenido.add(fechaVencimiento1);
+			parrafoContenido.add(Chunk.SPACETABBING);
+			parrafoContenido.add(fechaVencimiento2);
+			parrafoContenido.add("\n");
+			
+			//tasa efectiva anual
+			Chunk tasaEfectivaAnual1 = new Chunk("TASA EFECTIVA ANUAL", fontContenidoNegrita);
+			Chunk tasaEfectivaAnual2 = new Chunk(": " + cuentaBancaria.getTasaInteres().multiply(new BigDecimal(100)).toString() + "%", fontContenidoNormal);
+			parrafoContenido.add(tasaEfectivaAnual1);
+			parrafoContenido.add(tasaEfectivaAnual2);
+			parrafoContenido.add("\n");
+			
+			//frecuencia de capitalizacion
+			Chunk frecuenciaCapitalizacion1 = new Chunk("FREC. CAPITALIZACION", fontContenidoNegrita);
+			Chunk frecuenciaCapitalizacion2 = new Chunk(": " + "DIARIA", fontContenidoNormal);
+			parrafoContenido.add(frecuenciaCapitalizacion1);
+			parrafoContenido.add(frecuenciaCapitalizacion2);
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			
+			//importante
+			Chunk importante = new Chunk("IMPORTANTE: ", fontContenidoNegrita);
+			Chunk importanteDetalle1 = new Chunk("DEPÓSITO CUBIERTO POR EL FONDO DE SEGURO DE DEPOSITOS ESTABLECIDO POR EL BANCO CENTRAL DE RESERVA DEL PERÚ HASTA S/.82,073.00.", fontSubTitulo);
+			Chunk importanteDetalle2 = new Chunk("LAS PERSONAS JURÍDICAS SIN FINES DE LUCRO SON CUBIERTAS POR EL FONDO DE SEGURO DE DEPÓSITOS.", fontSubTitulo);
+			parrafoContenido.add(importante);
+			parrafoContenido.add(importanteDetalle1);
+			parrafoContenido.add("\n");
+			parrafoContenido.add(importanteDetalle2);
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			
+			//certificado intranferible
+			Chunk certificadoIntransferible = new Chunk("CERTIFICADO INTRANSFERIBLE.",fontContenidoNegrita);
+			parrafoContenido.add(certificadoIntransferible);
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			parrafoContenido.add("\n");
+			
+			//Firmas
+			Chunk subGion = new Chunk("___________________",fontContenidoNormal);
+			Chunk firmaCajero = new Chunk("CAJERO", fontContenidoNormal);
+			Chunk firmaCliente = new Chunk("CLIENTE", fontContenidoNormal);
+	
+			parrafoFirmas.add(subGion);
+			parrafoFirmas.add(Chunk.SPACETABBING);
+			parrafoFirmas.add(Chunk.SPACETABBING);
+			parrafoFirmas.add(subGion);
+			parrafoFirmas.add("\n");
+			parrafoFirmas.add(firmaCajero);
+			parrafoFirmas.add(Chunk.SPACETABBING);
+			parrafoFirmas.add(Chunk.SPACETABBING);
+			parrafoFirmas.add(Chunk.SPACETABBING);
+			parrafoFirmas.add(firmaCliente);
+
+			//agregando los parrafos al documento
+			document.add(parrafoTitulo);
+			document.add(parrafoSubTitulo);
+			document.add(parrafoContenido);
+			document.add(parrafoFirmas);
 			document.close();
 			file.close();
 		} catch (FileNotFoundException e) {
@@ -1232,12 +1356,17 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		
 		return Response.status(Status.NO_CONTENT).build();
 	}
-
+	
 	@Override
-	public Response getEstadoCuentaPdf(BigInteger idCuentaBancaria) { 									
+	public Response getEstadoCuentaPdf(BigInteger idCuentaBancaria, Long desde, Long hasta) { 									
+		Date dateDesde = (desde != null ? new Date(desde) : null);
+		Date dateHasta = (desde != null ? new Date(hasta) : null);
 		
-		Date dateDesde = null;
-		Date dateHasta = null;		
+		//dando formato a las fechas
+		SimpleDateFormat fechaformato = new SimpleDateFormat("dd/MM/yyyy");
+		String fechaDesde = fechaformato.format(dateDesde);
+		String fechaHasta = fechaformato.format(dateHasta);
+		
 		Set<Titular> titulares = cuentaBancariaServiceNT.getTitulares(idCuentaBancaria, true);
 		List<String> emails = new ArrayList<String>();
 		for (Titular titular : titulares) {
@@ -1314,7 +1443,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			if (cuentaBancariaView.getTipoPersona() == TipoPersona.NATURAL) {
 				Chunk clientePNNombres = new Chunk("CLIENTE       : " + cuentaBancariaView.getSocio() + "\n");
 				Chunk clientePNDni = new Chunk(cuentaBancariaView.getTipoDocumento() + "                : " + cuentaBancariaView.getNumeroDocumento() + "\n");
-				Chunk clientePNTitulares = new Chunk("TITULAR(ES): " + cuentaBancariaView.getTitulares() + "\n");
+				//Chunk clientePNTitulares = new Chunk("TITULAR(ES): " + cuentaBancariaView.getTitulares() + "\n");
 				Chunk clientePNFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
 				
 				Chunk tipoCuentaPN = new Chunk("CUENTA " + cuentaBancariaView.getTipoCuenta() + " Nº "+ cuentaBancariaView.getNumeroCuenta() + "\n");
@@ -1328,7 +1457,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 					tipoMonedaPN = new Chunk("MONEDA: " + "EUROS" + "\n");
 				}
 				
-				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + "00/00/0000" + " AL "+ "00/00/0000");
+				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
 				//obteniedo titulares
 				/*String tPN = cuentaBancariaView.getTitulares();
 				String[] arrayTitulares = tPN.split(",");
@@ -1339,7 +1468,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				
 				clientePNNombres.setFont(fuenteDatosCliente);
 				clientePNDni.setFont(fuenteDatosCliente);
-				clientePNTitulares.setFont(fuenteDatosCliente);
+				//clientePNTitulares.setFont(fuenteDatosCliente);
 				clientePNFecha.setFont(fuenteDatosCliente);
 				tipoCuentaPN.setFont(fuenteDatosCliente);
 				tipoMonedaPN.setFont(fuenteDatosCliente);
@@ -1347,12 +1476,53 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				
 				parrafoSecundario.add(clientePNNombres);
 				parrafoSecundario.add(clientePNDni);
-				parrafoSecundario.add(clientePNTitulares);
+				//parrafoSecundario.add(clientePNTitulares);
 				parrafoSecundario.add(clientePNFecha);
 				parrafoSecundario.add(tipoCuentaPN);
 				parrafoSecundario.add(tipoMonedaPN);
 				parrafoSecundario.add(fechaEstadoCuenta);
+				
 			} else {
+				Chunk clientePJNombre = new Chunk("CLIENTE       : " + cuentaBancariaView.getSocio() + "\n");
+				Chunk clientePJRuc = new Chunk(cuentaBancariaView.getTipoDocumento() + "               : " + cuentaBancariaView.getNumeroDocumento() + "\n");
+				//Chunk clientePJTitulares = new Chunk("TITULAR(ES): " + cuentaBancariaView.getTitulares() + "\n");
+				Chunk clientePJFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
+				
+				Chunk tipoCuentaPJ = new Chunk("CUENTA " + cuentaBancariaView.getTipoCuenta() + " Nº "+ cuentaBancariaView.getNumeroCuenta() + "\n");
+				Chunk tipoMonedaPJ;
+				
+				if (cuentaBancariaView.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
+					tipoMonedaPJ = new Chunk("MONEDA: " + "DOLARES AMERICANOS" + "\n");
+				} else if (cuentaBancariaView.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
+					tipoMonedaPJ = new Chunk("MONEDA: " + "NUEVOS SOLES" + "\n");
+				} else {
+					tipoMonedaPJ = new Chunk("MONEDA: " + "EUROS" + "\n");
+				}
+				
+				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
+				//obteniedo titulares
+				/*String tPN = cuentaBancariaView.getTitulares();
+				String[] arrayTitulares = tPN.split(",");
+				Chunk clientePNTitulares = new Chunk("Titular(es):");
+				for (int i = 0; i < arrayTitulares.length; i++) {
+					String string = arrayTitulares[i];
+				}*/
+				
+				clientePJNombre.setFont(fuenteDatosCliente);
+				clientePJRuc.setFont(fuenteDatosCliente);
+				//clientePJTitulares.setFont(fuenteDatosCliente);
+				clientePJFecha.setFont(fuenteDatosCliente);
+				tipoCuentaPJ.setFont(fuenteDatosCliente);
+				tipoMonedaPJ.setFont(fuenteDatosCliente);
+				fechaEstadoCuenta.setFont(fuenteDatosCliente);
+				
+				parrafoSecundario.add(clientePJNombre);
+				parrafoSecundario.add(clientePJRuc);
+				//parrafoSecundario.add(clientePJTitulares);
+				parrafoSecundario.add(clientePJFecha);
+				parrafoSecundario.add(tipoCuentaPJ);
+				parrafoSecundario.add(tipoMonedaPJ);
+				parrafoSecundario.add(fechaEstadoCuenta);
 				
 			}
 			
