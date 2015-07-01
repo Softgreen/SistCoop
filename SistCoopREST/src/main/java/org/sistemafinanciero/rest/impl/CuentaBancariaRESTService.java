@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
@@ -1358,9 +1359,13 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	
 	@Override
 	public Response getEstadoCuentaPdf(BigInteger idCuentaBancaria, Long desde, Long hasta) { 									
-		
 		Date dateDesde = (desde != null ? new Date(desde) : null);
 		Date dateHasta = (desde != null ? new Date(hasta) : null);
+		
+		//dando formato a las fechas
+		SimpleDateFormat fechaformato = new SimpleDateFormat("dd/MM/yyyy");
+		String fechaDesde = fechaformato.format(dateDesde);
+		String fechaHasta = fechaformato.format(dateHasta);
 		
 		Set<Titular> titulares = cuentaBancariaServiceNT.getTitulares(idCuentaBancaria, true);
 		List<String> emails = new ArrayList<String>();
@@ -1452,7 +1457,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 					tipoMonedaPN = new Chunk("MONEDA: " + "EUROS" + "\n");
 				}
 				
-				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + "00/00/0000" + " AL "+ "00/00/0000");
+				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
 				//obteniedo titulares
 				/*String tPN = cuentaBancariaView.getTitulares();
 				String[] arrayTitulares = tPN.split(",");
@@ -1494,7 +1499,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 					tipoMonedaPJ = new Chunk("MONEDA: " + "EUROS" + "\n");
 				}
 				
-				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + dateDesde + " AL "+ dateHasta);
+				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
 				//obteniedo titulares
 				/*String tPN = cuentaBancariaView.getTitulares();
 				String[] arrayTitulares = tPN.split(",");

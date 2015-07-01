@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -43,7 +44,6 @@ import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.service.nt.MonedaServiceNT;
 
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -79,6 +79,14 @@ public class EmailSessionBean {
 	public void writePdf(OutputStream outputStream, List<EstadocuentaBancariaView> list, CuentaBancariaView cuentaBancaria) throws Exception {
 		Document document = new Document();
 		PdfWriter.getInstance(document, outputStream);
+		
+		
+		//Dando formato a las fechas desde hasta
+		Date desde = list.get(0).getFecha();
+		Date hasta = list.get(list.size()-1).getFecha();
+		SimpleDateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
+		String fechaDesde = fechaFormato.format(desde);
+		String fechaHasta = fechaFormato.format(hasta);
 		
 		/**obteniendo la moneda y dando formato**/
 		Moneda moneda = monedaServiceNT.findById(cuentaBancaria.getIdMoneda());
@@ -148,7 +156,7 @@ public class EmailSessionBean {
 					tipoMonedaPN = new Chunk("MONEDA: " + "EUROS" + "\n");
 				}
 				
-				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + "00/00/0000" + " AL "+ "00/00/0000");
+				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
 				//obteniedo titulares
 				/*String tPN = cuentaBancariaView.getTitulares();
 				String[] arrayTitulares = tPN.split(",");
@@ -190,7 +198,7 @@ public class EmailSessionBean {
 					tipoMonedaPJ = new Chunk("MONEDA: " + "EUROS" + "\n");
 				}
 				
-				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + "00/00/0000" + " AL "+ "00/00/0000");
+				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
 				//obteniedo titulares
 				/*String tPN = cuentaBancariaView.getTitulares();
 				String[] arrayTitulares = tPN.split(",");
@@ -383,11 +391,17 @@ public class EmailSessionBean {
 
 	@Asynchronous
 	public void sendMailPdf(CuentaBancariaView cuentaBancariaView, List<EstadocuentaBancariaView> list, List<String> emails, Date desde, Date hasta) {
-		mailMessage = "Buen dia, el siguiente estado de cuenta corresponde a";
+		mailMessage = "Buen día, el siguiente estado de cuenta corresponde";
+		
+		//dando formato a las fechas
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		String fechaDesde = df.format(desde);
+		String fechaHasta = df.format(hasta);
+		
 		if (desde == null || hasta == null)
 			mailMessage = mailMessage + " los ultimos 30 dias.";
 		else
-			mailMessage = mailMessage + " el perido desde:" + desde.toString() + " hasta:" + hasta.toString();
+			mailMessage = mailMessage + " al perido desde: " + fechaDesde + " hasta: " + fechaHasta;
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
@@ -482,11 +496,17 @@ public class EmailSessionBean {
 	
 	@Asynchronous
 	public void sendMailExcel(CuentaBancariaView cuentaBancariaView, List<EstadocuentaBancariaView> list, List<String> emails, Date desde, Date hasta) {
-		mailMessage = "Buen dia, el siguiente estado de cuenta corresponde a";
+		mailMessage = "Buen dia, el siguiente estado de cuenta corresponde";
+		
+		//dando formato a las fechas
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		String fechaDesde = df.format(desde);
+		String fechaHasta = df.format(hasta);
+		
 		if (desde == null || hasta == null)
 			mailMessage = mailMessage + " los ultimos 30 dias.";
 		else
-			mailMessage = mailMessage + " el perido desde:" + desde.toString() + " hasta:" + hasta.toString();
+			mailMessage = mailMessage + " al perido desde: " + fechaDesde + " hasta: " + fechaHasta;
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);

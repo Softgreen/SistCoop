@@ -166,8 +166,8 @@ define(['../module'], function (controllers) {
                 );
             };
             $scope.enviarEmail = function(formato){
-                CuentaBancariaService.enviarEstadoCuentaByEmail($scope.id, formato).then(function(){
-                    alert("Correo enviado.");
+                CuentaBancariaService.enviarEstadoCuentaByEmail($scope.id, formato, $scope.desde.getTime(), $scope.hasta.getTime()).then(function(){
+                    alert("El estado de cuenta ha sido enviado al correo correspondiente...");
                 });
             };
 
