@@ -129,7 +129,7 @@
 
               <button type="button" class="btn btn-default btn-primary" ng-if="giro.estado == 'ENVIADO'" ng-click="desembolsar()">Desembolsar</button>
               <button type="button" class="btn btn-default btn-danger" ng-if="giro.estado == 'ENVIADO'" ng-click="extornar()">Extornar</button>
-              <button type="button" class="btn btn-default btn-success" ng-if="giro.estado == 'DESEMBOLSADO'" ng-click="imprimir()">Voucher</button>
+              <button type="button" class="btn btn-default btn-success" ng-if="giro.estado != 'EXTORNADO'" ng-click="imprimir()">Voucher</button>
               <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
 
             </div>
