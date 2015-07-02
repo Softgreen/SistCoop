@@ -3,6 +3,12 @@ define(['../../module'], function (controllers) {
   controllers.controller('CrearTransaccionGiroController', ["$scope", "$state", "PersonaNaturalService", "AgenciaService", "SessionService", "MonedaService",
     function ($scope, $state, PersonaNaturalService, AgenciaService, SessionService, MonedaService) {
 
+      $scope.control = {
+        success: false,
+        inProcess: false,
+        submitted : false
+      };
+
       $scope.view = {
         "numeroDocumentoEmisor": undefined,
         "nombreClienteEmisor": undefined,
@@ -153,8 +159,7 @@ define(['../../module'], function (controllers) {
       //transaccion
       $scope.crearTransaccion = function () {
 
-        //if ($scope.form.$valid) {
-        if (true) {
+        if ($scope.form.$valid) {
 
           var transaccion = {
             "idAgenciaOrigen": $scope.view.idAgenciaOrigen,
@@ -183,7 +188,10 @@ define(['../../module'], function (controllers) {
               };
             }
           );
+        } else {
+          $scope.control.submitted = true;
         }
+
       };
 
       $scope.cancelar = function () {
