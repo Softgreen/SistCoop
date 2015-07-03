@@ -16,7 +16,7 @@ define(['../../module'], function (controllers) {
       $scope.desembolsar = function () {
         var giro = angular.copy($scope.giro);
         giro.estadoPagoComision = true;
-        giro.estado = "DESEMBOLSADO";
+        giro.estado = "COBRADO";
 
         GiroService.update(giro.id, giro).then(
           function (data) {

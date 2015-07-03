@@ -201,8 +201,8 @@
                     <div class="form-group" ng-class="{ 'has-error' : form.lugarPago.$invalid && (control.submitted || form.lugarPago.$dirty)}">
                       <label>Lugar de Pago Comisi&oacute;n</label>
                       <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="PAGO_EN_ENVIO">Al Enviar</label>
-                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="PAGO_EN_DESEMBOLSO">Al Cobrar</label>
+                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="AL_ENVIAR">Al Enviar</label>
+                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="AL_DESEMBOLSAR">Al Cobrar</label>
                       </div>
                       <div ng-show="form.lugarPago.$invalid && (control.submitted || form.lugarPago.$dirty)">
                         <p class="help-block" ng-show="form.lugarPago.$error.required">

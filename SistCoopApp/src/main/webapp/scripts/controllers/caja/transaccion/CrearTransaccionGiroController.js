@@ -21,7 +21,7 @@ define(['../../module'], function (controllers) {
         comision: '10',
         tipoComision: 'PORCENTURAL',//FIJO
         modoPagoComision: 'ANADIR',//REDUCIR
-        lugarPagoComision: 'PAGO_EN_ENVIO',//PAGO_EN_DESEMBOLSO
+        lugarPagoComision: 'AL_ENVIAR',//AL_DESEMBOLSAR
         total: '0'
       };
 
@@ -80,7 +80,7 @@ define(['../../module'], function (controllers) {
         }
 
         //estado de pago comision
-        if ($scope.view.lugarPagoComision == 'PAGO_EN_ENVIO') {
+        if ($scope.view.lugarPagoComision == 'AL_ENVIAR') {
           estadoPagoComision = true;
 
           total = parseFloat(monto) + parseFloat(comision);

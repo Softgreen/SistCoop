@@ -48,7 +48,7 @@ public class GiroServiceBeanTS implements GiroServiceTS {
 	@Override
 	public void update(BigInteger id, Giro t) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
 		Giro giro = giroDAO.find(id);
-		if(giro.getEstado().equals(EstadoGiro.DESEMBOLSADO)){
+		if(giro.getEstado().equals(EstadoGiro.COBRADO)){
 			throw new RollbackFailureException("Giro ya fue desembolsado, no se puede modificar");
 		}
 		if(giro.getEstado().equals(EstadoGiro.EXTORNADO)){
