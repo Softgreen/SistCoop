@@ -21,7 +21,7 @@ define(['../../module'], function (controllers) {
         comision: '10',
         tipoComision: 'PORCENTURAL',//FIJO
         modoPagoComision: 'ANADIR',//REDUCIR
-        lugarPagoComision: 'AL_ENVIAR',//AL_DESEMBOLSAR
+        lugarPagoComision: 'AL_ENVIAR',//AL_COBRAR
         total: '0'
       };
 
