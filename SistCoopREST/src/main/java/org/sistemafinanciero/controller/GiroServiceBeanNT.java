@@ -69,7 +69,11 @@ public class GiroServiceBeanNT implements GiroServiceNT {
 		List<Giro> list = giroDAO.findByNamedQuery(Giro.findEnviadosByIdAgenciaFilterText, queryParameter.parameters(), offset, limit);
 		for (Giro giro : list) {
 			Moneda moneda = giro.getMoneda();
+			Agencia agenciaOrigen = giro.getAgenciaOrigen();
+			Agencia agenciaDestino = giro.getAgenciaDestino();
 			Hibernate.initialize(moneda);
+			Hibernate.initialize(agenciaOrigen);
+			Hibernate.initialize(agenciaDestino);
 		}
 		return list;
 	}
@@ -92,7 +96,11 @@ public class GiroServiceBeanNT implements GiroServiceNT {
 		List<Giro> list = giroDAO.findByNamedQuery(Giro.findRecibidosByIdAgenciaFilterText, queryParameter.parameters(), offset, limit);
 		for (Giro giro : list) {
 			Moneda moneda = giro.getMoneda();
+			Agencia agenciaOrigen = giro.getAgenciaOrigen();
+			Agencia agenciaDestino = giro.getAgenciaDestino();
 			Hibernate.initialize(moneda);
+			Hibernate.initialize(agenciaOrigen);
+			Hibernate.initialize(agenciaDestino);
 		}
 		return list;
 	}
