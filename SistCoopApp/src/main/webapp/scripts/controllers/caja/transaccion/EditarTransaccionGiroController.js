@@ -20,7 +20,7 @@ define(['../../module'], function (controllers) {
 
         GiroService.update(giro.id, giro).then(
           function (data) {
-            $scope.alerts = [{type: "success", msg: "Monto desembolsado."}];
+            $scope.alerts = [{type: "success", msg: "Monto Desembolsado..."}];
             $scope.closeAlert = function (index) {
               $scope.alerts.splice(index, 1);
             };
@@ -28,7 +28,7 @@ define(['../../module'], function (controllers) {
             $scope.loadGiro();
           },
           function error(error) {
-            $scope.alerts = [{type: "danger", msg: "Error: No se pudo desembolsar."}];
+            $scope.alerts = [{type: "danger", msg: "Error: No se pudo desembolsar..."}];
             $scope.closeAlert = function (index) {
               $scope.alerts.splice(index, 1);
             };
@@ -43,7 +43,7 @@ define(['../../module'], function (controllers) {
 
         GiroService.update(giro.id, giro).then(
           function (data) {
-            $scope.alerts = [{type: "success", msg: "giro extornado."}];
+            $scope.alerts = [{type: "success", msg: "Giro Extornado..."}];
             $scope.closeAlert = function (index) {
               $scope.alerts.splice(index, 1);
             };
@@ -51,7 +51,7 @@ define(['../../module'], function (controllers) {
             $scope.loadGiro();
           },
           function error(error) {
-            $scope.alerts = [{type: "danger", msg: "Error: No se pudo extornar."}];
+            $scope.alerts = [{type: "danger", msg: "Error: No se pudo extornar..."}];
             $scope.closeAlert = function (index) {
               $scope.alerts.splice(index, 1);
             };
