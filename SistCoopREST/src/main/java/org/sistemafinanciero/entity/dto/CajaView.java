@@ -23,14 +23,14 @@ import org.hibernate.annotations.Subselect;
 		+ "c.estado, "
 		+ "c.abierto, "
 		+ "c.ESTADO_MOVIMIENTO as estadoMovimiento, "
-		+ "listagg(b.denominacion || ',') WITHIN GROUP (ORDER BY c.ID_CAJA) AS bovedas "
-		//+ "a.id_agencia as idAgencia"
+		+ "listagg(b.denominacion || ',') WITHIN GROUP (ORDER BY c.ID_CAJA) AS bovedas, "
+		+ "a.id_agencia as idAgencia"
 		+ "FROM Caja c "
 		+ "INNER JOIN BOVEDA_CAJA bc ON C.id_caja = bc.id_caja "
 		+ "INNER JOIN BOVEDA b ON B.id_boveda = bc.id_boveda "
-		//+ "INNER JOIN AGENCIA a ON a.id_agencia = b.id_agencia "
-		+ "GROUP BY c.ID_CAJA, c.denominacion, c.abreviatura, c.estado, c.abierto, c.ESTADO_MOVIMIENTO")
-@NamedQueries({ @NamedQuery(name = CajaView.findByIdAgencia, query = "SELECT c FROM CajaView c") })
+		+ "INNER JOIN AGENCIA a ON a.id_agencia = b.id_agencia "
+		+ "GROUP BY c.ID_CAJA, c.denominacion, c.abreviatura, c.estado, c.abierto, c.ESTADO_MOVIMIENTO, a.id_agencia")
+@NamedQueries({ @NamedQuery(name = CajaView.findByIdAgencia, query = "SELECT c FROM CajaView c WHERE c.idAgencia = :idAgencia") })
 public class CajaView implements Serializable {
 
 	/**
@@ -49,7 +49,7 @@ public class CajaView implements Serializable {
 	
 	private String bovedas;
 	
-	//private BigInteger idAgencia;
+	private BigInteger idAgencia;
 
 	// private Set bovedaCajas = new HashSet(0);
 
@@ -115,12 +115,12 @@ public class CajaView implements Serializable {
 		this.bovedas = bovedas;
 	}
 
-	/*public BigInteger getIdAgencia() {
+	public BigInteger getIdAgencia() {
 		return idAgencia;
 	}
 
 	public void setIdAgencia(BigInteger idAgencia) {
 		this.idAgencia = idAgencia;
-	}*/
+	}
 
 }

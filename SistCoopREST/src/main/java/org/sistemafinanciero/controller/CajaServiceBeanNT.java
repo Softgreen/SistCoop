@@ -3,7 +3,6 @@ package org.sistemafinanciero.controller;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -1149,9 +1148,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		if (idAgencia == null) {
 			list = cajaViewDAO.findAll();
 		} else {
-			// QueryParameter queryParameter = QueryParameter.with("idAgencia",
-			// idAgencia);
-			Collection<CajaView> a = cajaViewDAO.findByNamedQuery(CajaView.findByIdAgencia);
+			QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia);			
+			List<CajaView> a = cajaViewDAO.findByNamedQuery(CajaView.findByIdAgencia, queryParameter.parameters());
 			list = new ArrayList<CajaView>(a);
 		}
 		return list;
