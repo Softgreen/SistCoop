@@ -76,7 +76,7 @@ define(['../../module'], function (controllers) {
         qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
 
         qz.append("CAJA:" + "\t" + ($scope.session.caja.abreviatura) + "\t\t" + "Nro OP:" + "\t" + ($scope.giro.id) + "\r\n");
-        qz.append("FECHA:" + "\t" + ($filter('date')($scope.giro.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.giro.fecha, 'HH:mm:ss')) + "\r\n");
+        qz.append("FECHA:" + "\t" + ($filter('date')($scope.giro.fechaEnvio, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.giro.fechaEnvio, 'HH:mm:ss')) + "\r\n");
         qz.append("ORDENANTE:" + "\t" + ($scope.giro.clienteEmisor) + "\r\n");
         qz.append("BENEFICIARIO:" + "\t" + ($scope.giro.numeroDocumentoReceptor + ' ' + $scope.giro.clienteReceptor) + "\r\n");
         qz.append("MONEDA:" + "\t" + ($scope.giro.moneda.denominacion) + "\r\n");
