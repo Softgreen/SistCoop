@@ -1,6 +1,7 @@
 package org.sistemafinanciero.controller;
 
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,19 +48,24 @@ public class GiroServiceBeanTS implements GiroServiceTS {
 
 	@Override
 	public void update(BigInteger id, Giro t) throws NonexistentEntityException, PreexistingEntityException, RollbackFailureException {
-		Giro giro = giroDAO.find(id);
-		if(giro.getEstado().equals(EstadoGiro.COBRADO)){
-			throw new RollbackFailureException("Giro ya fue desembolsado, no se puede modificar");
-		}
-		if(giro.getEstado().equals(EstadoGiro.EXTORNADO)){
-			throw new RollbackFailureException("Giro fue extornado, no se puede modificar");
-		}
+		Giro giro = giroDAO.find(id);		
 		if (giro != null) {
+		    
+		    if(giro.getEstado().equals(EstadoGiro.COBRADO)){
+	            throw new RollbackFailureException("Giro ya fue desembolsado, no se puede modificar");
+	        }
+	        if(giro.getEstado().equals(EstadoGiro.EXTORNADO)){
+	            throw new RollbackFailureException("Giro fue extornado, no se puede modificar");
+	        }
+	        
 			Set<ConstraintViolation<Giro>> violations = validator.validate(t);
 			if (violations.isEmpty()) {
 				giro.setIdGiro(id);
 				giro.setEstado(t.getEstado());
 				giro.setEstadoPagoComision(t.getEstadoPagoComision());
+				if(t.getEstado().equals(EstadoGiro.COBRADO)){
+				    giro.setFechaDesembolso(Calendar.getInstance().getTime());
+				}
 				giroDAO.update(giro);
 			} else {
 				throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
