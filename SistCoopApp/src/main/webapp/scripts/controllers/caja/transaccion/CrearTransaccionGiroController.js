@@ -19,7 +19,7 @@ define(['../../module'], function (controllers) {
         idMoneda: undefined,
         monto: '0',
         comision: '10',
-        tipoComision: 'PORCENTURAL',//FIJO
+        tipoComision: 'FIJO',//PORCENTUAL
         modoPagoComision: 'ANADIR',//REDUCIR
         lugarPagoComision: 'AL_ENVIAR',//AL_COBRAR
         total: '0'
