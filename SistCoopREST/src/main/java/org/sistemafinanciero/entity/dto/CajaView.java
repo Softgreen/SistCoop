@@ -24,7 +24,7 @@ import org.hibernate.annotations.Subselect;
 		+ "c.abierto, "
 		+ "c.ESTADO_MOVIMIENTO as estadoMovimiento, "
 		+ "listagg(b.denominacion || ',') WITHIN GROUP (ORDER BY c.ID_CAJA) AS bovedas, "
-		+ "a.id_agencia as idAgencia"
+		+ "a.id_agencia as idAgencia "
 		+ "FROM Caja c "
 		+ "INNER JOIN BOVEDA_CAJA bc ON C.id_caja = bc.id_caja "
 		+ "INNER JOIN BOVEDA b ON B.id_boveda = bc.id_boveda "
