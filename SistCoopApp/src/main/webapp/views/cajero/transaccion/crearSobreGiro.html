@@ -1,5 +1,5 @@
 <fieldset>
-  <legend>Emisi&oacute;n de Giros</legend>
+  <legend>Emisi&oacute;n de Sobre Giros</legend>
 
   <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
     <span ng-bind="alert.msg"></span>
@@ -7,14 +7,14 @@
 
 
   <div class="row">
-    <div class="col-sm-8" ng-controller="CrearTransaccionGiroController">
+    <div class="col-sm-8" ng-controller="CrearTransaccionSobreGiroController">
 
       <form name="form" ng-submit="crearTransaccion()" novalidate>
         <div class="row">
           <div class="col-sm-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h3 class="panel-title" style="font-weight: bold;">Creaci&oacute;n de Giro</h3>
+                <h3 class="panel-title" style="font-weight: bold;">Creaci&oacute;n de Sobre Giro</h3>
               </div>
               <div class="panel-body">
                 <div class="row">
@@ -52,68 +52,6 @@
                         </p>
                         <p class="help-block" ng-show="form.nombreClienteEmisor.$error.maxlength">
                           Maximo 200 Caracteres.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumentoReceptor.$invalid && (control.submitted || form.numeroDocumentoReceptor.$dirty)}">
-                      <label>(DNI) Receptor</label>
-                      <input type="text" name="numeroDocumentoReceptor" ui-keypress="{13:'buscarClienteReceptor($event)'}" ng-model="view.numeroDocumentoReceptor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="DNI"/>
-                      <div ng-show="form.numeroDocumentoReceptor.$invalid && (control.submitted || form.numeroDocumentoReceptor.$dirty)">
-                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.required">
-                          Ingrese Numero Documento Valido.
-                        </p>
-                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.minlength">
-                          Minimo 1 Caracter.
-                        </p>
-                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.maxlength">
-                          Maximo 20 Caracteres.
-                        </p>
-                        <p class="help-block" ng-show="form.numeroDocumentoReceptor.$error.pattern">
-                          Numero Documento Invalido.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-8">
-                    <div class="form-group" ng-class="{ 'has-error' : form.nombreClienteReceptor.$invalid && (control.submitted || form.nombreClienteReceptor.$dirty)}">
-                      <label>Apellidos y Nombres / Raz&oacute;n Social</label>
-                      <label style="color: brown;">(*)</label>
-                      <input type="text" name="nombreClienteReceptor" ng-model="view.nombreClienteReceptor" class="form-control" ng-minlength="1" ng-maxlength="200" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize/>
-                      <div ng-show="form.nombreClienteReceptor.$invalid && (control.submitted || form.nombreClienteReceptor.$dirty)">
-                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.required">
-                          Ingrese Numero Documento Valido.
-                        </p>
-                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.minlength">
-                          Minimo 1 Caracter.
-                        </p>
-                        <p class="help-block" ng-show="form.nombreClienteReceptor.$error.maxlength">
-                          Maximo 200 Caracteres.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label>Agencia Origen</label>
-                      <input type="text" ng-value="objetosCargados.agenciaOrigen.denominacion" class="form-control" disabled/>
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group" ng-class="{ 'has-error' : form.agenciaDestino.$invalid && control.submitted}">
-                      <label>Agencia Destino</label>
-                      <label style="color: brown;">(*)</label>
-                      <select name="agenciaDestino" ng-options="agen.id as agen.denominacion for agen in combo.agencia" ng-model="view.idAgenciaDestino" class="form-control" required>
-                        <option value="">--Seleccione--</option>
-                      </select>
-                      <div ng-show="form.agenciaDestino.$invalid && control.submitted">
-                        <p class="help-block" ng-show="form.agenciaDestino.$error.required">
-                          Ingrese agencia.
                         </p>
                       </div>
                     </div>
@@ -182,36 +120,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group" ng-class="{ 'has-error' : form.modoPagoComision.$invalid && (control.submitted || form.modoPagoComision.$dirty)}">
-                      <label>Modo de Pago Comisi&oacute;n</label>
-                      <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="ANADIR">Agregar al Monto</label>
-                        <label class="radio-inline"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="REDUCIR">Quitar del Monto</label>
-                      </div>
-                      <div ng-show="form.modoPagoComision.$invalid && (control.submitted || form.modoPagoComision.$dirty)">
-                        <p class="help-block" ng-show="form.modoPagoComision.$error.required">
-                          Ingrese dato.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group" ng-class="{ 'has-error' : form.lugarPago.$invalid && (control.submitted || form.lugarPago.$dirty)}">
-                      <label>Lugar de Pago Comisi&oacute;n</label>
-                      <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="AL_ENVIAR">Al Enviar</label>
-                        <label class="radio-inline"><input type="radio" name="lugarPago" ng-model="view.lugarPagoComision" value="AL_COBRAR">Al Cobrar</label>
-                      </div>
-                      <div ng-show="form.lugarPago.$invalid && (control.submitted || form.lugarPago.$dirty)">
-                        <p class="help-block" ng-show="form.lugarPago.$error.required">
-                          Ingrese dato.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">

@@ -32,6 +32,8 @@ define([
     './caja/transaccion/CrearTransaccionGiroController',
     './caja/transaccion/EditarTransaccionGiroController',
     './caja/transaccion/BuscarGirosController',
+    './caja/transaccion/CrearTransaccionSobreGiroController',
+    './caja/transaccion/BuscarSobreGirosController',
 
     './cuentaBancaria/BeneficiarioController',
     './cuentaBancaria/TitularController',
