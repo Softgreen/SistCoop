@@ -19,6 +19,67 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : form.tipoPersona.$invalid && control.submitted}">
+                      <label>Tipo Persona</label>
+                      <label style="color: brown;">(*)</label>
+                      <select name="tipoPersona" ng-options="tipoPersona.denominacion as tipoPersona.denominacion for tipoPersona in combo.tipoPersonas" ng-model="view.tipoPersona" class="form-control" required autofocus>
+                        <option value="">--Seleccione--</option>
+                      </select>
+                      <div ng-show="form.tipoPersona.$invalid && control.submitted">
+                        <p class="help-block" ng-show="form.tipoPersona.$error.required">
+                          Seleccione Tipo Persona.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : form.tipoDocumento.$invalid && (control.submitted || form.tipoDocumento.$dirty)}">
+                      <label>Tipo Documento</label>
+                      <label style="color: brown;">(*)</label>
+                      <select name="tipoDocumento" ng-options="tipoDocumento.id as tipoDocumento.abreviatura for tipoDocumento in combo.tipoDocumentos | orderBy : 'id'" ng-model="view.idTipoDocumento" class="form-control" required>
+                        <option value="">--Seleccione--</option>
+                      </select>
+                      <div ng-show="form.tipoDocumento.$invalid && (control.submitted || form.tipoDocumento.$dirty)">
+                        <p class="help-block" ng-show="form.tipoDocumento.$error.required">
+                          Seleccione Tipo Documento.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumento.$invalid && (form.numeroDocumento.$dirty || control.submitted)}">
+                      <label>N&uacute;mero Documento</label>
+                      <label style="color: brown;">(*)</label>
+                      <div class="input-group">
+                        <input focus-on="focusNumeroDocumento" type="text" name="numeroDocumento" ui-keypress="{13:'buscarPersonaSocio($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required/>
+                     <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="buscarPersonaSocio()" >
+                          <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                     </span>
+                      </div>
+                      <div ng-show="form.numeroDocumento.$invalid && (control.submitted || form.numeroDocumento.$dirty)">
+                        <p class="help-block" ng-show="form.numeroDocumento.$error.required">
+                          Ingrese Numero Documento Valido.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumento.$error.minlength">
+                          Minimo 1 Caracter.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumento.$error.maxlength">
+                          Maximo 20 Caracteres.
+                        </p>
+                        <p class="help-block" ng-show="form.numeroDocumento.$error.pattern">
+                          Numero Documento Invalido.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
                     <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumentoEmisor.$invalid && (control.submitted || form.numeroDocumentoEmisor.$dirty)}">
                       <label>(DNI) Emisor</label>
                       <input type="text" name="numeroDocumentoEmisor" ui-keypress="{13:'buscarClienteEmisor($event)'}" ng-model="view.numeroDocumentoEmisor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="DNI" autofocus/>
