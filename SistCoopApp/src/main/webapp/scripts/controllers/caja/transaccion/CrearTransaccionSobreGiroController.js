@@ -1,6 +1,6 @@
 define(['../../module'], function (controllers) {
   'use strict';
-  controllers.controller('CrearTransaccionSobreGiroController', ["$scope", "$state","PersonaNaturalService", "PersonaJuridicaService", "SocioService", "MaestroService",
+  controllers.controller('CrearTransaccionSobreGiroController', ["$scope", "$state", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "MaestroService",
     function ($scope, $state, PersonaNaturalService, PersonaJuridicaService, SocioService, MaestroService) {
 
       $scope.control = {

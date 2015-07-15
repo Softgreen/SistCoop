@@ -26,7 +26,7 @@ define(['./module'], function (services) {
                     }
                 },
                 find: function(tipoPersona, idTipoDocumento, numeroDocumento){
-                  return Restangular.one(baseUrl).get({tipoPersona: tipoPersona, idTipoDocumento: idTipoDocumento, numeroDocumento: numeroDocumento});
+                  return Restangular.one(baseUrl+'/findByTipoNumeroDocumento').get({tipoPersona: tipoPersona, idTipoDocumento: idTipoDocumento, numeroDocumento: numeroDocumento});
                 },
                 getSocios: function(estadoCuentaAporte, estadoSocio, offset, limit){
                     if(arguments.length == 0){

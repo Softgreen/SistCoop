@@ -97,7 +97,7 @@ public class SocioRESTService implements SocioREST {
 	}
 
     @Override
-    public Response listAll(TipoPersona tipoPersona, BigInteger idTipoDocumento, String numeroDocumento) {
+    public Response listAll(TipoPersona tipoPersona, BigInteger idTipoDocumento, String numeroDocumento) {        
         SocioView socio = socioServiceNT.find(tipoPersona, idTipoDocumento, numeroDocumento);
         Response response = Response.status(Response.Status.OK).entity(socio).build();
         return response;

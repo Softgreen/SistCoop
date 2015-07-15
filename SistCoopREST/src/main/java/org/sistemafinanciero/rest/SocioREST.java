@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistemafinanciero.entity.Beneficiario;
-import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.rest.dto.ApoderadoDTO;
 import org.sistemafinanciero.rest.dto.SocioDTO;
@@ -28,6 +27,7 @@ public interface SocioREST {
 	public Response listAll(@QueryParam("filterText") String filterText, @QueryParam("cuentaAporte") Boolean estadoCuentaAporte, @QueryParam("estadoSocio") Boolean estadoSocio, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
 	@GET
+	@Path("/findByTipoNumeroDocumento")
     @Produces({ "application/xml", "application/json" })
     public Response listAll(@QueryParam("tipoPersona") TipoPersona tipoPersona, @QueryParam("idTipoDocumento") BigInteger idTipoDocumento, @QueryParam("numeroDocumento") String numeroDocumento);
 	
