@@ -101,7 +101,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.rups.model.BackgroundTask;
 
 public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
