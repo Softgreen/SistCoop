@@ -7,7 +7,7 @@
 
 
   <div class="row">
-    <div class="col-sm-8" ng-controller="CrearTransaccionSobreGiroController">
+    <div class="col-sm-6" ng-controller="CrearTransaccionSobreGiroController">
 
       <form name="form" ng-submit="crearTransaccion()" novalidate>
         <div class="row">
@@ -18,7 +18,7 @@
               </div>
               <div class="panel-body">
                 <div class="row">
-                  <div class="col-sm-4">
+                  <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.tipoPersona.$invalid && control.submitted}">
                       <label>Tipo Persona</label>
                       <label style="color: brown;">(*)</label>
@@ -34,7 +34,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-4">
+                  <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.tipoDocumento.$invalid && (control.submitted || form.tipoDocumento.$dirty)}">
                       <label>Tipo Documento</label>
                       <label style="color: brown;">(*)</label>
@@ -48,14 +48,14 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumento.$invalid && (form.numeroDocumento.$dirty || control.submitted)}">
                       <label>N&uacute;mero Documento</label>
                       <label style="color: brown;">(*)</label>
                       <div class="input-group">
-                        <input focus-on="focusNumeroDocumento" type="text" name="numeroDocumento" ui-keypress="{13:'buscarPersonaSocio($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required/>
+                        <input focus-on="focusNumeroDocumento" type="text" name="numeroDocumento" ui-keypress="{13:'buscarSocio($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required/>
                      <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="buscarPersonaSocio()" >
+                        <button type="button" class="btn btn-default" ng-click="buscarSocio()" >
                           <span class="glyphicon glyphicon-search"></span>
                         </button>
                      </span>
@@ -78,46 +78,6 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group" ng-class="{ 'has-error' : form.numeroDocumentoEmisor.$invalid && (control.submitted || form.numeroDocumentoEmisor.$dirty)}">
-                      <label>(DNI) Emisor</label>
-                      <input type="text" name="numeroDocumentoEmisor" ui-keypress="{13:'buscarClienteEmisor($event)'}" ng-model="view.numeroDocumentoEmisor" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="DNI" autofocus/>
-                      <div ng-show="form.numeroDocumentoEmisor.$invalid && (control.submitted || form.numeroDocumentoEmisor.$dirty)">
-                        <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.required">
-                          Ingrese Numero Documento Valido.
-                        </p>
-                        <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.minlength">
-                          Minimo 1 Caracter.
-                        </p>
-                        <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.maxlength">
-                          Maximo 20 Caracteres.
-                        </p>
-                        <p class="help-block" ng-show="form.numeroDocumentoEmisor.$error.pattern">
-                          Numero Documento Invalido.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-8">
-                    <div class="form-group" ng-class="{ 'has-error' : form.nombreClienteEmisor.$invalid && (control.submitted || form.nombreClienteEmisor.$dirty)}">
-                      <label>Apellidos y Nombres / Raz&oacute;n Social</label>
-                      <label style="color: brown;">(*)</label>
-                      <input type="text" name="nombreClienteEmisor" ng-model="view.nombreClienteEmisor" class="form-control" ng-minlength="1" ng-maxlength="200" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required capitalize/>
-                      <div ng-show="form.nombreClienteEmisor.$invalid && (control.submitted || form.nombreClienteEmisor.$dirty)">
-                        <p class="help-block" ng-show="form.nombreClienteEmisor.$error.required">
-                          Ingrese Apellidos y Nombres Validos.
-                        </p>
-                        <p class="help-block" ng-show="form.nombreClienteEmisor.$error.minlength">
-                          Minimo 1 Caracter.
-                        </p>
-                        <p class="help-block" ng-show="form.nombreClienteEmisor.$error.maxlength">
-                          Maximo 200 Caracteres.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.moneda.$invalid && (control.submitted || form.moneda.$dirty)}">
@@ -217,7 +177,29 @@
       </form>
 
     </div>
-
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title" style="font-weight: bold;">Cuenta Bancaria</h3></div>
+            <table class="table">
+              <tr>
+                <td style="font-weight: bold;">Tipo persona:</td>
+                <td><span ng-bind="socio.tipoPersona"></span></td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold;">Cliente:</td>
+                <td><span ng-bind="socio.socio"></span></td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold;">Tipo y N&deg; Doc.:</td>
+                <td><span ng-bind-template="{{socio.tipoDocumento}}/{{socio.numeroDocumento}}"></span></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </fieldset>
