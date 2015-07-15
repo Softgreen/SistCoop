@@ -1,4 +1,4 @@
-<fieldset>
+<fieldset ng-controller="CrearTransaccionSobreGiroController">
   <legend>Emisi&oacute;n de Sobre Giros</legend>
 
   <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
@@ -7,7 +7,7 @@
 
 
   <div class="row">
-    <div class="col-sm-6" ng-controller="CrearTransaccionSobreGiroController">
+    <div class="col-sm-6">
 
       <form name="form" ng-submit="crearTransaccion()" novalidate>
         <div class="row">
@@ -95,7 +95,7 @@
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group" ng-class="{ 'has-error' : form.monto.$invalid && (control.submitted || form.monto.$dirty)}">
-                      <label>Monto a Girar</label>
+                      <label>Monto</label>
                       <label style="color: brown;">(*)</label>
                       <div class="input-group">
                         <span ng-bind="getTipoMoneda().simbolo" class="input-group-addon"></span>
@@ -111,31 +111,31 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-6">
-                    <div class="form-group" ng-class="{ 'has-error' : form.tipoComision.$invalid && (control.submitted || form.tipoComision.$dirty)}">
-                      <label>Tipo Comisi&oacute;n</label>
+                    <div class="form-group" ng-class="{ 'has-error' : form.tipoInteres.$invalid && (control.submitted || form.tipoInteres.$dirty)}">
+                      <label>Tipo Interes</label>
                       <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="tipoComision" ng-model="view.tipoComision" value="FIJO">Monto Fijo</label>
-                        <label class="radio-inline"><input type="radio" name="tipoComision" ng-model="view.tipoComision" value="PORCENTURAL">Porcentual</label>
+                        <label class="radio-inline"><input type="radio" name="tipoInteres" ng-model="view.tipoInteres" value="FIJO">Monto Fijo</label>
+                        <label class="radio-inline"><input type="radio" name="tipoInteres" ng-model="view.tipoInteres" value="PORCENTURAL">Porcentual</label>
                       </div>
-                      <div ng-show="form.tipoComision.$invalid && (control.submitted || form.tipoComision.$dirty)">
-                        <p class="help-block" ng-show="form.tipoComision.$error.required">
+                      <div ng-show="form.tipoInteres.$invalid && (control.submitted || form.tipoInteres.$dirty)">
+                        <p class="help-block" ng-show="form.tipoInteres.$error.required">
                           Ingrese tipo.
                         </p>
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-6">
-                    <div class="form-group" ng-class="{ 'has-error' : form.comision.$invalid && (control.submitted || form.comision.$dirty)}">
-                      <label>Monto por Comisi&oacute;n</label>
+                    <div class="form-group" ng-class="{ 'has-error' : form.interes.$invalid && (control.submitted || form.interes.$dirty)}">
+                      <label>Monto de Interes</label>
                       <label style="color: brown;">(*)</label>
                       <div class="input-group">
-                        <input type="text" name="comision" ng-model="view.comision" ng-minlength="1" ng-maxlength="18" ng-pattern="/^(\d+|\d+.\d{1,2})$/" class="form-control" placeholder="Comision" required/>
-                        <span class="input-group-addon" ng-if="view.tipoComision == 'porcentual'">%</span>
-                        <span class="input-group-addon" ng-if="view.tipoComision == 'fijo'"></span>
+                        <input type="text" name="interes" ng-model="view.interes" ng-minlength="1" ng-maxlength="18" ng-pattern="/^(\d+|\d+.\d{1,2})$/" class="form-control" placeholder="interes" required/>
+                        <span class="input-group-addon" ng-if="view.tipoInteres == 'PORCENTURAL'">%</span>
+                        <span class="input-group-addon" ng-if="view.tipoInteres == 'FIJO'"></span>
                       </div>
-                      <div ng-show="form.comision.$invalid && (control.submitted || form.comision.$dirty)">
-                        <p class="help-block" ng-show="form.comision.$error.required">
-                          Ingrese comision.
+                      <div ng-show="form.interes.$invalid && (control.submitted || form.interes.$dirty)">
+                        <p class="help-block" ng-show="form.interes.$error.required">
+                          Ingrese interes.
                         </p>
                       </div>
                     </div>
@@ -148,14 +148,14 @@
                       <label style="color: blue; margin-top: 10px">RESUMEN</label>
                       <kbd style="display: block;margin-top: 1px;">
                         <p>
-                          Monto a Girar:
+                          Monto a Sobre Girar:
                           <span ng-bind="getTipoMoneda().simbolo"></span>
                           <span ng-bind="transaccion.monto | currency : ''"/>
                         </p>
                         <p>
                           Monto por Comisi&oacute;n:
                           <span ng-bind="getTipoMoneda().simbolo"></span>
-                          <span ng-bind="transaccion.comision | currency : ''"/>
+                          <span ng-bind="transaccion.interes | currency : ''"/>
                         </p>
                         <p>
                           Total a Recibir por Giro:

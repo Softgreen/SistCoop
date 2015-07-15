@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
   'use strict';
-  controllers.controller('CrearTransaccionSobreGiroController', ["$scope", "$state", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "MaestroService",
-    function ($scope, $state, PersonaNaturalService, PersonaJuridicaService, SocioService, MaestroService) {
+  controllers.controller('CrearTransaccionSobreGiroController', ["$scope", "$state", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "MaestroService", "MonedaService",
+    function ($scope, $state, PersonaNaturalService, PersonaJuridicaService, SocioService, MaestroService, MonedaService) {
 
       $scope.control = {
         success: false,
@@ -22,20 +22,14 @@ define(['../../module'], function (controllers) {
         idTipoDocumento: undefined,
         numeroDocumento: undefined,
 
-
-        "numeroDocumentoEmisor": undefined,
-        "nombreClienteEmisor": undefined,
-        "numeroDocumentoReceptor": undefined,
-        "nombreClienteReceptor": undefined,
-        idAgenciaOrigen: undefined,
-        idAgenciaDestino: undefined,
         idMoneda: undefined,
         monto: '0',
-        comision: '10',
-        tipoComision: 'FIJO',//PORCENTUAL
-        modoPagoComision: 'ANADIR',//REDUCIR
-        lugarPagoComision: 'AL_ENVIAR',//AL_COBRAR
-        total: '0'
+        interes: '10',
+        tipoInteres: 'FIJO'//PORCENTUAL
+      };
+
+      $scope.combo = {
+        moneda: undefined
       };
 
       $scope.$watch('view.tipoPersona', function (newValue, oldValue) {
@@ -55,6 +49,22 @@ define(['../../module'], function (controllers) {
         }
       }, true);
 
+      $scope.loadMonedas = function () {
+        MonedaService.getMonedas().then(function (data) {
+          $scope.combo.moneda = data;
+        });
+      };
+      $scope.loadMonedas();
+      $scope.getTipoMoneda = function () {
+        if (!angular.isUndefined($scope.view.idMoneda) && !angular.isUndefined($scope.combo.moneda)) {
+          for (var i = 0; i < $scope.combo.moneda.length; i++)
+            if ($scope.view.idMoneda == $scope.combo.moneda[i].id)
+              return $scope.combo.moneda[i];
+        } else {
+          return undefined;
+        }
+      };
+
       $scope.buscarSocio = function ($event) {
         if (!angular.isUndefined($event)) {
           $event.preventDefault();
@@ -65,7 +75,6 @@ define(['../../module'], function (controllers) {
 
         var tipoDoc = $scope.view.idTipoDocumento;
         var numDoc = $scope.view.numeroDocumento;
-
         SocioService.find($scope.view.tipoPersona, tipoDoc, numDoc).then(
           function (data) {
             $scope.socio = data;
@@ -80,6 +89,34 @@ define(['../../module'], function (controllers) {
 
       };
 
+      $scope.$watch('view.monto', function (newValue, oldValue) {
+        $scope.updateTotal();
+      }, true);
+      $scope.$watch('view.interes', function (newValue, oldValue) {
+        $scope.updateTotal();
+      }, true);
+      $scope.$watch('view.tipoInteres', function (newValue, oldValue) {
+        $scope.updateTotal();
+      }, true);
+      $scope.updateTotal = function () {
+        var monto = parseFloat($scope.view.monto);
+        var interes = 0;
+
+        //hallando comision
+        if ($scope.view.tipoInteres == 'PORCENTURAL') {
+          interes = parseFloat($scope.view.monto) * parseFloat($scope.view.interes) / 100;
+          //redondeo a un decimal y hacia arriba
+          interes = Math.round(interes * 10) / 10;
+        } else {
+          interes = parseFloat($scope.view.interes);
+        }
+
+        $scope.transaccion = {
+          "monto": monto,
+          "interes": interes
+        };
+
+      };
 
     }]);
 });
