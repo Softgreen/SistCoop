@@ -96,6 +96,13 @@ public class SocioRESTService implements SocioREST {
 		return response;
 	}
 
+    @Override
+    public Response listAll(TipoPersona tipoPersona, BigInteger idTipoDocumento, String numeroDocumento) {
+        SocioView socio = socioServiceNT.find(tipoPersona, idTipoDocumento, numeroDocumento);
+        Response response = Response.status(Response.Status.OK).entity(socio).build();
+        return response;
+    }
+	 
 	@Override
 	public Response countAll() {
 		int count = socioServiceNT.count();
@@ -539,4 +546,5 @@ public class SocioRESTService implements SocioREST {
 		}
 		return response;
 	}
+
 }

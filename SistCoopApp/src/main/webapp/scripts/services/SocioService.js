@@ -25,6 +25,9 @@ define(['./module'], function (services) {
                         return Restangular.all(baseUrl).getList({filterText:filterText, cuentaAporte:estadoCuentaAporte,estadoSocio:estadoSocio,offset:offset,limit:limit},{});
                     }
                 },
+                find: function(tipoPersona, idTipoDocumento, numeroDocumento){
+                  return Restangular.one(baseUrl).get({tipoPersona: tipoPersona, idTipoDocumento: idTipoDocumento, numeroDocumento: numeroDocumento});
+                },
                 getSocios: function(estadoCuentaAporte, estadoSocio, offset, limit){
                     if(arguments.length == 0){
                         return _socioService.getList({},{});
