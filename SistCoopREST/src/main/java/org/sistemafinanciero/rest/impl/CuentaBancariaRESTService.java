@@ -101,14 +101,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.rups.model.BackgroundTask;
 
 public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 	private final static String baseUrl = "/cuentasBancarias";
 
 	// private final static String certificadoURL = "D:\\pdf";
-	private final static String certificadoURL = "//usr//share//jboss//archivos//certificadoPlazoFijo//";
+	private final static String certificadoURL = "//usr//share//jboss//archivos//certificadoPlazoFijo//"; 
 
 	// private final static String cartillaURL = "D:\\cartilla";
 	private final static String cartillaURL = "//usr//share//jboss//archivos//cartillaInformacion//";
