@@ -11,7 +11,8 @@ define(['../../module'], function (controllers) {
 
       $scope.combo = {
         tipoPersonas: MaestroService.getTipoPersonas(),
-        tipoDocumentos: []
+        tipoDocumentos: [],
+        moneda: undefined
       };
 
       $scope.socioNatural = undefined;
@@ -26,10 +27,6 @@ define(['../../module'], function (controllers) {
         monto: '0',
         interes: '10',
         tipoInteres: 'FIJO'//PORCENTUAL
-      };
-
-      $scope.combo = {
-        moneda: undefined
       };
 
       $scope.$watch('view.tipoPersona', function (newValue, oldValue) {
@@ -115,7 +112,47 @@ define(['../../module'], function (controllers) {
           "monto": monto,
           "interes": interes
         };
+      };
 
+      //transaccion
+      $scope.crearTransaccion = function () {
+        if ($scope.form.$valid) {
+
+          var transaccion = {
+            "idAgenciaOrigen": $scope.view.idAgenciaOrigen,
+            "idAgenciaDestino": $scope.view.idAgenciaDestino,
+
+            "numeroDocumentoEmisor": $scope.view.numeroDocumentoEmisor,
+            "clienteEmisor": $scope.view.nombreClienteEmisor,
+            "numeroDocumentoReceptor": $scope.view.numeroDocumentoReceptor,
+            "clienteReceptor": $scope.view.nombreClienteReceptor,
+
+            "idMoneda": $scope.view.idMoneda,
+            "lugarPagoComision": $scope.view.lugarPagoComision,
+            "monto": $scope.transaccion.monto,
+            "comision": $scope.transaccion.comision,
+            "estadoPagoComision": $scope.transaccion.estadoPagoComision
+          };
+
+          SessionService.crearTransaccionGiro(transaccion).then(
+            function (data) {
+              $state.transitionTo('app.transaccion.editarGiro', {id: data.id});
+            },
+            function error(error) {
+              $scope.alerts = [{type: "danger", msg: "Error: " + error.data.message + "."}];
+              $scope.closeAlert = function (index) {
+                $scope.alerts.splice(index, 1);
+              };
+            }
+          );
+        } else {
+          $scope.control.submitted = true;
+        }
+
+      };
+
+      $scope.cancelar = function () {
+        $state.transitionTo("app.transaccion.buscarSobreGiros");
       };
 
     }]);

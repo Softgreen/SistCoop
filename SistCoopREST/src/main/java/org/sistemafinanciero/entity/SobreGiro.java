@@ -47,6 +47,7 @@ public class SobreGiro implements java.io.Serializable {
     private BigDecimal monto;
     private BigDecimal interes;
 
+    private Date fechaCreacion;
     private Date fechaLimitePago;
 
     private EstadoSobreGiro estado;
@@ -111,6 +112,17 @@ public class SobreGiro implements java.io.Serializable {
         this.interes = interes;
     }
 
+    @XmlElement
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_CREACION", nullable = false, length = 7)
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+    
     @XmlElement
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "FECHA_LIMITE_PAGO", nullable = false, length = 7)

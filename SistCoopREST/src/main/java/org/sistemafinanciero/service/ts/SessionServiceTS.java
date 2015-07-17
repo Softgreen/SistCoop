@@ -2,6 +2,7 @@ package org.sistemafinanciero.service.ts;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,6 +42,8 @@ public interface SessionServiceTS {
 	public BigInteger crearTransaccionCheque(String numeroChequeUnico, BigDecimal monto, String tipoDocumento, String numeroDocumento, String persona, String observacion) throws RollbackFailureException;
 	
 	public BigInteger crearTransaccionGiro(BigInteger idAgenciaOrigen, BigInteger idAgenciaDestino, String numeroDocumentoEmisor, String clienteEmisor, String numeroDocumentoReceptor, String clienteReceptor, BigInteger idMoneda, BigDecimal monto, BigDecimal comision, LugarPagoComision lugarPagoComision, boolean estadoPagoComision) throws RollbackFailureException;
+	
+	public BigInteger crearTransaccionSobreGiro(BigInteger idSocio, BigInteger idMoneda, BigDecimal monto, BigDecimal interes, Date fechaLimitePago) throws RollbackFailureException;
 	
 	public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException;
 
