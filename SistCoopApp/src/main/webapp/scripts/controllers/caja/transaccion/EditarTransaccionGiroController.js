@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
   'use strict';
-  controllers.controller('EditarTransaccionGiroController', ["$scope", "$state", "PersonaNaturalService", "AgenciaService", "SessionService", "GiroService",
-    function ($scope, $state, PersonaNaturalService, AgenciaService, SessionService, GiroService) {
+  controllers.controller('EditarTransaccionGiroController', ["$scope","$state","$filter","PersonaNaturalService", "AgenciaService", "SessionService", "GiroService",
+    function ($scope, $state, $filter, PersonaNaturalService, AgenciaService, SessionService, GiroService) {
 
       $scope.giro = {};
 
