@@ -92,7 +92,7 @@ define(['../module'], function (controllers) {
                     } else {
                     	qz.append(($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, $scope.transaccionBovedaCaja.moneda.simbolo)));
                     }
-                    //qz.append(($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, $scope.transaccionBovedaCaja.moneda.simbolo)));
+                     //qz.append(($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, $scope.transaccionBovedaCaja.moneda.simbolo)));
                     qz.append("\r\n");
                     //}
                 }
