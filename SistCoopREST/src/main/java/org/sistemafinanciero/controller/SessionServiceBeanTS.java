@@ -1779,6 +1779,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
     }
 
+    @AllowedTo(Permission.ABIERTO)
+    @AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
     @Override
     public BigInteger crearTransaccionSobreGiro(BigInteger idSocio, BigInteger idMoneda, BigDecimal monto,
             BigDecimal interes, Date fechaLimitePago) throws RollbackFailureException {
