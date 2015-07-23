@@ -142,7 +142,30 @@
                       </div>
                     </div>
                   </div>
-
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="form-group" ng-class="{ 'has-error' : form.fechaLimitePago.$invalid && control.submitted}">
+                        <label>Fecha pago</label>
+                        <label style="color: brown;">(*)</label>
+                        <div class="input-group">
+                          <input type="date" name="fechaLimitePago" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="view.fechaLimitePago" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="dd/mm/yyyy" required>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="open($event)">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                        </button>
+                    </span>
+                        </div>
+                        <div ng-show="form.fechaLimitePago.$invalid && control.submitted">
+                          <p class="help-block" ng-show="form.fechanacimiento.$error.required">
+                            Ingrese Fecha.
+                          </p>
+                          <p class="help-block" ng-show="form.fechaLimitePago.$invalid">
+                            Fecha no Valida.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
@@ -154,7 +177,7 @@
                             <span ng-bind="transaccion.monto | currency : ''"/>
                           </p>
                           <p>
-                            Monto por Comisi&oacute;n:
+                            Interes:
                             <span ng-bind="getTipoMoneda().simbolo"></span>
                             <span ng-bind="transaccion.interes | currency : ''"/>
                           </p>

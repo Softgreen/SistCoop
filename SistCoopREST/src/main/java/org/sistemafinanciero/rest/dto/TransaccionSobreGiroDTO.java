@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "transaccionGiroDTO")
+@XmlRootElement(name = "transaccionSobreGiroDTO")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class TransaccionSobreGiroDTO implements Serializable {
 

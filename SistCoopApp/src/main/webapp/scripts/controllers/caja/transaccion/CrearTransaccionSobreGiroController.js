@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
   'use strict';
-  controllers.controller('CrearTransaccionSobreGiroController', ["$scope", "$state", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "MaestroService", "MonedaService",
-    function ($scope, $state, PersonaNaturalService, PersonaJuridicaService, SocioService, MaestroService, MonedaService) {
+  controllers.controller('CrearTransaccionSobreGiroController', ["$scope", "$state", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "MaestroService", "MonedaService","SessionService",
+    function ($scope, $state, PersonaNaturalService, PersonaJuridicaService, SocioService, MaestroService, MonedaService, SessionService) {
 
       $scope.control = {
         success: false,
@@ -26,7 +26,19 @@ define(['../../module'], function (controllers) {
         idMoneda: undefined,
         monto: '0',
         interes: '10',
-        tipoInteres: 'FIJO'//PORCENTUAL
+        tipoInteres: 'FIJO',//PORCENTUAL,
+        fechaLimitePago: undefined
+      };
+
+      $scope.dateOptions = {
+        formatYear: 'yyyy',
+        startingDay: 1
+      };
+
+      $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
       };
 
       $scope.$watch('view.tipoPersona', function (newValue, oldValue) {
@@ -115,40 +127,33 @@ define(['../../module'], function (controllers) {
       };
 
       //transaccion
-      $scope.crearTransaccion = function () {
-        if ($scope.form.$valid) {
-
+      $scope.crearTransaccion = function(){
+        if($scope.form.$valid){
+          $scope.control.inProcess = true;
           var transaccion = {
-            "idAgenciaOrigen": $scope.view.idAgenciaOrigen,
-            "idAgenciaDestino": $scope.view.idAgenciaDestino,
-
-            "numeroDocumentoEmisor": $scope.view.numeroDocumentoEmisor,
-            "clienteEmisor": $scope.view.nombreClienteEmisor,
-            "numeroDocumentoReceptor": $scope.view.numeroDocumentoReceptor,
-            "clienteReceptor": $scope.view.nombreClienteReceptor,
-
+            "idSocio" : $scope.socio.id,
             "idMoneda": $scope.view.idMoneda,
-            "lugarPagoComision": $scope.view.lugarPagoComision,
-            "monto": $scope.transaccion.monto,
-            "comision": $scope.transaccion.comision,
-            "estadoPagoComision": $scope.transaccion.estadoPagoComision
+            "monto" : $scope.transaccion.monto,
+            "interes" : $scope.transaccion.interes,
+            "fechaLimitePago" : $scope.view.fechaLimitePago.getTime()
           };
 
-          SessionService.crearTransaccionGiro(transaccion).then(
-            function (data) {
-              $state.transitionTo('app.transaccion.editarGiro', {id: data.id});
+          SessionService.crearTransaccionSobreGiro(transaccion).then(
+            function(data){
+              $scope.control.success = true;
+              $scope.control.inProcess = false;
+              $state.transitionTo('app.transaccion.depositoRetiroVoucher', { id: data.id });
             },
-            function error(error) {
-              $scope.alerts = [{type: "danger", msg: "Error: " + error.data.message + "."}];
-              $scope.closeAlert = function (index) {
-                $scope.alerts.splice(index, 1);
-              };
+            function error(error){
+              $scope.control.inProcess = false;
+              $scope.control.success = false;
+              $scope.alerts = [{ type: "danger", msg: "Error: " + error.data.message + "."}];
+              $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
             }
           );
         } else {
           $scope.control.submitted = true;
         }
-
       };
 
       $scope.cancelar = function () {
