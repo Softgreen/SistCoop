@@ -68,34 +68,40 @@ define(['../../module'], function (controllers) {
         qz.append("\x1B\x40");															//reset printer
         qz.append("\x1B\x21\x08");														//texto en negrita
         qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
-        qz.append("CASA DE CAMBIOS VENTURA\r\n");											// \r\n salto de linea
+        qz.append("CASA DE CAMBIOS VENTURA\r\n");										// \r\n salto de linea
 
-        qz.append(" OPERACION EN EFECTIVO: GIRO " + "\r\n");
-        // \t tabulador
+        if (($scope.giro.estado) == "ENVIADO") {
+        	qz.append("GIRO EN EFECTIVO" + "\r\n");
+        } else if (($scope.giro.estado) == "COBRADO") {
+        	qz.append("COBRO DE GIRO" + "\r\n");
+        }
+        //qz.append(" OPERACION EN EFECTIVO: GIRO " + "\r\n");
+        																				// \t tabulador
         qz.append("\x1B\x21\x01");														//texto normal (no negrita)
         qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
 
-        qz.append("CAJA:" + "\t" + ($scope.cajaSession.abreviatura) + "\t\t" + "Nro OP:" + "\t" + ($scope.giro.id) + "\r\n");
-        qz.append("FECHA:" + "\t" + ($filter('date')($scope.giro.fechaEnvio, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.giro.fechaEnvio, 'HH:mm:ss')) + "\r\n");
+        qz.append("CAJA:" + "\t\t" + ($scope.cajaSession.abreviatura) + "\t" + "Nro OP:" + ($scope.giro.id) + "\r\n");
+        qz.append("FECHA:" + "\t\t" + ($filter('date')($scope.giro.fechaEnvio, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.giro.fechaEnvio, 'HH:mm:ss')) + "\r\n");
         qz.append("ORDENANTE:" + "\t" + ($scope.giro.clienteEmisor) + "\r\n");
-        qz.append("BENEFICIARIO:" + "\t" + ($scope.giro.numeroDocumentoReceptor + ' ' + $scope.giro.clienteReceptor) + "\r\n");
+        qz.append("BENEFICIARIO:" + ($scope.giro.clienteReceptor) + "\r\n");
+        qz.append("AG. ORIGEN:  " + ($scope.giro.agenciaOrigen.abreviatura) + "\r\n");
+        qz.append("AG. DESTINO: " + ($scope.giro.agenciaDestino.abreviatura) + "\r\n");
         qz.append("MONEDA:" + "\t" + ($scope.giro.moneda.denominacion) + "\r\n");
 
         if (($scope.giro.estado) == "ENVIADO") {
-          qz.append("\r\n");
-          qz.append("MONTO:" + "\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
+          qz.append("MONTO:" + "\t\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
           qz.append("\r\n");
           qz.append(String.fromCharCode(27) + "\x61" + "\x31");
           qz.append("Verifique su dinero antes  de retirarse de ventanilla" + "\r\n");
-        } else if (($scope.giro.estado) == "DESEMBOLSADO") {
+        } else if (($scope.giro.estado) == "COBRADO") {
+          qz.append("MONTO:" + "\t\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
           qz.append("\r\n");
-          qz.append("MONTO:" + "\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
           qz.append("\r\n");
           qz.append("\r\n");
           qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-          qz.append("_________________" + "\r\n");
+          qz.append("__________________" + "\r\n");
           qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-          //qz.append("Firma Titular(es)" + "\r\n");
+          qz.append("Firma BENEFICIARIO" + "\r\n");
           qz.append("\r\n");
           qz.append(String.fromCharCode(27) + "\x61" + "\x31");
           qz.append("Verifique su dinero antes de retirarse  de ventanilla" + "\r\n");
