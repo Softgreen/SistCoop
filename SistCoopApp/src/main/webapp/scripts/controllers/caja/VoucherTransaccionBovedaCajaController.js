@@ -53,8 +53,16 @@ define(['../module'], function (controllers) {
                 qz.append("ORIGEN:" + "\t" + " " + ($scope.transaccionBovedaCaja.origenTransaccion) + "\r\n");
                 qz.append("DESTINO:" + " " + ($scope.transaccionBovedaCaja.destinoTransaccion) + "\r\n");
                 qz.append("FECHA:" + "\t" + " " + ($filter('date')($scope.transaccionBovedaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionBovedaCaja.hora, 'HH:mm:ss')) + "\r\n");
-                qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
-                qz.append("MONTO:" + "\t"+ " " + ($filter('currency')($scope.transaccionBovedaCaja.monto, $scope.transaccionBovedaCaja.moneda.simbolo)) + "\r\n");
+                
+                if($scope.transaccionBovedaCaja.moneda.simbolo == "€"){            
+                	qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + chr(238) + ")" + "\r\n");
+                	qz.append("MONTO:" + "\t"+ " " + ($filter('currency')($scope.transaccionBovedaCaja.monto, chr(238))) + "\r\n");
+                } else {
+                	qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
+                	qz.append("MONTO:" + "\t"+ " " + ($filter('currency')($scope.transaccionBovedaCaja.monto, $scope.transaccionBovedaCaja.moneda.simbolo)) + "\r\n");
+                }
+                //qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
+                //qz.append("MONTO:" + "\t"+ " " + ($filter('currency')($scope.transaccionBovedaCaja.monto, $scope.transaccionBovedaCaja.moneda.simbolo)) + "\r\n");
                 if ($scope.transaccionBovedaCaja.estadoSolicitud) {
                 	qz.append("ESTADO SOLICTUD:" + " " + "SOLICITADO" + "\r\n");
 				}else{
