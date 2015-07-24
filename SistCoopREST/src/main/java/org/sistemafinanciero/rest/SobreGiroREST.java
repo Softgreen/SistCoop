@@ -11,16 +11,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.sistemafinanciero.entity.Giro;
 import org.sistemafinanciero.entity.SobreGiro;
-import org.sistemafinanciero.entity.type.EstadoGiro;
+import org.sistemafinanciero.entity.type.EstadoSobreGiro;
 
 @Path("/sobreGiros")
 public interface SobreGiroREST {
 
     @GET
     @Produces({ "application/xml", "application/json" })
-    public Response findAll(@QueryParam("estado") EstadoGiro[] estadosGiro);
+    public Response findAll(@QueryParam("estado") EstadoSobreGiro[] estadosGiro,
+            @QueryParam("filterText") String filterText, @QueryParam("offset") Integer offset,
+            @QueryParam("limit") Integer limit);
 
     @GET
     @Path("/{id}")

@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,9 +37,16 @@ import org.sistemafinanciero.entity.type.EstadoSobreGiro;
 @Table(name = "SOBRE_GIRO", schema = "BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "sobreGiro")
 @XmlAccessorType(XmlAccessType.NONE)
+@NamedQueries({
+        @NamedQuery(name = SobreGiro.FindAll, query = "SELECT p FROM SobreGiro p ORDER BY p.estado"),
+        @NamedQuery(name = SobreGiro.FindByFilterTextPN, query = "SELECT s FROM SobreGiro s INNER JOIN s.socio so INNER JOIN so.personaNatural p WHERE s.estado IN :estados AND ( p.numeroDocumento LIKE :filterText OR UPPER(CONCAT(p.apellidoPaterno,' ', p.apellidoMaterno,' ',p.nombres)) LIKE :filterText)"),
+        @NamedQuery(name = SobreGiro.FindByFilterTextPJ, query = "SELECT s FROM SobreGiro s INNER JOIN s.socio so INNER JOIN so.personaJuridica p WHERE s.estado IN :estados AND ( p.numeroDocumento LIKE :filterText OR UPPER(p.razonSocial) LIKE :filterText)") })
 public class SobreGiro implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
+    public final static String FindAll = "SobreGiro.FindAll";
+    public final static String FindByFilterTextPN = "SobreGiro.FindByFilterTextPN";
+    public final static String FindByFilterTextPJ = "SobreGiro.FindByFilterTextPJ";
 
     private BigInteger idSobreGiro;
 
@@ -122,7 +131,7 @@ public class SobreGiro implements java.io.Serializable {
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
-    
+
     @XmlElement
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "FECHA_LIMITE_PAGO", nullable = false, length = 7)
