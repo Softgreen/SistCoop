@@ -26,6 +26,7 @@ define([
     './VariablesSistema',
 
     './GiroService',
+    './SobreGiroService',
 
     './HotKeysFunctionsService',
     './VariablesService'

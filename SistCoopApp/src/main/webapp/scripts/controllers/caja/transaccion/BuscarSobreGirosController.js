@@ -1,29 +1,22 @@
 define(['../../module'], function (controllers) {
   'use strict';
-  controllers.controller('BuscarSobreGirosController', ['$scope', '$state', '$filter', '$modal', 'CajaService', 'AgenciaService', 'SessionService',
-    function ($scope, $state, $filter, $modal, CajaService, AgenciaService, SessionService) {
+  controllers.controller('BuscarSobreGirosController', ['$scope', '$state', '$filter', '$modal', 'CajaService', 'SobreGiroService', 'SessionService',
+    function ($scope, $state, $filter, $modal, CajaService, SobreGiroService, SessionService) {
 
       $scope.nuevo = function () {
         $state.transitionTo('app.transaccion.crearSobreGiro');
       };
 
-      $scope.loadGirosEnviados = function () {
-        AgenciaService.getGirosEnviados($scope.agenciaSession.id).then(function (enviados) {
-          $scope.transaccionesEnviadas = enviados;
+      $scope.loadSobreGiros = function () {
+        //ACA PONER PARAMETROS
+        SobreGiroService.getSobreGiros().then(function (data) {
+          $scope.transacciones = data;
         });
       };
-      $scope.loadGirosRecibidos = function () {
-        AgenciaService.getGirosRecibidos($scope.agenciaSession.id).then(function (recibidos) {
-          $scope.transaccionesRecibidas = recibidos;
-        });
-      };
-
-      $scope.loadGirosEnviados();
-      $scope.loadGirosRecibidos();
 
       //cobro de giros
       $scope.gridOptions = {
-        data: 'transaccionesRecibidas',
+        data: 'transacciones',
         multiSelect: false,
         columnDefs: [
           {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy HH:mm:ss'", displayName: 'FECHA ENVIO', width: 115},
@@ -45,8 +38,8 @@ define(['../../module'], function (controllers) {
             }]
       };
 
-      $scope.verGiro = function (giro) {
-        $state.transitionTo("app.transaccion.editarGiro", {id: giro.id});
+      $scope.verSobreGiro = function (row) {
+        $state.transitionTo("app.transaccion.editarSobreGiro", {id: row.id});
       };
 
     }]);
