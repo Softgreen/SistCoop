@@ -135,12 +135,12 @@ define(['../../module'], function (controllers) {
           {field: "estado", displayName: "ESTADO", width: 90},
           {
             displayName: 'EDITAR',
-            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>',
+            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Pagar</button></div>',
             width: 80
           }]
       };
 
-      $scope.verSobreGiro = function (row) {
+      $scope.editar = function (row) {
         $state.transitionTo("app.transaccion.editarSobreGiro", {id: row.id});
       };
 

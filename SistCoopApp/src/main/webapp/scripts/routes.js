@@ -591,6 +591,17 @@ define(['./app'], function (app) {
             }
           }
         })
+        .state('app.transaccion.editarSobreGiro', {
+          url: "/editarSobreGiro/:id",
+          views: {
+            "viewContent": {
+              templateUrl: "views/cajero/transaccion/editarSobreGiro.html",
+              controller: function ($scope, $stateParams) {
+                $scope.id = $stateParams.id;
+              }
+            }
+          }
+        })
         .state('app.transaccion.buscarTransaccion', {
           url: "/buscarTransaccion",
           views: {
