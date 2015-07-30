@@ -3,6 +3,93 @@ define(['../../module'], function (controllers) {
   controllers.controller('BuscarSobreGirosController', ['$scope', '$state', '$filter', '$modal', 'CajaService', 'SobreGiroService', 'SessionService',
     function ($scope, $state, $filter, $modal, CajaService, SobreGiroService, SessionService) {
 
+      $scope.view = {
+        filterText: ""
+      };
+
+      $scope.filterOptions = {
+        filterText: "",
+        useExternalFilter: true
+      };
+      $scope.totalServerItems = 0;
+      $scope.pagingOptions = {
+        pageSizes: [10, 20, 40],
+        pageSize: 10,
+        currentPage: 1
+      };
+      $scope.setPagingData = function (data, page, pageSize) {
+        $scope.transacciones = data;
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }
+      };
+      $scope.getDesde = function () {
+        return ($scope.pagingOptions.pageSize * $scope.pagingOptions.currentPage) - $scope.pagingOptions.pageSize;
+      };
+      $scope.getHasta = function () {
+        return ($scope.pagingOptions.pageSize);
+      };
+      //carga inicial de datos
+      $scope.getPagedDataInitial = function () {
+        $scope.pagingOptions.currentPage = 1;
+        SobreGiroService.getSobreGiros({
+          estado: ['ACTIVO'],
+          filterText: '',
+          offset: $scope.getDesde(),
+          limit: $scope.getHasta()
+        }).then(function (data) {
+          $scope.transacciones = data;
+          $scope.setPagingData($scope.transacciones, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+        });
+
+        $scope.totalServerItems = 10000;
+      };
+      $scope.getPagedDataInitial();
+      $scope.getPagedDataSearched = function () {
+        if ($scope.filterOptions.filterText) {
+          var ft = $scope.filterOptions.filterText.toUpperCase();
+          SobreGiroService.getSobreGiros({
+            estado: ['ACTIVO'],
+            filterText: ft,
+            offset: $scope.getDesde(),
+            limit: $scope.getHasta()
+          }).then(function (data) {
+            $scope.view.filterText = ft;
+            $scope.pagingOptions.currentPage = 1;
+            $scope.setPagingData(data, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+          });
+          $scope.totalServerItems = 10000;
+        } else {
+          $scope.getPagedDataInitial();
+        }
+        $scope.setInitialFocus();
+      };
+
+      $scope.$watch(
+        function () {
+          return {
+            currentPage: $scope.pagingOptions.currentPage,
+            pageSize: $scope.pagingOptions.pageSize
+          };
+        },
+        function (newVal, oldVal) {
+          if (newVal.pageSize !== oldVal.pageSize) {
+            $scope.pagingOptions.currentPage = 1;
+          }
+
+          var ft = $scope.filterOptions.filterText.toUpperCase();
+          SobreGiroService.getSobreGiros({
+            estado: ['ACTIVO'],
+            filterText: ft,
+            offset: $scope.getDesde(),
+            limit: $scope.getHasta()
+          }).then(function (data) {
+            $scope.transacciones = data;
+            $scope.setPagingData($scope.transacciones, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+          });
+        }, true);
+
+
       $scope.nuevo = function () {
         $state.transitionTo('app.transaccion.crearSobreGiro');
       };
@@ -14,28 +101,43 @@ define(['../../module'], function (controllers) {
         });
       };
 
-      //cobro de giros
+
       $scope.gridOptions = {
         data: 'transacciones',
         multiSelect: false,
+        enablePaging: true,
+        showFooter: true,
+        totalServerItems: 'totalServerItems',
+        pagingOptions: $scope.pagingOptions,
+        filterOptions: $scope.filterOptions,
         columnDefs: [
-          {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy HH:mm:ss'", displayName: 'FECHA ENVIO', width: 115},
-          {displayName: 'CLIENTE RECEPTOR', cellTemplate: '<div ng-class="col.colIndex()"><span>{{row.entity.clienteReceptor}}</span></div>'},
-          {displayName: 'CLIENTE EMISOR', cellTemplate: '<div ng-class="col.colIndex()"><span>{{row.entity.clienteEmisor}}</span></div>', width: 160},
-          {displayName: 'AG. ORIGEN', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col8 colt8"><span>{{row.entity.agenciaOrigen.abreviatura}}</span></div>', width: 90},
-          {displayName: 'MONEDA', cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col2 colt2" style="text-align: center;"><span>{{row.entity.moneda.simbolo}}</span></div>', width:30},
-          {field: "monto", displayName: 'MONTO', cellFilter: "currency: ''", width: 70},
-          {field: "comision", displayName: 'COMISION', cellFilter: "currency: ''", width: 70},
-          {field: "lugarPagoComision", displayName: 'PAGO COMISION', width: 100},
-          {field: "estado", displayName: 'ESTADO', width: 80},
           {
-              displayName: 'EDIT',
-              width: 65,
-              cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;">' +
-              '<button type="button" ng-click="verGiro(row.entity)" class="btn btn-primary btn-xs">' +
-              'Detalle</button>' +
-              '</div>'
-            }]
+            displayName: 'Doc.',
+            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText" style="text-align: left;">' +
+            '<span ng-show="row.entity.socio.personaNatural" ng-bind-template="{{row.entity.socio.personaNatural.tipoDocumento.abreviatura}}:{{row.entity.socio.personaNatural.numeroDocumento}}"></span>' +
+            '<span ng-show="row.entity.socio.personaJuridica" ng-bind-template="{{row.entity.socio.personaJuridica.tipoDocumento.abreviatura}}:{{row.entity.socio.personaJuridica.numeroDocumento}}"></span>' +
+            '</div>',
+            width: 90
+          },
+          {
+            displayName: 'Cliente',
+            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText" style="text-align: left;">' +
+            '<span ng-show="row.entity.socio.personaNatural" ng-bind-template="{{row.entity.socio.personaNatural.apellidoPaterno}} {{row.entity.socio.personaNatural.apellidoMaterno}}, {{row.entity.socio.personaNatural.nombres}}"></span>' +
+            '<span ng-show="row.entity.socio.personaJuridica" ng-bind-template="{{row.entity.socio.personaJuridica.razonSocial}}"></span>' +
+            '</div>',
+            width: 210
+          },
+          {field: "fechaCreacion", displayName: "F.Crea", cellFilter: "date: 'dd/MM/yyyy'", width: 80},
+          {field: "fechaLimitePago", displayName: "F.Pago", cellFilter: "date: 'dd/MM/yyyy'", width: 80},
+          {field: "moneda.simbolo", displayName: "M.", width: 30},
+          {field: "monto", displayName: "MONTO", cellFilter: "currency: ''", width: 100},
+          {field: "interes", displayName: "INTERES", cellFilter: "currency: ''", width: 100},
+          {field: "estado", displayName: "ESTADO", width: 90},
+          {
+            displayName: 'EDITAR',
+            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="editar(row.entity)"><span class="glyphicon glyphicon-share"></span>Edit</button></div>',
+            width: 80
+          }]
       };
 
       $scope.verSobreGiro = function (row) {

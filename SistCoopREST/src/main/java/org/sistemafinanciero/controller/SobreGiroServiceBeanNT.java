@@ -1,6 +1,10 @@
 package org.sistemafinanciero.controller;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -18,6 +22,7 @@ import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.SobreGiro;
 import org.sistemafinanciero.entity.Socio;
+import org.sistemafinanciero.entity.TipoDocumento;
 import org.sistemafinanciero.entity.type.EstadoSobreGiro;
 import org.sistemafinanciero.service.nt.SobreGiroServiceNT;
 
@@ -63,11 +68,15 @@ public class SobreGiroServiceBeanNT implements SobreGiroServiceNT {
         }
         Integer offSetInteger = offset.intValue();
         Integer limitInteger = (limit != null ? limit.intValue() : null);
+       
+        List<EstadoSobreGiro> estados = Arrays.asList(estadosGiro);
 
         QueryParameter queryParameter = QueryParameter.with("filterText",
-                '%' + filterText.toUpperCase() + '%').and("estados", estadosGiro);
+                '%' + filterText.toUpperCase() + '%').and("estados", EnumSet.copyOf(estados));
+
         List<SobreGiro> resultPN = sobreGiroDAO.findByNamedQuery(SobreGiro.FindByFilterTextPN,
                 queryParameter.parameters(), offSetInteger, limitInteger);
+
         List<SobreGiro> resultPJ = sobreGiroDAO.findByNamedQuery(SobreGiro.FindByFilterTextPJ,
                 queryParameter.parameters(), offSetInteger, limitInteger);
 
@@ -79,10 +88,13 @@ public class SobreGiroServiceBeanNT implements SobreGiroServiceNT {
             PersonaJuridica pj = socio.getPersonaJuridica();
             Moneda moneda = sobreGiro.getMoneda();
 
+            TipoDocumento tipoDocumento = pn != null ? pn.getTipoDocumento() : pj.getTipoDocumento();
+            
             Hibernate.initialize(socio);
             Hibernate.initialize(pn);
             Hibernate.initialize(pj);
             Hibernate.initialize(moneda);
+            Hibernate.initialize(tipoDocumento);
         }
         return resultPN;
     }

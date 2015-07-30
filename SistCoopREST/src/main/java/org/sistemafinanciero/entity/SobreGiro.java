@@ -39,8 +39,8 @@ import org.sistemafinanciero.entity.type.EstadoSobreGiro;
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({
         @NamedQuery(name = SobreGiro.FindAll, query = "SELECT p FROM SobreGiro p ORDER BY p.estado"),
-        @NamedQuery(name = SobreGiro.FindByFilterTextPN, query = "SELECT s FROM SobreGiro s INNER JOIN s.socio so INNER JOIN so.personaNatural p WHERE s.estado IN :estados AND ( p.numeroDocumento LIKE :filterText OR UPPER(CONCAT(p.apellidoPaterno,' ', p.apellidoMaterno,' ',p.nombres)) LIKE :filterText)"),
-        @NamedQuery(name = SobreGiro.FindByFilterTextPJ, query = "SELECT s FROM SobreGiro s INNER JOIN s.socio so INNER JOIN so.personaJuridica p WHERE s.estado IN :estados AND ( p.numeroDocumento LIKE :filterText OR UPPER(p.razonSocial) LIKE :filterText)") })
+        @NamedQuery(name = SobreGiro.FindByFilterTextPN, query = "SELECT s FROM SobreGiro s INNER JOIN s.socio so INNER JOIN so.personaNatural p WHERE s.estado IN (:estados) AND ( p.numeroDocumento LIKE :filterText OR UPPER(CONCAT(p.apellidoPaterno,' ', p.apellidoMaterno,' ',p.nombres)) LIKE :filterText)"),
+        @NamedQuery(name = SobreGiro.FindByFilterTextPJ, query = "SELECT s FROM SobreGiro s INNER JOIN s.socio so INNER JOIN so.personaJuridica p WHERE s.estado IN (:estados) AND ( p.numeroDocumento LIKE :filterText OR UPPER(p.razonSocial) LIKE :filterText)") })
 public class SobreGiro implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
