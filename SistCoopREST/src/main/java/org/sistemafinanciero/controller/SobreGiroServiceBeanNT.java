@@ -1,9 +1,7 @@
 package org.sistemafinanciero.controller;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -17,6 +15,7 @@ import javax.inject.Named;
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
+import org.sistemafinanciero.entity.HistorialPagoSobreGiro;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
@@ -35,10 +34,27 @@ public class SobreGiroServiceBeanNT implements SobreGiroServiceNT {
     @Inject
     private DAO<Object, SobreGiro> sobreGiroDAO;
 
+    @Inject
+    private DAO<Object, HistorialPagoSobreGiro> historialPagoSobreGiroDAO;
+
     @Override
     public SobreGiro findById(BigInteger id) {
-        // TODO Auto-generated method stub
-        return null;
+        SobreGiro sobreGiro = sobreGiroDAO.find(id);
+
+        Socio socio = sobreGiro.getSocio();
+        PersonaNatural pn = socio.getPersonaNatural();
+        PersonaJuridica pj = socio.getPersonaJuridica();
+        Moneda moneda = sobreGiro.getMoneda();
+
+        TipoDocumento tipoDocumento = pn != null ? pn.getTipoDocumento() : pj.getTipoDocumento();
+
+        Hibernate.initialize(socio);
+        Hibernate.initialize(pn);
+        Hibernate.initialize(pj);
+        Hibernate.initialize(moneda);
+        Hibernate.initialize(tipoDocumento);
+
+        return sobreGiro;
     }
 
     @Override
@@ -68,7 +84,7 @@ public class SobreGiroServiceBeanNT implements SobreGiroServiceNT {
         }
         Integer offSetInteger = offset.intValue();
         Integer limitInteger = (limit != null ? limit.intValue() : null);
-       
+
         List<EstadoSobreGiro> estados = Arrays.asList(estadosGiro);
 
         QueryParameter queryParameter = QueryParameter.with("filterText",
@@ -89,7 +105,7 @@ public class SobreGiroServiceBeanNT implements SobreGiroServiceNT {
             Moneda moneda = sobreGiro.getMoneda();
 
             TipoDocumento tipoDocumento = pn != null ? pn.getTipoDocumento() : pj.getTipoDocumento();
-            
+
             Hibernate.initialize(socio);
             Hibernate.initialize(pn);
             Hibernate.initialize(pj);
@@ -99,4 +115,28 @@ public class SobreGiroServiceBeanNT implements SobreGiroServiceNT {
         return resultPN;
     }
 
+    @Override
+    public List<HistorialPagoSobreGiro> findHistorialPagoById(BigInteger idSobreGiro) {
+        QueryParameter parameters = QueryParameter.with("idSobreGiro", idSobreGiro);
+        List<HistorialPagoSobreGiro> list = historialPagoSobreGiroDAO.findByNamedQuery(
+                HistorialPagoSobreGiro.findByIdSobreGiro, parameters.parameters());
+
+        for (HistorialPagoSobreGiro historialPagoSobreGiro : list) {
+            SobreGiro sobreGiro = historialPagoSobreGiro.getSobreGiro();
+            Socio socio = sobreGiro.getSocio();
+            PersonaNatural pn = socio.getPersonaNatural();
+            PersonaJuridica pj = socio.getPersonaJuridica();
+            Moneda moneda = sobreGiro.getMoneda();
+
+            TipoDocumento tipoDocumento = pn != null ? pn.getTipoDocumento() : pj.getTipoDocumento();
+
+            Hibernate.initialize(socio);
+            Hibernate.initialize(pn);
+            Hibernate.initialize(pj);
+            Hibernate.initialize(moneda);
+            Hibernate.initialize(tipoDocumento);
+        }
+
+        return list;
+    }
 }

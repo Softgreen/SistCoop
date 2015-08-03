@@ -4,10 +4,15 @@ import java.math.BigInteger;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response;
 
+import org.sistemafinanciero.entity.HistorialPagoSobreGiro;
 import org.sistemafinanciero.entity.SobreGiro;
 import org.sistemafinanciero.entity.type.EstadoSobreGiro;
+import org.sistemafinanciero.exception.RollbackFailureException;
+import org.sistemafinanciero.rest.Jsend;
 import org.sistemafinanciero.rest.SobreGiroREST;
 import org.sistemafinanciero.service.nt.SobreGiroServiceNT;
 import org.sistemafinanciero.service.ts.SobreGiroServiceTS;
@@ -33,20 +38,24 @@ public class SobreGiroRESTService implements SobreGiroREST {
 
     @Override
     public Response findById(BigInteger id) {
-        // TODO Auto-generated method stub
-        return null;
+        SobreGiro sobreGiro = sobreGiroServiceNT.findById(id);
+        return Response.status(Response.Status.OK).entity(sobreGiro).build();
     }
 
     @Override
     public Response create(SobreGiro sobreGiro) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new BadRequestException();
     }
 
     @Override
     public Response update(BigInteger id, SobreGiro sobreGiro) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new BadRequestException();
     }
+
+    @Override
+    public Response getHistorial(BigInteger id) {
+        List<HistorialPagoSobreGiro> historiales = sobreGiroServiceNT.findHistorialPagoById(id);
+        return Response.status(Response.Status.OK).entity(historiales).build();
+    }   
 
 }

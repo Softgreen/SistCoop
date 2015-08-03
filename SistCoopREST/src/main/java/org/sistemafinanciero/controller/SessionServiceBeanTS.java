@@ -42,6 +42,7 @@ import org.sistemafinanciero.entity.DetalleHistorialCaja;
 import org.sistemafinanciero.entity.Giro;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.HistorialCaja;
+import org.sistemafinanciero.entity.HistorialPagoSobreGiro;
 import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
@@ -180,6 +181,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
     @Inject
     private DAO<Object, SobreGiro> sobreGiroDAO;
+
+    @Inject
+    private DAO<Object, HistorialPagoSobreGiro> historialPagoSobreGiroDAO;
 
     @Inject
     private EntityManagerProducer em;
@@ -1810,6 +1814,47 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
         // actualizar saldo caja
         this.actualizarSaldoCaja(monto, moneda.getIdMoneda());
+        return sobreGiro.getIdSobreGiro();
+    }
+
+    @Override
+    public BigInteger crearTransaccionHistorialSobreGiro(BigInteger idSobreGiro, BigDecimal monto)
+            throws RollbackFailureException {
+        SobreGiro sobreGiro = sobreGiroDAO.find(idSobreGiro);
+        if (sobreGiro == null)
+            throw new RollbackFailureException("Sobregiro no encontrado");
+        if (!sobreGiro.getEstado().equals(EstadoSobreGiro.ACTIVO))
+            throw new RollbackFailureException("Sobregiro no activo");
+        if (monto.compareTo(BigDecimal.ZERO) != 1) {
+            throw new RollbackFailureException("Monto invalido para transaccion");
+        }
+        
+        BigDecimal montoTotalDeuda = sobreGiro.getMonto().add(sobreGiro.getInteres());
+        BigDecimal montoActualPagado = BigDecimal.ZERO;
+        Set<HistorialPagoSobreGiro> list = sobreGiro.getHistorialPagos();
+        for (HistorialPagoSobreGiro historialPagoSobreGiro : list) {
+            montoActualPagado = montoActualPagado.add(historialPagoSobreGiro.getMonto());
+        }
+        
+        if(montoTotalDeuda.compareTo(montoActualPagado.add(monto)) == 0){
+            sobreGiro.setEstado(EstadoSobreGiro.PAGADO);
+            sobreGiroDAO.update(sobreGiro);
+        } else if (montoTotalDeuda.compareTo(montoActualPagado.add(monto)) == 1) {
+            
+        } else if (montoTotalDeuda.compareTo(montoActualPagado.add(monto)) == -1) {
+            throw new RollbackFailureException("El monto enviado supera al saldo total de deuda");
+        }
+        
+        // crear trasccion
+        Calendar calendar = Calendar.getInstance();
+        HistorialPagoSobreGiro historialPagoSobreGiro = new HistorialPagoSobreGiro();
+        historialPagoSobreGiro.setFecha(calendar.getTime());
+        historialPagoSobreGiro.setMonto(monto);
+        historialPagoSobreGiro.setSobreGiro(sobreGiro);
+        historialPagoSobreGiroDAO.create(historialPagoSobreGiro);
+
+        // actualizar saldo caja
+        this.actualizarSaldoCaja(monto.negate(), sobreGiro.getMoneda().getIdMoneda());
         return sobreGiro.getIdSobreGiro();
     }
 

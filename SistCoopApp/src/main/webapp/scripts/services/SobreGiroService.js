@@ -15,6 +15,10 @@ define(['./module'], function (services) {
         },
         getSobreGiros: function (queryParams) {
           return Restangular.all(baseUrl).getList(queryParams);
+        },
+
+        getHistoriales: function (idSobreGiro) {
+          return Restangular.one(baseUrl, idSobreGiro).all('historiales').getList();
         }
       }
     }])

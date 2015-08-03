@@ -2,13 +2,13 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigInteger;
 
+import javax.ejb.EJBException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.Validator;
 
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.entity.SobreGiro;
@@ -26,26 +26,20 @@ public class SobreGiroServiceBeanTS implements SobreGiroServiceTS {
     @Inject
     private DAO<Object, SobreGiro> sobreGiroDAO;
 
-    @Inject
-    private Validator validator;
-
     @Override
     public BigInteger create(SobreGiro t) throws PreexistingEntityException, RollbackFailureException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new EJBException();
     }
 
     @Override
     public void update(BigInteger id, SobreGiro t) throws NonexistentEntityException,
             PreexistingEntityException, RollbackFailureException {
-        // TODO Auto-generated method stub
-
+        throw new EJBException();
     }
 
     @Override
     public void delete(BigInteger id) throws NonexistentEntityException, RollbackFailureException {
-        // TODO Auto-generated method stub
-
+        throw new EJBException();
     }
 
 }

@@ -37,4 +37,13 @@ public interface SobreGiroREST {
     @Produces({ "application/xml", "application/json" })
     public Response update(@PathParam("id") BigInteger id, SobreGiro sobreGiro);
 
+    /**
+     * Historial
+     */
+
+    @GET
+    @Path("/{id}/historiales")
+    @Produces({ "application/xml", "application/json" })
+    public Response getHistorial(@PathParam("id") BigInteger id);
+    
 }

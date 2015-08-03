@@ -26,6 +26,7 @@ import org.sistemafinanciero.rest.dto.TransaccionChequeDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 import org.sistemafinanciero.rest.dto.TransaccionGiroDTO;
+import org.sistemafinanciero.rest.dto.TransaccionHistorialSobreGiroDTO;
 import org.sistemafinanciero.rest.dto.TransaccionSobreGiroDTO;
 import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
 
@@ -113,6 +114,12 @@ public interface SessionREST {
     @Consumes({ "application/xml", "application/json" })
     @Produces({ "application/xml", "application/json" })
     public Response crearTransaccionSobreGiro(TransaccionSobreGiroDTO transaccion);
+	
+	@POST
+    @Path("/transaccionSobreGiro/pagar")
+    @Consumes({ "application/xml", "application/json" })
+    @Produces({ "application/xml", "application/json" })
+    public Response crearTransaccionHistorialSobreGiro(TransaccionHistorialSobreGiroDTO historial);
 	
 	@POST
 	@Path("/transaccion/{id}/extornar")

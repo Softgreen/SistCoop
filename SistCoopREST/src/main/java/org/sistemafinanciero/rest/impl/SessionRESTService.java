@@ -58,6 +58,7 @@ import org.sistemafinanciero.rest.dto.TransaccionChequeDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCompraVentaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionCuentaAporteDTO;
 import org.sistemafinanciero.rest.dto.TransaccionGiroDTO;
+import org.sistemafinanciero.rest.dto.TransaccionHistorialSobreGiroDTO;
 import org.sistemafinanciero.rest.dto.TransaccionSobreGiroDTO;
 import org.sistemafinanciero.rest.dto.TransferenciaBancariaDTO;
 import org.sistemafinanciero.service.nt.PersonaJuridicaServiceNT;
@@ -532,6 +533,27 @@ public class SessionRESTService implements SessionREST {
 
             BigInteger idTransaccion = sessionServiceTS.crearTransaccionSobreGiro(idSocio, idMoneda, monto,
                     interes, fechaLimitePago);
+
+            response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion))
+                    .build();
+        } catch (RollbackFailureException e) {
+            Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+        } catch (EJBException e) {
+            Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+        }
+        return response;
+    }
+
+    @Override
+    public Response crearTransaccionHistorialSobreGiro(TransaccionHistorialSobreGiroDTO historial) {
+        Response response;
+        try {
+            BigInteger idSobreGiro = historial.getIdSobreGiro();
+            BigDecimal monto = historial.getMonto();
+           
+            BigInteger idTransaccion = sessionServiceTS.crearTransaccionHistorialSobreGiro(idSobreGiro, monto);
 
             response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion))
                     .build();
