@@ -178,7 +178,7 @@ define(['../module'], function (controllers) {
                             $scope.alerts = [{ type: "danger", msg: "Persona Jur&iacute;dica No Encontrada."}];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }else{
-                        	$scope.alerts = [{ type: "success", msg: "Persona (Socio) Encontrada."}];
+                        	$scope.alerts = [{ type: "success", msg: "Persona Encontrada."}];
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
                     },function error(error){
