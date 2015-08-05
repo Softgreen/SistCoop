@@ -3,6 +3,7 @@ define(['../module'], function (controllers) {
     controllers.controller('CrearCuentaPlazoFijoController', [ "$scope", "$state", "$filter", "$window", "$timeout", "$location","$modal", "focus", "MaestroService", "MonedaService", "PersonaNaturalService", "PersonaJuridicaService", "SocioService", "TasaInteresService", "CuentaBancariaService","SessionService","RedirectService",
         function($scope,$state,$filter,$window,$timeout,$location,$modal,focus,MaestroService,MonedaService,PersonaNaturalService,PersonaJuridicaService,SocioService,TasaInteresService,CuentaBancariaService,SessionService,RedirectService) {
 
+    	
             $scope.viewState = 'app.socio.crearCuentaBancaria';
 
             $scope.focusElements = {
