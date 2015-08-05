@@ -142,7 +142,7 @@ define(['../../module'], function (controllers) {
             function(data){
               $scope.control.success = true;
               $scope.control.inProcess = false;
-              $state.transitionTo('app.transaccion.depositoRetiroVoucher', { id: data.id });
+              $state.transitionTo('app.transaccion.editarSobreGiro', { id: data.id });
             },
             function error(error){
               $scope.control.inProcess = false;
