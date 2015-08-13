@@ -3,11 +3,11 @@ define(['./module'], function (services) {
     services.factory('ConfiguracionService',function(){
 
         var appName = 'SistCoop';
-        var restApiUrl = 'http://192.168.1.11:8080/SistCoopREST/rest';
+        var restApiUrl = 'http://192.168.1.100:8080/SistCoopREST/rest';
         //var restApiUrl = 'http://localhost:8080/SistCoopREST/rest';
 
         //var keycloakApiUrl = 'http://localhost:8080/auth/admin'; 
-        var keycloakApiUrl = 'http://192.168.1.11:8080/auth/admin';
+        var keycloakApiUrl = 'http://192.168.1.100:8080/auth/admin';
 
         var defaultPrinterName = "EPSON TM-U220";
         var cookiePrinterName = "DefaultPrinterName";
