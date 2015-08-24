@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.ServiceUrlConstants;
+import org.keycloak.constants.ServiceUrlConstants;
 import org.keycloak.util.KeycloakUriBuilder;
 
 /**
