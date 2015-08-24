@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.keycloak.ServiceUrlConstants;
+import org.keycloak.constants.ServiceUrlConstants;
 import org.keycloak.util.KeycloakUriBuilder;
 
 /**
@@ -18,21 +18,29 @@ import org.keycloak.util.KeycloakUriBuilder;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String logoutUri = KeycloakUriBuilder.fromUri("/auth").path(ServiceUrlConstants.TOKEN_SERVICE_LOGOUT_PATH).queryParam("redirect_uri", "/" + Configuration.appName).build(Configuration.realName).toString();
-		response.setContentType("text/html");
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		response.sendRedirect(response.encodeRedirectURL(logoutUri));
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+            IOException {
+        StringBuffer requestUrl = request.getRequestURL();
+        int indexBase = requestUrl.indexOf(request.getServletContext().getContextPath());
 
-	public static String getBaseUrl(HttpServletRequest request) {
-		String url = request.getRequestURL().toString();
-		return url.substring(0, url.indexOf('/', 8));
-	}
+        String logoutUri = KeycloakUriBuilder.fromUri("/auth")
+                .path(ServiceUrlConstants.TOKEN_SERVICE_LOGOUT_PATH)
+                .queryParam("redirect_uri", requestUrl.substring(0, indexBase) + "/" + Configuration.appName)
+                .build(Configuration.realName).toString();
+
+        response.setContentType("text/html");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        response.sendRedirect(response.encodeRedirectURL(logoutUri));
+    }
+
+    public static String getBaseUrl(HttpServletRequest request) {
+        String url = request.getRequestURL().toString();
+        return url.substring(0, url.indexOf('/', 8));
+    }
 
 }
