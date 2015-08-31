@@ -45,7 +45,7 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
 
-                qz.append("MULTISERVICIOS DEL SUR\r\n");											// \r\n salto de linea
+                qz.append("MULTIVALORES DEL SUR\r\n");											// \r\n salto de linea
                 qz.append("TRANSACCION ENTIDAD/BOVEDA " + "\r\n");
 
                 // \t tabulador

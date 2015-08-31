@@ -31,7 +31,7 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x40");
                 qz.append("\x1B\x21\x08");
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-                qz.append("MULTISERVICIOS DEL SUR\r\n");
+                qz.append("MULTIVALORES DEL SUR\r\n");
                 qz.append("RESUMEN DE OPERACIONES\r\n");
 
                 qz.append("\x1B\x21\x01");
