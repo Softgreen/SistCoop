@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * 
  */
 @Entity
-@Table(name = "HISTORIAL_APORTES_VIEW", schema = "BDSISTEMAFINANCIERO")
+@Table(name = "HISTORIAL_APORTES_VIEW", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "historial_aportes_view")
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({ @NamedQuery(name = HistorialAportesView.findByIdSocioAndFecha, query = "SELECT h from HistorialAportesView h WHERE h.idSocio = :idSocio AND h.fecha BETWEEN :desde AND :hasta") })

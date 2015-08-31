@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
-@Table(name = "VARIABLE_SISTEMA", schema = "BDSISTEMAFINANCIERO")
+@Table(name = "VARIABLE_SISTEMA", schema = "C##BDSISTEMAFINANCIERO")
 @NamedQuery(name = "VariableSistema.findAll", query = "SELECT v FROM VariableSistema v")
 @NamedQueries({ @NamedQuery(name = VariableSistema.findByDenominacion, query = "SELECT v FROM VariableSistema v WHERE v.denominacion = :denominacion") })
 public class VariableSistema implements Serializable {

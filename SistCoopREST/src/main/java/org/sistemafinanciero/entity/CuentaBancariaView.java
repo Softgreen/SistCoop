@@ -21,7 +21,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name = "CUENTA_BANCARIA_VIEW", schema = "BDSISTEMAFINANCIERO")
+@Table(name = "CUENTA_BANCARIA_VIEW", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "cuentabancariaview")
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({

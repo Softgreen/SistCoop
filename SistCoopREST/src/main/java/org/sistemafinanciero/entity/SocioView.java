@@ -27,7 +27,7 @@ import org.sistemafinanciero.entity.type.TipoPersona;
  * 
  */
 @Entity
-@Table(name = "SOCIO_VIEW", schema = "BDSISTEMAFINANCIERO")
+@Table(name = "SOCIO_VIEW", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "socioview")
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({ @NamedQuery(name = SocioView.findAll, query = "SELECT sv FROM SocioView sv WHERE sv.estadoSocio IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"), @NamedQuery(name = SocioView.FindAllHaveCuentaAporte, query = "SELECT sv FROM SocioView sv WHERE sv.idCuentaAporte IS NOT NULL AND sv.estadoSocio IN :modeEstado ORDER BY sv.socio, sv.idsocio ASC"), @NamedQuery(name = SocioView.FindByFilterTextSocioView, query = "SELECT sv FROM SocioView sv WHERE sv.estadoSocio IN :modeEstado AND (sv.socio LIKE :filtertext or sv.numeroDocumento like :filtertext) ORDER BY sv.socio, sv.idsocio ASC"),

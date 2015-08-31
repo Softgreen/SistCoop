@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.sistemafinanciero.entity.type.TipoPendiente;
 
 @Entity
-@Table(name = "PENDIENTE_CAJA", schema = "BDSISTEMAFINANCIERO")
+@Table(name = "PENDIENTE_CAJA", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "pendientecaja")
 @XmlAccessorType(XmlAccessType.NONE)
 public class PendienteCaja implements java.io.Serializable {
