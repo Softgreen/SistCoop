@@ -31,12 +31,12 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x40");
                 qz.append("\x1B\x21\x08");
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-                qz.append("CASA DE CAMBIOS VENTURA\r\n");
+                qz.append("MULTISERVICIOS DEL SUR\r\n");
                 qz.append("RESUMEN DE OPERACIONES\r\n");
-                
+
                 qz.append("\x1B\x21\x01");
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");
-                
+
                 qz.append("AGENCIA: " + $scope.resumenCaja.agencia + "\r\n");
                 qz.append("CAJA   : " + $scope.resumenCaja.caja + "\r\n");
                 qz.append("FEC. APERT.: " + ($filter('date')($scope.resumenCaja.fechaApertura, 'dd/MM/yyyy'))+ " ");
@@ -107,7 +107,7 @@ define(['../module'], function (controllers) {
 				qz.append("____________" + "\t\t" + "_______________" + "\r\n");
 				qz.append(String.fromCharCode(27) + "\x61" + "\x30");
                 qz.append("Firma Cajero" + "\t\t" + "Firma Jefe Caja" + "\r\n");
-                
+
                 qz.append("\x1D\x56\x41"); // 4
                 qz.append("\x1B\x40"); // 5
                 qz.print();
@@ -127,7 +127,7 @@ define(['../module'], function (controllers) {
 
                 qz.append("\x1B\x21\x01");
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");
-                
+
                 qz.append("AGENCIA: " + $scope.voucherPrint.agencia + "\r\n");
                 qz.append("CAJA   : " + $scope.voucherPrint.caja + "\r\n");
                 qz.append("FEC. APERT.: " + ($filter('date')($scope.voucherPrint.fechaApertura, 'dd/MM/yyyy'))+ " ");
@@ -144,7 +144,7 @@ define(['../module'], function (controllers) {
                 qz.append("  ");
                 qz.append("Subtotal");
                 qz.append("\r\n");
-                
+
                 qz.append("\x1B\x21\x01"); // 3
                 for(var i = 0; i<$scope.voucherPrint.detalle.length;i++){
                 	qz.append(String.fromCharCode(27) + "\x61" + "\x30");
@@ -152,12 +152,12 @@ define(['../module'], function (controllers) {
                 	qz.append("\t\t");
                 	qz.append($scope.voucherPrint.detalle[i].cantidad.toString());
                 	qz.append("\t" + "     ");
-                	
-                	if($scope.voucherPrint.moneda.simbolo == "€"){            
+
+                	if($scope.voucherPrint.moneda.simbolo == "€"){
                     	qz.append(($filter('currency')($scope.voucherPrint.detalle[i].valor * $scope.voucherPrint.detalle[i].cantidad,  chr(238))) + "\r\n");
                     } else {
                     	qz.append(($filter('currency')($scope.voucherPrint.detalle[i].valor * $scope.voucherPrint.detalle[i].cantidad, $scope.voucherPrint.moneda.simbolo))+ "\r\n");
-                    } 
+                    }
                 }
 
                 qz.append("\n");
@@ -175,7 +175,7 @@ define(['../module'], function (controllers) {
 				qz.append("____________" + "\t\t" + "_______________" + "\r\n");
 				qz.append(String.fromCharCode(27) + "\x61" + "\x30");
                 qz.append("Firma Cajero" + "\t\t" + "Firma Jefe Caja" + "\r\n");
-                
+
                 qz.append("\x1D\x56\x41"); // 4
                 qz.append("\x1B\x40"); // 5
                 qz.print();

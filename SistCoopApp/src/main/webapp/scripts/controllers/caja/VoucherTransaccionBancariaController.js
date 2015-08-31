@@ -45,26 +45,26 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x40");															//reset printer
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
-                qz.append("CASA DE CAMBIOS VENTURA\r\n");											// \r\n salto de linea
-                
+                qz.append("MULTISERVICIOS DEL SUR\r\n");											// \r\n salto de linea
+
                 qz.append(($scope.transaccionCuentaBancaria.tipoTransaccion) + " CUENTA " + ($scope.transaccionCuentaBancaria.tipoCuentaBancaria) + "\r\n");
                 																				// \t tabulador
                 qz.append("\x1B\x21\x01");														//texto normal (no negrita)
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
-                
+
                 qz.append(($scope.transaccionCuentaBancaria.agenciaAbreviatura) + "\t\t" + "TRANS:" + "\t" + ($scope.transaccionCuentaBancaria.idTransaccionBancaria) + "\r\n");
-                qz.append("CAJA:" + "\t" + ($scope.transaccionCuentaBancaria.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + ($scope.transaccionCuentaBancaria.numeroOperacion) + "\r\n");                
+                qz.append("CAJA:" + "\t" + ($scope.transaccionCuentaBancaria.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + ($scope.transaccionCuentaBancaria.numeroOperacion) + "\r\n");
                 qz.append("FECHA:" + "\t" + ($filter('date')($scope.transaccionCuentaBancaria.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionCuentaBancaria.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("CUENTA:" + "\t" + ($scope.transaccionCuentaBancaria.numeroCuenta) + "\r\n");
                 qz.append("SOCIO:" + "\t" + ($scope.transaccionCuentaBancaria.socio) + "\r\n");
                 qz.append("MONEDA:" + "\t" + ($scope.transaccionCuentaBancaria.moneda.denominacion) + "\r\n");
-                
+
                 if(!angular.isUndefined($scope.transaccionCuentaBancaria.referencia))
                 	qz.append("REF:" + "\t" + ($scope.transaccionCuentaBancaria.referencia) + "\r\n");
                 else{
                 	qz.append(" ");
                 }
-                	
+
                 if (($scope.transaccionCuentaBancaria.tipoTransaccion)=="DEPOSITO") {
                 	qz.append("\r\n");
                     qz.append("IMPORTE RECIBIDO:" + "\t" + ($filter('currency')($scope.transaccionCuentaBancaria.monto, $scope.transaccionCuentaBancaria.moneda.simbolo)) + "\r\n");

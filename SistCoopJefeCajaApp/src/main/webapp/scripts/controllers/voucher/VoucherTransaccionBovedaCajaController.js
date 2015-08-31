@@ -45,7 +45,7 @@ define(['../module'], function (controllers) {
 
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
-                qz.append("CASA DE CAMBIOS VENTURA\r\n");											// \r\n salto de linea
+                qz.append("MULTISERVICIOS DEL SUR\r\n");											// \r\n salto de linea
                 if ($scope.transaccionBovedaCaja.origen == "CAJA") {
                     qz.append("TRANSACCION CAJA/BOVEDA " + "\r\n");
                 }
@@ -61,8 +61,8 @@ define(['../module'], function (controllers) {
                 qz.append("ORIGEN:" + "\t" + " " + ($scope.transaccionBovedaCaja.origenTransaccion) + "\r\n");
                 qz.append("DESTINO:" + " " + ($scope.transaccionBovedaCaja.destinoTransaccion) + "\r\n");
                 qz.append("FECHA:" + "\t" + " " + ($filter('date')($scope.transaccionBovedaCaja.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionBovedaCaja.hora, 'HH:mm:ss')) + "\r\n");
-                
-                if($scope.transaccionBovedaCaja.moneda.simbolo == "€"){            
+
+                if($scope.transaccionBovedaCaja.moneda.simbolo == "€"){
                 	qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + chr(238) + ")" + "\r\n");
                 } else {
                 	qz.append("MONEDA:" + "\t" + " " + ($scope.transaccionBovedaCaja.moneda.denominacion) + "(" + $scope.transaccionBovedaCaja.moneda.simbolo + ")" + "\r\n");
@@ -86,8 +86,8 @@ define(['../module'], function (controllers) {
                     qz.append("\t\t");
                     qz.append($scope.objetosCargados.detalleTransaccion[i].cantidad.toString());
                     qz.append("\t" + "   ");
-                    
-                    if($scope.transaccionBovedaCaja.moneda.simbolo == "€"){            
+
+                    if($scope.transaccionBovedaCaja.moneda.simbolo == "€"){
                     	qz.append(($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, chr(238))));
                     } else {
                     	qz.append(($filter('currency')($scope.objetosCargados.detalleTransaccion[i].valor * $scope.objetosCargados.detalleTransaccion[i].cantidad, $scope.transaccionBovedaCaja.moneda.simbolo)));
@@ -98,8 +98,8 @@ define(['../module'], function (controllers) {
                 }
 
                 qz.append(String.fromCharCode(27) + "\x61" + "\x32");							//texto a la derecha
-                
-                if($scope.transaccionBovedaCaja.moneda.simbolo == "€"){            
+
+                if($scope.transaccionBovedaCaja.moneda.simbolo == "€"){
                 	qz.append("MONTO TRANSACCION: " + ($filter('currency')($scope.transaccionBovedaCaja.monto, chr(238))) + "\r\n");
                 } else {
                 	qz.append("MONTO TRANSACCION: " + ($filter('currency')($scope.transaccionBovedaCaja.monto, $scope.transaccionBovedaCaja.moneda.simbolo)) + "\r\n");

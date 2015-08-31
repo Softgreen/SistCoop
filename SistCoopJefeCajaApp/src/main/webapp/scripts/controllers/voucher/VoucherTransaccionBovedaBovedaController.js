@@ -6,9 +6,9 @@ define(['../module'], function (controllers) {
     	 	$scope.objetosCargados = {
              	detalleTransaccion: []
              };
-    	
+
             $scope.loadVoucher = function(){
-                if(!angular.isUndefined($scope.id)){ 
+                if(!angular.isUndefined($scope.id)){
                 	BovedaService.getVoucherTransaccionBovedaBoveda($scope.id).then(
                         function(data){
                             $scope.transaccion = data;
@@ -17,7 +17,7 @@ define(['../module'], function (controllers) {
                             alert("Transaccion no encontrada");
                         }
                     );
-                	
+
                 	BovedaService.getDetalleTransaccionBovedaBoveda($scope.id).then(
                         function(data){
                         	$scope.objetosCargados.detalleTransaccion = data;
@@ -28,7 +28,7 @@ define(['../module'], function (controllers) {
                     );
                 };
             };
-            
+
             $scope.loadVoucher();
 
             $scope.salir = function(){
@@ -45,9 +45,9 @@ define(['../module'], function (controllers) {
 
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
-                qz.append("CASA DE CAMBIOS VENTURA\r\n");											// \r\n salto de linea
+                qz.append("MULTISERVICIOS DEL SUR\r\n");											// \r\n salto de linea
                 qz.append("TRANSACCION BOVEDA/BOVEDA " + "\r\n");
-               
+
                 // \t tabulador
                 qz.append("\x1B\x21\x01");														//texto normal (no negrita)
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda

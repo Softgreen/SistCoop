@@ -35,15 +35,15 @@ define(['../module'], function (controllers) {
                 if (notReady()) {return;}
                 											//Elegir impresora
                 qz.append("\x1B\x40");															//reset printer
-                
+
                 qz.append("\x1B\x21\x08");														//texto en negrita
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
-                qz.append("CASA DE CAMBIOS VENTURA\r\n");											// \r\n salto de linea
+                qz.append("MULTISERVICIOS DEL SUR\r\n");											// \r\n salto de linea
                 qz.append("TRANSFERENCIA BANCARIA " + "\r\n");
                 																				// \t tabulador
                 qz.append("\x1B\x21\x01");														//texto normal (no negrita)
                 qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
-                
+
                 qz.append(($scope.transferenciaCuentaBancaria.agenciaAbreviatura) + "\t\t" + "TRANS:" + "\t" + ($scope.transferenciaCuentaBancaria.id) + "\r\n");
                 qz.append("CAJA:" + "\t" + ($scope.transferenciaCuentaBancaria.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + ($scope.transferenciaCuentaBancaria.numeroOperacion) + "\r\n");
                 qz.append("FECHA:" + "\t" + ($filter('date')($scope.transferenciaCuentaBancaria.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transferenciaCuentaBancaria.hora, 'HH:mm:ss')) + "\r\n");
@@ -57,7 +57,7 @@ define(['../module'], function (controllers) {
                 else{
                 	qz.append(" ");
                 }
-                	
+
                 if (($scope.transaccionCuentaBancaria.tipoTransaccion)=="DEPOSITO") {
                 	qz.append("\r\n");
                     qz.append("IMPORTE RECIBIDO:" + "\t" + ($filter('currency')($scope.transferenciaCuentaBancaria.monto, $scope.transferenciaCuentaBancaria.moneda.simbolo)) + "\r\n");
