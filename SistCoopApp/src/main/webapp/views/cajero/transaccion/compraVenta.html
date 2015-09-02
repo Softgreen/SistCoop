@@ -23,19 +23,10 @@
                                 <input focus-on="focusNumeroDocumento" type="text" name="numeroDocumento" ui-keypress="{13:'buscarCliente($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" autofocus/>
                                 <span class="input-group-btn">
                                   <button type="button" class="btn btn-default" ng-click="buscarCliente()">
-                                      <span lass="glyphicon glyphicon-search"></span>
+                                      <span class="glyphicon glyphicon-search"></span>
                                   </button>
                                 </span>
                             </div>
-                            <div class="input-group">
-                              <input focus-on="focusFilterText" name="filterText" class="form-control ng-pristine ng-valid" ng-model="filterOptions.filterText" placeholder="Número Documento / Apellidos y Nombres" capitalize="" autofocus="" type="text">
-                              <span class="input-group-btn">
-                                  <button type="submit" class="btn btn-default">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                  </button>
-                              </span>
-                            </div>
-
                             <div ng-show="formCrearCompraVenta.numeroDocumento.$invalid && (control.submitted || formCrearCompraVenta.numeroDocumento.$dirty)">
                                 <p class="help-block" ng-show="formCrearCompraVenta.numeroDocumento.$error.required">
                                     Ingrese Numero Documento Valido.
