@@ -37,7 +37,7 @@ public class VariableSistemaRESTService implements VariableSistemaREST {
 	}
 
 	@Override
-	public Response findTasaAhorroByMoneda(BigInteger idMonedaRecibida,
+	public Response findTasaByMoneda(BigInteger idMonedaRecibida,
 			BigInteger idMonedaEntregada) {
 		// TODO Auto-generated method stub
 		return null;

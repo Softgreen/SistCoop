@@ -48,21 +48,21 @@ define(['../module'], function (controllers) {
                 qz.append("\r\n");
                 qz.append("\x1B\x40");
                 qz.append("\x1B\x21\x08");
-                qz.append("DEPOSITOS (TOTAL): " + ($scope.resumenCaja.depositosAporte + $scope.resumenCaja.depositosAhorro + $scope.resumenCaja.depositosPlazoFijo + $scope.resumenCaja.depositosCorriente)+"\n");
+                qz.append("DEPOSITOS (TOTAL): " + ($scope.resumenCaja.depositosAporte + $scope.resumenCaja.depositosLibre + $scope.resumenCaja.depositosPlazoFijo + $scope.resumenCaja.depositosRecaudadora)+"\n");
                 qz.append("\x1B\x21\x01");
                 qz.append("C.APORTE:" + $scope.resumenCaja.depositosAporte + "\t");
-                qz.append("C.AHORRO:" + $scope.resumenCaja.depositosAhorro + "\r\n");
+                qz.append("C.LIBRE:" + $scope.resumenCaja.depositosLibre + "\r\n");
                 qz.append("C.P.FIJO:" + $scope.resumenCaja.depositosPlazoFijo + "\t");
-                qz.append("C.CORRIENTE:" + $scope.resumenCaja.depositosCorriente + "\r\n");
+                qz.append("C.RECAUDADORA:" + $scope.resumenCaja.depositosRecaudadora + "\r\n");
 
                 qz.append("\x1B\x40");
                 qz.append("\x1B\x21\x08");
-                qz.append("RETIROS (TOTAL): " + ($scope.resumenCaja.retirosAporte + $scope.resumenCaja.retirosAhorro + $scope.resumenCaja.retirosPlazoFijo + $scope.resumenCaja.retirosCorriente)+"\n");
+                qz.append("RETIROS (TOTAL): " + ($scope.resumenCaja.retirosAporte + $scope.resumenCaja.retirosLibre + $scope.resumenCaja.retirosPlazoFijo + $scope.resumenCaja.retirosRecaudadora)+"\n");
                 qz.append("\x1B\x21\x01");
                 qz.append("C.APORTE:"+$scope.resumenCaja.retirosAporte+"\t");
-                qz.append("C.AHORRO:"+$scope.resumenCaja.retirosAhorro+"\r\n");
+                qz.append("C.LIBRE:"+$scope.resumenCaja.retirosLibre+"\r\n");
                 qz.append("C.P.FIJO:"+$scope.resumenCaja.retirosPlazoFijo+"\t");
-                qz.append("C.CORRIENTE:"+$scope.resumenCaja.retirosCorriente+"\r\n");
+                qz.append("C.RECAUDADORA:"+$scope.resumenCaja.retirosRecaudadora+"\r\n");
 
                 qz.append("\x1B\x40"); // 1
                 qz.append("\x1B\x21\x08"); // 2

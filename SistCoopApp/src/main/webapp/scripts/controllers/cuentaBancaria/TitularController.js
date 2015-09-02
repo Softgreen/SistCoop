@@ -36,7 +36,7 @@ define(['../module'], function (controllers) {
 
             $scope.nuevaPersona = function(){
                 $scope.$parent.setTabTitularesActive();
-                var savedParameters = 'AHORRO';
+                var savedParameters = 'LIBRE';
                 var sendParameters = {
                     tipoDocumento: $scope.$parent.view.idTipoDocumentoTitular,
                     numeroDocumento: $scope.$parent.view.numeroDocumentoTitular

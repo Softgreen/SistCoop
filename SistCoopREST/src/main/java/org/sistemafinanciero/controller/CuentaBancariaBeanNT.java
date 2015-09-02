@@ -262,7 +262,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 		CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuentaBancaria);
 		if(cuentaBancaria == null)
 			return null;
-		if(!cuentaBancaria.getTipoCuentaBancaria().equals(TipoCuentaBancaria.CORRIENTE)){
+		if(!cuentaBancaria.getTipoCuentaBancaria().equals(TipoCuentaBancaria.RECAUDADORA)){
 			return null;
 		}
 		

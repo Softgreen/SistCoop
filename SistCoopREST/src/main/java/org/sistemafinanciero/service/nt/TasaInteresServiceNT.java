@@ -10,9 +10,9 @@ public interface TasaInteresServiceNT extends AbstractServiceNT<TasaInteresServi
 
 	public BigDecimal getTasaInteresCuentaPlazoFijo(BigInteger idMoneda, int periodo, BigDecimal monto);
 
-	public BigDecimal getTasaInteresCuentaAhorro(BigInteger idMoneda);
+	public BigDecimal getTasaInteresCuentaLibre(BigInteger idMoneda);
 
-	public BigDecimal getTasaInteresCuentaCorriente(BigInteger idMoneda);
+	public BigDecimal getTasaInteresCuentaRecaudadora(BigInteger idMoneda);
 
 	public BigDecimal getInteresGenerado(BigDecimal monto, int periodo, BigDecimal tasaInteres);
 

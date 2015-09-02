@@ -1,5 +1,18 @@
 package org.sistemafinanciero.entity.type;
 
 public enum TipoCuentaBancaria {
-	AHORRO, PLAZO_FIJO, CORRIENTE
+    /**
+     * Representa a la cuenta de ahorros
+     */
+    LIBRE,
+
+    /**
+     * Representa a la cuenta de plazo fijo
+     */
+    PLAZO_FIJO,
+
+    /**
+     * Representa a la cuenta corriente
+     */
+    RECAUDADORA
 }

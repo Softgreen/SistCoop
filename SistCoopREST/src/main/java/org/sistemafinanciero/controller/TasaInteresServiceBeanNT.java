@@ -48,12 +48,12 @@ public class TasaInteresServiceBeanNT implements TasaInteresServiceNT {
 	}
 
 	@Override
-	public BigDecimal getTasaInteresCuentaAhorro(BigInteger idMoneda) {
+	public BigDecimal getTasaInteresCuentaLibre(BigInteger idMoneda) {
 		Moneda moneda = monedaDAO.find(idMoneda);
 		ValorTasaInteres valorTasaInteres = null;
 		if (moneda == null)
 			return null;
-		QueryParameter queryParameter = QueryParameter.with("tasaInteresDenominacion", TasaInteresType.TASA_CUENTA_AHORRO.toString()).and("idMoneda", idMoneda);
+		QueryParameter queryParameter = QueryParameter.with("tasaInteresDenominacion", TasaInteresType.TASA_CUENTA_LIBRE.toString()).and("idMoneda", idMoneda);
 		List<ValorTasaInteres> list = valorTasaInteresDAO.findByNamedQuery(ValorTasaInteres.finByDenominacionTasaAndIdMoneda, queryParameter.parameters());
 		if (list.size() == 1)
 			valorTasaInteres = list.get(0);
@@ -65,12 +65,12 @@ public class TasaInteresServiceBeanNT implements TasaInteresServiceNT {
 	}
 
 	@Override
-	public BigDecimal getTasaInteresCuentaCorriente(BigInteger idMoneda) {
+	public BigDecimal getTasaInteresCuentaRecaudadora(BigInteger idMoneda) {
 		Moneda moneda = monedaDAO.find(idMoneda);
 		ValorTasaInteres valorTasaInteres = null;
 		if (moneda == null)
 			return null;
-		QueryParameter queryParameter = QueryParameter.with("tasaInteresDenominacion", TasaInteresType.TASA_CUENTA_CORRIENTE.toString()).and("idMoneda", idMoneda);
+		QueryParameter queryParameter = QueryParameter.with("tasaInteresDenominacion", TasaInteresType.TASA_CUENTA_RECAUDADORA.toString()).and("idMoneda", idMoneda);
 		List<ValorTasaInteres> list = valorTasaInteresDAO.findByNamedQuery(ValorTasaInteres.finByDenominacionTasaAndIdMoneda, queryParameter.parameters());
 		if (list.size() == 1)
 			valorTasaInteres = list.get(0);

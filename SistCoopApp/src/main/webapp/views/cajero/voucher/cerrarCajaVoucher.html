@@ -44,7 +44,7 @@
 						<thead>
 							<tr>
 								<th colspan="4">DEPOSITOS(TOTAL): <span
-									ng-bind="resumenCaja.depositosAporte + resumenCaja.depositosAhorro + resumenCaja.depositosPlazoFijo + resumenCaja.depositosCorriente" />
+									ng-bind="resumenCaja.depositosAporte + resumenCaja.depositosLibre + resumenCaja.depositosPlazoFijo + resumenCaja.depositosRecaudadora" />
 								</th>
 							</tr>
 						</thead>
@@ -52,14 +52,14 @@
 							<tr>
 								<td>C. Aporte</td>
 								<td><span ng-bind="resumenCaja.depositosAporte" /></td>
-								<td>C. Ahorro</td>
-								<td><span ng-bind="resumenCaja.depositosAhorro" /></td>
+								<td>C. Libre</td>
+								<td><span ng-bind="resumenCaja.depositosLibre" /></td>
 							</tr>
 							<tr>
 								<td>C. Plazo Fijo</td>
 								<td><span ng-bind="resumenCaja.depositosPlazoFijo" /></td>
-								<td>C. Corriente</td>
-								<td><span ng-bind="resumenCaja.depositosCorriente" /></td>
+								<td>C. Recaudadora</td>
+								<td><span ng-bind="resumenCaja.depositosRecaudadora" /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -67,7 +67,7 @@
 						<thead>
 							<tr>
 								<th colspan="4">RETIROS(TOTAL): <span
-									ng-bind="resumenCaja.retirosAporte+resumenCaja.retirosAhorro+resumenCaja.retirosPlazoFijo+resumenCaja.retirosCorriente" />
+									ng-bind="resumenCaja.retirosAporte+resumenCaja.retirosLibre+resumenCaja.retirosPlazoFijo+resumenCaja.retirosRecaudadora" />
 								</th>
 							</tr>
 						</thead>
@@ -75,14 +75,14 @@
 							<tr>
 								<td>C. Aporte</td>
 								<td><span ng-bind="resumenCaja.retirosAporte" /></td>
-								<td>C. Ahorro</td>
-								<td><span ng-bind="resumenCaja.retirosAhorro" /></td>
+								<td>C. Libre</td>
+								<td><span ng-bind="resumenCaja.retirosLibre" /></td>
 							</tr>
 							<tr>
 								<td>C. Plazo Fijo</td>
 								<td><span ng-bind="resumenCaja.retirosPlazoFijo" /></td>
-								<td>C. Corriente</td>
-								<td><span ng-bind="resumenCaja.retirosCorriente" /></td>
+								<td>C. Recaudadora</td>
+								<td><span ng-bind="resumenCaja.retirosRecaudadora" /></td>
 							</tr>
 						</tbody>
 					</table>

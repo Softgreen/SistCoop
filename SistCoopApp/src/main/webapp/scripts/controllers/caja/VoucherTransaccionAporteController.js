@@ -53,7 +53,7 @@ define(['../module'], function (controllers) {
                 qz.append("CAJA:" + "\t" + ($scope.transaccionCuentaAporte.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + ($scope.transaccionCuentaAporte.numeroOperacion) + "\r\n");
                 qz.append("FECHA:" + "\t" + ($filter('date')($scope.transaccionCuentaAporte.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccionCuentaAporte.hora, 'HH:mm:ss')) + "\r\n");
                 qz.append("CUENTA:" + "\t" + ($scope.transaccionCuentaAporte.numeroCuenta) + "\r\n");
-                qz.append("SOCIO:" + "\t" + ($scope.transaccionCuentaAporte.socio) + "\r\n");
+                qz.append("CLIENTE:" + "\t" + ($scope.transaccionCuentaAporte.socio) + "\r\n");
                 //qz.append("MONEDA:" + "\t" + ($scope.transaccionCuentaAporte.moneda.denominacion) + "\r\n");
 
                 if(!angular.isUndefined($scope.transaccionCuentaAporte.referencia))

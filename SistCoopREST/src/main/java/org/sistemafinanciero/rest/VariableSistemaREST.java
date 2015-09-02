@@ -36,7 +36,7 @@ public interface VariableSistemaREST {
 	@GET
 	@Path("/tasaCambio")
 	@Produces({ "application/xml", "application/json" })
-	public Response findTasaAhorroByMoneda(@QueryParam("idMonedaRecibida") BigInteger idMonedaRecibida, @QueryParam("idMonedaEntregada") BigInteger idMonedaEntregada);
+	public Response findTasaByMoneda(@QueryParam("idMonedaRecibida") BigInteger idMonedaRecibida, @QueryParam("idMonedaEntregada") BigInteger idMonedaEntregada);
 
 	@GET
 	@Path("/mayorCuantia")

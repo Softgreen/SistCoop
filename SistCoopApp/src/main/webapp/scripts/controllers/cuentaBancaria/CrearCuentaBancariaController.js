@@ -15,9 +15,9 @@ define(['../module'], function (controllers) {
                     var state = RedirectService.getNextState();
                     if(state == $scope.viewState){
                         var obj = RedirectService.getNextParamsState();
-                        if(obj == 'AHORRO'){
+                        if(obj == 'LIBRE'){
                             $scope.cuentaSelected = $scope.cuentaAhorro;
-                        } else if(obj == 'CORRIENTE'){
+                        } else if(obj == 'RECAUDADORA'){
                             $scope.cuentaSelected = $scope.cuentaCorriente;
                         } else if(obj == 'PLAZO_FIJO'){
                             $scope.cuentaSelected = $scope.cuentaPlazoFijo;

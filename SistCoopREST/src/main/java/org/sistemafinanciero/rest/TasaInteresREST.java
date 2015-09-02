@@ -33,14 +33,14 @@ import org.sistemafinanciero.rest.dto.TasaCambioDTO;
 public interface TasaInteresREST {
 
 	@GET
-	@Path("/ahorro/{idMoneda}")
+	@Path("/libre/{idMoneda}")
 	@Produces({ "application/xml", "application/json" })
-	public Response findTasaAhorroByMoneda(@PathParam("idMoneda") BigInteger idMoneda);
+	public Response findTasaCuentaLibreByMoneda(@PathParam("idMoneda") BigInteger idMoneda);
 
 	@GET
-	@Path("/corriente/{idMoneda}")
+	@Path("/recaudadora/{idMoneda}")
 	@Produces({ "application/xml", "application/json" })
-	public Response findTasaCorrienteByMoneda(@PathParam("idMoneda") BigInteger idMoneda);
+	public Response findTasaCuentaRecaudadoraByMoneda(@PathParam("idMoneda") BigInteger idMoneda);
 
 	@GET
 	@Path("/plazoFijo/{idMoneda}")

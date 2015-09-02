@@ -604,10 +604,10 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 		ResumenOperacionesCaja result = new ResumenOperacionesCaja();
 
-		int depositosAhorro = 0;
-		int retirosAhorro = 0;
-		int depositosCorriente = 0;
-		int retirosCorriente = 0;
+		int depositosLibre = 0;
+		int retirosLibre = 0;
+		int depositosRecaudadora = 0;
+		int retirosRecaudadora = 0;
 		int depositosPlazoFijo = 0;
 		int retirosPlazoFijo = 0;
 		int depositosAporte = 0;
@@ -645,17 +645,17 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 		for (TransaccionBancaria transBanc : transBancarias) {
 			TipoCuentaBancaria tipoCuenta = transBanc.getCuentaBancaria().getTipoCuentaBancaria();
-			if (tipoCuenta.equals(TipoCuentaBancaria.AHORRO)) {
+			if (tipoCuenta.equals(TipoCuentaBancaria.LIBRE)) {
 				if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-					depositosAhorro++;
+					depositosLibre++;
 				else
-					retirosAhorro++;
+					retirosLibre++;
 			}
-			if (tipoCuenta.equals(TipoCuentaBancaria.CORRIENTE)) {
+			if (tipoCuenta.equals(TipoCuentaBancaria.RECAUDADORA)) {
 				if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-					depositosCorriente++;
+					depositosRecaudadora++;
 				else
-					retirosCorriente++;
+					retirosRecaudadora++;
 			}
 			if (tipoCuenta.equals(TipoCuentaBancaria.PLAZO_FIJO)) {
 				if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
@@ -739,10 +739,10 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		result.setHoraCierre(historialCaja.getHoraCierre());
 		result.setTrabajador(historialCaja.getTrabajador());
 
-		result.setDepositosAhorro(depositosAhorro);
-		result.setRetirosAhorro(retirosAhorro);
-		result.setDepositosCorriente(depositosCorriente);
-		result.setRetirosCorriente(retirosCorriente);
+		result.setDepositosLibre(depositosLibre);
+		result.setRetirosLibre(retirosLibre);
+		result.setDepositosRecaudadora(depositosRecaudadora);
+		result.setRetirosRecaudadora(retirosRecaudadora);
 		result.setDepositosPlazoFijo(depositosPlazoFijo);
 		result.setRetirosPlazoFijo(retirosPlazoFijo);
 		result.setDepositosAporte(depositosAporte);

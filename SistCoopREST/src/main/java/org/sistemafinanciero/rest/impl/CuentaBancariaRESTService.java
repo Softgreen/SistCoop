@@ -492,10 +492,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			titulo.setFont(fuenteTitulo);
 			parrafoPrincipal.add(titulo);
 
-			if (cuentaBancaria.getTipoCuenta().toString() == "AHORRO") {
+			if (cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.LIBRE)) {
 
-				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA AHORRO **********************/
-				Chunk subTituloAhorro = new Chunk("APERTURA CUENTA DE AHORRO\n");
+				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA LIBRE **********************/
+				Chunk subTituloAhorro = new Chunk("APERTURA CUENTA LIBRE\n");
 				Font fuenteSubtituloAhorro = new Font();
 				fuenteSubtituloAhorro.setSize(13);
 				fuenteSubtituloAhorro.setFamily("Arial");
@@ -505,7 +505,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 				document.add(parrafoPrincipal);
 
-				Chunk mensajeIntroAhorro = new Chunk("La apertura de una cuenta de ahorro generará intereses y demás beneficios complementarios de acuerdo al saldo promedio mensual o saldo diario establecido en la Cartilla de Información. Para estos efectos, se entiende por saldo promedio mensual, la suma del saldo diario dividida entre el número de días del mes. La cuenta de ahorro podrá generar comisiones y gastos de acuerdo a las condiciones aceptadas en la Cartilla de Información.\n\n", font);
+				Chunk mensajeIntroAhorro = new Chunk("La apertura de una cuenta libre generará intereses y demás beneficios complementarios de acuerdo al saldo promedio mensual o saldo diario establecido en la Cartilla de Información. Para estos efectos, se entiende por saldo promedio mensual, la suma del saldo diario dividida entre el número de días del mes. La cuenta libre podrá generar comisiones y gastos de acuerdo a las condiciones aceptadas en la Cartilla de Información.\n\n", font);
 				mensajeIntroAhorro.setLineHeight(13);
 
 				Paragraph parrafoIntroAhorro = new Paragraph();
@@ -515,9 +515,9 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				document.add(parrafoIntroAhorro);
 			}
 
-			if (cuentaBancaria.getTipoCuenta().toString() == "PLAZO_FIJO") {
+			if (cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.PLAZO_FIJO)) {
 
-				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA AHORRO **********************/
+				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA PLAZO FIJO **********************/
 				Chunk subTituloPF = new Chunk("APERTURA CUENTA A PLAZO FIJO\n");
 				Font fuenteSubtituloPF = new Font();
 				fuenteSubtituloPF.setSize(13);
@@ -539,10 +539,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				document.add(parrafoIntroPF);
 			}
 
-			if (cuentaBancaria.getTipoCuenta().toString() == "CORRIENTE") {
+			if (cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.RECAUDADORA)) {
 
-				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA CORRIENTE **********************/
-				Chunk subTituloCC = new Chunk("APERTURA CUENTA CORRIENTE\n");
+				/******************* TIPO CUENTA Y TEXTO DE INTRODUCCION CUENTA RECAUDADORA **********************/
+				Chunk subTituloCC = new Chunk("APERTURA CUENTA RECAUDADORA\n");
 				Font fuenteSubtituloCC = new Font();
 				fuenteSubtituloCC.setSize(13);
 				fuenteSubtituloCC.setFamily("Arial");
@@ -672,7 +672,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 
 			document.add(table2);
 
-			if (cuentaBancaria.getTipoCuenta().toString() == "AHORRO" || cuentaBancaria.getTipoCuenta().toString() == "CORRIENTE") {
+			if (cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.LIBRE) || cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.RECAUDADORA)) {
 				Paragraph modalidadCuenta = new Paragraph();
 				String value;
 				Chunk modalidad = new Chunk("Modalidad de la Cuenta: ", fontBold);
@@ -688,7 +688,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				document.add(modalidadCuenta);
 			}
 
-			if (cuentaBancaria.getTipoCuenta().toString() == "PLAZO_FIJO") {
+			if (cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.PLAZO_FIJO)) {
 				document.add(new Paragraph("\n"));
 			}
 
@@ -798,11 +798,11 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 			contenidoContrato.setLeading(11f);
 			piePaginaContrato.setAlignment(Element.ALIGN_RIGHT);
 			
-			if (cuentaBancaria.getTipoCuenta().toString() == "AHORRO") {
+			if (cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.LIBRE)) {
 				//titulo y descripcion
-				Chunk tituloContratoAhorro = new Chunk("CONTRATO DE CUENTA DE AHORROS Y SERVICIOS FINANCIEROS CONEXOS\n", fontTituloContrato);
-				Chunk descripcionContratoAhorro = new Chunk("Conste por el presente documento el CONTRATO DE CUENTA DE AHORROS Y SERVICIOS FINANCIEROS CONEXOS, que celebran, de una parte “MULTISERVICIOS DEL SUR”, a quien en adelante se le denominará MULTISERVICIOS DEL SUR, y de la otra parte EL CLIENTE, cuyas generales de Ley y su firma puesta en señal de conformidad y aceptación de todos los términos del presente contrato, constan en el presente instrumento.\n"
-														 + "Los términos y condiciones de este contrato que constan a continuación, serán de observancia y aplicación respecto de la/s cuenta/s de ahorros y servicios financieros conexos, así como las transacciones y operaciones sobre la cuenta de ahorros que mantenga EL CLIENTE con MULTISERVICIOS DEL SUR (en conjunto los “Servicios Financieros”), en tanto no se contrapongan a otros de carácter específico contenidos y/o derivados de contratos y/o solicitudes suscritas y/o aceptadas bajo cualquier medio o mecanismo entre EL CLIENTE y MULTISERVICIOS DEL SUR.\n"
+				Chunk tituloContratoAhorro = new Chunk("CONTRATO DE CUENTA LIBRE Y SERVICIOS FINANCIEROS CONEXOS\n", fontTituloContrato);
+				Chunk descripcionContratoAhorro = new Chunk("Conste por el presente documento el CONTRATO DE CUENTA LIBRE Y SERVICIOS FINANCIEROS CONEXOS, que celebran, de una parte “MULTISERVICIOS DEL SUR”, a quien en adelante se le denominará MULTISERVICIOS DEL SUR, y de la otra parte EL CLIENTE, cuyas generales de Ley y su firma puesta en señal de conformidad y aceptación de todos los términos del presente contrato, constan en el presente instrumento.\n"
+														 + "Los términos y condiciones de este contrato que constan a continuación, serán de observancia y aplicación respecto de la/s cuenta/s de libres y servicios financieros conexos, así como las transacciones y operaciones sobre la cuenta libre que mantenga EL CLIENTE con MULTISERVICIOS DEL SUR (en conjunto los “Servicios Financieros”), en tanto no se contrapongan a otros de carácter específico contenidos y/o derivados de contratos y/o solicitudes suscritas y/o aceptadas bajo cualquier medio o mecanismo entre EL CLIENTE y MULTISERVICIOS DEL SUR.\n"
 														 + "Ninguno de los términos de este contrato exonera a EL CLIENTE de cumplir los requisitos y formalidades que la ley y/o MULTISERVICIOS DEL SUR exijan para la prestación y/o realización de determinados servicios, y/o productos y/u operaciones y/o transacciones.\n\n", fontDescripcionContrato);
 				
 				//primer subtitulo y descripcion
@@ -820,8 +820,8 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 														 + "Se consideran como causas de fuerza mayor o caso fortuito, sin que la enumeración sea limitativa, las siguientes: a) Interrupción del sistema de cómputo, red de teleproceso local o de telecomunicaciones; b) Falta de fluido eléctrico; c) Terremotos, incendios, inundaciones y otros similares; d) Actos y consecuencias de vandalismo, terrorismo y conmoción civil; e) Huelgas y paros; f) Actos y consecuencias imprevisibles debidamente justificadas por MULTISERVICIOS DEL SUR; g) Suministros y abastecimientos a sistemas y canales de distribución de productos y servicios.\n\n", fontDescripcionContrato);
 				
 				//tercer subtitulo y descripcion
-				Chunk subtitulo3ContratoAhorro = new Chunk("CONDICIONES ESPECIALES APLICABLES A LAS CUENTAS DE AHORROS\n", fontSubtituloContrato);
-				Chunk contenido3ContratoAhorro = new Chunk("6. Las cuentas de depósito de ahorro están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. MULTISERVICIOS DEL SUR entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta de depósito de ahorros constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n", fontDescripcionContrato);
+				Chunk subtitulo3ContratoAhorro = new Chunk("CONDICIONES ESPECIALES APLICABLES A LAS CUENTAS LIBRES\n", fontSubtituloContrato);
+				Chunk contenido3ContratoAhorro = new Chunk("6. Las cuentas de depósito de cuentas libres están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. MULTISERVICIOS DEL SUR entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta de depósito de cuentas libres constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n", fontDescripcionContrato);
 				
 				//pie pagina contrato
 				Chunk piePagina = new Chunk("Ayacucho" + ", " + fechaAhora, fontDescripcionContrato);
@@ -841,7 +841,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				document.add(piePaginaContrato);
 			}
 
-			if (cuentaBancaria.getTipoCuenta().toString() == "PLAZO_FIJO") {
+			if (cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.PLAZO_FIJO)) {
 				//titulo y descripcion
 				Chunk tituloContratoPF = new Chunk("CONTRATO DE DEPOSITO A PLAZO FIJO\n", fontTituloContrato);
 				Chunk descripcionContratoPF = new Chunk("El presente contrato regula las Condiciones que “MULTISERVICIOS DEL SUR”, en adelante MULTISERVICIOS DEL SUR, establece para el servicio de DEPOSITO A PLAZO FIJO que brindará a favor de EL CLIENTE, cuyas generales de ley y domicilio constan al final del presente documento.\n\n", fontDescripcionContrato);
@@ -872,11 +872,11 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				document.add(piePaginaContrato);
 			}
 			
-			if (cuentaBancaria.getTipoCuenta().toString() == "CORRIENTE") {
+			if (cuentaBancaria.getTipoCuenta().equals(TipoCuentaBancaria.RECAUDADORA)) {
 				//titulo y descripcion
-				Chunk tituloContratoCC = new Chunk("CONTRATO DE CUENTA CORRIENTE Y SERVICIOS FINANCIEROS CONEXOS\n", fontTituloContrato);
-				Chunk descripcionContratoCC = new Chunk("Conste por el presente documento el CONTRATO DE CUENTA CORRIENTE Y SERVICIOS FINANCIEROS CONEXOS, que celebran, de una parte “MULTISERVICIOS DEL SUR”, a quien en adelante se le denominará MULTISERVICIOS DEL SUR, y de la otra parte EL CLIENTE, cuyas generales de Ley y su firma puesta en señal de conformidad y aceptación de todos los términos del presente contrato, constan en el presente instrumento.\n"
-														 + "Los términos y condiciones de este contrato que constan a continuación, serán de observancia y aplicación respecto de la cuenta corriente y servicios financieros conexos, así como las transacciones y operaciones sobre las cuentas corrientes que mantenga EL CLIENTE con MULTISERVICIOS DEL SUR (en conjunto los “Servicios Financieros”), en tanto no se contrapongan a otros de carácter específico contenidos y/o derivados de contratos y/o solicitudes suscritas y/o aceptadas bajo cualquier medio o mecanismo entre EL CLIENTE y MULTISERVICIOS DEL SUR.\n"
+				Chunk tituloContratoCC = new Chunk("CONTRATO DE CUENTA RECAUDADORA Y SERVICIOS FINANCIEROS CONEXOS\n", fontTituloContrato);
+				Chunk descripcionContratoCC = new Chunk("Conste por el presente documento el CONTRATO DE CUENTA RECAUDADORA Y SERVICIOS FINANCIEROS CONEXOS, que celebran, de una parte “MULTISERVICIOS DEL SUR”, a quien en adelante se le denominará MULTISERVICIOS DEL SUR, y de la otra parte EL CLIENTE, cuyas generales de Ley y su firma puesta en señal de conformidad y aceptación de todos los términos del presente contrato, constan en el presente instrumento.\n"
+														 + "Los términos y condiciones de este contrato que constan a continuación, serán de observancia y aplicación respecto de la cuenta recaudadora y servicios financieros conexos, así como las transacciones y operaciones sobre las cuentas recaudadoras que mantenga EL CLIENTE con MULTISERVICIOS DEL SUR (en conjunto los “Servicios Financieros”), en tanto no se contrapongan a otros de carácter específico contenidos y/o derivados de contratos y/o solicitudes suscritas y/o aceptadas bajo cualquier medio o mecanismo entre EL CLIENTE y MULTISERVICIOS DEL SUR.\n"
 														 + "Ninguno de los términos de este contrato exonera a EL CLIENTE de cumplir los requisitos y formalidades que la ley y/o MULTISERVICIOS DEL SUR exijan para la prestación y/o realización de determinados servicios, y/o productos y/u operaciones y/o transacciones.\n\n", fontDescripcionContrato);
 				
 				//primer subtitulo y descripcion
@@ -894,8 +894,8 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 													 + "Se consideran como causas de fuerza mayor o caso fortuito, sin que la enumeración sea limitativa, las siguientes: a) Interrupción del sistema de cómputo, red de teleproceso local o de telecomunicaciones; b) Falta de fluido eléctrico; c) Terremotos, incendios, inundaciones y otros similares; d) Actos y consecuencias de vandalismo, terrorismo y conmoción civil; e) Huelgas y paros; f) Actos y consecuencias imprevisibles debidamente justificadas por MULTISERVICIOS DEL SUR; g) Suministros y abastecimientos a sistemas y canales de distribución de productos y servicios.\n\n", fontDescripcionContrato);
 				
 				//tercer subtitulo y descripcion
-				Chunk subtitulo3ContratoCC = new Chunk("CONDICIONES ESPECIALES APLICABLES A LAS CUENTAS CORRIENTES\n", fontSubtituloContrato);
-				Chunk contenido3ContratoCC = new Chunk("6. Las cuentas de depósito, están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. MULTISERVICIOS DEL SUR entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta de depósito de ahorros constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n\n\n", fontDescripcionContrato);
+				Chunk subtitulo3ContratoCC = new Chunk("CONDICIONES ESPECIALES APLICABLES A LAS CUENTAS RECAUDADORAS\n", fontSubtituloContrato);
+				Chunk contenido3ContratoCC = new Chunk("6. Las cuentas de depósito, están sujetas a las disposiciones contenidas en el Art. 229 de la Ley 26702. MULTISERVICIOS DEL SUR entrega al titular de la cuenta su correspondiente comprobante de apertura. Toda cantidad que se abone y/o retire de la cuenta libre constará en hojas sueltas o soportes mecánicos y/o informáticos que se entregue a EL CLIENTE.\n\n\n\n", fontDescripcionContrato);
 				
 				//pie pagina contrato
 				Chunk piePagina = new Chunk("Ayacucho" + ", " + fechaAhora, fontDescripcionContrato);

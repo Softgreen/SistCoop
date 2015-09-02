@@ -140,7 +140,7 @@ public class CuentaBancaria implements java.io.Serializable {
 
 	@XmlElement
 	@Enumerated(value = EnumType.STRING)
-	@Column(name = "TIPO_CUENTA_BANCARIA", nullable = false, length = 10, columnDefinition = "nvarchar2")
+	@Column(name = "TIPO_CUENTA_BANCARIA", nullable = false, length = 12, columnDefinition = "nvarchar2")
 	public TipoCuentaBancaria getTipoCuentaBancaria() {
 		return this.tipoCuentaBancaria;
 	}

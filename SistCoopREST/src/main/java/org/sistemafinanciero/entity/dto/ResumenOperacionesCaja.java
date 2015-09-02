@@ -44,10 +44,10 @@ public class ResumenOperacionesCaja implements java.io.Serializable {
 	private int depositosPlazoFijo;
 
 	@XmlElement
-	private int depositosAhorro;
+	private int depositosLibre;
 
 	@XmlElement
-	private int depositosCorriente;
+	private int depositosRecaudadora;
 
 	@XmlElement
 	private int retirosAporte;
@@ -56,10 +56,10 @@ public class ResumenOperacionesCaja implements java.io.Serializable {
 	private int retirosPlazoFijo;
 
 	@XmlElement
-	private int retirosAhorro;
+	private int retirosLibre;
 
 	@XmlElement
-	private int retirosCorriente;
+	private int retirosRecaudadora;
 
 	@XmlElement
 	private int compra;
@@ -172,20 +172,20 @@ public class ResumenOperacionesCaja implements java.io.Serializable {
 		this.depositosPlazoFijo = depositosPlazoFijo;
 	}
 
-	public int getDepositosAhorro() {
-		return depositosAhorro;
+	public int getDepositosLibre() {
+		return depositosLibre;
 	}
 
-	public void setDepositosAhorro(int depositosAhorro) {
-		this.depositosAhorro = depositosAhorro;
+	public void setDepositosLibre(int depositosLibre) {
+		this.depositosLibre = depositosLibre;
 	}
 
-	public int getDepositosCorriente() {
-		return depositosCorriente;
+	public int getDepositosRecaudadora() {
+		return depositosRecaudadora;
 	}
 
-	public void setDepositosCorriente(int depositosCorriente) {
-		this.depositosCorriente = depositosCorriente;
+	public void setDepositosRecaudadora(int depositosRecaudadora) {
+		this.depositosRecaudadora = depositosRecaudadora;
 	}
 
 	public int getRetirosAporte() {
@@ -204,20 +204,20 @@ public class ResumenOperacionesCaja implements java.io.Serializable {
 		this.retirosPlazoFijo = retirosPlazoFijo;
 	}
 
-	public int getRetirosAhorro() {
-		return retirosAhorro;
+	public int getRetirosLibre() {
+		return retirosLibre;
 	}
 
-	public void setRetirosAhorro(int retirosAhorro) {
-		this.retirosAhorro = retirosAhorro;
+	public void setRetirosLibre(int retirosLibre) {
+		this.retirosLibre = retirosLibre;
 	}
 
-	public int getRetirosCorriente() {
-		return retirosCorriente;
+	public int getRetirosRecaudadora() {
+		return retirosRecaudadora;
 	}
 
-	public void setRetirosCorriente(int retirosCorriente) {
-		this.retirosCorriente = retirosCorriente;
+	public void setRetirosRecaudadora(int retirosRecaudadora) {
+		this.retirosRecaudadora = retirosRecaudadora;
 	}
 
 	public int getCompra() {

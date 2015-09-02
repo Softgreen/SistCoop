@@ -5,7 +5,7 @@ define(['../module'], function (controllers) {
 
 	  $scope.alerts = [];
       $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
-      
+
       $scope.monedas = {
         dolar: {
           id: 0,
@@ -31,17 +31,17 @@ define(['../module'], function (controllers) {
       $scope.loadTasas = function () {
 
         TasaInteresService.getTasaCambio($scope.monedas.nuevoSol.id, $scope.monedas.dolar.id).then(function (response) {
-          $scope.view.tasaCompraDolar = response.valor;
+          $scope.view.tasaVentaDolar = response.valor;
         });
         TasaInteresService.getTasaCambio($scope.monedas.dolar.id, $scope.monedas.nuevoSol.id).then(function (response) {
-          $scope.view.tasaVentaDolar = response.valor;
+          $scope.view.tasaCompraDolar = response.valor;
         });
 
         TasaInteresService.getTasaCambio($scope.monedas.nuevoSol.id, $scope.monedas.euro.id).then(function (response) {
-          $scope.view.tasaCompraEuro = response.valor;
+          $scope.view.tasaVentaEuro = response.valor;
         });
         TasaInteresService.getTasaCambio($scope.monedas.euro.id, $scope.monedas.nuevoSol.id).then(function (response) {
-          $scope.view.tasaVentaEuro = response.valor;
+          $scope.view.tasaCompraEuro = response.valor;
         });
 
       };

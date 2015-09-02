@@ -11,8 +11,8 @@ import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 public class ProduceObject {
 
 	public final static String CODIGO_CUENTA_APORTE = "10";
-	public final static String CODIGO_CUENTA_AHORRO = "11";
-	public final static String CODIGO_CUENTA_CORRIENTE = "12";
+	public final static String CODIGO_CUENTA_LIBRE = "11";
+	public final static String CODIGO_CUENTA_RECAUDADORA = "12";
 	public final static String CODIGO_CUENTA_PLAZO_FIJO = "13";		
 	
 	public static String completar(String cad, int caracteres){
@@ -47,11 +47,11 @@ public class ProduceObject {
 		numeroCuenta = numeroCuenta + idMoneda;
 		
 		switch (tipoCuenta) {
-		case AHORRO:
-			numeroCuenta = numeroCuenta + ProduceObject.CODIGO_CUENTA_AHORRO;
+		case LIBRE:
+			numeroCuenta = numeroCuenta + ProduceObject.CODIGO_CUENTA_LIBRE;
 			break;
-		case CORRIENTE:
-			numeroCuenta = numeroCuenta + ProduceObject.CODIGO_CUENTA_CORRIENTE;
+		case RECAUDADORA:
+			numeroCuenta = numeroCuenta + ProduceObject.CODIGO_CUENTA_RECAUDADORA;
 			break;
 		case PLAZO_FIJO:
 			numeroCuenta = numeroCuenta + ProduceObject.CODIGO_CUENTA_PLAZO_FIJO;

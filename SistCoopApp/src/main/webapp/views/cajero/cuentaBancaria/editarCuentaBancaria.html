@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-sm-6" nf-if="cuentaBancaria.estadoCuenta != 'INACTIVO'" style="text-align: right;font-size: 14px;">
                     <div class="btn-group">
-                    	<button type="button" ng-if="cuentaBancaria.tipoCuenta == 'CORRIENTE'" ng-click="goToChequera()" popover="Chequera" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-success">A&#241;adir Chequera</button>
+                    	<button type="button" ng-if="cuentaBancaria.tipoCuenta == 'RECAUDADORA'" ng-click="goToChequera()" popover="Chequera" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-success">A&#241;adir Chequera</button>
                     </div>
                     <div class="btn-group">
                         <button type="button" ng-if="cuentaBancaria.tipoCuenta == 'PLAZO_FIJO'" ng-click="renovarPlazoFijo()" popover="Renovar cuenta" popover-trigger="mouseenter" popover-placement="bottom" class="btn btn-success">Renovar</button>
@@ -218,7 +218,7 @@
     </div>
     <div class="row">
         <!--Datos de chequera-->
-        <div class="col-sm-6" ng-if="cuentaBancaria.tipoCuenta == 'CORRIENTE'">
+        <div class="col-sm-6" ng-if="cuentaBancaria.tipoCuenta == 'RECAUDADORA'">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
@@ -247,7 +247,7 @@
                         <td style="font-size: 12px; text-align: center;"><span ng-bind="item.fechaDisponible | date : 'dd/MM/yyyy'"></span></td>
                         <td style="font-size: 12px; text-align: center;"><span ng-bind="item.fechaExpiracion | date : 'dd/MM/yyyy'"></span></td>
                         <td style="font-size: 12px; text-align: center;"><span ng-bind-template="{{item.estado ? 'ACTIVO' : 'INACTIVO'}}"></span></td>
-                        <td>													
+                        <td>
                             <button type="button" class="btn btn-info btn-xs" ng-click="editChequera(item)"><span class="glyphicon glyphicon-share"></span>Edit</button>
                         </td>
                     </tr>

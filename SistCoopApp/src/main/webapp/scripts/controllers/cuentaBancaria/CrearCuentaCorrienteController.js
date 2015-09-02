@@ -190,7 +190,7 @@ define(['../module'], function (controllers) {
                         return;
 
                     var cuenta = {
-                        "tipoCuenta": 'CORRIENTE',
+                        "tipoCuenta": 'RECAUDADORA',
                         "idMoneda": $scope.view.idMoneda,
                         "tipoPersona": $scope.view.tipoPersona,
                         "idTipoDocumento": $scope.view.idTipoDocumento,
@@ -228,7 +228,7 @@ define(['../module'], function (controllers) {
             $scope.crearPersona = function(){
                 if(!angular.isUndefined($scope.view.tipoPersona)){
                     $scope.setTabCuentaActive();
-                    var savedParameters = 'CORRIENTE';
+                    var savedParameters = 'RECAUDADORA';
                     var sendParameters = {
                         tipoDocumento: $scope.view.idTipoDocumento,
                         numeroDocumento: $scope.view.numeroDocumento
@@ -341,8 +341,8 @@ define(['../module'], function (controllers) {
 
             $scope.loadRedireccion();
             $scope.loadMonedas();
-            
-            
+
+
             $scope.cancel = function(){
         		$state.transitionTo('app.socio');
         	};

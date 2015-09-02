@@ -96,6 +96,7 @@ define(['../module'], function (controllers) {
                 modalInstance.result.then(function (agencia) {
                     SucursalService.crearAgencia($scope.id, agencia).then(
                         function(data){
+                            agencia.estado = true;
                             $scope.agencias.push(agencia);
                             $scope.control.inProcess = false;
                             $scope.alerts = [{ type: "success", msg: "Agencia añadida."}];

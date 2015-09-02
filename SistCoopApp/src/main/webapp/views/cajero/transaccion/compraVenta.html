@@ -19,15 +19,23 @@
                     <div class="col-sm-4">
                         <div class="form-group" ng-class="{ 'has-error' : formCrearCompraVenta.numeroDocumento.$invalid && (control.submitted || formCrearCompraVenta.numeroDocumento.$dirty)}">
                             <label>DNI/RUC</label>
-                            <label style="color: brown;">(*)</label>
                             <div class="input-group">
-                                <input focus-on="focusNumeroDocumento" type="text" name="numeroDocumento" ui-keypress="{13:'buscarCliente($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" required autofocus/>
+                                <input focus-on="focusNumeroDocumento" type="text" name="numeroDocumento" ui-keypress="{13:'buscarCliente($event)'}" ng-model="view.numeroDocumento" ng-minlength="1" ng-maxlength="20" ng-pattern="/^[0-9]+$/" class="form-control" placeholder="N&uacute;mero Documento" autofocus/>
                                 <span class="input-group-btn">
                                   <button type="button" class="btn btn-default" ng-click="buscarCliente()">
-                                      <span class="glyphicon glyphicon-search"></span>
+                                      <span lass="glyphicon glyphicon-search"></span>
                                   </button>
                                 </span>
                             </div>
+                            <div class="input-group">
+                              <input focus-on="focusFilterText" name="filterText" class="form-control ng-pristine ng-valid" ng-model="filterOptions.filterText" placeholder="Número Documento / Apellidos y Nombres" capitalize="" autofocus="" type="text">
+                              <span class="input-group-btn">
+                                  <button type="submit" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                  </button>
+                              </span>
+                            </div>
+
                             <div ng-show="formCrearCompraVenta.numeroDocumento.$invalid && (control.submitted || formCrearCompraVenta.numeroDocumento.$dirty)">
                                 <p class="help-block" ng-show="formCrearCompraVenta.numeroDocumento.$error.required">
                                     Ingrese Numero Documento Valido.
@@ -47,8 +55,7 @@
                     <div class="col-sm-8">
                         <div class="form-group" ng-class="{ 'has-error' : formCrearCompraVenta.nombreCliente.$invalid && (control.submitted || formCrearCompraVenta.nombreCliente.$dirty)}">
                             <label>Apellidos y Nombres / Raz&oacute;n Social</label>
-                            <label style="color: brown;">(*)</label>
-                            <input type="text" name="nombreCliente" ng-model="view.nombreCliente" class="form-control" ng-minlength="1" ng-maxlength="40" placeholder="Apellidos y Nombres / Raz&oacute;n Social" required autofocus capitalize/>
+                            <input type="text" name="nombreCliente" ng-model="view.nombreCliente" class="form-control" ng-minlength="1" ng-maxlength="80" placeholder="Apellidos y Nombres / Raz&oacute;n Social" autofocus capitalize/>
                             <div ng-show="formCrearCompraVenta.nombreCliente.$invalid && (control.submitted || formCrearCompraVenta.nombreCliente.$dirty)">
                                 <p class="help-block" ng-show="formCrearCompraVenta.nombreCliente.$error.required">
                                     Ingrese Numero Documento Valido.
@@ -57,7 +64,7 @@
                                     Minimo 1 Caracter.
                                 </p>
                                 <p class="help-block" ng-show="formCrearCompraVenta.nombreCliente.$error.maxlength">
-                                    Maximo 50 Caracteres.
+                                    Maximo 80 Caracteres.
                                 </p>
                             </div>
                         </div>
@@ -116,7 +123,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label>Tasa de Cambio
+                            <label>Tipo de Cambio
                                 <button focus-on="focusLinkEditar" ng-show="!login.result" type="button" ng-click="openLoginPopUp()" class="btn btn-link" style="padding: 0px 12px;">Editar</button>
                             </label>
                             <kbd ng-show="!login.result" style="display: block;margin-top: 0px; min-height: 32px;padding-top: 8px;padding-left: 10px;">

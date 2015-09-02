@@ -223,7 +223,7 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 
 		// crear intereses
 		if (tasaInteres == null)
-			tasaInteres = tasaInteresService.getTasaInteresCuentaAhorro(idMoneda);
+			tasaInteres = tasaInteresService.getTasaInteresCuentaLibre(idMoneda);
 		CuentaBancariaTasa cuentaBancariaTasa = new CuentaBancariaTasa();
 		cuentaBancariaTasa.setCuentaBancaria(cuentaBancaria);
 		cuentaBancariaTasa.setValor(tasaInteres);
@@ -334,7 +334,7 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 		BigDecimal totalInteres;
 
 		switch (tipoCuentaBancaria) {
-		case AHORRO:
+		case LIBRE:
 			queryParameter = QueryParameter.with("idCuentaBancaria", idCuentaBancaria).and("desde", desde.toDate()).and("hasta", hasta.toDate());
 			interesesGenerados = cuentaBancariaInteresGeneraDAO.findByNamedQuery(CuentaBancariaInteresGenera.findByIdAndDate, queryParameter.parameters());
 
@@ -347,7 +347,7 @@ public class CuentaBancariaBeanTS implements CuentaBancariaServiceTS {
 			cuentaBancaria.setSaldo(totalInteres.add(capital));
 			cuentaBancariaDAO.update(cuentaBancaria);
 			break;
-		case CORRIENTE:
+		case RECAUDADORA:
 			queryParameter = QueryParameter.with("idCuentaBancaria", idCuentaBancaria).and("desde", desde.toDate()).and("hasta", hasta.toDate());
 			interesesGenerados = cuentaBancariaInteresGeneraDAO.findByNamedQuery(CuentaBancariaInteresGenera.findByIdAndDate, queryParameter.parameters());
 

@@ -1010,8 +1010,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
         switch (cuentaBancaria.getEstado()) {
         case ACTIVO:
-            if (!cuentaBancaria.getTipoCuentaBancaria().equals(TipoCuentaBancaria.CORRIENTE)) {
-                throw new RollbackFailureException("Solo las cuentas corrientes pueden girar cheques");
+            if (!cuentaBancaria.getTipoCuentaBancaria().equals(TipoCuentaBancaria.RECAUDADORA)) {
+                throw new RollbackFailureException("Solo las cuentas recaudadoras pueden girar cheques");
             }
             break;
         case CONGELADO:
@@ -1077,8 +1077,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
     @Override
     public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException {
         HistorialTransaccionCaja transaccion = historialTransaccionCajaDAO.find(idTransaccion);
-        if (transaccion.getTipoCuenta().equalsIgnoreCase("AHORRO")
-                || transaccion.getTipoCuenta().equalsIgnoreCase("CORRIENTE"))
+        if (transaccion.getTipoCuenta().equalsIgnoreCase(TipoCuentaBancaria.LIBRE.toString())
+                || transaccion.getTipoCuenta().equalsIgnoreCase(TipoCuentaBancaria.RECAUDADORA.toString()))
             extornarTransaccionBancaria(transaccion.getIdTransaccion());
         else if (transaccion.getTipoCuenta().equalsIgnoreCase("APORTE"))
             extornarTransaccionCuentaAporte(transaccion.getIdTransaccion());

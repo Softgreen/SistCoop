@@ -13,10 +13,10 @@ define(['./module'], function (services) {
                     }
                 },
                 getTasaCuentaAhorro: function(idMoneda) {
-                    return Restangular.one("tasa/ahorro/"+idMoneda).get();
+                    return Restangular.one("tasa/libre/"+idMoneda).get();
                 },
                 getTasaCuentaCorriente: function(idMoneda) {
-                    return Restangular.one("tasa/corriente/"+idMoneda).get();
+                    return Restangular.one("tasa/recaudadora/"+idMoneda).get();
                 },
                 getTasaCuentaPlazoFijo: function(idMoneda, periodo, monto) {
                     if (arguments.length == 1) {

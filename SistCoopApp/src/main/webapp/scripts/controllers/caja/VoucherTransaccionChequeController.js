@@ -29,7 +29,7 @@ define(['../module'], function (controllers) {
                     qz.append(String.fromCharCode(27) + "\x61" + "\x31");							//texto centrado
                     qz.append("MULTIVALORES DEL SUR\r\n");											// \r\n salto de linea
 
-                    qz.append(($scope.transaccion.tipoTransaccion) + " CUENTA CORRIENTE" + "\r\n");
+                    qz.append(($scope.transaccion.tipoTransaccion) + " CUENTA RECAUDADORA" + "\r\n");
                     // \t tabulador
                     qz.append("\x1B\x21\x01");														//texto normal (no negrita)
                     qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
@@ -38,7 +38,7 @@ define(['../module'], function (controllers) {
                     qz.append("CAJA:" + "\t" + ($scope.transaccion.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + ($scope.transaccion.numeroOperacion) + "\r\n");
                     qz.append("FECHA:" + "\t" + ($filter('date')($scope.transaccion.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccion.hora, 'HH:mm:ss')) + "\r\n");
                     qz.append("CUENTA:" + "\t" + ($scope.transaccion.numeroCuenta) + "\r\n");
-                    qz.append("SOCIO:" + "\t" + ($scope.transaccion.socio) + "\r\n");
+                    qz.append("CLIENTE:" + "\t" + ($scope.transaccion.socio) + "\r\n");
                     qz.append("MONEDA:" + "\t" + ($scope.transaccion.moneda.denominacion) + "\r\n");
 
                     if(!angular.isUndefined($scope.transaccion.observacion))

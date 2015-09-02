@@ -102,8 +102,8 @@ public class EmailSessionBean {
 		document.addTitle("Estado de Cuenta");
 		document.addSubject("Estado de Cuenta");
 		document.addKeywords("email");
-		document.addAuthor("Cooperativa de Ahorro y Crédito Caja Ventura");
-		document.addCreator("Cooperativa de Ahorro y Crédito Caja Ventura");
+		document.addAuthor("Multivalores del Sur");
+		document.addCreator("Multivalores del Sur");
 
 		Paragraph saltoDeLinea = new Paragraph();
 		document.add(saltoDeLinea);

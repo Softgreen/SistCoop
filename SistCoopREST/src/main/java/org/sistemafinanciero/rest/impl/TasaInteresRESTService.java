@@ -45,15 +45,15 @@ public class TasaInteresRESTService implements TasaInteresREST {
 	private VariableSistemaServiceTS variableSistemaServiceTS;
 	
 	@Override
-	public Response findTasaAhorroByMoneda(BigInteger idMoneda) {
-		BigDecimal result = tasaInteresServiceNT.getTasaInteresCuentaAhorro(idMoneda);
+	public Response findTasaCuentaLibreByMoneda(BigInteger idMoneda) {
+		BigDecimal result = tasaInteresServiceNT.getTasaInteresCuentaLibre(idMoneda);
 		JsonObject model = Json.createObjectBuilder().add("valor", result).build();
 		return Response.status(Response.Status.OK).entity(model).build();
 	}
 
 	@Override
-	public Response findTasaCorrienteByMoneda(BigInteger idMoneda) {
-		BigDecimal result = tasaInteresServiceNT.getTasaInteresCuentaCorriente(idMoneda);
+	public Response findTasaCuentaRecaudadoraByMoneda(BigInteger idMoneda) {
+		BigDecimal result = tasaInteresServiceNT.getTasaInteresCuentaRecaudadora(idMoneda);
 		JsonObject model = Json.createObjectBuilder().add("valor", result).build();
 		return Response.status(Response.Status.OK).entity(model).build();
 	}

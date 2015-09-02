@@ -4,7 +4,7 @@ define(['./module'], function (services) {
         function(Restangular){
 
             var tipoPersonas = ["NATURAL", "JURIDICA"];
-            var tipoCuentasBancarias = ["AHORRO", "PLAZO_FIJO", "CORRIENTE"];
+            var tipoCuentasBancarias = ["LIBRE", "PLAZO_FIJO", "RECAUDADORA"];
             var tipoEstadoCuentasBancarias = ["ACTIVO", "CONGELADO", "INACTIVO"];
 
             var tipoTransaccionBancarias = ["DEPOSITO", "RETIRO"];

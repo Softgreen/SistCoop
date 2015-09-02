@@ -154,9 +154,9 @@ define(['../module'], function (controllers) {
                             $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         } else {
                         	$scope.alerts = [{ type: "success", msg: "Persona (Socio) Encontrada."}];
-                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};	
+                            $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                         }
-                        
+
                     },function error(error){
                         $scope.objetosCargados.socioNatural = undefined;
                         $scope.alerts = [{ type: "danger", msg: "Error al buscar la persona."}];
@@ -193,7 +193,7 @@ define(['../module'], function (controllers) {
                         return;
 
                     var cuenta = {
-                        "tipoCuenta": 'AHORRO',
+                        "tipoCuenta": 'LIBRE',
                         "idMoneda": $scope.view.idMoneda,
                         "tipoPersona": $scope.view.tipoPersona,
                         "idTipoDocumento": $scope.view.idTipoDocumento,
@@ -230,7 +230,7 @@ define(['../module'], function (controllers) {
             $scope.crearPersona = function(){
                 if(!angular.isUndefined($scope.view.tipoPersona)){
                     $scope.setTabCuentaActive();
-                    var savedParameters = 'AHORRO';
+                    var savedParameters = 'LIBRE';
                     var sendParameters = {
                         tipoDocumento: $scope.view.idTipoDocumento,
                         numeroDocumento: $scope.view.numeroDocumento
@@ -343,13 +343,13 @@ define(['../module'], function (controllers) {
 
             $scope.loadRedireccion();
             $scope.loadMonedas();
-            
-            
+
+
             $scope.cancel = function(){
         		$state.transitionTo('app.socio');
         	};
-        	
+
 
         }]);
-      	
+
 });

@@ -1,5 +1,18 @@
 package org.sistemafinanciero.entity.type;
 
 public enum TasaInteresType {
-	TASA_CUENTA_AHORRO, TASA_CUENTA_CORRIENTE, TASA_CUENTA_PLAZO_FIJO
+    /**
+     * Tasa para cuenta de ahorros
+     */
+    TASA_CUENTA_LIBRE,
+
+    /**
+     * Tasa para cuenta corriente
+     */
+    TASA_CUENTA_RECAUDADORA,
+
+    /**
+     * Tasa para cuenta plazo fijo
+     */
+    TASA_CUENTA_PLAZO_FIJO
 }

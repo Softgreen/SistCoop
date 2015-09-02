@@ -1,5 +1,5 @@
 package org.sistemafinanciero.entity.type;
 
 public enum EstadoSocioAporte {
-	ACTIVO, CONGELADO, INACTIVO
+    ACTIVO, CONGELADO, INACTIVO
 }
