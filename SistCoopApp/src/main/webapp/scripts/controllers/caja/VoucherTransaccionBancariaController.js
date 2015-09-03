@@ -75,7 +75,9 @@ define(['../module'], function (controllers) {
           qz.append("IMPORTE RECIBIDO:" + "\t" + $scope.transaccionCuentaBancaria.moneda.simbolo + $filter('number')($scope.transaccionCuentaBancaria.monto, 2) + "\r\n");
           //qz.append("IMPORTE RECIBIDO:" + "\t" + ($filter('currency')($scope.transaccionCuentaBancaria.monto, $scope.transaccionCuentaBancaria.moneda.simbolo)) + "\r\n");
           if($scope.imprimirSaldo){
-            qz.append("INTERES:" + "\t" + "\t" + $scope.transaccionCuentaBancaria.moneda.simbolo + $filter('number')($scope.transaccionCuentaBancaria.interes, 2) + "\r\n");
+            if($scope.transaccionCuentaBancaria.interes != 0){
+              qz.append("INTERES:" + "\t" + "\t" + $scope.transaccionCuentaBancaria.moneda.simbolo + $filter('number')($scope.transaccionCuentaBancaria.interes, 2) + "\r\n");
+            }
             qz.append("SALDO DISPONIBLE:" + "\t" + $scope.transaccionCuentaBancaria.moneda.simbolo + $filter('number')($scope.transaccionCuentaBancaria.saldoDisponible, 2) + "\r\n");
             //qz.append("SALDO DISPONIBLE:" + "\t" + ($filter('currency')($scope.transaccionCuentaBancaria.saldoDisponible, $scope.transaccionCuentaBancaria.moneda.simbolo)) + "\r\n");
           }
@@ -87,7 +89,9 @@ define(['../module'], function (controllers) {
           qz.append("IMPORTE PAGADO:" + "\t" + $scope.transaccionCuentaBancaria.moneda.simbolo + $filter('number')($scope.transaccionCuentaBancaria.monto, 2) + "\r\n");
           //qz.append("IMPORTE PAGADO:" + "\t\t" + ($filter('currency')($scope.transaccionCuentaBancaria.monto, $scope.transaccionCuentaBancaria.moneda.simbolo)) + "\r\n");
           if($scope.imprimirSaldo){
-            qz.append("INTERES:" + "\t" + "\t" + $scope.transaccionCuentaBancaria.moneda.simbolo + $filter('number')($scope.transaccionCuentaBancaria.interes, 2) + "\r\n");
+            if($scope.transaccionCuentaBancaria.interes != 0){
+              qz.append("INTERES:" + "\t" + "\t" + $scope.transaccionCuentaBancaria.moneda.simbolo + $filter('number')($scope.transaccionCuentaBancaria.interes, 2) + "\r\n");
+            }
             qz.append("SALDO DISPONIBLE:" + "\t" + $scope.transaccionCuentaBancaria.moneda.simbolo + $filter('number')($scope.transaccionCuentaBancaria.saldoDisponible, 2) + "\r\n");
             //qz.append("SALDO DISPONIBLE:" + "\t" + ($filter('currency')($scope.transaccionCuentaBancaria.saldoDisponible, $scope.transaccionCuentaBancaria.moneda.simbolo)) + "\r\n");
           }
