@@ -1813,7 +1813,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         sobreGiroDAO.create(sobreGiro);
 
         // actualizar saldo caja
-        this.actualizarSaldoCaja(monto, moneda.getIdMoneda());
+        this.actualizarSaldoCaja(monto.abs().negate(), moneda.getIdMoneda());
         return sobreGiro.getIdSobreGiro();
     }
 
@@ -1854,7 +1854,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         historialPagoSobreGiroDAO.create(historialPagoSobreGiro);
 
         // actualizar saldo caja
-        this.actualizarSaldoCaja(monto.negate(), sobreGiro.getMoneda().getIdMoneda());
+        this.actualizarSaldoCaja(monto.abs(), sobreGiro.getMoneda().getIdMoneda());
         return sobreGiro.getIdSobreGiro();
     }
 
