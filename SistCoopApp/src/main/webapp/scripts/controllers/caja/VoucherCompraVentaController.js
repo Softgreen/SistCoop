@@ -63,8 +63,8 @@ define(['../module'], function (controllers) {
                 //qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, $scope.compraVentaMoneda.monedaEntregada.simbolo)) + "\r\n");
                 qz.append("TIP.CAMBIO:\t" + $scope.compraVentaMoneda.tipoCambio + "\r\n");
                 var elem = $scope.compraVentaMoneda.referencia.split('/');
-                qz.append("CLIENTE:\t" + (elem[0]) + "\r\n");
-                qz.append("\t\t" + (elem[1]) + "\r\n");
+                qz.append("CLIENTE:\t" + (angular.isUndefined(elem[0]) ? '' : elem[0]) + "\r\n");
+                qz.append("\t\t" + (angular.isUndefined(elem[1]) ? '' : elem[1]) + "\r\n");
 
                 qz.append("\r\n");
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");
