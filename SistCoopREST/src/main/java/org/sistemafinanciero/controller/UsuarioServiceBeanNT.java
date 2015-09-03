@@ -22,7 +22,7 @@ public class UsuarioServiceBeanNT implements UsuarioServiceNT {
 	@Resource
 	private SessionContext context;
 
-	private String password = "123456";
+	private String password = "198122";
 	
 	@Override
 	public boolean authenticateAsAdministrator(String username, String passwordMD5) {
