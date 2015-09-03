@@ -3,6 +3,7 @@ package org.sistemafinanciero.controller;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.sistemafinanciero.entity.Cheque;
 import org.sistemafinanciero.entity.Chequera;
 import org.sistemafinanciero.entity.CuentaAporte;
 import org.sistemafinanciero.entity.CuentaBancaria;
+import org.sistemafinanciero.entity.CuentaBancariaInteresGenera;
 import org.sistemafinanciero.entity.DetalleHistorialCaja;
 import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.HistorialTransaccionCaja;
@@ -73,6 +75,7 @@ import org.sistemafinanciero.entity.type.Variable;
 import org.sistemafinanciero.service.nt.CajaServiceNT;
 import org.sistemafinanciero.service.nt.MonedaServiceNT;
 import org.sistemafinanciero.service.nt.VariableSistemaServiceNT;
+import org.sistemafinanciero.util.DateUtils;
 import org.sistemafinanciero.util.EntityManagerProducer;
 
 @Named
@@ -110,6 +113,9 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
 	@Inject
 	private DAO<Object, HistorialTransaccionCaja> historialTransaccionCajaDAO;
+
+	@Inject
+    private DAO<Object, CuentaBancariaInteresGenera> cuentaBancariaInteresGeneraDAO;
 
 	@EJB
 	private MonedaServiceNT monedaServiceNT;
@@ -876,7 +882,19 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		voucherTransaccion.setTipoCuentaBancaria(cuentaBancaria.getTipoCuentaBancaria());
 		voucherTransaccion.setNumeroCuenta(cuentaBancaria.getNumeroCuenta());
 		voucherTransaccion.setSaldoDisponible(cuentaBancaria.getSaldo());
-
+		
+		//Calculo de interes
+		Date fechaActual = Calendar.getInstance().getTime();
+		Date desde = DateUtils.sumarRestarDiasFecha(fechaActual, -1 * DateUtils.getDayOfMoth(fechaActual));
+		Date hasta = Calendar.getInstance().getTime();
+		QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", cuentaBancaria.getIdCuentaBancaria()).and("desde", DateUtils.getDateIn00Time(desde)).and("hasta", DateUtils.getDateIn00Time(hasta));
+        List<CuentaBancariaInteresGenera> intereses = cuentaBancariaInteresGeneraDAO.findByNamedQuery(CuentaBancariaInteresGenera.findByIdAndDate, queryParameter.parameters());     
+        BigDecimal interesTotal = BigDecimal.ZERO;
+        for (CuentaBancariaInteresGenera cuentaBancariaInteresGenera : intereses) {
+            interesTotal = interesTotal.add(cuentaBancariaInteresGenera.getInteresGenerado());
+        }
+        voucherTransaccion.setInteres(interesTotal);
+        
 		// Poniendo datos de agencia
 		voucherTransaccion.setAgenciaDenominacion(agencia.getDenominacion());
 		voucherTransaccion.setAgenciaAbreviatura(agencia.getAbreviatura());
