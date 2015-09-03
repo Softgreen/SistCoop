@@ -109,6 +109,7 @@
                 </div>
               </div>
 
+              <button type="button" class="btn btn-success" ng-click="imprimirSobreGiroCreado()">Imprimir</button>
               <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
 
             </div>
@@ -164,7 +165,7 @@
             </td>
             <td><span ng-bind="item.fecha | date: 'dd/MM/yyyy'"></span></td>
             <td style="text-align: center;">
-              <button type="button" class="btn btn-info btn-sm">Imprimir</button>
+              <button type="button" ng-click="imprimir(item)" class="btn btn-info btn-sm">Imprimir</button>
             </td>
           </tr>
         </tbody>
