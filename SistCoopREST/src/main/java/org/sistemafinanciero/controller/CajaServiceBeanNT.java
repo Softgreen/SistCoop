@@ -501,32 +501,38 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 			Set<TransaccionCajaCaja> transCajCajRecibidos = historialCaja.getTransaccionCajaCajasForIdCajaHistorialDestino();
 
 			for (TransaccionBancaria transBanc : transBancarias) {
-				Moneda moneda2 = transBanc.getCuentaBancaria().getMoneda();
-				if (moneda.equals(moneda2)) {
-					if (transBanc.getMonto().compareTo(BigDecimal.ZERO) >= 0)
-						entradas = entradas.add(transBanc.getMonto());
-					else
-						salidas = salidas.add(transBanc.getMonto().abs().negate());
-				}
+				if(transBanc.getEstado()){
+				    Moneda moneda2 = transBanc.getCuentaBancaria().getMoneda();
+	                if (moneda.equals(moneda2)) {                   
+	                    if (transBanc.getMonto().compareTo(BigDecimal.ZERO) >= 0)
+	                        entradas = entradas.add(transBanc.getMonto());
+	                    else
+	                        salidas = salidas.add(transBanc.getMonto().abs().negate());
+	                }
+				}			    
 			}
 			for (TransaccionCompraVenta transCompVent : transComVent) {
-				Moneda monedaRecibida = transCompVent.getMonedaRecibida();
-				Moneda monedaEntregada = transCompVent.getMonedaEntregada();
-				if (moneda.equals(monedaRecibida)) {
-					entradas = entradas.add(transCompVent.getMontoRecibido());
-				}
-				if (moneda.equals(monedaEntregada)) {
-					salidas = salidas.add(transCompVent.getMontoEntregado().abs().negate());
-				}
+			    if(transCompVent.getEstado()){
+			        Moneda monedaRecibida = transCompVent.getMonedaRecibida();
+	                Moneda monedaEntregada = transCompVent.getMonedaEntregada();
+	                if (moneda.equals(monedaRecibida)) {
+	                    entradas = entradas.add(transCompVent.getMontoRecibido());
+	                }
+	                if (moneda.equals(monedaEntregada)) {
+	                    salidas = salidas.add(transCompVent.getMontoEntregado().abs().negate());
+	                }
+			    }				
 			}
 			for (TransaccionCuentaAporte transAport : transCtaAport) {
-				Moneda moneda2 = transAport.getCuentaAporte().getMoneda();
-				if (moneda.equals(moneda2)) {
-					if (transAport.getMonto().compareTo(BigDecimal.ZERO) >= 0)
-						entradas = entradas.add(transAport.getMonto());
-					else
-						salidas = salidas.add(transAport.getMonto().abs().negate());
-				}
+			    if(transAport.getEstado()){
+			        Moneda moneda2 = transAport.getCuentaAporte().getMoneda();
+	                if (moneda.equals(moneda2)) {
+	                    if (transAport.getMonto().compareTo(BigDecimal.ZERO) >= 0)
+	                        entradas = entradas.add(transAport.getMonto());
+	                    else
+	                        salidas = salidas.add(transAport.getMonto().abs().negate());
+	                }
+			    }				
 			}
 
 			// entradas y salidas de transacciones internas
@@ -649,63 +655,70 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		VariableSistema varDolares = variableSistemaServiceNT.getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_DOLARES);
 		VariableSistema varEuros = variableSistemaServiceNT.getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_EUROS);
 
-		for (TransaccionBancaria transBanc : transBancarias) {
-			TipoCuentaBancaria tipoCuenta = transBanc.getCuentaBancaria().getTipoCuentaBancaria();
-			if (tipoCuenta.equals(TipoCuentaBancaria.LIBRE)) {
-				if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-					depositosLibre++;
-				else
-					retirosLibre++;
-			}
-			if (tipoCuenta.equals(TipoCuentaBancaria.RECAUDADORA)) {
-				if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-					depositosRecaudadora++;
-				else
-					retirosRecaudadora++;
-			}
-			if (tipoCuenta.equals(TipoCuentaBancaria.PLAZO_FIJO)) {
-				if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-					depositosPlazoFijo++;
-				else
-					retirosPlazoFijo++;
-			}
+        for (TransaccionBancaria transBanc : transBancarias) {
+            if (transBanc.getEstado()) {
+                TipoCuentaBancaria tipoCuenta = transBanc.getCuentaBancaria().getTipoCuentaBancaria();
 
-			// mayor cuantia
-			if (transBanc.getCuentaBancaria().getMoneda().getIdMoneda().equals(new BigInteger("1"))) {
-				if (transBanc.getMonto().abs().compareTo(varSoles.getValor()) >= 0)
-					if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-						depositosMayorCuantia++;
-					else
-						retirosMayorCuantia++;
-			}
-			if (transBanc.getCuentaBancaria().getMoneda().getIdMoneda().equals(new BigInteger("2"))) {
-				if (transBanc.getMonto().abs().compareTo(varDolares.getValor()) >= 0)
-					if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-						depositosMayorCuantia++;
-					else
-						retirosMayorCuantia++;
-			}
-			if (transBanc.getCuentaBancaria().getMoneda().getIdMoneda().equals(new BigInteger("3"))) {
-				if (transBanc.getMonto().abs().compareTo(varEuros.getValor()) >= 0)
-					if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-						depositosMayorCuantia++;
-					else
-						retirosMayorCuantia++;
-			}
+                if (tipoCuenta.equals(TipoCuentaBancaria.LIBRE)) {
+                    if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
+                        depositosLibre++;
+                    else
+                        retirosLibre++;
+                }
+                if (tipoCuenta.equals(TipoCuentaBancaria.RECAUDADORA)) {
+                    if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
+                        depositosRecaudadora++;
+                    else
+                        retirosRecaudadora++;
+                }
+                if (tipoCuenta.equals(TipoCuentaBancaria.PLAZO_FIJO)) {
+                    if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
+                        depositosPlazoFijo++;
+                    else
+                        retirosPlazoFijo++;
+                }
 
-		}
-		for (TransaccionCompraVenta transCompraVenta : transComVent) {
-			if (transCompraVenta.getTipoTransaccion().equals(Tipotransaccioncompraventa.COMPRA))
-				compra++;
-			else
-				venta++;
-		}
-		for (TransaccionCuentaAporte trans : transCtaAport) {
-			if (trans.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-				depositosAporte++;
-			else
-				retirosAporte++;
-		}
+                // mayor cuantia
+                if (transBanc.getCuentaBancaria().getMoneda().getIdMoneda().equals(new BigInteger("1"))) {
+                    if (transBanc.getMonto().abs().compareTo(varSoles.getValor()) >= 0)
+                        if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
+                            depositosMayorCuantia++;
+                        else
+                            retirosMayorCuantia++;
+                }
+                if (transBanc.getCuentaBancaria().getMoneda().getIdMoneda().equals(new BigInteger("2"))) {
+                    if (transBanc.getMonto().abs().compareTo(varDolares.getValor()) >= 0)
+                        if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
+                            depositosMayorCuantia++;
+                        else
+                            retirosMayorCuantia++;
+                }
+                if (transBanc.getCuentaBancaria().getMoneda().getIdMoneda().equals(new BigInteger("3"))) {
+                    if (transBanc.getMonto().abs().compareTo(varEuros.getValor()) >= 0)
+                        if (transBanc.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
+                            depositosMayorCuantia++;
+                        else
+                            retirosMayorCuantia++;
+                }
+            }
+        }
+        for (TransaccionCompraVenta transCompraVenta : transComVent) {
+            if (transCompraVenta.getEstado()) {
+                if (transCompraVenta.getTipoTransaccion().equals(Tipotransaccioncompraventa.COMPRA))
+                    compra++;
+                else
+                    venta++;
+            }
+        }
+        for (TransaccionCuentaAporte trans : transCtaAport) {
+            if (trans.getEstado()) {
+                if (trans.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO)) {
+                    depositosAporte++;
+                } else {
+                    retirosAporte++;
+                }
+            }
+        }
 
 		// transCajaCajaEnviado = transCajaCajaEnviados.size();
 		// transCajaCajaRecibido = transCajaCajaRecibidos.size();
