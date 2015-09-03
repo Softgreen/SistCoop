@@ -27,7 +27,7 @@ define(['./app'], function (app) {
           '               <span class="icon-bar"></span>' +
           '</button>' +
           '<a class="navbar-brand" href="#">' +
-          '<img alt="Logo Caja Ventura" src="images/logos_coop/logo_coop_header.png">' +
+          '<img alt="Logo Caja Ventura" src="images/logos_coop/logo_coop_header3.png">' +
           '</a>' +
           '</div>' +
           '<div class="navbar-collapse collapse">' +
