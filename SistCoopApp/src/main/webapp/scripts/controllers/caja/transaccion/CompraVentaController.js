@@ -147,7 +147,17 @@ define(['../../module'], function (controllers) {
           transaccion.montoRecibido = Math.abs($scope.view.montoRecibido);
           transaccion.montoEntregado = $scope.view.montoEntregado;
           transaccion.tasaCambio = $scope.view.tasaCambio;
-          transaccion.referencia = $scope.view.numeroDocumento + "/" + $scope.view.nombreCliente;
+          transaccion.referencia = '';
+          if($scope.view.numeroDocumento){
+            transaccion.referencia = transaccion.referencia + $scope.view.numeroDocumento;
+          }
+          if($scope.view.nombreCliente){
+            if(transaccion.referencia != ''){
+              transaccion.referencia = transaccion.referencia + "/" + $scope.view.nombreCliente;
+            } else {
+              transaccion.referencia = transaccion.referencia + $scope.view.nombreCliente;
+            }
+          }
 
           $scope.control.inProcess = true;
 

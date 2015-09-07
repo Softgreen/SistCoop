@@ -64,18 +64,14 @@ define(['../module'], function (controllers) {
         //qz.append("RECIBIDO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoRecibido, $scope.compraVentaMoneda.monedaRecibida.simbolo)) + "\r\n");
         //qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, $scope.compraVentaMoneda.monedaEntregada.simbolo)) + "\r\n");
         qz.append("TIP.CAMBIO:\t" + ($filter('currency')($scope.compraVentaMoneda.tipoCambio, '')) + "\r\n");
-        var elem = $scope.compraVentaMoneda.referencia.split('/');
+        //var elem = $scope.compraVentaMoneda.referencia.split('/');
 
-        if (elem[0]) {
-          qz.append("CLIENTE:\t" + elem[0] + "\r\n");
+        if($scope.compraVentaMoneda.referencia){
+          qz.append("CLIENTE:\t" + ($scope.compraVentaMoneda.referencia) + "\r\n");
         } else {
-          qz.append("CLIENTE:\t" + '' + "\r\n");
+          qz.append("CLIENTE:\t" + ' ' + "\r\n");
         }
-        if (elem[1]) {
-          qz.append("\t\t" + elem[1] + "\r\n");
-        } else {
-          qz.append("\t\t" + '' + "\r\n");
-        }
+
 
         qz.append("\r\n");
         qz.append(String.fromCharCode(27) + "\x61" + "\x31");
