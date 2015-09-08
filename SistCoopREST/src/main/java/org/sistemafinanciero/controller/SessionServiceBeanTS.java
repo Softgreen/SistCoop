@@ -43,12 +43,14 @@ import org.sistemafinanciero.entity.Giro;
 import org.sistemafinanciero.entity.HistorialBoveda;
 import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.HistorialPagoSobreGiro;
+import org.sistemafinanciero.entity.HistorialPagoSobreGiroBancario;
 import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.PendienteCaja;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.SobreGiro;
+import org.sistemafinanciero.entity.SobreGiroBancario;
 import org.sistemafinanciero.entity.Socio;
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TransaccionBancaria;
@@ -67,6 +69,7 @@ import org.sistemafinanciero.entity.type.EstadoCuentaAporte;
 import org.sistemafinanciero.entity.type.EstadoCuentaBancaria;
 import org.sistemafinanciero.entity.type.EstadoGiro;
 import org.sistemafinanciero.entity.type.EstadoSobreGiro;
+import org.sistemafinanciero.entity.type.EstadoSobreGiroBancario;
 import org.sistemafinanciero.entity.type.LugarPagoComision;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoPendiente;
@@ -183,8 +186,14 @@ public class SessionServiceBeanTS implements SessionServiceTS {
     private DAO<Object, SobreGiro> sobreGiroDAO;
 
     @Inject
+    private DAO<Object, SobreGiroBancario> sobreGiroBancarioDAO;
+    
+    @Inject
     private DAO<Object, HistorialPagoSobreGiro> historialPagoSobreGiroDAO;
 
+    @Inject
+    private DAO<Object, HistorialPagoSobreGiroBancario> historialPagoSobreGiroBancarioDAO;
+    
     @Inject
     private EntityManagerProducer em;
 
@@ -771,7 +780,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
     @AllowedTo(Permission.ABIERTO)
     @AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
     @Override
-    public BigInteger crearTransaccionBancaria(String numeroCuenta, BigDecimal monto, String referencia)
+    public BigInteger crearTransaccionBancaria(String numeroCuenta, BigDecimal monto, String referencia, BigDecimal interes)
             throws RollbackFailureException {
         CuentaBancaria cuentaBancaria = null;
         try {
@@ -807,16 +816,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         HistorialCaja historialCaja = this.getHistorialActivo();
         Trabajador trabajador = this.getTrabajador();
         PersonaNatural natural = trabajador.getPersonaNatural();
+  
 
-        // obteniendo saldo disponible de cuenta
-        BigDecimal saldoDisponible = cuentaBancaria.getSaldo().add(monto);
-        if (saldoDisponible.compareTo(BigDecimal.ZERO) == -1) {
-            throw new RollbackFailureException("Saldo insuficiente para transaccion");
-        } else {
-            cuentaBancaria.setSaldo(saldoDisponible);
-            cuentaBancariaDAO.update(cuentaBancaria);
-        }
-
+        //Creando transaccion
         Calendar calendar = Calendar.getInstance();
 
         TransaccionBancaria transaccionBancaria = new TransaccionBancaria();
@@ -827,19 +829,81 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         transaccionBancaria.setHistorialCaja(historialCaja);
         transaccionBancaria.setMonto(monto);
         transaccionBancaria.setNumeroOperacion(this.getNumeroOperacion());
-        transaccionBancaria.setObservacion("Doc:" + natural.getTipoDocumento().getAbreviatura() + "/"
-                + natural.getNumeroDocumento() + "Trabajador:" + natural.getApellidoPaterno() + " "
-                + natural.getApellidoMaterno() + "," + natural.getNombres());
+        transaccionBancaria.setObservacion("Doc:" + natural.getTipoDocumento().getAbreviatura() + "/" + natural.getNumeroDocumento() + "Trabajador:" + natural.getApellidoPaterno() + " " + natural.getApellidoMaterno() + "," + natural.getNombres());
         transaccionBancaria.setReferencia(referencia);
-        transaccionBancaria.setSaldoDisponible(saldoDisponible);
-        transaccionBancaria
-                .setTipoTransaccion(monto.compareTo(BigDecimal.ZERO) >= 0 ? Tipotransaccionbancaria.DEPOSITO
-                        : Tipotransaccionbancaria.RETIRO);
+        transaccionBancaria.setSaldoDisponible(cuentaBancaria.getSaldo().add(monto));
+        transaccionBancaria.setTipoTransaccion(monto.compareTo(BigDecimal.ZERO) >= 0 ? Tipotransaccionbancaria.DEPOSITO : Tipotransaccionbancaria.RETIRO);
         transaccionBancaria.setMoneda(cuentaBancaria.getMoneda());
         transaccionBancariaDAO.create(transaccionBancaria);
+        
         // actualizar saldo caja
         this.actualizarSaldoCaja(monto, cuentaBancaria.getMoneda().getIdMoneda());
 
+        
+        //Verificar sobreGiro
+        if(monto.compareTo(BigDecimal.ZERO) >= 0){
+            //deposito
+            BigDecimal saldoActual = cuentaBancaria.getSaldo();
+            if(saldoActual.compareTo(BigDecimal.ZERO) == -1){
+                //tiene sobreGiros sin pagar              
+                QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", cuentaBancaria.getIdCuentaBancaria()).and("estado", EstadoSobreGiroBancario.ACTIVO);
+                List<SobreGiroBancario> list = sobreGiroBancarioDAO.findByNamedQuery(SobreGiroBancario.findByIdCuentaBancariaAndEstado, queryParameter.parameters());
+                
+                BigDecimal montoBandera = monto.abs();
+                for (SobreGiroBancario sobreGiroBancario : list) {
+                    if(montoBandera.compareTo(BigDecimal.ZERO) == 1) {
+                        BigDecimal montoTotalSobreGiro = sobreGiroBancario.getMonto().abs();
+                        BigDecimal montoTotalSobreGiroPagado = BigDecimal.ZERO;
+                        Set<HistorialPagoSobreGiroBancario> historialPagos = sobreGiroBancario.getHistorialPagos();
+                        for (HistorialPagoSobreGiroBancario historialPagoSobreGiroBancario : historialPagos) {
+                            BigDecimal montoTrans = historialPagoSobreGiroBancario.getMonto().abs();
+                            montoTotalSobreGiroPagado = montoTotalSobreGiroPagado.add(montoTrans);
+                        }
+                        BigDecimal montoSobreGiroQueFaltaPagar = montoTotalSobreGiro.subtract(montoTotalSobreGiroPagado);
+                        
+                        // Crear historial de pago                        
+                        HistorialPagoSobreGiroBancario nuevoPago = new HistorialPagoSobreGiroBancario();
+                        nuevoPago.setFecha(Calendar.getInstance().getTime());                        
+                        nuevoPago.setSobreGiroBancario(sobreGiroBancario);
+                        nuevoPago.setIdTransaccionBancaria(transaccionBancaria.getIdTransaccionBancaria());
+                        if(montoBandera.subtract(montoSobreGiroQueFaltaPagar).compareTo(BigDecimal.ZERO)>=0){
+                            //paga giro y lo inactiva
+                            nuevoPago.setMonto(montoSobreGiroQueFaltaPagar);
+                            historialPagoSobreGiroBancarioDAO.create(nuevoPago);
+                            
+                            sobreGiroBancario.setEstado(EstadoSobreGiroBancario.PAGADO);
+                            sobreGiroBancarioDAO.update(sobreGiroBancario);
+                        } else {
+                            //paga giro pero sigue activo
+                            nuevoPago.setMonto(montoBandera.abs());
+                            historialPagoSobreGiroBancarioDAO.create(nuevoPago);
+                        }                                               
+                        montoBandera = montoBandera.subtract(montoSobreGiroQueFaltaPagar.abs());
+                    } else {
+                        break;
+                    }          
+                }               
+            }
+        } else {
+            //retiro
+            BigDecimal saldoDisponible = cuentaBancaria.getSaldo().add(monto);
+            if (saldoDisponible.compareTo(BigDecimal.ZERO) == -1) {
+                //se debe de hacer un sobregiro               
+                SobreGiroBancario sobreGiroBancario = new SobreGiroBancario();
+                sobreGiroBancario.setCuentaBancaria(cuentaBancaria);
+                sobreGiroBancario.setEstado(EstadoSobreGiroBancario.ACTIVO);
+                sobreGiroBancario.setFechaCreacion(Calendar.getInstance().getTime());
+                sobreGiroBancario.setInteres(interes);
+                sobreGiroBancario.setMonto(saldoDisponible.abs());
+                sobreGiroBancario.setIdTransaccionBancaria(transaccionBancaria.getIdTransaccionBancaria());
+                sobreGiroBancarioDAO.create(sobreGiroBancario);                             
+            }
+        }
+        // actualizar saldo cuenta bancaria
+        BigDecimal saldoDisponible = cuentaBancaria.getSaldo().add(monto);
+        cuentaBancaria.setSaldo(saldoDisponible);
+        cuentaBancariaDAO.update(cuentaBancaria);
+               
         return transaccionBancaria.getIdTransaccionBancaria();
     }
 
@@ -1254,7 +1318,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
                 cantRetirantes, titulares, beneficiarios);
         CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(idCuentaBancaria);
         String numeroCuenta = cuentaBancaria.getNumeroCuenta();
-        BigInteger idTransaccion = crearTransaccionBancaria(numeroCuenta, monto, "APERTURA CUENTA PLAZO FIJO");
+        BigInteger idTransaccion = crearTransaccionBancaria(numeroCuenta, monto, "APERTURA CUENTA PLAZO FIJO", null);
         return new BigInteger[] { idCuentaBancaria, idTransaccion };
     }
 
@@ -1279,7 +1343,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         BigDecimal monto = cuentaBancaria.getSaldo().negate();
         String referencia = "RETIRO POR CANCELACION DE CUENTA";
 
-        BigInteger idTransaccion = crearTransaccionBancaria(numeroCuenta, monto, referencia);
+        BigInteger idTransaccion = crearTransaccionBancaria(numeroCuenta, monto, referencia, null);
         cuentaBancariaServiceTS.cancelarCuentaBancaria(id);
         return idTransaccion;
     }

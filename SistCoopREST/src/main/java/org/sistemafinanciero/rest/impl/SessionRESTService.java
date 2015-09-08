@@ -284,8 +284,9 @@ public class SessionRESTService implements SessionREST {
             String numeroCuenta = transaccion.getNumeroCuenta();
             BigDecimal monto = transaccion.getMonto();
             String referencia = transaccion.getReferencia();
+            BigDecimal interes = transaccion.getInteres();
             BigInteger idTransaccion = sessionServiceTS.crearTransaccionBancaria(numeroCuenta, monto,
-                    referencia);
+                    referencia, interes);
             response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion))
                     .build();
         } catch (RollbackFailureException e) {
@@ -552,8 +553,9 @@ public class SessionRESTService implements SessionREST {
         try {
             BigInteger idSobreGiro = historial.getIdSobreGiro();
             BigDecimal monto = historial.getMonto();
-           
-            BigInteger idTransaccion = sessionServiceTS.crearTransaccionHistorialSobreGiro(idSobreGiro, monto);
+
+            BigInteger idTransaccion = sessionServiceTS
+                    .crearTransaccionHistorialSobreGiro(idSobreGiro, monto);
 
             response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion))
                     .build();

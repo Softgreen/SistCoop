@@ -11,36 +11,48 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class TransaccionBancariaDTO implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
-	private String numeroCuenta;
-	private BigDecimal monto;
-	private String referencia;
+    private static final long serialVersionUID = 1L;
 
-	public String getNumeroCuenta() {
-		return numeroCuenta;
-	}
+    private String numeroCuenta;
+    private BigDecimal monto;
+    private String referencia;
 
-	public void setNumeroCuenta(String numeroCuenta) {
-		this.numeroCuenta = numeroCuenta;
-	}
+    // Este atributo es aplicable cuando se hce un SOBRE GIRO BANCARIO
+    private BigDecimal interes;
 
-	public BigDecimal getMonto() {
-		return monto;
-	}
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    public void setNumeroCuenta(String numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
+    }
 
-	public String getReferencia() {
-		return referencia;
-	}
+    public BigDecimal getMonto() {
+        return monto;
+    }
 
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public BigDecimal getInteres() {
+        return interes;
+    }
+
+    public void setInteres(BigDecimal interes) {
+        this.interes = interes;
+    }
+
 }

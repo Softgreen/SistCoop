@@ -33,7 +33,7 @@ public interface SessionServiceTS {
 
 	public BigInteger retiroCuentaAporte(BigInteger idSocio) throws RollbackFailureException;
 
-	public BigInteger crearTransaccionBancaria(String numeroCuenta, BigDecimal monto, String referencia) throws RollbackFailureException;
+	public BigInteger crearTransaccionBancaria(String numeroCuenta, BigDecimal monto, String referencia, BigDecimal interes) throws RollbackFailureException;
 
 	public BigInteger crearTransaccionCompraVenta(Tipotransaccioncompraventa tipoTransaccion, BigInteger idMonedaRecibido, BigInteger idMonedaEntregado, BigDecimal montoRecibido, BigDecimal montoEntregado, BigDecimal tasaCambio, String referencia) throws RollbackFailureException;
 
