@@ -41,12 +41,15 @@ import org.sistemafinanciero.entity.type.EstadoSobreGiroBancario;
 @Table(name = "SOBRE_GIRO_BANCARIO", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "sobreGiroBancario")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = SobreGiroBancario.findByIdCuentaBancariaAndEstado, query = "SELECT s FROM SobreGiroBancario s WHERE s.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria AND s.estado = :estado ORDER BY s.fechaCreacion ASC") })
+@NamedQueries({
+        @NamedQuery(name = SobreGiroBancario.findByIdCuentaBancariaAndEstado, query = "SELECT s FROM SobreGiroBancario s WHERE s.cuentaBancaria.idCuentaBancaria = :idCuentaBancaria AND s.estado = :estado ORDER BY s.fechaCreacion ASC"),
+        @NamedQuery(name = SobreGiroBancario.findByIdTransaccionBancaria, query = "SELECT s FROM SobreGiroBancario s WHERE s.idTransaccionBancaria = :idTransaccionBancaria") })
 public class SobreGiroBancario implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 
     public final static String findByIdCuentaBancariaAndEstado = "SobreGiroBancario.findByIdCuentaBancariaAndEstado";
+    public final static String findByIdTransaccionBancaria = "SobreGiroBancario.findByIdTransaccionBancaria";
 
     private BigInteger idSobreGiro;
 

@@ -2,6 +2,7 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -1174,6 +1175,47 @@ public class SessionServiceBeanTS implements SessionServiceTS {
                     transaccionBancaria.getMonto());
             transaccionBancariaPosterior.setSaldoDisponible(nuevoSaldoDisponible);
             transaccionBancariaDAO.update(transaccionBancariaPosterior);
+        }
+        
+        
+        //EXTORNAR SOBREGIROS CREADOS
+        if(transaccionBancaria.getTipoTransaccion().equals(Tipotransaccionbancaria.RETIRO)){
+            //eliminar los sobregiros asociados a la transaccion
+            QueryParameter queryParameter1 = QueryParameter.with("idTransaccionBancaria", transaccionBancaria.getIdTransaccionBancaria());
+            List<SobreGiroBancario> sobreGiros = sobreGiroBancarioDAO.findByNamedQuery(SobreGiroBancario.findByIdTransaccionBancaria, queryParameter1.parameters());
+            for (SobreGiroBancario sobreGiroBancario : sobreGiros) {
+                Set<HistorialPagoSobreGiroBancario> historiales = sobreGiroBancario.getHistorialPagos();
+                if(historiales.isEmpty()){
+                    sobreGiroBancarioDAO.delete(sobreGiroBancario);
+                } else {
+                    throw new EJBException("La operacion no puede ser extornada pues existen transacciones posteriores a esta.");
+                }
+            }
+        } else {                                               
+            QueryParameter queryParameter1 = QueryParameter.with("idTransaccionBancaria", transaccionBancaria.getIdTransaccionBancaria());
+            List<HistorialPagoSobreGiroBancario> historialesSobreGiro = historialPagoSobreGiroBancarioDAO.findByNamedQuery(HistorialPagoSobreGiroBancario.findByIdTransaccionBancaria, queryParameter1.parameters());
+            List<SobreGiroBancario> sobreGiros = new ArrayList<>();
+            for (HistorialPagoSobreGiroBancario historialPagoSobreGiroBancario : historialesSobreGiro) {
+                sobreGiros.add(historialPagoSobreGiroBancario.getSobreGiroBancario());
+            }    
+            // eliminar los historiales de sobre giro asociados a la transaccion            
+            for (HistorialPagoSobreGiroBancario historialPagoSobreGiroBancario : historialesSobreGiro) {
+                historialPagoSobreGiroBancarioDAO.delete(historialPagoSobreGiroBancario);
+            }
+            //re evaluar los sobregiros asociados para volerlos a ACTIVAR
+            for (SobreGiroBancario sobreGiroBancario : sobreGiros) {                
+                BigDecimal montoPagado = BigDecimal.ZERO;
+                Set<HistorialPagoSobreGiroBancario> historiales = sobreGiroBancario.getHistorialPagos();
+                for (HistorialPagoSobreGiroBancario historialPagoSobreGiroBancario : historiales) {
+                    BigDecimal montoTrans = historialPagoSobreGiroBancario.getMonto();
+                    montoPagado = montoPagado.add(montoTrans);
+                }
+                BigDecimal saldoQueFaltaPagar = sobreGiroBancario.getMonto().subtract(montoPagado);
+                if(saldoQueFaltaPagar.compareTo(BigDecimal.ZERO)==1){
+                    sobreGiroBancario.setEstado(EstadoSobreGiroBancario.ACTIVO);
+                    sobreGiroBancarioDAO.update(sobreGiroBancario);
+                }
+            }                        
         }
     }
 
