@@ -122,7 +122,7 @@ define(['../module'], function (controllers) {
                 qz.append("\x1B\x40"); // 1
                 qz.append("\x1B\x21\x08"); // 2
                 qz.append(String.fromCharCode(27) + "\x61" + "\x31");
-                qz.append("CASA DE CAMBIOS VENTURA\r\n");
+                qz.append("MULTIVALORES DEL SUR\r\n");
                 qz.append("BALANCE CAJA\r\n");
 
                 qz.append("\x1B\x21\x01");
@@ -161,12 +161,48 @@ define(['../module'], function (controllers) {
                 }
 
                 qz.append("\n");
-                qz.append("SALDO AYER: "+($filter('currency')($scope.voucherPrint.saldoAyer, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                /*qz.append("SALDO AYER: "+($filter('currency')($scope.voucherPrint.saldoAyer, $scope.voucherPrint.moneda.simbolo))+"\r\n");
                 qz.append("ENTRADAS  : "+($filter('currency')($scope.voucherPrint.entradas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
                 qz.append("SALIDAS   : "+($filter('currency')($scope.voucherPrint.salidas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
                 qz.append("SOBRANTES : "+($filter('currency')($scope.voucherPrint.entradas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
                 qz.append("FALTANTES : "+($filter('currency')($scope.voucherPrint.salidas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
-                qz.append("SALDO X DEVOLVER: "+($filter('currency')($scope.voucherPrint.porDevolver, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                qz.append("SALDO X DEVOLVER: "+($filter('currency')($scope.voucherPrint.porDevolver, $scope.voucherPrint.moneda.simbolo))+"\r\n");*/
+                
+                if($scope.voucherPrint.moneda.simbolo == "€"){
+                	qz.append("SALDO AYER: "+($filter('currency')($scope.voucherPrint.saldoAyer,  chr(238))) + "\r\n");
+                } else {
+                	qz.append("SALDO AYER: "+($filter('currency')($scope.voucherPrint.saldoAyer, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                }
+                
+                if($scope.voucherPrint.moneda.simbolo == "€"){
+                	qz.append("ENTRADAS  : "+($filter('currency')($scope.voucherPrint.entradas,  chr(238))) + "\r\n");
+                } else {
+                	qz.append("ENTRADAS  : "+($filter('currency')($scope.voucherPrint.entradas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                }
+                
+                if($scope.voucherPrint.moneda.simbolo == "€"){
+                	qz.append("SALIDAS   : "+($filter('currency')($scope.voucherPrint.salidas,  chr(238))) + "\r\n");
+                } else {
+                	qz.append("SALIDAS   : "+($filter('currency')($scope.voucherPrint.salidas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                }
+                
+                if($scope.voucherPrint.moneda.simbolo == "€"){
+                	qz.append("SOBRANTES : "+($filter('currency')($scope.voucherPrint.entradas,  chr(238))) + "\r\n");
+                } else {
+                	qz.append("SOBRANTES : "+($filter('currency')($scope.voucherPrint.entradas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                }
+                
+                if($scope.voucherPrint.moneda.simbolo == "€"){
+                	qz.append("FALTANTES : "+($filter('currency')($scope.voucherPrint.salidas,  chr(238))) + "\r\n");
+                } else {
+                	qz.append("FALTANTES : "+($filter('currency')($scope.voucherPrint.salidas, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                }
+                
+                if($scope.voucherPrint.moneda.simbolo == "€"){
+                	qz.append("SALDO X DEVOLVER: "+($filter('currency')($scope.voucherPrint.porDevolver,  chr(238))) + "\r\n");
+                } else {
+                	qz.append("SALDO X DEVOLVER: "+($filter('currency')($scope.voucherPrint.porDevolver, $scope.voucherPrint.moneda.simbolo))+"\r\n");
+                }
 
                 qz.append("\r\n");
                 qz.append("\r\n");
