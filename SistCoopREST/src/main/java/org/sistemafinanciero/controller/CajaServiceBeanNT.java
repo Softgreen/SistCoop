@@ -2,6 +2,7 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -900,12 +901,14 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		Date fechaActual = Calendar.getInstance().getTime();
 		Date desde = DateUtils.sumarRestarDiasFecha(fechaActual, -1 * DateUtils.getDayOfMoth(fechaActual));
 		Date hasta = Calendar.getInstance().getTime();
+		hasta = DateUtils.sumarRestarDiasFecha(hasta, 1);
 		QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", cuentaBancaria.getIdCuentaBancaria()).and("desde", DateUtils.getDateIn00Time(desde)).and("hasta", DateUtils.getDateIn00Time(hasta));
         List<CuentaBancariaInteresGenera> intereses = cuentaBancariaInteresGeneraDAO.findByNamedQuery(CuentaBancariaInteresGenera.findByIdAndDate, queryParameter.parameters());     
         BigDecimal interesTotal = BigDecimal.ZERO;
         for (CuentaBancariaInteresGenera cuentaBancariaInteresGenera : intereses) {
             interesTotal = interesTotal.add(cuentaBancariaInteresGenera.getInteresGenerado());
         }
+        interesTotal = interesTotal.setScale(2,RoundingMode.FLOOR);
         voucherTransaccion.setInteres(interesTotal);
         
 		// Poniendo datos de agencia

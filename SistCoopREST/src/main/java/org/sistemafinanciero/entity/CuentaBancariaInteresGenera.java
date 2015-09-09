@@ -87,7 +87,7 @@ public class CuentaBancariaInteresGenera implements java.io.Serializable {
         this.capital = capital;
     }
 
-    @Column(name = "INTERES_GENERADO", precision = 18)
+    @Column(name = "INTERES_GENERADO", precision = 38)
     public BigDecimal getInteresGenerado() {
         return this.interesGenerado;
     }
