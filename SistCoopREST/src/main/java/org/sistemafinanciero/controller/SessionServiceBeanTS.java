@@ -1227,9 +1227,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
         if (transaccionBancaria.getEstado() == true
                 && cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.ACTIVO)
-                && transaccionBancaria.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo
-                        .getIdHistorialCaja()) {
-            if (cuentaBancaria.getSaldo().compareTo(transaccionBancaria.getMonto()) != -1) {
+                && transaccionBancaria.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {
+            //if (cuentaBancaria.getSaldo().compareTo(transaccionBancaria.getMonto()) != -1) {
                 Caja caja = this.getCaja();
                 BigDecimal saldoActualBovedaCaja = new BigDecimal(0.00);
                 Set<BovedaCaja> bovedasCajas = caja.getBovedaCajas();
@@ -1242,38 +1241,29 @@ public class SessionServiceBeanTS implements SessionServiceTS {
                 }
 
                 if (saldoActualBovedaCaja.compareTo(transaccionBancaria.getMonto()) != -1) {
-                    cuentaBancaria.setSaldo(cuentaBancaria.getSaldo().abs()
-                            .subtract(transaccionBancaria.getMonto().abs()));
-                    actualizarSaldoCaja(transaccionBancaria.getMonto().abs().negate(), transaccionBancaria
-                            .getMoneda().getIdMoneda());
+                    cuentaBancaria.setSaldo(cuentaBancaria.getSaldo().subtract(transaccionBancaria.getMonto().abs()));
+                    actualizarSaldoCaja(transaccionBancaria.getMonto().abs().negate(), transaccionBancaria.getMoneda().getIdMoneda());
                     transaccionBancaria.setEstado(false);
                 } else
-                    throw new RollbackFailureException(
-                            "Error al Extornar Transacci&oacute;n: Saldo insuficiente en caja");
-            } else
-                throw new RollbackFailureException(
-                        "Error al Extornar Transacci&oacute;n: La cuenta bancaria no tiene suficiente dinero");
+                    throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Saldo insuficiente en caja");
+            //} else
+            //    throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: La cuenta bancaria no tiene suficiente dinero");
         } else
-            throw new RollbackFailureException(
-                    "Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");
+            throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");
     }
 
     private void extornarCuentaBancariaRetiro(TransaccionBancaria transaccionBancaria)
             throws RollbackFailureException {
-        CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(transaccionBancaria.getCuentaBancaria()
-                .getIdCuentaBancaria());
+        CuentaBancaria cuentaBancaria = cuentaBancariaDAO.find(transaccionBancaria.getCuentaBancaria().getIdCuentaBancaria());
         HistorialCaja historialCajaActivo = this.getHistorialActivo();
         if (transaccionBancaria.getEstado() == true
                 && cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.ACTIVO)
-                && transaccionBancaria.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo
-                        .getIdHistorialCaja()) {
-            cuentaBancaria.setSaldo(cuentaBancaria.getSaldo().subtract(transaccionBancaria.getMonto()));
+                && transaccionBancaria.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {
+            cuentaBancaria.setSaldo(cuentaBancaria.getSaldo().add(transaccionBancaria.getMonto().abs()));
             transaccionBancaria.setEstado(false);
-            actualizarSaldoCaja(transaccionBancaria.getMonto().abs(), transaccionBancaria.getMoneda()
-                    .getIdMoneda());
+            actualizarSaldoCaja(transaccionBancaria.getMonto().abs(), transaccionBancaria.getMoneda().getIdMoneda());
         } else
-            throw new RollbackFailureException(
-                    "Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");
+            throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");
     }
 
     private void extornarTransaccionCuentaAporte(BigInteger idTransaccion) throws RollbackFailureException {
