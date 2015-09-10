@@ -80,6 +80,18 @@ public class EmailSessionBean {
 		Document document = new Document();
 		PdfWriter.getInstance(document, outputStream);
 		
+		if(list.isEmpty()){
+		    document.open();
+
+	        document.addTitle("Estado de Cuenta");
+	        document.addSubject("Estado de Cuenta");
+	        document.addKeywords("email");
+	        document.addAuthor("Multivalores del Sur");
+	        document.addCreator("Multivalores del Sur");
+	        
+	        document.close();
+	        return;
+		}
 		
 		//Dando formato a las fechas desde hasta
 		Date desde = list.get(0).getFecha();
