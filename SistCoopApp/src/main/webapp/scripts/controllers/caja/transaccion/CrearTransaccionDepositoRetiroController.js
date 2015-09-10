@@ -196,13 +196,23 @@ define(['../../module'], function (controllers) {
             "interes": 0
           };
 
-          if(transaccion.monto < 0 && (transaccion.monto + $scope.objetosCargados.cuentaBancaria.saldo) < 0 && !sobreGiro){
-            $scope.alertsSobreGiro = [{type: "danger", msg: "Error: Saldo insuficiente."}];
+          if (transaccion.monto < 0 && (transaccion.monto + $scope.objetosCargados.cuentaBancaria.saldo) < 0 && !sobreGiro) {
+            /*$scope.alertsSobreGiro = [{type: "danger", msg: "Error: Saldo insuficiente."}];
             $scope.closeAlert = function (index) {
               $scope.alertsSobreGiro.splice(index, 1);
-            };
+            };*/
             $scope.control.success = true;
             $scope.control.inProcess = false;
+
+            var modalInstance = $modal.open({
+              templateUrl: 'views/cajero/util/crearSobreGiroConfirm.html',
+              controller: 'ConfirmPopUpController'
+            });
+            modalInstance.result.then(function () {
+              $scope.crearTransaccion(true);
+            }, function () {
+            });
+
             return;
           }
 
