@@ -566,6 +566,8 @@ public class BovedaServiceBeanTS implements BovedaServiceTS {
 			throw new RollbackFailureException("Transaccion ya fue CANCELADA, no se puede cancelar nuevamente");
 		transaccion.setEstadoSolicitud(false);
 		transaccionBovedaBovedaDAO.update(transaccion);
+		
+		this.actualizarSaldoBoveda(transaccion.getHistorialBovedaOrigen().getBoveda().getIdBoveda(), transaccion.getTransaccionBovedaBovedaDetalles(), 1);        
 	}
 	
 	private HistorialBoveda getHistorialActivoBoveda(BigInteger idBoveda) {
