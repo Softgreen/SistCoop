@@ -38,7 +38,8 @@ define([
     './util/LoadImageController',
     './util/UbigeoController',
 
-    './configuracion/TipoCambioController'
+    './configuracion/TipoCambioController',
+    './reportes/DebeHaberController'
 
 ], function () {
 
