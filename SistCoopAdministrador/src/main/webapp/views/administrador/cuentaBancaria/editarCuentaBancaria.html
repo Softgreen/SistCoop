@@ -132,7 +132,11 @@
                     </tr>
                     <tr>
                         <td colspan="1" style="font-size: 12px;"><strong>Saldo Disponible:</strong></td>
-                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.saldo | currency : cuentaBancaria.moneda"></span></td>
+                        <td colspan="3" style="font-size: 12px;"><span ng-bind="cuentaBancaria.moneda"></span><span ng-bind="cuentaBancaria.saldo | number : 2"></span></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" style="font-size: 12px;"><strong>TEA:</strong></td>
+                      <td colspan="3" style="font-size: 12px;"><span ng-bind="(cuentaBancaria.tasaInteres * 100) | number : 2"></span></td>
                     </tr>
                 </table>
             </div>
@@ -298,7 +302,8 @@
           <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); height: 400px; font-size: 11px"></div>
           <div class="panel-footer">
             <strong>Saldo Disponible:</strong>
-            <strong ng-bind="cuentaBancaria.saldo | currency : cuentaBancaria.moneda"></strong>
+            <strong ng-bind="cuentaBancaria.moneda"></strong>
+            <strong ng-bind="cuentaBancaria.saldo | number : 2"></strong>
           </div>
         </div>
       </div>

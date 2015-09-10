@@ -146,7 +146,7 @@ define(['../module'], function (controllers) {
             cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span>{{cuentaBancaria.moneda}}</span></div>'
           },
           {field: "monto", cellFilter: "number: 2", displayName: 'MONTO', width: 70},
-          {field: "saldoDisponible", cellFilter: "currency: ''", displayName: 'DISPONIBLE', width: 90},
+          {field: "saldoDisponible", cellFilter: "number: 2", displayName: 'DISPONIBLE', width: 90},
           {
             displayName: 'ESTADO',
             width: 80,
