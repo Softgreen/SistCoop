@@ -1,23 +1,25 @@
 define([
-    'angular',
+  'angular',
 
-    './SessionService',
-    './TrabajadorService',
-    './SucursalService',
-    './AgenciaService',
-    './PersonaNaturalService',
-    './PersonaJuridicaService',
+  './SessionService',
+  './TrabajadorService',
+  './SucursalService',
+  './AgenciaService',
+  './PersonaNaturalService',
+  './PersonaJuridicaService',
 
-    './CuentaBancariaService',
-    './BeneficiarioService',
-    './TitularService',
-    './SocioService',
-    './VariablesService',
+  './CuentaBancariaService',
+  './BeneficiarioService',
+  './TitularService',
+  './SocioService',
+  './VariablesService',
 
-    './MaestroService',
-    './ConfiguracionService',
+  './MaestroService',
+  './ConfiguracionService',
 
-  './TasaInteresService'
+  './TasaInteresService',
+  './ReportesService'
+
 ], function () {
 
 });
