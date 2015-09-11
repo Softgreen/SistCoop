@@ -148,7 +148,7 @@ public class ReportesRestService implements ReportesRest {
             e.printStackTrace();
         }
 
-        Font fontTableCabecera = new Font(FontFamily.UNDEFINED, 8, Font.BOLD);
+        Font fontTableCabecera = new Font(FontFamily.UNDEFINED, 10, Font.BOLD);
         Font fontCuerpo = new Font(FontFamily.UNDEFINED, 8, Font.NORMAL);
 
         // row
@@ -187,8 +187,7 @@ public class ReportesRestService implements ReportesRest {
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
-            parrafoDebeHaber.add(Chunk.TABBING);
-            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);            
             Chunk chunkHaber = new Chunk("HABER", fontTableCabecera);
             parrafoDebeHaber.add(chunkHaber);
 
