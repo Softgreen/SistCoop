@@ -178,18 +178,15 @@ public class ReportesRestService implements ReportesRest {
         saldoDisponible.add(textoSaldoDisponible);
 
         try {
-            Paragraph parrafoDebeHaber = new Paragraph();
-            parrafoDebeHaber.setSpacingAfter(20);
-            parrafoDebeHaber.setSpacingBefore(-20);
+            Paragraph parrafoDebeHaber = new Paragraph(); 
             parrafoDebeHaber.setAlignment(Element.ALIGN_LEFT);
-            parrafoDebeHaber.setIndentationLeft(160);
-            parrafoDebeHaber.setIndentationRight(10);
 
-            Chunk chunkDebe = new Chunk("DEBE" + df.format(fechaReporte));
+            Chunk chunkDebe = new Chunk("DEBE");
             parrafoDebeHaber.add(chunkDebe);
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
-            Chunk chunkHaber = new Chunk("DEBE" + df.format(fechaReporte));
+            parrafoDebeHaber.add(Chunk.TABBING);
+            Chunk chunkHaber = new Chunk("HABER");
             parrafoDebeHaber.add(chunkHaber);
 
             document.add(parrafoDebeHaber);
