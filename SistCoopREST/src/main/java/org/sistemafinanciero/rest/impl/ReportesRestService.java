@@ -171,27 +171,29 @@ public class ReportesRestService implements ReportesRest {
         row.addCell(tableLeft);
         row.addCell(tableRight);
 
-        Paragraph saldoDisponible = new Paragraph();
-        saldoDisponible.setAlignment(Element.ALIGN_CENTER);
-        Chunk textoSaldoDisponible = new Chunk("TOTAL: S/." + df1.format(BigDecimal.ZERO), fontTableCabecera);
-        textoSaldoDisponible.setFont(fontTableCabecera);
-        saldoDisponible.add(textoSaldoDisponible);
-
         try {
-            Paragraph parrafoDebeHaber = new Paragraph(); 
+            Paragraph parrafoDebeHaber = new Paragraph();
             parrafoDebeHaber.setAlignment(Element.ALIGN_LEFT);
 
-            Chunk chunkDebe = new Chunk("DEBE");
+            Chunk chunkDebe = new Chunk("DEBE", fontTableCabecera);
             parrafoDebeHaber.add(chunkDebe);
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
-            Chunk chunkHaber = new Chunk("HABER");
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            Chunk chunkHaber = new Chunk("HABER", fontTableCabecera);
             parrafoDebeHaber.add(chunkHaber);
 
             document.add(parrafoDebeHaber);
             document.add(row);
-            document.add(saldoDisponible);
         } catch (DocumentException e) {
             e.printStackTrace();
         }
@@ -245,36 +247,39 @@ public class ReportesRestService implements ReportesRest {
             if (debeHaber.getSimboloMoneda().equalsIgnoreCase("S/.")) {
                 totalSoles = totalSoles.add(debeHaber.getMonto().abs());
 
-                Paragraph uno = new Paragraph(df1.format(debeHaber.getMonto()), font);
-                uno.setAlignment(Element.ALIGN_RIGHT);
-                Paragraph dos = new Paragraph(df1.format(BigDecimal.ZERO), font);
-                dos.setAlignment(Element.ALIGN_RIGHT);
-                Paragraph tres = new Paragraph(df1.format(BigDecimal.ZERO), font);
-                tres.setAlignment(Element.ALIGN_RIGHT);
+                PdfPCell uno = new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), font));
+                uno.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                PdfPCell dos = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                dos.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                PdfPCell tres = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                tres.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
                 table.addCell(new PdfPCell(uno));
                 table.addCell(new PdfPCell(dos));
                 table.addCell(new PdfPCell(tres));
             } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("$")) {
                 totalDolares = totalDolares.add(debeHaber.getMonto().abs());
 
-                Paragraph uno = new Paragraph(df1.format(BigDecimal.ZERO), font);
-                uno.setAlignment(Element.ALIGN_RIGHT);
-                Paragraph dos = new Paragraph(df1.format(debeHaber.getMonto()), font);
-                dos.setAlignment(Element.ALIGN_RIGHT);
-                Paragraph tres = new Paragraph(df1.format(BigDecimal.ZERO), font);
-                tres.setAlignment(Element.ALIGN_RIGHT);
+                PdfPCell uno = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                uno.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                PdfPCell dos = new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), font));
+                dos.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                PdfPCell tres = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                tres.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
                 table.addCell(new PdfPCell(uno));
                 table.addCell(new PdfPCell(dos));
                 table.addCell(new PdfPCell(tres));
             } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("€")) {
                 totalEuros = totalEuros.add(debeHaber.getMonto().abs());
 
-                Paragraph uno = new Paragraph(df1.format(BigDecimal.ZERO), font);
-                uno.setAlignment(Element.ALIGN_RIGHT);
-                Paragraph dos = new Paragraph(df1.format(BigDecimal.ZERO), font);
-                dos.setAlignment(Element.ALIGN_RIGHT);
-                Paragraph tres = new Paragraph(df1.format(debeHaber.getMonto()), font);
-                tres.setAlignment(Element.ALIGN_RIGHT);
+                PdfPCell uno = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                uno.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                PdfPCell dos = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                dos.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                PdfPCell tres = new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), font));
+                tres.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
                 table.addCell(new PdfPCell(uno));
                 table.addCell(new PdfPCell(dos));
                 table.addCell(new PdfPCell(tres));
@@ -285,16 +290,16 @@ public class ReportesRestService implements ReportesRest {
         total.setColspan(3);
         table.addCell(total);
 
-        Paragraph totalSolesParam = new Paragraph(df1.format(totalSoles), font);
-        totalSolesParam.setAlignment(Element.ALIGN_RIGHT);
-        table.addCell(new PdfPCell(totalSolesParam));
+        PdfPCell totalCellSoles = new PdfPCell(new Paragraph(df1.format(totalSoles), font));
+        totalCellSoles.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(new PdfPCell(totalCellSoles));
 
-        Paragraph totalDolaresParam = new Paragraph(df1.format(totalDolares), font);
-        totalDolaresParam.setAlignment(Element.ALIGN_RIGHT);
-        table.addCell(new PdfPCell(totalDolaresParam));
+        PdfPCell totalCellDolares = new PdfPCell(new Paragraph(df1.format(totalDolares), font));
+        totalCellDolares.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(new PdfPCell(totalCellDolares));
 
-        Paragraph totalEurosParam = new Paragraph(df1.format(totalEuros), font);
-        totalEurosParam.setAlignment(Element.ALIGN_RIGHT);
-        table.addCell(new PdfPCell(totalEurosParam));
+        PdfPCell totalCellEuros = new PdfPCell(new Paragraph(df1.format(totalEuros), font));
+        totalCellEuros.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(new PdfPCell(totalCellEuros));
     }
 }
