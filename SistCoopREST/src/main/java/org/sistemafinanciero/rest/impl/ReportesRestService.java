@@ -116,13 +116,13 @@ public class ReportesRestService implements ReportesRest {
             parrafoSecundario1.setIndentationLeft(160);
             parrafoSecundario1.setIndentationRight(10);
 
-            Chunk titulo = new Chunk("MULTISERVICIOS DEL SUR");
+            Chunk titulo = new Chunk("MULTIVALORES DEL SUR");
             Font fuenteTitulo = new Font(FontFamily.UNDEFINED, 12, Font.BOLD);
             titulo.setFont(fuenteTitulo);
             parrafoPrincipal.add(titulo);
 
             Font fuenteSubTitulo = new Font(FontFamily.UNDEFINED, 10, Font.BOLD);
-            Chunk subtitulo1 = new Chunk("Reporte DEBE HABER");
+            Chunk subtitulo1 = new Chunk("Reporte debe haber");
             subtitulo1.setFont(fuenteSubTitulo);
             parrafoSecundario1.add(subtitulo1);
 
@@ -157,88 +157,17 @@ public class ReportesRestService implements ReportesRest {
         row.setWidthPercentage(100);
         row.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 
-        float[] columnWidthsCOL6Left = { 2f, 5f, 10f, 3.5f, 4f, 2.8f, 2.8f, 2.8f };
+        float[] columnWidthsCOL6Left = { 1.5f, 9f, 5f, 3f, 3f, 3f };
         PdfPTable tableLeft = new PdfPTable(columnWidthsCOL6Left);
         tableLeft.setWidthPercentage(100);
-        tableLeft.addCell(new PdfPCell(new Paragraph("Nro", fontTableCabecera)));
-        tableLeft.addCell(new PdfPCell(new Paragraph("DOCUMENTO", fontTableCabecera)));
-        tableLeft.addCell(new PdfPCell(new Paragraph("PERSONA", fontTableCabecera)));
-        tableLeft.addCell(new PdfPCell(new Paragraph("TIPO", fontTableCabecera)));
-        tableLeft.addCell(new PdfPCell(new Paragraph("CUENTA", fontTableCabecera)));
-        tableLeft.addCell(new PdfPCell(new Paragraph("SOLES", fontTableCabecera)));
-        tableLeft.addCell(new PdfPCell(new Paragraph("DOLARES", fontTableCabecera)));
-        tableLeft.addCell(new PdfPCell(new Paragraph("EUROS", fontTableCabecera)));
 
-        float[] columnWidthsCOL6Right = { 2f, 5f, 10f, 3.5f, 4f, 2.8f, 2.8f, 2.8f };
+        float[] columnWidthsCOL6Right = { 1.5f, 9f, 5f, 3f, 3f, 3f };
         PdfPTable tableRight = new PdfPTable(columnWidthsCOL6Right);
         tableRight.setWidthPercentage(100);
-        tableRight.addCell(new PdfPCell(new Paragraph("Nro", fontTableCabecera)));
-        tableRight.addCell(new PdfPCell(new Paragraph("DOCUMENTO", fontTableCabecera)));
-        tableRight.addCell(new PdfPCell(new Paragraph("PERSONA", fontTableCabecera)));
-        tableRight.addCell(new PdfPCell(new Paragraph("TIPO", fontTableCabecera)));
-        tableRight.addCell(new PdfPCell(new Paragraph("CUENTA", fontTableCabecera)));
-        tableRight.addCell(new PdfPCell(new Paragraph("SOLES", fontTableCabecera)));
-        tableRight.addCell(new PdfPCell(new Paragraph("DOLARES", fontTableCabecera)));
-        tableRight.addCell(new PdfPCell(new Paragraph("EUROS", fontTableCabecera)));
 
-        for (int i = 0; i < listDebe.size(); i++) {
-            DebeHaber debeHaber = listDebe.get(i);
-            tableLeft.addCell(new PdfPCell(new Paragraph(String.valueOf(i + 1), fontCuerpo)));
-            tableLeft.addCell(new Paragraph(debeHaber.getTipoDocumento() + ":"
-                    + debeHaber.getNumeroDocumento(), fontCuerpo));
-            tableLeft.addCell(new Paragraph(debeHaber.getPersona(), fontCuerpo));
+        setRowsTableDebeHaber(listDebe, tableLeft, fontCuerpo);
+        setRowsTableDebeHaber(listHaber, tableRight, fontCuerpo);
 
-            tableLeft.addCell(new Paragraph("NO DEFINIDO", fontCuerpo));
-            tableLeft.addCell(new Paragraph(debeHaber.getNumeroCuenta(), fontCuerpo));
-
-            if (debeHaber.getSimboloMoneda().equalsIgnoreCase("S/.")) {
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), fontCuerpo)));
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-            } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("$")) {
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), fontCuerpo)));
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-            } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("€")) {
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-                tableLeft.addCell(new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), fontCuerpo)));
-            }
-        }
-
-        for (int i = 0; i < listHaber.size(); i++) {
-            DebeHaber debeHaber = listDebe.get(i);
-            tableRight.addCell(new PdfPCell(new Paragraph(String.valueOf(i + 1), fontCuerpo)));
-            tableLeft.addCell(new Paragraph(debeHaber.getTipoDocumento() + ":"
-                    + debeHaber.getNumeroDocumento(), fontCuerpo));
-            tableRight.addCell(new Paragraph(debeHaber.getNumeroDocumento(), fontCuerpo));
-            tableRight.addCell(new Paragraph(debeHaber.getPersona(), fontCuerpo));
-
-            tableRight.addCell(new Paragraph("NO DEFINIDO", fontCuerpo));
-            tableRight.addCell(new Paragraph(debeHaber.getNumeroCuenta(), fontCuerpo));
-
-            if (debeHaber.getSimboloMoneda().equalsIgnoreCase("S/.")) {
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), fontCuerpo)));
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-            } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("$")) {
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), fontCuerpo)));
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-            } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("€")) {
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), fontCuerpo)));
-                tableRight.addCell(new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), fontCuerpo)));
-            }
-        }
-
-        PdfPCell debe = new PdfPCell(new Paragraph("DEBE", new Font(FontFamily.UNDEFINED, 9, Font.BOLD)));
-        // debe.setPaddingRight(0.5f);
-        PdfPCell haber = new PdfPCell(new Paragraph("HABER", new Font(FontFamily.UNDEFINED, 9, Font.BOLD)));
-        // haber.setPaddingLeft(0.5f);
-
-        row.addCell(debe);
-        row.addCell(haber);
         row.addCell(tableLeft);
         row.addCell(tableRight);
 
@@ -249,6 +178,21 @@ public class ReportesRestService implements ReportesRest {
         saldoDisponible.add(textoSaldoDisponible);
 
         try {
+            Paragraph parrafoDebeHaber = new Paragraph();
+            parrafoDebeHaber.setSpacingAfter(20);
+            parrafoDebeHaber.setSpacingBefore(-20);
+            parrafoDebeHaber.setAlignment(Element.ALIGN_LEFT);
+            parrafoDebeHaber.setIndentationLeft(160);
+            parrafoDebeHaber.setIndentationRight(10);
+
+            Chunk chunkDebe = new Chunk("DEBE" + df.format(fechaReporte));
+            parrafoDebeHaber.add(chunkDebe);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            parrafoDebeHaber.add(Chunk.TABBING);
+            Chunk chunkHaber = new Chunk("DEBE" + df.format(fechaReporte));
+            parrafoDebeHaber.add(chunkHaber);
+
+            document.add(parrafoDebeHaber);
             document.add(row);
             document.add(saldoDisponible);
         } catch (DocumentException e) {
@@ -258,5 +202,102 @@ public class ReportesRestService implements ReportesRest {
         document.close();
 
         return Response.ok(outputStream.toByteArray()).type("application/pdf").build();
+    }
+
+    private void setRowsTableDebeHaber(List<DebeHaber> list, PdfPTable table, Font font) {
+        /** obteniendo la moneda y dando formato **/
+        NumberFormat df1 = NumberFormat.getCurrencyInstance();
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setCurrencySymbol("");
+        dfs.setGroupingSeparator(',');
+        dfs.setMonetaryDecimalSeparator('.');
+        ((DecimalFormat) df1).setDecimalFormatSymbols(dfs);
+
+        table.setWidthPercentage(100);
+        table.addCell(new PdfPCell(new Paragraph("Nro", font)));
+        // table.addCell(new PdfPCell(new Paragraph("DOCUMENTO", font)));
+        table.addCell(new PdfPCell(new Paragraph("PERSONA", font)));
+        // table.addCell(new PdfPCell(new Paragraph("TIPO", font)));
+        table.addCell(new PdfPCell(new Paragraph("CUENTA", font)));
+        table.addCell(new PdfPCell(new Paragraph("SOLES", font)));
+        table.addCell(new PdfPCell(new Paragraph("DOLARES", font)));
+        table.addCell(new PdfPCell(new Paragraph("EUROS", font)));
+
+        if (list.isEmpty()) {
+            PdfPCell cell = new PdfPCell(new Paragraph("No existente", font));
+            cell.setColspan(8);
+            table.addCell(cell);
+        }
+
+        BigDecimal totalSoles = BigDecimal.ZERO;
+        BigDecimal totalDolares = BigDecimal.ZERO;
+        BigDecimal totalEuros = BigDecimal.ZERO;
+        for (int i = 0; i < list.size(); i++) {
+            DebeHaber debeHaber = list.get(i);
+
+            table.addCell(new PdfPCell(new Paragraph(String.valueOf(i + 1), font)));
+            /*
+             * table.addCell(new Paragraph(debeHaber.getTipoDocumento() + ":" +
+             * debeHaber.getNumeroDocumento(), font));
+             */
+            table.addCell(new Paragraph(debeHaber.getPersona(), font));
+
+            // table.addCell(new Paragraph("NO DEFINIDO", font));
+            table.addCell(new Paragraph(debeHaber.getNumeroCuenta(), font));
+
+            if (debeHaber.getSimboloMoneda().equalsIgnoreCase("S/.")) {
+                totalSoles = totalSoles.add(debeHaber.getMonto().abs());
+
+                Paragraph uno = new Paragraph(df1.format(debeHaber.getMonto()), font);
+                uno.setAlignment(Element.ALIGN_RIGHT);
+                Paragraph dos = new Paragraph(df1.format(BigDecimal.ZERO), font);
+                dos.setAlignment(Element.ALIGN_RIGHT);
+                Paragraph tres = new Paragraph(df1.format(BigDecimal.ZERO), font);
+                tres.setAlignment(Element.ALIGN_RIGHT);
+                table.addCell(new PdfPCell(uno));
+                table.addCell(new PdfPCell(dos));
+                table.addCell(new PdfPCell(tres));
+            } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("$")) {
+                totalDolares = totalDolares.add(debeHaber.getMonto().abs());
+
+                Paragraph uno = new Paragraph(df1.format(BigDecimal.ZERO), font);
+                uno.setAlignment(Element.ALIGN_RIGHT);
+                Paragraph dos = new Paragraph(df1.format(debeHaber.getMonto()), font);
+                dos.setAlignment(Element.ALIGN_RIGHT);
+                Paragraph tres = new Paragraph(df1.format(BigDecimal.ZERO), font);
+                tres.setAlignment(Element.ALIGN_RIGHT);
+                table.addCell(new PdfPCell(uno));
+                table.addCell(new PdfPCell(dos));
+                table.addCell(new PdfPCell(tres));
+            } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("€")) {
+                totalEuros = totalEuros.add(debeHaber.getMonto().abs());
+
+                Paragraph uno = new Paragraph(df1.format(BigDecimal.ZERO), font);
+                uno.setAlignment(Element.ALIGN_RIGHT);
+                Paragraph dos = new Paragraph(df1.format(BigDecimal.ZERO), font);
+                dos.setAlignment(Element.ALIGN_RIGHT);
+                Paragraph tres = new Paragraph(df1.format(debeHaber.getMonto()), font);
+                tres.setAlignment(Element.ALIGN_RIGHT);
+                table.addCell(new PdfPCell(uno));
+                table.addCell(new PdfPCell(dos));
+                table.addCell(new PdfPCell(tres));
+            }
+        }
+
+        PdfPCell total = new PdfPCell(new Paragraph("TOTAL", font));
+        total.setColspan(3);
+        table.addCell(total);
+
+        Paragraph totalSolesParam = new Paragraph(df1.format(totalSoles), font);
+        totalSolesParam.setAlignment(Element.ALIGN_RIGHT);
+        table.addCell(new PdfPCell(totalSolesParam));
+
+        Paragraph totalDolaresParam = new Paragraph(df1.format(totalDolares), font);
+        totalDolaresParam.setAlignment(Element.ALIGN_RIGHT);
+        table.addCell(new PdfPCell(totalDolaresParam));
+
+        Paragraph totalEurosParam = new Paragraph(df1.format(totalEuros), font);
+        totalEurosParam.setAlignment(Element.ALIGN_RIGHT);
+        table.addCell(new PdfPCell(totalEurosParam));
     }
 }
