@@ -157,11 +157,11 @@ public class ReportesRestService implements ReportesRest {
         row.setWidthPercentage(100);
         row.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 
-        float[] columnWidthsCOL6Left = { 1.5f, 9f, 5f, 3f, 3f, 3f };
+        float[] columnWidthsCOL6Left = { 1.5f, 8f, 4.5f, 3.5f, 3.5f, 3.5f };
         PdfPTable tableLeft = new PdfPTable(columnWidthsCOL6Left);
         tableLeft.setWidthPercentage(100);
 
-        float[] columnWidthsCOL6Right = { 1.5f, 9f, 5f, 3f, 3f, 3f };
+        float[] columnWidthsCOL6Right = { 1.5f, 8f, 4.5f, 3.5f, 3.5f, 3.5f };
         PdfPTable tableRight = new PdfPTable(columnWidthsCOL6Right);
         tableRight.setWidthPercentage(100);
 
@@ -187,7 +187,6 @@ public class ReportesRestService implements ReportesRest {
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
-            parrafoDebeHaber.add(Chunk.TABBING);            
             Chunk chunkHaber = new Chunk("HABER", fontTableCabecera);
             parrafoDebeHaber.add(chunkHaber);
 
@@ -246,11 +245,11 @@ public class ReportesRestService implements ReportesRest {
             if (debeHaber.getSimboloMoneda().equalsIgnoreCase("S/.")) {
                 totalSoles = totalSoles.add(debeHaber.getMonto().abs());
 
-                PdfPCell uno = new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), font));
+                PdfPCell uno = new PdfPCell(new Paragraph("S/." + df1.format(debeHaber.getMonto()), font));
                 uno.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                PdfPCell dos = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                PdfPCell dos = new PdfPCell(new Paragraph("$" + df1.format(BigDecimal.ZERO), font));
                 dos.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                PdfPCell tres = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                PdfPCell tres = new PdfPCell(new Paragraph("€" + df1.format(BigDecimal.ZERO), font));
                 tres.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
                 table.addCell(new PdfPCell(uno));
@@ -259,11 +258,11 @@ public class ReportesRestService implements ReportesRest {
             } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("$")) {
                 totalDolares = totalDolares.add(debeHaber.getMonto().abs());
 
-                PdfPCell uno = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                PdfPCell uno = new PdfPCell(new Paragraph("S/." + df1.format(BigDecimal.ZERO), font));
                 uno.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                PdfPCell dos = new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), font));
+                PdfPCell dos = new PdfPCell(new Paragraph("$" + df1.format(debeHaber.getMonto()), font));
                 dos.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                PdfPCell tres = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                PdfPCell tres = new PdfPCell(new Paragraph("€" + df1.format(BigDecimal.ZERO), font));
                 tres.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
                 table.addCell(new PdfPCell(uno));
@@ -272,11 +271,11 @@ public class ReportesRestService implements ReportesRest {
             } else if (debeHaber.getSimboloMoneda().equalsIgnoreCase("€")) {
                 totalEuros = totalEuros.add(debeHaber.getMonto().abs());
 
-                PdfPCell uno = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                PdfPCell uno = new PdfPCell(new Paragraph("S/." + df1.format(BigDecimal.ZERO), font));
                 uno.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                PdfPCell dos = new PdfPCell(new Paragraph(df1.format(BigDecimal.ZERO), font));
+                PdfPCell dos = new PdfPCell(new Paragraph("$" + df1.format(BigDecimal.ZERO), font));
                 dos.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                PdfPCell tres = new PdfPCell(new Paragraph(df1.format(debeHaber.getMonto()), font));
+                PdfPCell tres = new PdfPCell(new Paragraph("€" + df1.format(debeHaber.getMonto()), font));
                 tres.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
                 table.addCell(new PdfPCell(uno));
@@ -289,15 +288,15 @@ public class ReportesRestService implements ReportesRest {
         total.setColspan(3);
         table.addCell(total);
 
-        PdfPCell totalCellSoles = new PdfPCell(new Paragraph(df1.format(totalSoles), font));
+        PdfPCell totalCellSoles = new PdfPCell(new Paragraph("S/." + df1.format(totalSoles), font));
         totalCellSoles.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(new PdfPCell(totalCellSoles));
 
-        PdfPCell totalCellDolares = new PdfPCell(new Paragraph(df1.format(totalDolares), font));
+        PdfPCell totalCellDolares = new PdfPCell(new Paragraph("$" + df1.format(totalDolares), font));
         totalCellDolares.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(new PdfPCell(totalCellDolares));
 
-        PdfPCell totalCellEuros = new PdfPCell(new Paragraph(df1.format(totalEuros), font));
+        PdfPCell totalCellEuros = new PdfPCell(new Paragraph("€" + df1.format(totalEuros), font));
         totalCellEuros.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(new PdfPCell(totalCellEuros));
     }
