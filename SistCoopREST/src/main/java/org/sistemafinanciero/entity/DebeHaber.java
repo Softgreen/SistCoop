@@ -31,12 +31,12 @@ import org.sistemafinanciero.entity.type.TipoPersona;
 @Table(name = "DEBE_HABER", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "debeHaber")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = DebeHaber.findDesdeHastaIdMonedaTipo, query = "SELECT d FROM DebeHaber d WHERE d.idMoneda=:idMoneda AND d.tipo=:tipo AND d.fecha BETWEEN :desde AND :hasta") })
+@NamedQueries({ @NamedQuery(name = DebeHaber.findIdMonedaTipoFecha, query = "SELECT d FROM DebeHaber d WHERE d.idMoneda=:idMoneda AND d.tipo=:tipo AND d.fecha = :fecha") })
 public class DebeHaber implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public final static String findDesdeHastaIdMonedaTipo = "DebeHaber.findDesdeHasta";
+    public final static String findIdMonedaTipoFecha = "DebeHaber.findIdMonedaTipoFecha";
 
     private BigInteger idDebehaber;
     private TipoDebeHaber tipo;

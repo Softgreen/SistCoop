@@ -16,7 +16,6 @@ import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.DebeHaber;
 import org.sistemafinanciero.entity.type.TipoDebeHaber;
 import org.sistemafinanciero.service.nt.ReportesServiceNT;
-import org.sistemafinanciero.util.DateUtils;
 
 @Named
 @Stateless
@@ -33,9 +32,8 @@ public class ReportesServiceBeanNT implements ReportesServiceNT {
             return null;
         }
         QueryParameter queryParameter = QueryParameter.with("idMoneda", idMoneda).and("tipo", tipoDebeHaber)
-                .and("desde", DateUtils.getDateIn00Time(fecha))
-                .and("hasta", DateUtils.getDateIn00Time(DateUtils.sumarRestarDiasFecha(fecha, 1)));
-        List<DebeHaber> list = debeHaberDAO.findByNamedQuery(DebeHaber.findDesdeHastaIdMonedaTipo,
+                .and("fecha", fecha);
+        List<DebeHaber> list = debeHaberDAO.findByNamedQuery(DebeHaber.findIdMonedaTipoFecha,
                 queryParameter.parameters());
         return list;
     }
