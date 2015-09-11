@@ -19,4 +19,9 @@ public interface ReportesRest {
     public Response reporteDebeHaber(@QueryParam("fecha") Long fecha,
             @QueryParam("tipo") TipoDebeHaber tipoDebeHaber, @QueryParam("idMoneda") BigInteger idMoneda);
 
+    @GET
+    @Path("/debeHaber/pdf")
+    @Produces({ "application/xml", "application/json" })
+    public Response reporteDebeHaberPdf(@QueryParam("fecha") Long fecha);
+
 }

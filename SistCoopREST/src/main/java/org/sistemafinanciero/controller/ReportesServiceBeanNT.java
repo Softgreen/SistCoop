@@ -38,4 +38,15 @@ public class ReportesServiceBeanNT implements ReportesServiceNT {
         return list;
     }
 
+    @Override
+    public List<DebeHaber> getDebeHaber(Date fecha, TipoDebeHaber tipoDebeHaber) {
+        if (fecha == null) {
+            return null;
+        }
+        QueryParameter queryParameter = QueryParameter.with("tipo", tipoDebeHaber).and("fecha", fecha);
+        List<DebeHaber> list = debeHaberDAO.findByNamedQuery(DebeHaber.findTipoFecha,
+                queryParameter.parameters());
+        return list;
+    }
+
 }

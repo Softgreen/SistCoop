@@ -55,18 +55,15 @@ define(['../module'], function (controllers) {
           qz.append("RECIBIDO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoRecibido, $scope.compraVentaMoneda.monedaRecibida.simbolo)) + "\r\n");
         }
 
+        qz.append("TIP.CAMBIO:\t" + ($filter('currency')($scope.compraVentaMoneda.tipoCambio, '')) + "\r\n");
+        
         if ($scope.compraVentaMoneda.monedaEntregada.simbolo == "€") {
           qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, chr(238))) + "\r\n");
         } else {
           qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, $scope.compraVentaMoneda.monedaEntregada.simbolo)) + "\r\n");
         }
 
-        //qz.append("RECIBIDO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoRecibido, $scope.compraVentaMoneda.monedaRecibida.simbolo)) + "\r\n");
-        //qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, $scope.compraVentaMoneda.monedaEntregada.simbolo)) + "\r\n");
-        qz.append("TIP.CAMBIO:\t" + ($filter('currency')($scope.compraVentaMoneda.tipoCambio, '')) + "\r\n");
-        //var elem = $scope.compraVentaMoneda.referencia.split('/');
-
-        if($scope.compraVentaMoneda.referencia){
+        if ($scope.compraVentaMoneda.referencia) {
           qz.append("CLIENTE:\t" + ($scope.compraVentaMoneda.referencia) + "\r\n");
         } else {
           qz.append("CLIENTE:\t" + ' ' + "\r\n");

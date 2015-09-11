@@ -1,7 +1,7 @@
 define(['../module'], function (controllers) {
   'use strict';
-  controllers.controller('DebeHaberController', ['$scope', 'ReportesService',
-    function ($scope, ReportesService) {
+  controllers.controller('DebeHaberController', ['$scope', '$window', 'ReportesService', 'ConfiguracionService',
+    function ($scope, $window, ReportesService, ConfiguracionService) {
 
       $scope.fecha = new Date();
 
@@ -83,6 +83,11 @@ define(['../module'], function (controllers) {
             $scope.totalHaberEuros = total;
           });
         }
+      };
+
+      $scope.imprimir = function () {
+        var restApiUrl = ConfiguracionService.getRestApiUrl();
+        $window.open(restApiUrl + '/reportes/debeHaber/pdf?fecha=' + $scope.fecha.getTime());
       };
 
     }]);

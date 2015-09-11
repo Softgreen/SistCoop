@@ -14,4 +14,6 @@ public interface ReportesServiceNT {
 
     public List<DebeHaber> getDebeHaber(Date fecha, BigInteger idMoneda, TipoDebeHaber tipoDebeHaber);
 
+    public List<DebeHaber> getDebeHaber(Date fecha, TipoDebeHaber tipoDebeHaber);
+
 }
