@@ -135,7 +135,7 @@ public class ReportesRestService implements ReportesRest {
 
             Chunk subtitulo2 = new Chunk("Fecha:" + df.format(fechaReporte));
             subtitulo2.setFont(fuenteSubTitulo);
-            parrafoSecundario1.add(subtitulo2);
+            parrafoSecundario2.add(subtitulo2);
 
             document.add(parrafoPrincipal);
             document.add(parrafoSecundario1);
@@ -157,12 +157,11 @@ public class ReportesRestService implements ReportesRest {
         row.setWidthPercentage(100);
         row.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 
-        float[] columnWidthsCOL6Left = { 2f, 5f, 5f, 10f, 3.5f, 4f, 2.8f, 2.8f, 2.8f };
+        float[] columnWidthsCOL6Left = { 2f, 5f, 10f, 3.5f, 4f, 2.8f, 2.8f, 2.8f };
         PdfPTable tableLeft = new PdfPTable(columnWidthsCOL6Left);
         tableLeft.setWidthPercentage(100);
         tableLeft.addCell(new PdfPCell(new Paragraph("Nro", fontTableCabecera)));
         tableLeft.addCell(new PdfPCell(new Paragraph("DOCUMENTO", fontTableCabecera)));
-        tableLeft.addCell(new PdfPCell(new Paragraph("NUMERO", fontTableCabecera)));
         tableLeft.addCell(new PdfPCell(new Paragraph("PERSONA", fontTableCabecera)));
         tableLeft.addCell(new PdfPCell(new Paragraph("TIPO", fontTableCabecera)));
         tableLeft.addCell(new PdfPCell(new Paragraph("CUENTA", fontTableCabecera)));
@@ -170,12 +169,11 @@ public class ReportesRestService implements ReportesRest {
         tableLeft.addCell(new PdfPCell(new Paragraph("DOLARES", fontTableCabecera)));
         tableLeft.addCell(new PdfPCell(new Paragraph("EUROS", fontTableCabecera)));
 
-        float[] columnWidthsCOL6Right = { 2f, 5f, 5f, 10f, 3.5f, 4f, 2.8f, 2.8f, 2.8f };
+        float[] columnWidthsCOL6Right = { 2f, 5f, 10f, 3.5f, 4f, 2.8f, 2.8f, 2.8f };
         PdfPTable tableRight = new PdfPTable(columnWidthsCOL6Right);
         tableRight.setWidthPercentage(100);
         tableRight.addCell(new PdfPCell(new Paragraph("Nro", fontTableCabecera)));
         tableRight.addCell(new PdfPCell(new Paragraph("DOCUMENTO", fontTableCabecera)));
-        tableRight.addCell(new PdfPCell(new Paragraph("NUMERO", fontTableCabecera)));
         tableRight.addCell(new PdfPCell(new Paragraph("PERSONA", fontTableCabecera)));
         tableRight.addCell(new PdfPCell(new Paragraph("TIPO", fontTableCabecera)));
         tableRight.addCell(new PdfPCell(new Paragraph("CUENTA", fontTableCabecera)));
@@ -186,8 +184,8 @@ public class ReportesRestService implements ReportesRest {
         for (int i = 0; i < listDebe.size(); i++) {
             DebeHaber debeHaber = listDebe.get(i);
             tableLeft.addCell(new PdfPCell(new Paragraph(String.valueOf(i + 1), fontCuerpo)));
-            tableLeft.addCell(new Paragraph(debeHaber.getTipoDocumento(), fontCuerpo));
-            tableLeft.addCell(new Paragraph(debeHaber.getNumeroDocumento(), fontCuerpo));
+            tableLeft.addCell(new Paragraph(debeHaber.getTipoDocumento() + ":"
+                    + debeHaber.getNumeroDocumento(), fontCuerpo));
             tableLeft.addCell(new Paragraph(debeHaber.getPersona(), fontCuerpo));
 
             tableLeft.addCell(new Paragraph("NO DEFINIDO", fontCuerpo));
@@ -211,7 +209,8 @@ public class ReportesRestService implements ReportesRest {
         for (int i = 0; i < listHaber.size(); i++) {
             DebeHaber debeHaber = listDebe.get(i);
             tableRight.addCell(new PdfPCell(new Paragraph(String.valueOf(i + 1), fontCuerpo)));
-            tableRight.addCell(new Paragraph(debeHaber.getTipoDocumento(), fontCuerpo));
+            tableLeft.addCell(new Paragraph(debeHaber.getTipoDocumento() + ":"
+                    + debeHaber.getNumeroDocumento(), fontCuerpo));
             tableRight.addCell(new Paragraph(debeHaber.getNumeroDocumento(), fontCuerpo));
             tableRight.addCell(new Paragraph(debeHaber.getPersona(), fontCuerpo));
 
@@ -234,12 +233,12 @@ public class ReportesRestService implements ReportesRest {
         }
 
         PdfPCell debe = new PdfPCell(new Paragraph("DEBE", new Font(FontFamily.UNDEFINED, 9, Font.BOLD)));
-        debe.setPaddingRight(0.5f);
+        // debe.setPaddingRight(0.5f);
         PdfPCell haber = new PdfPCell(new Paragraph("HABER", new Font(FontFamily.UNDEFINED, 9, Font.BOLD)));
-        haber.setPaddingLeft(0.5f);
+        // haber.setPaddingLeft(0.5f);
 
         row.addCell(debe);
-        row.addCell(debe);
+        row.addCell(haber);
         row.addCell(tableLeft);
         row.addCell(tableRight);
 
