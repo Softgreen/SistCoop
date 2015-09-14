@@ -118,6 +118,9 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 	@Inject
     private DAO<Object, CuentaBancariaInteresGenera> cuentaBancariaInteresGeneraDAO;
 
+	@Inject
+    private DAO<Object, PendienteCaja> pendienteCajaDAO;
+	
 	@EJB
 	private MonedaServiceNT monedaServiceNT;
 
@@ -1137,8 +1140,10 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 		if (historialCaja != null) {
 			result = historialCaja.getPendienteCajas();
 		} else {
-			historialCaja = getHistorialActivo(idCaja);
-			result = historialCaja.getPendienteCajas();
+		    QueryParameter queryParameter = QueryParameter.with("idCaja", idCaja);
+            List<PendienteCaja> list = pendienteCajaDAO.findByNamedQuery(PendienteCaja.findByIdCaja, queryParameter.parameters());
+            
+			result = new HashSet<>(list);
 		}
 
 		for (PendienteCaja pendienteCaja : result) {

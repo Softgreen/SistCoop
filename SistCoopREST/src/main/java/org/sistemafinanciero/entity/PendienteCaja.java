@@ -1,4 +1,3 @@
-
 package org.sistemafinanciero.entity;
 
 // Generated 02-may-2014 11:48:28 by Hibernate Tools 4.0.0
@@ -17,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,147 +34,146 @@ import org.sistemafinanciero.entity.type.TipoPendiente;
 @Table(name = "PENDIENTE_CAJA", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "pendientecaja")
 @XmlAccessorType(XmlAccessType.NONE)
+@NamedQueries({ @NamedQuery(name = PendienteCaja.findByIdCaja, query = "SELECT p FROM PendienteCaja p INNER JOIN p.historialCaja hc INNER JOIN hc.caja c WHERE c.idCaja = :idCaja ORDER BY p.fecha, p.hora") })
 public class PendienteCaja implements java.io.Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private BigInteger idPendienteCaja;
-	private HistorialCaja historialCaja;
-	private Moneda moneda;
-	private BigDecimal monto;
-	private String observacion;
-	private Date fecha;
-	private Date hora;
-	private TipoPendiente tipoPendiente;
-	private String trabajador;
+    public final static String findByIdCaja = "PendienteCaja.findByIdCaja";
 
-	public PendienteCaja() {
-	}
+    private BigInteger idPendienteCaja;
+    private HistorialCaja historialCaja;
+    private Moneda moneda;
+    private BigDecimal monto;
+    private String observacion;
+    private Date fecha;
+    private Date hora;
+    private TipoPendiente tipoPendiente;
+    private String trabajador;
 
-	public PendienteCaja(BigInteger idPendienteCaja,
-			HistorialCaja historialCaja, Moneda moneda, BigDecimal monto,
-			Date fecha, Date hora, TipoPendiente tipoPendiente) {
-		this.idPendienteCaja = idPendienteCaja;
-		this.historialCaja = historialCaja;
-		this.moneda = moneda;
-		this.monto = monto;
-		this.fecha = fecha;
-		this.hora = hora;
-		this.tipoPendiente = tipoPendiente;
-	}
+    public PendienteCaja() {
+    }
 
-	public PendienteCaja(BigInteger idPendienteCaja,
-			HistorialCaja historialCaja, Moneda moneda, BigDecimal monto,
-			String observacion, Date fecha, Date hora,
-			TipoPendiente tipoPendiente) {
-		this.idPendienteCaja = idPendienteCaja;
-		this.historialCaja = historialCaja;
-		this.moneda = moneda;
-		this.monto = monto;
-		this.observacion = observacion;
-		this.fecha = fecha;
-		this.hora = hora;
-		this.tipoPendiente = tipoPendiente;
-	}
+    public PendienteCaja(BigInteger idPendienteCaja, HistorialCaja historialCaja, Moneda moneda,
+            BigDecimal monto, Date fecha, Date hora, TipoPendiente tipoPendiente) {
+        this.idPendienteCaja = idPendienteCaja;
+        this.historialCaja = historialCaja;
+        this.moneda = moneda;
+        this.monto = monto;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.tipoPendiente = tipoPendiente;
+    }
 
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PENDIENTECAJA_SEQ")
-	@SequenceGenerator(name="PENDIENTECAJA_SEQ", initialValue=1, allocationSize=1, sequenceName="PENDIENTECAJA_SEQ")
-	@XmlElement(name = "id")	
-	@Id
-	@Column(name = "ID_PENDIENTE_CAJA", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigInteger getIdPendienteCaja() {
-		return this.idPendienteCaja;
-	}
+    public PendienteCaja(BigInteger idPendienteCaja, HistorialCaja historialCaja, Moneda moneda,
+            BigDecimal monto, String observacion, Date fecha, Date hora, TipoPendiente tipoPendiente) {
+        this.idPendienteCaja = idPendienteCaja;
+        this.historialCaja = historialCaja;
+        this.moneda = moneda;
+        this.monto = monto;
+        this.observacion = observacion;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.tipoPendiente = tipoPendiente;
+    }
 
-	public void setIdPendienteCaja(BigInteger idPendienteCaja) {
-		this.idPendienteCaja = idPendienteCaja;
-	}
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PENDIENTECAJA_SEQ")
+    @SequenceGenerator(name = "PENDIENTECAJA_SEQ", initialValue = 1, allocationSize = 1, sequenceName = "PENDIENTECAJA_SEQ")
+    @XmlElement(name = "id")
+    @Id
+    @Column(name = "ID_PENDIENTE_CAJA", unique = true, nullable = false, precision = 22, scale = 0)
+    public BigInteger getIdPendienteCaja() {
+        return this.idPendienteCaja;
+    }
 
-	@XmlTransient
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_HISTORIAL_CAJA", nullable = false)
-	public HistorialCaja getHistorialCaja() {
-		return this.historialCaja;
-	}
+    public void setIdPendienteCaja(BigInteger idPendienteCaja) {
+        this.idPendienteCaja = idPendienteCaja;
+    }
 
-	public void setHistorialCaja(HistorialCaja historialCaja) {
-		this.historialCaja = historialCaja;
-	}
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_HISTORIAL_CAJA", nullable = false)
+    public HistorialCaja getHistorialCaja() {
+        return this.historialCaja;
+    }
 
-	@XmlElement
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_MONEDA", nullable = false)
-	public Moneda getMoneda() {
-		return this.moneda;
-	}
+    public void setHistorialCaja(HistorialCaja historialCaja) {
+        this.historialCaja = historialCaja;
+    }
 
-	public void setMoneda(Moneda moneda) {
-		this.moneda = moneda;
-	}
+    @XmlElement
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_MONEDA", nullable = false)
+    public Moneda getMoneda() {
+        return this.moneda;
+    }
 
-	@XmlElement
-	@Column(name = "MONTO", nullable = false, precision = 18)
-	public BigDecimal getMonto() {
-		return this.monto;
-	}
+    public void setMoneda(Moneda moneda) {
+        this.moneda = moneda;
+    }
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    @XmlElement
+    @Column(name = "MONTO", nullable = false, precision = 18)
+    public BigDecimal getMonto() {
+        return this.monto;
+    }
 
-	@XmlElement
-	@Column(name = "OBSERVACION", length = 40, columnDefinition = "nvarchar2")
-	public String getObservacion() {
-		return this.observacion;
-	}
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
 
-	public void setObservacion(String observacion) {
-		this.observacion = observacion;
-	}
+    @XmlElement
+    @Column(name = "OBSERVACION", length = 40, columnDefinition = "nvarchar2")
+    public String getObservacion() {
+        return this.observacion;
+    }
 
-	@XmlElement
-	@Temporal(TemporalType.DATE)
-	@Column(name = "FECHA", nullable = false, length = 7)
-	public Date getFecha() {
-		return this.fecha;
-	}
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
+    @XmlElement
+    @Temporal(TemporalType.DATE)
+    @Column(name = "FECHA", nullable = false, length = 7)
+    public Date getFecha() {
+        return this.fecha;
+    }
 
-	@XmlElement
-	@Column(name = "HORA", nullable = false)
-	public Date getHora() {
-		return this.hora;
-	}
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
-	public void setHora(Date hora) {
-		this.hora = hora;
-	}
+    @XmlElement
+    @Column(name = "HORA", nullable = false)
+    public Date getHora() {
+        return this.hora;
+    }
 
-	@XmlElement
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "TIPO_PENDIENTE", nullable = false, length = 40, columnDefinition = "nvarchar2")
-	public TipoPendiente getTipoPendiente() {
-		return this.tipoPendiente;
-	}
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
 
-	public void setTipoPendiente(TipoPendiente tipoPendiente) {
-		this.tipoPendiente = tipoPendiente;
-	}
-	
-	@XmlElement
-	@Column(name = "TRABAJADOR", nullable = false, columnDefinition = "nvarchar2")
-	public String getTrabajador() {
-		return this.trabajador;
-	}
+    @XmlElement
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "TIPO_PENDIENTE", nullable = false, length = 40, columnDefinition = "nvarchar2")
+    public TipoPendiente getTipoPendiente() {
+        return this.tipoPendiente;
+    }
 
-	public void setTrabajador(String trabajador) {
-		this.trabajador = trabajador;
-	}
+    public void setTipoPendiente(TipoPendiente tipoPendiente) {
+        this.tipoPendiente = tipoPendiente;
+    }
+
+    @XmlElement
+    @Column(name = "TRABAJADOR", nullable = false, columnDefinition = "nvarchar2")
+    public String getTrabajador() {
+        return this.trabajador;
+    }
+
+    public void setTrabajador(String trabajador) {
+        this.trabajador = trabajador;
+    }
 }
-
