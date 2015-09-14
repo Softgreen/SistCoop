@@ -48,12 +48,14 @@
                 <thead>
                 <tr>
                     <td style="font-size: 12px; width: 130px;"><strong>N&#250;mero Cheque</strong></td>
+                    <td style="font-size: 12px; width: 130px;"><strong>N&#250;mero para transaccion</strong></td>
                     <td style="font-size: 12px;"><strong>Estado</strong></td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in cheques | orderBy: 'numeroCheque' ">
                     <td style="font-size: 12px;">{{item.numeroCheque}}</td>
+                    <td style="font-size: 12px;">{{item.numeroChequeUnico}}</td>
                     <td style="font-size: 12px;">{{item.estado}}</td>
                 </tr>
                 </tbody>
