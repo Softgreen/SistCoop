@@ -49,6 +49,7 @@ import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.PendienteCaja;
+import org.sistemafinanciero.entity.PendienteCajaFaltanteView;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.SobreGiro;
 import org.sistemafinanciero.entity.SobreGiroBancario;
@@ -167,6 +168,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
     @Inject
     private DAO<Object, PendienteCaja> pendienteCajaDAO;
+
+    @Inject
+    private DAO<Object, PendienteCajaFaltanteView> pendienteCajaFaltanteViewDAO;
 
     @Inject
     private DAO<Object, Moneda> monedaDAO;
@@ -1430,8 +1434,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
     @Override
     public BigInteger crearPendienteCaja(TipoPendienteCaja tipoPendienteCaja, BigInteger idBoveda,
             BigDecimal monto, String observacion, BigInteger idPendienteRelacionado)
-            throws RollbackFailureException {        
-        
+            throws RollbackFailureException {
+
         // Buscar pendiente relacionado si es que existe
         PendienteCaja pendienteRelacionado = null;
         if (idPendienteRelacionado != null) {
@@ -1462,39 +1466,61 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         if (bovedaCajaTransaccion == null)
             throw new RollbackFailureException("La caja y la boveda seleccionados no estan relacionados");
 
-        
-        //validar
+        // validar
         switch (tipoPendienteCaja) {
         case FALTANTE:
-            if(monto.compareTo(BigDecimal.ZERO) >= 0 ){
+            if (monto.compareTo(BigDecimal.ZERO) >= 0) {
                 throw new RollbackFailureException("Pendiente FALTANTE, el monto debe ser negativo");
             }
             break;
         case SOBRANTE:
-            if(monto.compareTo(BigDecimal.ZERO) <= 0){
+            if (monto.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new RollbackFailureException("Pendiente SOBRANTE, el monto debe ser positivo");
             }
             break;
         case PAGO:
-            if(monto.compareTo(BigDecimal.ZERO) <= 0){
+            if (monto.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new RollbackFailureException("Pendiente PAGO, el monto debe ser positivo");
             }
-            if(idPendienteRelacionado == null) {
+            if (idPendienteRelacionado == null) {
                 throw new RollbackFailureException("Debe indicar que pendiente desea pagar");
             }
-            if(!pendienteRelacionado.getMoneda().equals(boveda.getMoneda())){
-                throw new RollbackFailureException("La moneda del pendiente no coincide con la moneda de boveda seleccionada");
+            if (!pendienteRelacionado.getMoneda().equals(boveda.getMoneda())) {
+                throw new RollbackFailureException(
+                        "La moneda del pendiente no coincide con la moneda de boveda seleccionada");
             }
+            // No dejar pagar mas de la deuda
+            QueryParameter queryParameter = QueryParameter.with("idPendienteCaja",
+                    pendienteRelacionado.getIdPendienteCaja());
+            List<PendienteCajaFaltanteView> result = pendienteCajaFaltanteViewDAO.findByNamedQuery(
+                    PendienteCajaFaltanteView.findByIdPendienteCaja, queryParameter.parameters());
+
+            BigDecimal montoPorPagar = BigDecimal.ZERO;
+            if (!result.isEmpty()) {
+                if (result.size() != 1) {
+                    throw new RollbackFailureException(
+                            "Error interno, se encontraron mas de un resultado en pagos");
+                } else {
+                    montoPorPagar = result.get(0).getMontoPorPagar();
+                }
+            } else {
+                montoPorPagar = pendienteRelacionado.getMonto();
+            }
+            if (monto.abs().compareTo(montoPorPagar.abs()) == 1) {
+                throw new RollbackFailureException("El monto:" + monto
+                        + " supera el monto de la deuda restante:" + montoPorPagar);
+            }
+
             break;
         case RETIRO:
-            if(monto.compareTo(BigDecimal.ZERO) >= 0){
+            if (monto.compareTo(BigDecimal.ZERO) >= 0) {
                 throw new RollbackFailureException("Pendiente RETIRO, el monto debe ser negativo");
             }
             break;
         default:
             break;
         }
-        
+
         // obteniendo el historial de la caja
         HistorialCaja historialCaja = this.getHistorialActivo();
 

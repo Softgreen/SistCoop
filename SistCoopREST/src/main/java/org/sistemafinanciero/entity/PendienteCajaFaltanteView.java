@@ -31,7 +31,9 @@ import org.sistemafinanciero.entity.type.TipoPendienteCaja;
 @Table(name = "PENDIENTE_CAJA_FALTANTE_DEUDA", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "pendientecaja")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = PendienteCajaFaltanteView.findByIdCajaConMonto, query = "SELECT p FROM PendienteCajaFaltanteView p INNER JOIN p.historialCajaCreacion hc INNER JOIN hc.caja c WHERE p.montoPorPagar < 0 AND c.idCaja = :idCaja ORDER BY p.fecha, p.hora") })
+@NamedQueries({
+        @NamedQuery(name = PendienteCajaFaltanteView.findByIdCajaConMonto, query = "SELECT p FROM PendienteCajaFaltanteView p INNER JOIN p.historialCajaCreacion hc INNER JOIN hc.caja c WHERE p.montoPorPagar < 0 AND c.idCaja = :idCaja ORDER BY p.fecha, p.hora"),
+        @NamedQuery(name = PendienteCajaFaltanteView.findByIdPendienteCaja, query = "SELECT p FROM PendienteCajaFaltanteView p WHERE p.idPendienteCaja = :idPendienteCaja") })
 public class PendienteCajaFaltanteView implements java.io.Serializable {
 
     /**
@@ -40,6 +42,7 @@ public class PendienteCajaFaltanteView implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     public final static String findByIdCajaConMonto = "PendienteCajaFaltanteView.findByIdCajaConMonto";
+    public final static String findByIdPendienteCaja = "PendienteCajaFaltanteView.findByIdPendienteCaja";
 
     private BigInteger idPendienteCaja;
     private TipoPendienteCaja tipoPendiente;

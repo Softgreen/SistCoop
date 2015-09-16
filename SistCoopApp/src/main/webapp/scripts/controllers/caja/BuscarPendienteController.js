@@ -32,7 +32,7 @@ define(['../module'], function (controllers) {
           {field: "hora", cellFilter: "date : 'HH:mm:ss'", displayName: "HORA"},
           {
             displayName: 'VOUCHER',
-            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: left;"><button type="button" class="btn btn-info btn-xs" ng-click="voucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-success btn-xs" ng-click="crearPendienteRelacionado(row.entity)" ng-show="getShowPagarButton(row.entity)"><span class="glyphicon glyphicon-share"></span>Pagar</button></div>'
+            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><button type="button" class="btn btn-info btn-xs" ng-click="voucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button></div>'
           }
         ]
       };
@@ -48,7 +48,8 @@ define(['../module'], function (controllers) {
           {field: "hora", cellFilter: "date : 'HH:mm:ss'", displayName: "HORA"},
           {
             displayName: 'VOUCHER',
-            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: left;"><button type="button" class="btn btn-info btn-xs" ng-click="voucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-success btn-xs" ng-click="crearPendienteRelacionado(row.entity)" ng-show="getShowPagarButton(row.entity)"><span class="glyphicon glyphicon-share"></span>Pagar</button></div>'
+            cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: left;"><button type="button" class="btn btn-info btn-xs" ng-click="voucher(row.entity)"><span class="glyphicon glyphicon-share"></span>Voucher</button>&nbsp;<button type="button" class="btn btn-success btn-xs" ng-click="crearPendienteRelacionado(row.entity)" ng-show="getShowPagarButton(row.entity)"><span class="glyphicon glyphicon-share"></span>Pagar</button></div>',
+            width: "150"
           }
         ]
       };
