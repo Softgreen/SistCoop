@@ -31,6 +31,7 @@ import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PendienteCaja;
+import org.sistemafinanciero.entity.PendienteCajaFaltanteView;
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
@@ -176,6 +177,12 @@ public class CajaRESTService implements CajaREST {
 		Set<PendienteCaja> pendientes = cajaServiceNT.getPendientes(id, idHistorial);
 		return Response.status(Response.Status.OK).entity(pendientes).build();
 	}
+	
+	@Override
+    public Response getPendientesPorPagarOfCaja(BigInteger id) {
+        List<PendienteCajaFaltanteView> pendientes = cajaServiceNT.getPendientesPorPagar(id);
+        return Response.status(Response.Status.OK).entity(pendientes).build();
+    }
 
 	@Override
 	public Response desactivarCaja(BigInteger id) {

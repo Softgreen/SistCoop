@@ -40,6 +40,7 @@ import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.MonedaDenominacion;
 import org.sistemafinanciero.entity.PendienteCaja;
+import org.sistemafinanciero.entity.PendienteCajaFaltanteView;
 import org.sistemafinanciero.entity.PersonaJuridica;
 import org.sistemafinanciero.entity.PersonaNatural;
 import org.sistemafinanciero.entity.Socio;
@@ -118,8 +119,11 @@ public class CajaServiceBeanNT implements CajaServiceNT {
     @Inject
     private DAO<Object, CuentaBancariaInteresGenera> cuentaBancariaInteresGeneraDAO;
 
+    // @Inject
+    // private DAO<Object, PendienteCaja> pendienteCajaDAO;
+
     @Inject
-    private DAO<Object, PendienteCaja> pendienteCajaDAO;
+    private DAO<Object, PendienteCajaFaltanteView> pendienteCajaFaltanteViewDAO;
 
     @EJB
     private MonedaServiceNT monedaServiceNT;
@@ -1181,14 +1185,36 @@ public class CajaServiceBeanNT implements CajaServiceNT {
         if (historialCaja != null) {
             result = historialCaja.getPendientes();
         } else {
-            QueryParameter queryParameter = QueryParameter.with("idCaja", idCaja);
-            List<PendienteCaja> list = pendienteCajaDAO.findByNamedQuery(PendienteCaja.findByIdCaja,
-                    queryParameter.parameters());
-
-            result = new HashSet<>(list);
+            // QueryParameter queryParameter = QueryParameter.with("idCaja",
+            // idCaja);
+            historialCaja = getHistorialActivo(caja.getIdCaja());
+            result = historialCaja.getPendientes();
+            // List<PendienteCaja> list =
+            // pendienteCajaDAO.findByNamedQuery(PendienteCaja.findByIdCaja,
+            // queryParameter.parameters());
+            // result = new HashSet<>(list);
         }
 
         for (PendienteCaja pendienteCaja : result) {
+            Moneda moneda = pendienteCaja.getMoneda();
+            Hibernate.initialize(pendienteCaja);
+            Hibernate.initialize(moneda);
+        }
+        return result;
+    }
+
+    @Override
+    public List<PendienteCajaFaltanteView> getPendientesPorPagar(BigInteger idCaja) {
+        Caja caja = cajaDAO.find(idCaja);
+        if (caja == null)
+            return null;
+
+        QueryParameter queryParameter = QueryParameter.with("idCaja", idCaja);
+
+        List<PendienteCajaFaltanteView> result = pendienteCajaFaltanteViewDAO.findByNamedQuery(
+                PendienteCajaFaltanteView.findByIdCajaConMonto, queryParameter.parameters());
+
+        for (PendienteCajaFaltanteView pendienteCaja : result) {
             Moneda moneda = pendienteCaja.getMoneda();
             Hibernate.initialize(pendienteCaja);
             Hibernate.initialize(moneda);

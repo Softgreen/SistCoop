@@ -13,6 +13,7 @@ import org.sistemafinanciero.entity.HistorialCaja;
 import org.sistemafinanciero.entity.HistorialTransaccionCaja;
 import org.sistemafinanciero.entity.Moneda;
 import org.sistemafinanciero.entity.PendienteCaja;
+import org.sistemafinanciero.entity.PendienteCajaFaltanteView;
 import org.sistemafinanciero.entity.Trabajador;
 import org.sistemafinanciero.entity.TransaccionBovedaCajaView;
 import org.sistemafinanciero.entity.TransaccionCajaCaja;
@@ -72,6 +73,8 @@ public interface CajaServiceNT extends AbstractServiceNT<Caja> {
 	public VoucherTransaccionCheque getVoucherTransaccionCheque(BigInteger idTransaccionCheque);
 	
 	public Set<PendienteCaja> getPendientes(BigInteger idCaja, BigInteger idHistorialCaja);
+	
+	public List<PendienteCajaFaltanteView> getPendientesPorPagar(BigInteger idCaja);
 
 	public List<HistorialTransaccionCaja> getHistorialTransaccion(BigInteger idCaja, BigInteger idHistorial, String filterText);
 	

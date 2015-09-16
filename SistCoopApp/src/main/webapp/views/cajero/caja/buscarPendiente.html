@@ -1,16 +1,24 @@
 <div ng-controller="BuscarPendienteController">
-    <fieldset>
-        <legend>Pendientes del D&iacute;a</legend>
-        <div class="row">
-            <div class="col-sm-4">
-                <button type="button" class="btn btn-primary" ng-click="crear()">Nuevo</button>
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <div class="col-sm-12">
-                <div ng-grid="gridOptions" style="border: 1px solid rgb(212,212,212); height: 393px; font-size: 11px;"></div>
-            </div>
-        </div>
-    </fieldset>
+  <fieldset>
+    <legend>Pendientes del D&iacute;a</legend>
+    <div class="row">
+      <div class="col-sm-4">
+        <button type="button" class="btn btn-primary" ng-click="crear()">Nuevo</button>
+      </div>
+    </div>
+    <br/>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <tabset>
+          <tab heading="Pendiente del dia">
+            <div ng-grid="gridOptionsPendientesDelDia" style="border: 1px solid rgb(212,212,212); width: 100%; height: 300px; font-size: 11px;"></div>
+          </tab>
+          <tab heading="Pendiente FALTANTES por pagar">
+            <div ng-grid="gridOptionsFaltantesPorPagar" style="border: 1px solid rgb(212,212,212); width: 100%; height: 300px; font-size: 11px;"></div>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </fieldset>
 </div>

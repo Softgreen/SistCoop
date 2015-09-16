@@ -85,6 +85,11 @@ public interface CajaREST {
 	@Produces({ "application/xml", "application/json" })
 	public Response getPendientesOfCaja(@PathParam("id") BigInteger id, @QueryParam("idHistorial") BigInteger idHistorial);
 
+	@GET
+    @Path("/{id}/pendientesPorPagar")
+    @Produces({ "application/xml", "application/json" })
+    public Response getPendientesPorPagarOfCaja(@PathParam("id") BigInteger id);
+	
 	@POST
 	@Path("/{id}/desactivar")
 	@Consumes({ "application/xml", "application/json" })

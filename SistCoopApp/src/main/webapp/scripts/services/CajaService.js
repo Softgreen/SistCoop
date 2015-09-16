@@ -20,6 +20,9 @@ define(['./module'], function (services) {
                     else if(arguments.length == 2)
                         return Restangular.all(baseUrl+"/"+idCaja+"/pendientes").getList({idHistorial:idHistorial});
                 },
+                getPendientesPorPagar: function(idCaja){
+                    return Restangular.all(baseUrl+"/"+idCaja+"/pendientesPorPagar").getList();
+                },
                 getVoucherCuentaAporte: function(idTransaccion){
                     return Restangular.one(baseUrl+"/voucherCuentaAporte/"+idTransaccion).get();
                 },
