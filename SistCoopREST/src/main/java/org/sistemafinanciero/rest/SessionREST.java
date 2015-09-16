@@ -19,6 +19,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
+import org.sistemafinanciero.entity.type.TipoPendienteCaja;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
 import org.sistemafinanciero.rest.dto.CuentaBancariaDTO;
 import org.sistemafinanciero.rest.dto.TransaccionBancariaDTO;
@@ -77,7 +78,7 @@ public interface SessionREST {
 	@POST
 	@Path("/transaccionPendiente")
 	@Produces({ "application/xml", "application/json" })
-	public Response crearPendiente(@FormParam("idboveda") BigInteger idboveda, @FormParam("monto") BigDecimal monto, @FormParam("observacion") String observacion);
+	public Response crearPendienteCaja(@FormParam("tipo") TipoPendienteCaja tipoPendienteCaja, @FormParam("idboveda") BigInteger idboveda, @FormParam("monto") BigDecimal monto, @FormParam("observacion") String observacion, @FormParam("idPendienteRelacionado") BigInteger idPendienteRelacionado);
 
 	@POST
 	@Path("/transaccionCuentaAporte")

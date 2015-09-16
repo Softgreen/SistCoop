@@ -328,13 +328,15 @@ define(['./app'], function (app) {
           }
         })
         .state('app.caja.pendienteCrear', {
-          url: "/pendiente/crear?idboveda&monto",
+          url: "/pendiente/crear?idBoveda&monto&idPendienteRelacionado&tipoPendiente",
           views: {
             "viewContent": {
               templateUrl: "views/cajero/caja/crearPendiente.html",
               controller: function ($scope, $stateParams) {
-                $scope.idboveda = $stateParams.idboveda;
+                $scope.idBoveda = $stateParams.idBoveda;
                 $scope.monto = $stateParams.monto;
+                $scope.idPendienteRelacionado = $stateParams.idPendienteRelacionado;
+                $scope.tipoPendiente = $stateParams.tipoPendiente;
               }
             }
           }

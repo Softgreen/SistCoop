@@ -23,13 +23,31 @@ define(['./module'], function (services) {
                     var copy = Restangular.copy(detalle);
                     return Restangular.all(baseUrl+"/caja/cerrar").post(copy);
                 },
-                crearPendiente: function(boveda,monto,observacion){
-                    var data = $.param({idboveda:boveda,monto:monto,observacion:observacion});
-                    return Restangular.one(baseUrl+"/transaccionPendiente").customPOST(
-                        data,
-                        '',{},{
-                            "Content-Type":"application/x-www-form-urlencoded"}
-                    );
+                crearPendiente: function (idBoveda, monto, observacion, tipoPendiente, idPendienteRelacionado) {
+                  var data;
+                  if(angular.isUndefined(idPendienteRelacionado)){
+                    data = $.param({
+                      idboveda: idBoveda,
+                      monto: monto,
+                      observacion: observacion,
+                      tipo: tipoPendiente
+                    });
+                  } else {
+                    var data = $.param({
+                      idboveda: idBoveda,
+                      monto: monto,
+                      observacion: observacion,
+                      tipo: tipoPendiente,
+                      idPendienteRelacionado: idPendienteRelacionado
+                    });
+                  }
+
+                  return Restangular.one(baseUrl + "/transaccionPendiente").customPOST(
+                    data,
+                    '', {}, {
+                      "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                  );
                 },
                 inactivarSocioConRetiro: function(idSocio){
                     return Restangular.all(baseUrl+"/socio/"+idSocio+"/desactivar").post();

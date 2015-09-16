@@ -46,6 +46,7 @@ import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.type.LugarPagoComision;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
+import org.sistemafinanciero.entity.type.TipoPendienteCaja;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
@@ -213,10 +214,10 @@ public class SessionRESTService implements SessionREST {
     }
 
     @Override
-    public Response crearPendiente(BigInteger idboveda, BigDecimal monto, String observacion) {
+    public Response crearPendienteCaja(TipoPendienteCaja tipoPendienteCaja, BigInteger idboveda, BigDecimal monto, String observacion, BigInteger idPendienteRelacionado) {
         Response response;
         try {
-            BigInteger idPendiente = sessionServiceTS.crearPendiente(idboveda, monto, observacion);
+            BigInteger idPendiente = sessionServiceTS.crearPendienteCaja(tipoPendienteCaja, idboveda, monto, observacion, idPendienteRelacionado);
             response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idPendiente))
                     .build();
         } catch (RollbackFailureException e) {

@@ -10,146 +10,146 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.sistemafinanciero.entity.Moneda;
-import org.sistemafinanciero.entity.type.TipoPendiente;
+import org.sistemafinanciero.entity.type.TipoPendienteCaja;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
 public class VoucherPendienteCaja implements java.io.Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@XmlElement
-	private BigInteger idPendienteCaja;
-	
-	@XmlElement
-	private Moneda moneda;
-	
-	@XmlElement
-	private BigDecimal monto;
-	
-	@XmlElement
-	private String observacion;
-	
-	@XmlElement
-	private Date fecha;
-	
-	@XmlElement
-	private Date hora;
-	
-	@XmlElement
-	private TipoPendiente tipoPendiente;
-	
-	@XmlElement
-	private String trabajador;
-	
-	@XmlElement
-	private String agenciaAbreviatura;
-	
-	@XmlElement
-	private String agenciaDenominacion;
-	
-	@XmlElement
-	private String cajaDenominacion;
-	
-	@XmlElement
-	private String cajaAbreviatura;
+    @XmlElement
+    private BigInteger idPendienteCaja;
 
-	public BigInteger getIdPendienteCaja() {
-		return idPendienteCaja;
-	}
+    @XmlElement
+    private Moneda moneda;
 
-	public void setIdPendienteCaja(BigInteger idPendienteCaja) {
-		this.idPendienteCaja = idPendienteCaja;
-	}
+    @XmlElement
+    private BigDecimal monto;
 
-	public Moneda getMoneda() {
-		return moneda;
-	}
+    @XmlElement
+    private String observacion;
 
-	public void setMoneda(Moneda moneda) {
-		this.moneda = moneda;
-	}
+    @XmlElement
+    private Date fecha;
 
-	public BigDecimal getMonto() {
-		return monto;
-	}
+    @XmlElement
+    private Date hora;
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    @XmlElement
+    private TipoPendienteCaja tipoPendiente;
 
-	public String getObservacion() {
-		return observacion;
-	}
+    @XmlElement
+    private String trabajadorCrea;
 
-	public void setObservacion(String observacion) {
-		this.observacion = observacion;
-	}
+    @XmlElement
+    private String agenciaAbreviatura;
 
-	public Date getFecha() {
-		return fecha;
-	}
+    @XmlElement
+    private String agenciaDenominacion;
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
+    @XmlElement
+    private String cajaDenominacion;
 
-	public Date getHora() {
-		return hora;
-	}
+    @XmlElement
+    private String cajaAbreviatura;
 
-	public void setHora(Date hora) {
-		this.hora = hora;
-	}
+    public BigInteger getIdPendienteCaja() {
+        return idPendienteCaja;
+    }
 
-	public TipoPendiente getTipoPendiente() {
-		return tipoPendiente;
-	}
+    public void setIdPendienteCaja(BigInteger idPendienteCaja) {
+        this.idPendienteCaja = idPendienteCaja;
+    }
 
-	public void setTipoPendiente(TipoPendiente tipoPendiente) {
-		this.tipoPendiente = tipoPendiente;
-	}
+    public Moneda getMoneda() {
+        return moneda;
+    }
 
-	public String getTrabajador() {
-		return trabajador;
-	}
+    public void setMoneda(Moneda moneda) {
+        this.moneda = moneda;
+    }
 
-	public void setTrabajador(String trabajador) {
-		this.trabajador = trabajador;
-	}
+    public BigDecimal getMonto() {
+        return monto;
+    }
 
-	public String getAgenciaAbreviatura() {
-		return agenciaAbreviatura;
-	}
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
 
-	public void setAgenciaAbreviatura(String agenciaAbreviatura) {
-		this.agenciaAbreviatura = agenciaAbreviatura;
-	}
+    public String getObservacion() {
+        return observacion;
+    }
 
-	public String getAgenciaDenominacion() {
-		return agenciaDenominacion;
-	}
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
 
-	public void setAgenciaDenominacion(String agenciaDenominacion) {
-		this.agenciaDenominacion = agenciaDenominacion;
-	}
+    public Date getFecha() {
+        return fecha;
+    }
 
-	public String getCajaDenominacion() {
-		return cajaDenominacion;
-	}
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
-	public void setCajaDenominacion(String cajaDenominacion) {
-		this.cajaDenominacion = cajaDenominacion;
-	}
+    public Date getHora() {
+        return hora;
+    }
 
-	public String getCajaAbreviatura() {
-		return cajaAbreviatura;
-	}
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
 
-	public void setCajaAbreviatura(String cajaAbreviatura) {
-		this.cajaAbreviatura = cajaAbreviatura;
-	}
+    public TipoPendienteCaja getTipoPendiente() {
+        return tipoPendiente;
+    }
+
+    public void setTipoPendiente(TipoPendienteCaja tipoPendiente) {
+        this.tipoPendiente = tipoPendiente;
+    }
+
+    public String getTrabajadorCrea() {
+        return trabajadorCrea;
+    }
+
+    public void setTrabajadorCrea(String trabajadorCrea) {
+        this.trabajadorCrea = trabajadorCrea;
+    }
+
+    public String getAgenciaAbreviatura() {
+        return agenciaAbreviatura;
+    }
+
+    public void setAgenciaAbreviatura(String agenciaAbreviatura) {
+        this.agenciaAbreviatura = agenciaAbreviatura;
+    }
+
+    public String getAgenciaDenominacion() {
+        return agenciaDenominacion;
+    }
+
+    public void setAgenciaDenominacion(String agenciaDenominacion) {
+        this.agenciaDenominacion = agenciaDenominacion;
+    }
+
+    public String getCajaDenominacion() {
+        return cajaDenominacion;
+    }
+
+    public void setCajaDenominacion(String cajaDenominacion) {
+        this.cajaDenominacion = cajaDenominacion;
+    }
+
+    public String getCajaAbreviatura() {
+        return cajaAbreviatura;
+    }
+
+    public void setCajaAbreviatura(String cajaAbreviatura) {
+        this.cajaAbreviatura = cajaAbreviatura;
+    }
 }

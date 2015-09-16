@@ -15,6 +15,7 @@ import org.sistemafinanciero.entity.dto.GenericDetalle;
 import org.sistemafinanciero.entity.dto.GenericMonedaDetalle;
 import org.sistemafinanciero.entity.type.LugarPagoComision;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
+import org.sistemafinanciero.entity.type.TipoPendienteCaja;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
 import org.sistemafinanciero.entity.type.TransaccionBovedaCajaOrigen;
@@ -55,7 +56,7 @@ public interface SessionServiceTS {
 
 	public BigInteger cancelarSocioConRetiro(BigInteger idSocio) throws RollbackFailureException;
 
-	public BigInteger crearPendiente(BigInteger idBoveda, BigDecimal monto, String observacion) throws RollbackFailureException;
+	public BigInteger crearPendienteCaja(TipoPendienteCaja tipoPendienteCaja, BigInteger idBoveda, BigDecimal monto, String observacion, BigInteger idPendienteRelacionado) throws RollbackFailureException;
 
 	public BigInteger crearTransaccionBovedaCaja(BigInteger idBoveda, Set<GenericDetalle> detalleTransaccion, TransaccionBovedaCajaOrigen origen) throws RollbackFailureException;
 	

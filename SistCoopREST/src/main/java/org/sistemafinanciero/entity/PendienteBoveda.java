@@ -31,46 +31,45 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.sistemafinanciero.entity.type.TipoPendienteCaja;
 
 @Entity
-@Table(name = "PENDIENTE_CAJA", schema = "C##BDSISTEMAFINANCIERO")
+@Table(name = "PENDIENTE_BOVEDA", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "pendientecaja")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ @NamedQuery(name = PendienteCaja.findByIdCaja, query = "SELECT p FROM PendienteCaja p INNER JOIN p.historialCajaCreacion hc INNER JOIN hc.caja c WHERE c.idCaja = :idCaja ORDER BY p.fecha, p.hora") })
-public class PendienteCaja implements java.io.Serializable {
+// @NamedQueries({ @NamedQuery(name = PendienteCaja.findByIdCaja, query =
+// "SELECT p FROM PendienteCaja p INNER JOIN p.historialCaja hc INNER JOIN hc.caja c WHERE c.idCaja = :idCaja ORDER BY p.fecha, p.hora")
+// })
+public class PendienteBoveda implements java.io.Serializable {
 
     /**
 	 * 
 	 */
     private static final long serialVersionUID = 1L;
 
-    public final static String findByIdCaja = "PendienteCaja.findByIdCaja";
+    // public final static String findByIdCaja = "PendienteCaja.findByIdCaja";
 
-    private BigInteger idPendienteCaja;
-    private HistorialCaja historialCajaCreacion;
+    private BigInteger idPendienteBoveda;
+    private TipoPendienteCaja tipoPendiente;
     private Moneda moneda;
     private BigDecimal monto;
-    private String observacion;
     private Date fecha;
     private Date hora;
-    private TipoPendienteCaja tipoPendiente;
+    private String observacion;
     private String trabajadorCrea;
 
-    private PendienteCaja pendienteRelacionado;
-    
-    public PendienteCaja() {
+    public PendienteBoveda() {
 
     }
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PENDIENTECAJA_SEQ")
-    @SequenceGenerator(name = "PENDIENTECAJA_SEQ", initialValue = 1, allocationSize = 1, sequenceName = "PENDIENTECAJA_SEQ")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PENDIENTEBOVEDA_SEQ")
+    @SequenceGenerator(name = "PENDIENTEBOVEDA_SEQ", initialValue = 1, allocationSize = 1, sequenceName = "PENDIENTEBOVEDA_SEQ")
     @XmlElement(name = "id")
     @Id
-    @Column(name = "ID_PENDIENTE_CAJA", unique = true, nullable = false, precision = 22, scale = 0)
-    public BigInteger getIdPendienteCaja() {
-        return this.idPendienteCaja;
+    @Column(name = "ID_PENDIENTE_BOVEDA", unique = true, nullable = false, precision = 22, scale = 0)
+    public BigInteger getIdPendienteBoveda() {
+        return this.idPendienteBoveda;
     }
 
-    public void setIdPendienteCaja(BigInteger idPendienteCaja) {
-        this.idPendienteCaja = idPendienteCaja;
+    public void setIdPendienteBoveda(BigInteger idPendienteBoveda) {
+        this.idPendienteBoveda = idPendienteBoveda;
     }
 
     @XmlElement
@@ -127,28 +126,6 @@ public class PendienteCaja implements java.io.Serializable {
     }
 
     @XmlElement
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PENDIENTE_CAJA_RELACIONADO", nullable = true)
-    public PendienteCaja getPendienteRelacionado() {
-        return this.pendienteRelacionado;
-    }
-
-    public void setPendienteRelacionado(PendienteCaja pendienteRelacionado) {
-        this.pendienteRelacionado = pendienteRelacionado;
-    }
-    
-    @XmlTransient
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_HISTORIAL_CAJA_CREACION", nullable = false)
-    public HistorialCaja getHistorialCajaCreacion() {
-        return this.historialCajaCreacion;
-    }
-
-    public void setHistorialCajaCreacion(HistorialCaja historialCajaCreacion) {
-        this.historialCajaCreacion = historialCajaCreacion;
-    }
-
-    @XmlElement
     @Column(name = "TRABAJADOR_CREA", nullable = false, columnDefinition = "nvarchar2")
     public String getTrabajadorCrea() {
         return this.trabajadorCrea;
@@ -172,7 +149,7 @@ public class PendienteCaja implements java.io.Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((idPendienteCaja == null) ? 0 : idPendienteCaja.hashCode());
+        result = prime * result + ((idPendienteBoveda == null) ? 0 : idPendienteBoveda.hashCode());
         return result;
     }
 
@@ -184,11 +161,11 @@ public class PendienteCaja implements java.io.Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        PendienteCaja other = (PendienteCaja) obj;
-        if (idPendienteCaja == null) {
-            if (other.idPendienteCaja != null)
+        PendienteBoveda other = (PendienteBoveda) obj;
+        if (idPendienteBoveda == null) {
+            if (other.idPendienteBoveda != null)
                 return false;
-        } else if (!idPendienteCaja.equals(other.idPendienteCaja))
+        } else if (!idPendienteBoveda.equals(other.idPendienteBoveda))
             return false;
         return true;
     }

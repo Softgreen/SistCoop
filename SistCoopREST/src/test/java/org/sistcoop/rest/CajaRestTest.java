@@ -91,7 +91,7 @@ import org.sistemafinanciero.entity.type.Sexo;
 import org.sistemafinanciero.entity.type.TasaInteresType;
 import org.sistemafinanciero.entity.type.TipoCuentaBancaria;
 import org.sistemafinanciero.entity.type.TipoEmpresa;
-import org.sistemafinanciero.entity.type.TipoPendiente;
+import org.sistemafinanciero.entity.type.TipoPendienteCaja;
 import org.sistemafinanciero.entity.type.TipoPersona;
 import org.sistemafinanciero.entity.type.Tipotransaccionbancaria;
 import org.sistemafinanciero.entity.type.Tipotransaccioncompraventa;
@@ -110,7 +110,7 @@ public class CajaRestTest {
 				.create(WebArchive.class, "test.war")
 				.addClasses(Accionista.class, Agencia.class, Beneficiario.class, Boveda.class, BovedaCaja.class, BovedaCajaId.class, Caja.class, CuentaAporte.class, CuentaBancaria.class, CuentaBancariaInteresGenera.class, CuentaBancariaTasa.class, CuentaBancariaView.class, Departamento.class, DetalleHistorialBoveda.class, DetalleHistorialCaja.class, DetalleTransaccionCaja.class, Distrito.class, Entidad.class, EstadocuentaAportesView.class, EstadocuentaBancariaView.class, HistorialBoveda.class, HistorialCaja.class, HistorialTransaccionCaja.class, Moneda.class, MonedaDenominacion.class,
 						Pais.class, PendienteCaja.class, PersonaJuridica.class, PersonaNatural.class, Provincia.class, Servicio.class, Socio.class, Sucursal.class, TasaInteres.class, TipoDocumento.class, TipoServicio.class, Titular.class, Trabajador.class, TrabajadorCaja.class, TrabajadorCajaId.class, TransaccionBancaria.class, TransaccionBovedaCaja.class, TransaccionBovedaCajaDetalle.class, TransaccionBovedaOtro.class, TransaccionBovedaOtroDetall.class, TransaccionCajaCaja.class, TransaccionCompraVenta.class, TransaccionCuentaAporte.class, TransferenciaBancaria.class, ValorTasaInteres.class,
-						VariableSistema.class, Estadocivil.class, EstadoCuentaAporte.class, EstadoCuentaBancaria.class, EstadoSocioAporte.class, Sexo.class, TasaInteresType.class, TipoCuentaBancaria.class, TipoEmpresa.class, TipoPendiente.class, TipoPersona.class, Tipotransaccionbancaria.class, Tipotransaccioncompraventa.class, Tipotransaccioncuentaaporte.class, TransaccionBovedaCajaOrigen.class, Variable.class, AbstractServiceNT.class, AgenciaServiceNT.class, AgenciaServiceBeanNT.class, DAO.class, AgenciaBeanDAO.class, Resources.class)
+						VariableSistema.class, Estadocivil.class, EstadoCuentaAporte.class, EstadoCuentaBancaria.class, EstadoSocioAporte.class, Sexo.class, TasaInteresType.class, TipoCuentaBancaria.class, TipoEmpresa.class, TipoPendienteCaja.class, TipoPersona.class, Tipotransaccionbancaria.class, Tipotransaccioncompraventa.class, Tipotransaccioncuentaaporte.class, TransaccionBovedaCajaOrigen.class, Variable.class, AbstractServiceNT.class, AgenciaServiceNT.class, AgenciaServiceBeanNT.class, DAO.class, AgenciaBeanDAO.class, Resources.class)
 				.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml").addAsWebInfResource(EmptyAsset.INSTANCE, "META-INF/beans.xml")
 				// Deploy our test datasource
 				.addAsWebInfResource("test-ds.xml");
