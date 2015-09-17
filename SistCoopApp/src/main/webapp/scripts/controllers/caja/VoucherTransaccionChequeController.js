@@ -34,11 +34,14 @@ define(['../module'], function (controllers) {
                     qz.append("\x1B\x21\x01");														//texto normal (no negrita)
                     qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
 
-                    qz.append("NUMERO CHEQUE:" + ($scope.transaccion.numeroCheque) + "\r\n");
-                    qz.append("NUMERO CHEQUE:" + ($scope.transaccion.numeroChequeUnico) + "\r\n");
-                    qz.append("TIP DOCUMENTO:" + ($scope.transaccion.tipoDocumento) + "NUM DOCUMENTO:" + ($scope.transaccion.numeroDocumento) +"\r\n");
-                    qz.append("AP. y NOMBRES:" + ($scope.transaccion.persona) + "\r\n");
-                    qz.append("MONTO:" + "\t\t" + ($scope.transaccion.persona) + "\r\n");
+                    qz.append(($scope.transaccion.agenciaAbreviatura) + "\t\t" + "TRANS:" + "\t" + ($scope.transaccion.idTransaccionBancaria) + "\r\n");
+                    qz.append("CAJA:" + ($scope.transaccion.cajaDenominacion) + "\t\t" + "Nro OP:" + "\t" + ($scope.transaccion.numeroOperacion) + "\r\n");
+                    qz.append("FECHA:" + ($filter('date')($scope.transaccion.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.transaccion.hora, 'HH:mm:ss')) + "\r\n");
+                    qz.append("NUM. CHEQUE:" + ($scope.transaccion.numeroCheque) + "\r\n");
+                    qz.append("TIP. DOC:" + ($scope.transaccion.tipoDocumento.abreviatura) + "\t" + "NUM. DOC.:" + ($scope.transaccion.numeroDocumento) + "\r\n");
+//                    qz.append("NUM DOCUMENTO:" + ($scope.transaccion.numeroDocumento) + "\r\n");
+                    qz.append("CLIENTE:" + ($scope.transaccion.socio) + "\r\n");
+                    qz.append("MONTO:" + "\t" + $scope.transaccion.moneda.simbolo + $filter('number')($scope.transaccion.monto, 2) + "\r\n");
 
                     qz.append("\r\n");
                     qz.append(String.fromCharCode(27) + "\x61" + "\x31");

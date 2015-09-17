@@ -1155,15 +1155,19 @@ public class CajaServiceBeanNT implements CajaServiceNT {
         PersonaNatural personaNatural = socio.getPersonaNatural();
         PersonaJuridica personaJuridica = socio.getPersonaJuridica();
         if (personaJuridica == null) {
+        	TipoDocumento t = socio.getPersonaNatural().getTipoDocumento();
+        	Hibernate.initialize(t);
             voucherTransaccion.setIdSocio(socio.getIdSocio());
-            voucherTransaccion.setTipoDocumento(socio.getPersonaNatural().getTipoDocumento()); //
+            voucherTransaccion.setTipoDocumento(t); //
             voucherTransaccion.setNumeroDocumento(socio.getPersonaNatural().getNumeroDocumento());
             voucherTransaccion.setSocio(personaNatural.getApellidoPaterno() + " "
                     + personaNatural.getApellidoMaterno() + ", " + personaNatural.getNombres());
         }
         if (personaNatural == null) {
+        	TipoDocumento t = socio.getPersonaJuridica().getTipoDocumento();
+        	Hibernate.initialize(t);
             voucherTransaccion.setIdSocio(socio.getIdSocio());
-            voucherTransaccion.setTipoDocumento(socio.getPersonaJuridica().getTipoDocumento()); //
+            voucherTransaccion.setTipoDocumento(t); //
             voucherTransaccion.setNumeroDocumento(socio.getPersonaJuridica().getNumeroDocumento());
             voucherTransaccion.setSocio(personaJuridica.getRazonSocial());
         }

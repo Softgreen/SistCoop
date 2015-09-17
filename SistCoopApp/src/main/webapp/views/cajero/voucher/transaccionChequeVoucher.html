@@ -10,7 +10,7 @@
                     <div class="panel-heading" style="text-align: center;">
                         <label><strong>MULTIVALORES DEL SUR</strong></label><br />
                         <label ng-bind="transaccion.tipoTransaccion"></label>
-                        <label>&nbsp;CUENTA&nbsp;CORRIENTE</label>
+                        <label>COBRO&nbsp;DE&nbsp;CHEQUE</label>
                     </div>
                     <!-- Table -->
                     <table class="table">
@@ -44,8 +44,14 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>CUENTA:</td>
-                            <td colspan="3"><span ng-bind="transaccion.numeroCuenta"/> </td>
+                            <td>NUM. CHEQUE:</td>
+                            <td colspan="3"><span ng-bind="transaccion.numeroCheque"/> </td>
+                        </tr>
+                        <tr>
+                            <td>TIP. DOC:</td>
+                            <td colspan="1"><span ng-bind="transaccion.tipoDocumento.abreviatura"/> </td>
+                            <td>NUM. DOC:</td>
+                            <td colspan="1"><span ng-bind="transaccion.numeroDocumento"/> </td>
                         </tr>
                         <tr>
                             <td>CLIENTE:</td>
@@ -66,7 +72,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2">IMPORTE PAGADO:</td>
+                            <td colspan="2">MONTO:</td>
                             <td colspan="2" style="text-align: right;">
                                 <span ng-bind="transaccion.moneda.simbolo"></span>
                                 <span ng-bind="transaccion.monto | number : 2"/>
