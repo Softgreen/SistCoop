@@ -1,6 +1,6 @@
 <div ng-controller="VoucherTransaccionChequeController">
     <div class="row">
-        <div class="col-md-5" id="voucher">
+        <div class="col-md-6" id="voucher">
             <div>
                 <fieldset>
                     <legend style="text-align: center; font-size: 16px;">VOUCHER TRANSACCION CHEQUE</legend>
@@ -63,12 +63,6 @@
                             <td>MONEDA:</td>
                             <td colspan="3"><span ng-bind="transaccion.moneda.denominacion"/>
                                 <span ng-bind="'(' + transaccion.moneda.simbolo + ')'"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>OBS.:</td>
-                            <td colspan="3">
-                                <span ng-bind="transaccion.observacion"/>
                             </td>
                         </tr>
                         <tr>

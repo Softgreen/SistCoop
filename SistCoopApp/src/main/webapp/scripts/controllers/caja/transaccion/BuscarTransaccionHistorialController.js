@@ -131,6 +131,8 @@ define(['../../module'], function (controllers) {
             		$state.transitionTo("app.transaccion.compraVentaVoucher", { id: transaccion.idTransaccion});
             	else if(transaccion.tipoTransaccion == "TRANSFERENCIA")
             		$state.transitionTo("app.transaccion.transferenciaVoucher", { id: transaccion.idTransaccion});
+            	else if(transaccion.tipoTransaccion == "CHEQUE")
+            		$state.transitionTo("app.transaccion.chequeVoucher", { id: transaccion.idTransaccion});
             	else
                 	alert("Tipo de transacción no encontrado");
             };
@@ -145,11 +147,11 @@ define(['../../module'], function (controllers) {
                 			function(data){
                 				$scope.getPagedDataInitial();
                 				$scope.alerts = [{ type: "success", msg: "Extornación Éxitosa..."}];
-                                $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                                $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                             }
                             ,function error(error){
                                 $scope.alerts = [{ type: "danger", msg: error.data.message + "."}];
-                                $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);}
+                                $scope.closeAlert = function(index) {$scope.alerts.splice(index, 1);};
                             }
                     );
                 }, function () {
