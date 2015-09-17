@@ -175,7 +175,7 @@ public class ReportesRestService implements ReportesRest {
             Paragraph parrafoDebeHaber = new Paragraph();
             parrafoDebeHaber.setAlignment(Element.ALIGN_LEFT);
 
-            Chunk chunkDebe = new Chunk("DEBE", fontTableCabecera);
+            Chunk chunkDebe = new Chunk(" DEBE", fontTableCabecera);
             parrafoDebeHaber.add(chunkDebe);
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
@@ -187,7 +187,7 @@ public class ReportesRestService implements ReportesRest {
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
             parrafoDebeHaber.add(Chunk.TABBING);
-            Chunk chunkHaber = new Chunk("HABER", fontTableCabecera);
+            Chunk chunkHaber = new Chunk("          HABER", fontTableCabecera);
             parrafoDebeHaber.add(chunkHaber);
 
             document.add(parrafoDebeHaber);
