@@ -66,12 +66,12 @@ define(['./module'], function (services) {
                             "Content-Type":"application/x-www-form-urlencoded"}
                     );
 
-                    var data = $.param({idboveda:boveda,monto:monto,observacion:observacion});
+                    /*var data = $.param({idboveda:boveda,monto:monto,observacion:observacion});
                     return Restangular.one(baseUrl+"/transaccionPendiente").customPOST(
                         data,
                         '',{},{
                             "Content-Type":"application/x-www-form-urlencoded"}
-                    );
+                    );*/
 
                 },
                 cancelarTransaccionBovedaCaja: function(id){
