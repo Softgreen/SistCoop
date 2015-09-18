@@ -10,8 +10,10 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -65,250 +67,365 @@ public class EmailSessionBean {
 
 	private int port = 587;
 	private String host = "smtp.gmail.com";
-	private String from = "coop.caja.ventura@gmail.com";
+	//private String from = "coop.caja.ventura@gmail.com";
+	private String from = "multivaloresdelsursac@gmail.com";
 	private boolean auth = true;
-	private String username = "coop.caja.ventura@gmail.com";
-	private String password = "caja.ventura";
+	//private String username = "coop.caja.ventura@gmail.com";
+	private String username = "multivaloresdelsursac@gmail.com";
+	//private String password = "caja.ventura";
+	private String password = "jjjbryan777";
 	private Protocol protocol = Protocol.SMTP;
 	private boolean debug = true;
 
 	private String mailMessage = "";
 	private String fileName = "estado_cuenta";	
-	private String subject = "Estado de Cuenta";
+	private String subject = "EE.CC. " ;
+	
+	
 
 	public void writePdf(OutputStream outputStream, List<EstadocuentaBancariaView> list, CuentaBancariaView cuentaBancaria) throws Exception {
 		Document document = new Document();
 		PdfWriter.getInstance(document, outputStream);
 		
+		//Caso de que no existan transacciones
 		if(list.isEmpty()){
-		    document.open();
-
+			document.open();
 	        document.addTitle("Estado de Cuenta");
 	        document.addSubject("Estado de Cuenta");
 	        document.addKeywords("email");
 	        document.addAuthor("Multivalores del Sur");
 	        document.addCreator("Multivalores del Sur");
 	        
-	        document.close();
+	        Paragraph saltoDeLinea = new Paragraph();
+			document.add(saltoDeLinea);
+			
+			//******************* TITULO ******************
+			try {
+				Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo_coop_contrato.png");
+				img.setAlignment(Image.LEFT | Image.UNDERLYING);
+				document.add(img);
+
+				Paragraph parrafoPrincipal = new Paragraph();
+				parrafoPrincipal.setSpacingAfter(30);
+				parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
+				parrafoPrincipal.setIndentationLeft(100);
+				parrafoPrincipal.setIndentationRight(50);
+				
+				Paragraph parrafoSecundario = new Paragraph();
+				parrafoSecundario.setSpacingAfter(20);
+				parrafoSecundario.setSpacingBefore(-20);
+				parrafoSecundario.setAlignment(Element.ALIGN_LEFT);
+				parrafoSecundario.setIndentationLeft(160);
+				parrafoSecundario.setIndentationRight(10);
+
+				Chunk titulo = new Chunk("ESTADO DE CUENTA");
+				Font fuenteTitulo = new Font(FontFamily.UNDEFINED, 13, Font.BOLD);
+				titulo.setFont(fuenteTitulo);
+				parrafoPrincipal.add(titulo);
+				
+				Font fuenteDatosCliente = new Font(FontFamily.UNDEFINED, 10);
+				Date fechaSistema = new Date();
+				SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				String fechaActual = formatFecha.format(fechaSistema);
+				
+				if (cuentaBancaria.getTipoPersona() == TipoPersona.NATURAL) {
+					Chunk clientePNNombres = new Chunk("CLIENTE       : " + cuentaBancaria.getSocio() + "\n");
+					Chunk clientePNDni = new Chunk(cuentaBancaria.getTipoDocumento() + "                : " + cuentaBancaria.getNumeroDocumento() + "\n");
+					Chunk clientePNFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
+					Chunk tipoCuentaPN = new Chunk("CUENTA " + cuentaBancaria.getTipoCuenta() + " Nº "+ cuentaBancaria.getNumeroCuenta() + "\n");
+					Chunk tipoMonedaPN;
+					
+					if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
+						tipoMonedaPN = new Chunk("MONEDA: " + "DOLARES AMERICANOS" + "\n");
+					} else if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
+						tipoMonedaPN = new Chunk("MONEDA: " + "NUEVOS SOLES" + "\n");
+					} else {
+						tipoMonedaPN = new Chunk("MONEDA: " + "EUROS" + "\n");
+					}
+					
+					clientePNNombres.setFont(fuenteDatosCliente);
+					clientePNDni.setFont(fuenteDatosCliente);
+					clientePNFecha.setFont(fuenteDatosCliente);
+					tipoCuentaPN.setFont(fuenteDatosCliente);
+					tipoMonedaPN.setFont(fuenteDatosCliente);
+					
+					parrafoSecundario.add(clientePNNombres);
+					parrafoSecundario.add(clientePNDni);
+					parrafoSecundario.add(clientePNFecha);
+					parrafoSecundario.add(tipoCuentaPN);
+					parrafoSecundario.add(tipoMonedaPN);
+					
+				} else {
+					Chunk clientePJNombre = new Chunk("CLIENTE       : " + cuentaBancaria.getSocio() + "\n");
+					Chunk clientePJRuc = new Chunk(cuentaBancaria.getTipoDocumento() + "               : " + cuentaBancaria.getNumeroDocumento() + "\n");
+					Chunk clientePJFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
+					Chunk tipoCuentaPJ = new Chunk("CUENTA " + cuentaBancaria.getTipoCuenta() + " Nº "+ cuentaBancaria.getNumeroCuenta() + "\n");
+					Chunk tipoMonedaPJ;
+					
+					if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
+						tipoMonedaPJ = new Chunk("MONEDA: " + "DOLARES AMERICANOS" + "\n");
+					} else if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
+						tipoMonedaPJ = new Chunk("MONEDA: " + "NUEVOS SOLES" + "\n");
+					} else {
+						tipoMonedaPJ = new Chunk("MONEDA: " + "EUROS" + "\n");
+					}
+					
+					clientePJNombre.setFont(fuenteDatosCliente);
+					clientePJRuc.setFont(fuenteDatosCliente);
+					clientePJFecha.setFont(fuenteDatosCliente);
+					tipoCuentaPJ.setFont(fuenteDatosCliente);
+					tipoMonedaPJ.setFont(fuenteDatosCliente);
+					
+					parrafoSecundario.add(clientePJNombre);
+					parrafoSecundario.add(clientePJRuc);
+					parrafoSecundario.add(clientePJFecha);
+					parrafoSecundario.add(tipoCuentaPJ);
+					parrafoSecundario.add(tipoMonedaPJ);
+				}
+				
+				document.add(parrafoPrincipal);
+				document.add(parrafoSecundario);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (DocumentException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			Paragraph message = new Paragraph();
+			message.setAlignment(Element.ALIGN_JUSTIFIED);
+			Chunk textoMessaje = new Chunk("No existen transacciones en este periodo de tiempo...");
+			message.add(textoMessaje);
+
+			try {
+				document.add(message);
+			} catch (DocumentException e) {			
+				e.printStackTrace();
+			}
+
+			document.close();
 	        return;
-		}
-		
-		//Dando formato a las fechas desde hasta
-		Date desde = list.get(0).getFecha();
-		Date hasta = list.get(list.size()-1).getFecha();
-		SimpleDateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
-		String fechaDesde = fechaFormato.format(desde);
-		String fechaHasta = fechaFormato.format(hasta);
-		
-		/**obteniendo la moneda y dando formato**/
-		Moneda moneda = monedaServiceNT.findById(cuentaBancaria.getIdMoneda());
-		NumberFormat df1 = NumberFormat.getCurrencyInstance();
-		DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-		dfs.setCurrencySymbol("");
-		dfs.setGroupingSeparator(',');
-		dfs.setMonetaryDecimalSeparator('.');
-		((DecimalFormat) df1).setDecimalFormatSymbols(dfs);
-
-		document.open();
-
-		document.addTitle("Estado de Cuenta");
-		document.addSubject("Estado de Cuenta");
-		document.addKeywords("email");
-		document.addAuthor("Multivalores del Sur");
-		document.addCreator("Multivalores del Sur");
-
-		Paragraph saltoDeLinea = new Paragraph();
-		document.add(saltoDeLinea);
-
-		/******************* TITULO ******************/
-		try {
-			//Image img = Image.getInstance("/images/logo_coop_contrato.png");
-			Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo_coop_contrato.png");
-			img.setAlignment(Image.LEFT | Image.UNDERLYING);
-			document.add(img);
-
-			Paragraph parrafoPrincipal = new Paragraph();
-			parrafoPrincipal.setSpacingAfter(30);
-			//parrafoPrincipal.setSpacingBefore(50);
-			parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
-			parrafoPrincipal.setIndentationLeft(100);
-			parrafoPrincipal.setIndentationRight(50);
+	    
+	    //Caso de que existan transacciones
+		}else {
 			
-			Paragraph parrafoSecundario = new Paragraph();
-			parrafoSecundario.setSpacingAfter(20);
-			parrafoSecundario.setSpacingBefore(-20);
-			parrafoSecundario.setAlignment(Element.ALIGN_LEFT);
-			parrafoSecundario.setIndentationLeft(160);
-			parrafoSecundario.setIndentationRight(10);
+			//Dando formato a las fechas desde hasta
+			Date desde = list.get(0).getFecha();
+			Date hasta = list.get(list.size()-1).getFecha();
+			SimpleDateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
+			String fechaDesde = fechaFormato.format(desde);
+			String fechaHasta = fechaFormato.format(hasta);
+			
+			//obteniendo la moneda y dando formato
+			Moneda moneda = monedaServiceNT.findById(cuentaBancaria.getIdMoneda());
+			NumberFormat df1 = NumberFormat.getCurrencyInstance();
+			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+			dfs.setCurrencySymbol("");
+			dfs.setGroupingSeparator(',');
+			dfs.setMonetaryDecimalSeparator('.');
+			((DecimalFormat) df1).setDecimalFormatSymbols(dfs);
 
-			Chunk titulo = new Chunk("ESTADO DE CUENTA");
-			Font fuenteTitulo = new Font(FontFamily.UNDEFINED, 13, Font.BOLD);
-			titulo.setFont(fuenteTitulo);
-			parrafoPrincipal.add(titulo);
+			document.open();
+
+			document.addTitle("Estado de Cuenta");
+			document.addSubject("Estado de Cuenta");
+			document.addKeywords("email");
+			document.addAuthor("Multivalores del Sur");
+			document.addCreator("Multivalores del Sur");
+
+			Paragraph saltoDeLinea = new Paragraph();
+			document.add(saltoDeLinea);
 			
-			Font fuenteDatosCliente = new Font(FontFamily.UNDEFINED, 10);
-			Date fechaSistema = new Date();
-			SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			String fechaActual = formatFecha.format(fechaSistema);
-			
-			if (cuentaBancaria.getTipoPersona() == TipoPersona.NATURAL) {
-				Chunk clientePNNombres = new Chunk("CLIENTE       : " + cuentaBancaria.getSocio() + "\n");
-				Chunk clientePNDni = new Chunk(cuentaBancaria.getTipoDocumento() + "                : " + cuentaBancaria.getNumeroDocumento() + "\n");
-				//Chunk clientePNTitulares = new Chunk("TITULAR(ES): " + cuentaBancariaView.getTitulares() + "\n");
-				Chunk clientePNFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
+			//******************* TITULO ******************
+			try {
+				//Image img = Image.getInstance("/images/logo_coop_contrato.png");
+				Image img = Image.getInstance("//usr//share//jboss//archivos//logoCartilla//logo_coop_contrato.png");
+				img.setAlignment(Image.LEFT | Image.UNDERLYING);
+				document.add(img);
+
+				Paragraph parrafoPrincipal = new Paragraph();
+				parrafoPrincipal.setSpacingAfter(30);
+				//parrafoPrincipal.setSpacingBefore(50);
+				parrafoPrincipal.setAlignment(Element.ALIGN_CENTER);
+				parrafoPrincipal.setIndentationLeft(100);
+				parrafoPrincipal.setIndentationRight(50);
 				
-				Chunk tipoCuentaPN = new Chunk("CUENTA " + cuentaBancaria.getTipoCuenta() + " Nº "+ cuentaBancaria.getNumeroCuenta() + "\n");
-				Chunk tipoMonedaPN;
+				Paragraph parrafoSecundario = new Paragraph();
+				parrafoSecundario.setSpacingAfter(20);
+				parrafoSecundario.setSpacingBefore(-20);
+				parrafoSecundario.setAlignment(Element.ALIGN_LEFT);
+				parrafoSecundario.setIndentationLeft(160);
+				parrafoSecundario.setIndentationRight(10);
+
+				Chunk titulo = new Chunk("ESTADO DE CUENTA");
+				Font fuenteTitulo = new Font(FontFamily.UNDEFINED, 13, Font.BOLD);
+				titulo.setFont(fuenteTitulo);
+				parrafoPrincipal.add(titulo);
 				
-				if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
-					tipoMonedaPN = new Chunk("MONEDA: " + "DOLARES AMERICANOS" + "\n");
-				} else if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
-					tipoMonedaPN = new Chunk("MONEDA: " + "NUEVOS SOLES" + "\n");
+				Font fuenteDatosCliente = new Font(FontFamily.UNDEFINED, 10);
+				Date fechaSistema = new Date();
+				SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				String fechaActual = formatFecha.format(fechaSistema);
+				
+				if (cuentaBancaria.getTipoPersona() == TipoPersona.NATURAL) {
+					Chunk clientePNNombres = new Chunk("CLIENTE       : " + cuentaBancaria.getSocio() + "\n");
+					Chunk clientePNDni = new Chunk(cuentaBancaria.getTipoDocumento() + "                : " + cuentaBancaria.getNumeroDocumento() + "\n");
+					//Chunk clientePNTitulares = new Chunk("TITULAR(ES): " + cuentaBancariaView.getTitulares() + "\n");
+					Chunk clientePNFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
+					
+					Chunk tipoCuentaPN = new Chunk("CUENTA " + cuentaBancaria.getTipoCuenta() + " Nº "+ cuentaBancaria.getNumeroCuenta() + "\n");
+					Chunk tipoMonedaPN;
+					
+					if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
+						tipoMonedaPN = new Chunk("MONEDA: " + "DOLARES AMERICANOS" + "\n");
+					} else if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
+						tipoMonedaPN = new Chunk("MONEDA: " + "NUEVOS SOLES" + "\n");
+					} else {
+						tipoMonedaPN = new Chunk("MONEDA: " + "EUROS" + "\n");
+					}
+					
+					Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
+					//obteniedo titulares
+					/*String tPN = cuentaBancariaView.getTitulares();
+					String[] arrayTitulares = tPN.split(",");
+					Chunk clientePNTitulares = new Chunk("Titular(es):");
+					for (int i = 0; i < arrayTitulares.length; i++) {
+						String string = arrayTitulares[i];
+					}*/
+					
+					clientePNNombres.setFont(fuenteDatosCliente);
+					clientePNDni.setFont(fuenteDatosCliente);
+					//clientePNTitulares.setFont(fuenteDatosCliente);
+					clientePNFecha.setFont(fuenteDatosCliente);
+					tipoCuentaPN.setFont(fuenteDatosCliente);
+					tipoMonedaPN.setFont(fuenteDatosCliente);
+					fechaEstadoCuenta.setFont(fuenteDatosCliente);
+					
+					parrafoSecundario.add(clientePNNombres);
+					parrafoSecundario.add(clientePNDni);
+					//parrafoSecundario.add(clientePNTitulares);
+					parrafoSecundario.add(clientePNFecha);
+					parrafoSecundario.add(tipoCuentaPN);
+					parrafoSecundario.add(tipoMonedaPN);
+					parrafoSecundario.add(fechaEstadoCuenta);
+					
 				} else {
-					tipoMonedaPN = new Chunk("MONEDA: " + "EUROS" + "\n");
+					Chunk clientePJNombre = new Chunk("CLIENTE       : " + cuentaBancaria.getSocio() + "\n");
+					Chunk clientePJRuc = new Chunk(cuentaBancaria.getTipoDocumento() + "               : " + cuentaBancaria.getNumeroDocumento() + "\n");
+					//Chunk clientePJTitulares = new Chunk("TITULAR(ES): " + cuentaBancariaView.getTitulares() + "\n");
+					Chunk clientePJFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
+					
+					Chunk tipoCuentaPJ = new Chunk("CUENTA " + cuentaBancaria.getTipoCuenta() + " Nº "+ cuentaBancaria.getNumeroCuenta() + "\n");
+					Chunk tipoMonedaPJ;
+					
+					if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
+						tipoMonedaPJ = new Chunk("MONEDA: " + "DOLARES AMERICANOS" + "\n");
+					} else if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
+						tipoMonedaPJ = new Chunk("MONEDA: " + "NUEVOS SOLES" + "\n");
+					} else {
+						tipoMonedaPJ = new Chunk("MONEDA: " + "EUROS" + "\n");
+					}
+					
+					Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
+					//obteniedo titulares
+					/*String tPN = cuentaBancariaView.getTitulares();
+					String[] arrayTitulares = tPN.split(",");
+					Chunk clientePNTitulares = new Chunk("Titular(es):");
+					for (int i = 0; i < arrayTitulares.length; i++) {
+						String string = arrayTitulares[i];
+					}*/
+					
+					clientePJNombre.setFont(fuenteDatosCliente);
+					clientePJRuc.setFont(fuenteDatosCliente);
+					//clientePJTitulares.setFont(fuenteDatosCliente);
+					clientePJFecha.setFont(fuenteDatosCliente);
+					tipoCuentaPJ.setFont(fuenteDatosCliente);
+					tipoMonedaPJ.setFont(fuenteDatosCliente);
+					fechaEstadoCuenta.setFont(fuenteDatosCliente);
+					
+					parrafoSecundario.add(clientePJNombre);
+					parrafoSecundario.add(clientePJRuc);
+					//parrafoSecundario.add(clientePJTitulares);
+					parrafoSecundario.add(clientePJFecha);
+					parrafoSecundario.add(tipoCuentaPJ);
+					parrafoSecundario.add(tipoMonedaPJ);
+					parrafoSecundario.add(fechaEstadoCuenta);
+					
 				}
 				
-				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
-				//obteniedo titulares
-				/*String tPN = cuentaBancariaView.getTitulares();
-				String[] arrayTitulares = tPN.split(",");
-				Chunk clientePNTitulares = new Chunk("Titular(es):");
-				for (int i = 0; i < arrayTitulares.length; i++) {
-					String string = arrayTitulares[i];
-				}*/
+				document.add(parrafoPrincipal);
+				document.add(parrafoSecundario);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (DocumentException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			Font fontTableCabecera = new Font(FontFamily.UNDEFINED, 9, Font.BOLD);
+			Font fontTableCuerpo = new Font(FontFamily.UNDEFINED, 9, Font.NORMAL);
+			
+			float[] columnWidths = { 5f, 4f, 2.8f, 10f, 3.5f, 4f, 2.8f};
+			PdfPTable table = new PdfPTable(columnWidths);
+			table.setWidthPercentage(100);
+
+			PdfPCell cellFechaHoraCabecera = new PdfPCell(new Paragraph("FECHA Y HORA", fontTableCabecera));
+			PdfPCell cellTransaccionCabecera = new PdfPCell(new Paragraph("TIPO TRANS.", fontTableCabecera));
+			PdfPCell cellOperacionCabecera = new PdfPCell(new Paragraph("NUM. OP.", fontTableCabecera));
+			PdfPCell cellReferenciaCabecera = new PdfPCell(new Paragraph("REFERENCIA", fontTableCabecera));
+			PdfPCell cellMontoCabecera = new PdfPCell(new Paragraph("MONTO", fontTableCabecera));
+			PdfPCell cellSaldoDisponibleCabecera = new PdfPCell(new Paragraph("DISPONIBLE", fontTableCabecera));
+			PdfPCell cellEstado = new PdfPCell(new Paragraph("ESTADO", fontTableCabecera));
+
+			table.addCell(cellFechaHoraCabecera);
+			table.addCell(cellTransaccionCabecera);
+			table.addCell(cellOperacionCabecera);
+			table.addCell(cellReferenciaCabecera);
+			table.addCell(cellMontoCabecera);
+			table.addCell(cellSaldoDisponibleCabecera);
+			table.addCell(cellEstado);
+
+			for (EstadocuentaBancariaView estadocuentaBancariaView : list) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+				String fecHoraFormat = sdf.format(estadocuentaBancariaView.getHora());
 				
-				clientePNNombres.setFont(fuenteDatosCliente);
-				clientePNDni.setFont(fuenteDatosCliente);
-				//clientePNTitulares.setFont(fuenteDatosCliente);
-				clientePNFecha.setFont(fuenteDatosCliente);
-				tipoCuentaPN.setFont(fuenteDatosCliente);
-				tipoMonedaPN.setFont(fuenteDatosCliente);
-				fechaEstadoCuenta.setFont(fuenteDatosCliente);
-				
-				parrafoSecundario.add(clientePNNombres);
-				parrafoSecundario.add(clientePNDni);
-				//parrafoSecundario.add(clientePNTitulares);
-				parrafoSecundario.add(clientePNFecha);
-				parrafoSecundario.add(tipoCuentaPN);
-				parrafoSecundario.add(tipoMonedaPN);
-				parrafoSecundario.add(fechaEstadoCuenta);
-				
-			} else {
-				Chunk clientePJNombre = new Chunk("CLIENTE       : " + cuentaBancaria.getSocio() + "\n");
-				Chunk clientePJRuc = new Chunk(cuentaBancaria.getTipoDocumento() + "               : " + cuentaBancaria.getNumeroDocumento() + "\n");
-				//Chunk clientePJTitulares = new Chunk("TITULAR(ES): " + cuentaBancariaView.getTitulares() + "\n");
-				Chunk clientePJFecha = new Chunk("FECHA          : " + fechaActual + "\n\n");
-				
-				Chunk tipoCuentaPJ = new Chunk("CUENTA " + cuentaBancaria.getTipoCuenta() + " Nº "+ cuentaBancaria.getNumeroCuenta() + "\n");
-				Chunk tipoMonedaPJ;
-				
-				if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ZERO) == 0) {
-					tipoMonedaPJ = new Chunk("MONEDA: " + "DOLARES AMERICANOS" + "\n");
-				} else if (cuentaBancaria.getIdMoneda().compareTo(BigInteger.ONE) == 0) {
-					tipoMonedaPJ = new Chunk("MONEDA: " + "NUEVOS SOLES" + "\n");
+				PdfPCell cellFechaHora = new PdfPCell(new Paragraph(fecHoraFormat, fontTableCuerpo));
+				table.addCell(cellFechaHora);
+				PdfPCell cellTipoTrasaccion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getTipoTransaccionTransferencia(), fontTableCuerpo));
+				table.addCell(cellTipoTrasaccion);
+				PdfPCell cellNumOperacion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getNumeroOperacion().toString(), fontTableCuerpo));
+				table.addCell(cellNumOperacion);
+				PdfPCell cellReferencia = new PdfPCell(new Paragraph(estadocuentaBancariaView.getReferencia(), fontTableCuerpo));
+				table.addCell(cellReferencia);
+				PdfPCell cellMonto = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getMonto()), fontTableCuerpo));
+				table.addCell(cellMonto);
+				PdfPCell cellSaldoDisponible = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getSaldoDisponible()), fontTableCuerpo));
+				table.addCell(cellSaldoDisponible);
+				if (estadocuentaBancariaView.getEstado()) {
+					PdfPCell cellEstadoActivo = new PdfPCell(new Paragraph("Activo", fontTableCuerpo));
+					table.addCell(cellEstadoActivo);
 				} else {
-					tipoMonedaPJ = new Chunk("MONEDA: " + "EUROS" + "\n");
+					PdfPCell cellEstadoExtornado = new PdfPCell(new Paragraph("Extornado", fontTableCuerpo));
+					table.addCell(cellEstadoExtornado);
 				}
-				
-				Chunk fechaEstadoCuenta = new Chunk("ESTADO DE CUENTA DEL " + fechaDesde + " AL "+ fechaHasta);
-				//obteniedo titulares
-				/*String tPN = cuentaBancariaView.getTitulares();
-				String[] arrayTitulares = tPN.split(",");
-				Chunk clientePNTitulares = new Chunk("Titular(es):");
-				for (int i = 0; i < arrayTitulares.length; i++) {
-					String string = arrayTitulares[i];
-				}*/
-				
-				clientePJNombre.setFont(fuenteDatosCliente);
-				clientePJRuc.setFont(fuenteDatosCliente);
-				//clientePJTitulares.setFont(fuenteDatosCliente);
-				clientePJFecha.setFont(fuenteDatosCliente);
-				tipoCuentaPJ.setFont(fuenteDatosCliente);
-				tipoMonedaPJ.setFont(fuenteDatosCliente);
-				fechaEstadoCuenta.setFont(fuenteDatosCliente);
-				
-				parrafoSecundario.add(clientePJNombre);
-				parrafoSecundario.add(clientePJRuc);
-				//parrafoSecundario.add(clientePJTitulares);
-				parrafoSecundario.add(clientePJFecha);
-				parrafoSecundario.add(tipoCuentaPJ);
-				parrafoSecundario.add(tipoMonedaPJ);
-				parrafoSecundario.add(fechaEstadoCuenta);
-				
 			}
 			
-			document.add(parrafoPrincipal);
-			document.add(parrafoSecundario);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			Paragraph saldoDisponible = new Paragraph();
+			saldoDisponible.setAlignment(Element.ALIGN_CENTER);
+			Chunk textoSaldoDisponible = new Chunk("SALDO DISPONIBLE: "+ moneda.getSimbolo() + df1.format(cuentaBancaria.getSaldo()), fontTableCabecera);
+			textoSaldoDisponible.setFont(fontTableCabecera);
+			saldoDisponible.add(textoSaldoDisponible);
 
-		Font fontTableCabecera = new Font(FontFamily.UNDEFINED, 9, Font.BOLD);
-		Font fontTableCuerpo = new Font(FontFamily.UNDEFINED, 9, Font.NORMAL);
-		
-		float[] columnWidths = { 5f, 4f, 2.8f, 10f, 3.5f, 4f, 2.8f};
-		PdfPTable table = new PdfPTable(columnWidths);
-		table.setWidthPercentage(100);
-
-		PdfPCell cellFechaHoraCabecera = new PdfPCell(new Paragraph("FECHA Y HORA", fontTableCabecera));
-		PdfPCell cellTransaccionCabecera = new PdfPCell(new Paragraph("TIPO TRANS.", fontTableCabecera));
-		PdfPCell cellOperacionCabecera = new PdfPCell(new Paragraph("NUM. OP.", fontTableCabecera));
-		PdfPCell cellReferenciaCabecera = new PdfPCell(new Paragraph("REFERENCIA", fontTableCabecera));
-		PdfPCell cellMontoCabecera = new PdfPCell(new Paragraph("MONTO", fontTableCabecera));
-		PdfPCell cellSaldoDisponibleCabecera = new PdfPCell(new Paragraph("DISPONIBLE", fontTableCabecera));
-		PdfPCell cellEstado = new PdfPCell(new Paragraph("ESTADO", fontTableCabecera));
-
-		table.addCell(cellFechaHoraCabecera);
-		table.addCell(cellTransaccionCabecera);
-		table.addCell(cellOperacionCabecera);
-		table.addCell(cellReferenciaCabecera);
-		table.addCell(cellMontoCabecera);
-		table.addCell(cellSaldoDisponibleCabecera);
-		table.addCell(cellEstado);
-
-		for (EstadocuentaBancariaView estadocuentaBancariaView : list) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			String fecHoraFormat = sdf.format(estadocuentaBancariaView.getHora());
-			
-			PdfPCell cellFechaHora = new PdfPCell(new Paragraph(fecHoraFormat, fontTableCuerpo));
-			table.addCell(cellFechaHora);
-			PdfPCell cellTipoTrasaccion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getTipoTransaccionTransferencia(), fontTableCuerpo));
-			table.addCell(cellTipoTrasaccion);
-			PdfPCell cellNumOperacion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getNumeroOperacion().toString(), fontTableCuerpo));
-			table.addCell(cellNumOperacion);
-			PdfPCell cellReferencia = new PdfPCell(new Paragraph(estadocuentaBancariaView.getReferencia(), fontTableCuerpo));
-			table.addCell(cellReferencia);
-			PdfPCell cellMonto = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getMonto()), fontTableCuerpo));
-			table.addCell(cellMonto);
-			PdfPCell cellSaldoDisponible = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getSaldoDisponible()), fontTableCuerpo));
-			table.addCell(cellSaldoDisponible);
-			if (estadocuentaBancariaView.getEstado()) {
-				PdfPCell cellEstadoActivo = new PdfPCell(new Paragraph("Activo", fontTableCuerpo));
-				table.addCell(cellEstadoActivo);
-			} else {
-				PdfPCell cellEstadoExtornado = new PdfPCell(new Paragraph("Extornado", fontTableCuerpo));
-				table.addCell(cellEstadoExtornado);
+			try {
+				document.add(table);
+				document.add(saldoDisponible);
+			} catch (DocumentException e) {			
+				e.printStackTrace();
 			}
+			document.close();
 		}
-		
-		Paragraph saldoDisponible = new Paragraph();
-		saldoDisponible.setAlignment(Element.ALIGN_CENTER);
-		Chunk textoSaldoDisponible = new Chunk("SALDO DISPONIBLE: "+ moneda.getSimbolo() + df1.format(cuentaBancaria.getSaldo()), fontTableCabecera);
-		textoSaldoDisponible.setFont(fontTableCabecera);
-		saldoDisponible.add(textoSaldoDisponible);
-
-		try {
-			document.add(table);
-			document.add(saldoDisponible);
-		} catch (DocumentException e) {			
-			e.printStackTrace();
-		}
-
-		document.close();
 	}
 
 	public void writeExcel(OutputStream outputStream, List<EstadocuentaBancariaView> list, CuentaBancariaView cuentaBancaria) throws Exception {
@@ -484,7 +601,11 @@ public class EmailSessionBean {
 				// construct the mime message
 				MimeMessage mimeMessage = new MimeMessage(session);
 				mimeMessage.setSender(iaSender);
-				mimeMessage.setSubject(subject);
+				
+				SimpleDateFormat format = new SimpleDateFormat("MMMM 'del' yyyy", new Locale("es", "ES"));
+				Date fecha = Calendar.getInstance().getTime();
+				mimeMessage.setSubject(subject + format.format(fecha));
+				
 				mimeMessage.setRecipient(Message.RecipientType.TO, iaRecipient);
 				mimeMessage.setContent(mimeMultipart);
 

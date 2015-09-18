@@ -293,7 +293,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
                                 + "union "
                                 + "select Tb.Numero_Operacion AS numero_operacion From Transferencia_Bancaria TB Inner Join Historial_Caja HC on (HC.id_historial_caja = Tb.Id_Historial_Caja) Inner Join Caja C on (C.Id_Caja = Hc.Id_Caja) Inner Join Boveda_Caja BC on (BC.id_caja = C.Id_Caja) Inner Join Boveda B on (B.id_boveda = Bc.Id_Boveda) Where B.Id_Agencia = :idagencia and Tb.Fecha = (select to_char(systimestamp,'dd/mm/yy') from dual) "
                                 + "union "
-                                + "select Ap.Numero_Operacion AS numero_operacion from Transaccion_Cuenta_Aporte AP Inner Join Historial_Caja HC on (HC.id_historial_caja = AP.id_historial_caja) Inner Join Caja C on (HC.Id_Caja = C.Id_Caja) Inner Join Boveda_Caja BC on (BC.id_caja = C.id_caja) Inner Join Boveda B on (B.id_boveda = BC.id_boveda) where B.Id_Agencia = :idagencia and ap.Fecha = (select to_char(systimestamp,'dd/mm/yy') from dual) ORDER BY numero_operacion DESC");
+                                + "select Ap.Numero_Operacion AS numero_operacion from Transaccion_Cuenta_Aporte AP Inner Join Historial_Caja HC on (HC.id_historial_caja = AP.id_historial_caja) Inner Join Caja C on (HC.Id_Caja = C.Id_Caja) Inner Join Boveda_Caja BC on (BC.id_caja = C.id_caja) Inner Join Boveda B on (B.id_boveda = BC.id_boveda) where B.Id_Agencia = :idagencia and ap.Fecha = (select to_char(systimestamp,'dd/mm/yy') from dual) "
+                                + "union "
+                                + "select TCH.Numero_Operacion AS numero_operacion from Transaccion_Cheque TCH Inner Join Historial_Caja HC on (HC.id_historial_caja = TCH.id_historial_caja) Inner Join Caja C on (HC.Id_Caja = C.Id_Caja) Inner Join Boveda_Caja BC on (BC.id_caja = C.id_caja) Inner Join Boveda B on (B.id_boveda = BC.id_boveda) where B.Id_Agencia = :idagencia and TCH.Fecha = (select to_char(systimestamp,'dd/mm/yy') from dual) ORDER BY numero_operacion DESC");
         query.setParameter("idagencia", agencia.getIdAgencia());
 
         List<BigDecimal> list = query.getResultList();
@@ -1072,8 +1074,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         if (cheque == null)
             throw new RollbackFailureException("Cheque no encontrado");
         if (!cheque.getEstado().equals(EstadoCheque.POR_COBRAR)) {
-            throw new RollbackFailureException("Cheque en estado " + cheque.getEstado().toString()
-                    + " no se puede realizar la operacion");
+            throw new RollbackFailureException("El Cheque se encuentra en estado " + cheque.getEstado().toString()
+                    + " no es posible realizar la operacion");
         }
 
         Chequera chequera = cheque.getChequera();

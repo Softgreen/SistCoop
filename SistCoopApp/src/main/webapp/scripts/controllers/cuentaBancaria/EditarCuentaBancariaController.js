@@ -119,7 +119,7 @@ define(['../module'], function (controllers) {
                 columnDefs: [
                     {field:"fecha", cellFilter: "date:'dd/MM/yyyy'", displayName:'FECHA', width:70},
                     {field:"hora", cellFilter:"date : 'HH:mm:ss'", displayName:'HORA', width:60},
-                    {field:"tipoTransaccion", displayName:'TIPO TRANS.', width:80},
+                    {field:"tipoTransaccion", displayName:'TIPO TRANS.', width:90},
                     {field:"idTransaccionTransferencia", displayName:'Nº TRANS.', width:70},
                     {field:"numeroOperacion", displayName:'Nº OP.', width:50},
                     {field:"referencia", displayName:'REFERENCIA'},
