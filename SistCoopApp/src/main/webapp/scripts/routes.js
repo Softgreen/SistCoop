@@ -26,8 +26,8 @@ define(['./app'], function (app) {
           '               <span class="icon-bar"></span>' +
           '               <span class="icon-bar"></span>' +
           '</button>' +
-          '<a class="navbar-brand" href="#">' +
-          '<img alt="Logo Caja Ventura" src="images/logos_coop/logo_coop_header3.png">' +
+          '<a class="navbar-brand" href="#">' + //---------------------------------------------------------
+          '<img alt="Logo Caja Ventura" src="images/logos_coop/logo_coop_header.png">' +
           '</a>' +
           '</div>' +
           '<div class="navbar-collapse collapse">' +
@@ -126,18 +126,18 @@ define(['./app'], function (app) {
           '</div>' +
 
           '</div>' +
-          '</div>' +
+          
 
           '<div class="row">' +
           '<div class="col-sm-12">' +
           '<div class="center-block text-center" style="font-size: 11px; padding-bottom: 10px;">' +
           '<span class="l3">' +
-          '<span dir="ltr">©2015&nbsp;Casa de Cambios Ventura</span>' +
+          '<span dir="ltr">©2015&nbsp;Multivalores del Sur</span>' +
           '</span>&nbsp;-&nbsp;' +
-          '<a href="#" target="_blank" class="l9">Términos y privacidad</a>' +
+          '<a href="#" target="_blank" class="l9">Términos y Privacidad</a>' +
           '</div>' +
           '</div>' +
-          '</div>' +
+          
 
           '</div>'
           ,
@@ -147,8 +147,8 @@ define(['./app'], function (app) {
         })
         .state('app.home', {
           url: '/home',
-          template: '</br><div class="center-block"><h2 class="text-center" style="font-weight: bold; color: seagreen;">Bienvenido al Sistema Financiero</h2></div></br>' +
-          '<h3 class="text-center"><img alt="Caja Ventura" src="images/logos_coop/logo_coop.jpg"></h3></br></br></br>'
+          template: '</br><div class="center-block"><h2 class="text-center" style="font-weight: bold; color: blue;">Sistema Financiero</h2></div></br>' +
+          '<h3 class="text-center"><img alt="Caja Ventura" src="images/logos_coop/logo_coop.png"></h3></br>' //-------------------------------------------------
         })
         .state('app.configuracion', {
           abstract: true,

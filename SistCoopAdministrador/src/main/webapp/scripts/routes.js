@@ -15,8 +15,8 @@ define(['./app'], function (app) {
         .state('home', {
           url: '/home?redirect',
           template: '' +
-          '</br><div class="center-block"><h2 class="text-center" style="font-weight: bold; color: seagreen;">Bienvenido al Sistema Financiero</h2></div></br></br>' +
-          '<h3 class="text-center"><img alt="Caja Ventura" src="images/logos_coop/logo_coop.jpg"></h3></br></br></br>'
+          '</br><div class="center-block"><h2 class="text-center" style="font-weight: bold; color: blue;">Sistema Financiero</h2></div></br></br>' +
+          '<h3 class="text-center"><img alt="Caja Ventura" src="images/logos_coop/logo_coop.png"></h3></br>'
           ,
           controller: function ($scope, $stateParams) {
             $scope.redirect = $stateParams.redirect;
