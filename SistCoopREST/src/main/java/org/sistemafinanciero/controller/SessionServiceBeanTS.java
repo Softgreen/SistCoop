@@ -1126,7 +1126,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         transaccionCheque.setNumeroDocumento(numeroDocumento);
         transaccionCheque.setTipoDocumento(tipoDocumento);
         transaccionCheque.setPersona(persona);
-        transaccionCheque.setObservacion(observacion);
+        transaccionCheque.setObservacion("COBRADO por "+ persona + " con documento N°: " + numeroDocumento + " , fecha: " +  " y monto: " + monto);
         transaccionCheque.setSaldoDisponible(saldoDisponible);
         transaccionCheque.setNumeroOperacion(this.getNumeroOperacion());
         transaccionCheque.setTrabajador("Doc:" + natural.getTipoDocumento().getAbreviatura() + "/"
