@@ -1126,7 +1126,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         transaccionCheque.setNumeroDocumento(numeroDocumento);
         transaccionCheque.setTipoDocumento(tipoDocumento);
         transaccionCheque.setPersona(persona);
-        transaccionCheque.setObservacion(observacion);
+        transaccionCheque.setObservacion("COBRADO por "+ persona + " con documento N°: " + numeroDocumento + " , fecha: " +  " y monto: " + monto);
         transaccionCheque.setSaldoDisponible(saldoDisponible);
         transaccionCheque.setNumeroOperacion(this.getNumeroOperacion());
         transaccionCheque.setTrabajador("Doc:" + natural.getTipoDocumento().getAbreviatura() + "/"
@@ -1163,6 +1163,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
             extornarTransaccionCompraVenta(transaccion.getIdTransaccion());
         else if (transaccion.getTipoCuenta().equalsIgnoreCase("TRANSFERENCIA"))
             extornarTransferenciaBancaria(transaccion.getIdTransaccion());
+        else if (transaccion.getTipoCuenta().equalsIgnoreCase("COBRO CHEQUE"))
+            extornarCobroCheque(transaccion.getIdTransaccion());
         else
             throw new RollbackFailureException("Tipo de cuenta no encontrada");
     }
@@ -1359,6 +1361,54 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         } else
             throw new RollbackFailureException(
                     "Error al Extornar Transacci&oacute;n: Transacci&oacute;n no activa");
+    }
+
+    private void extornarCobroCheque(BigInteger idTransaccion) throws RollbackFailureException {
+        TransaccionCheque transaccionCheque = transaccionChequeDAO.find(idTransaccion);
+
+        Cheque cheque = transaccionCheque.getCheque();
+        Chequera chequera = cheque.getChequera();
+        CuentaBancaria cuentaBancaria = chequera.getCuentaBancaria();
+                
+        HistorialCaja historialCajaActivo = this.getHistorialActivo();
+
+        if (transaccionCheque.getEstado() == true && cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.ACTIVO) && transaccionCheque.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {           
+            Caja caja = this.getCaja();
+            BigDecimal saldoActualBovedaCaja = new BigDecimal(0.00);
+            Set<BovedaCaja> bovedasCajas = caja.getBovedaCajas();
+            for (BovedaCaja bovedaCaja : bovedasCajas) {
+                Moneda monedaBoveda = bovedaCaja.getBoveda().getMoneda();
+                if (cuentaBancaria.getMoneda().equals(monedaBoveda)) {
+                    saldoActualBovedaCaja = bovedaCaja.getSaldo();
+                    break;
+                }
+            }
+
+            if (saldoActualBovedaCaja.compareTo(transaccionCheque.getMonto().abs()) != -1) {
+                cuentaBancaria.setSaldo(cuentaBancaria.getSaldo().add(transaccionCheque.getMonto().abs()));
+                actualizarSaldoCaja(transaccionCheque.getMonto().abs(), cuentaBancaria.getMoneda().getIdMoneda());
+                transaccionCheque.setEstado(false);
+            } else {
+                throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Saldo insuficiente en caja");   
+            }                
+        } else {
+            throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");   
+        }            
+
+        // despues de extornar se debe de recalcular los saldos disponibles de
+        // la cuenta bancaria
+        QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria",
+                cuentaBancaria.getIdCuentaBancaria()).and("fecha",
+                transaccionCheque.getHora());
+
+        List<TransaccionBancaria> transaccionesBancarias = transaccionBancariaDAO.findByNamedQuery(
+                TransaccionBancaria.findByIdCuentaAndFecha, queryParameter.parameters());
+        for (TransaccionBancaria transaccionBancariaPosterior : transaccionesBancarias) {
+            BigDecimal nuevoSaldoDisponible = transaccionBancariaPosterior.getSaldoDisponible().subtract(
+                    transaccionCheque.getMonto());
+            transaccionBancariaPosterior.setSaldoDisponible(nuevoSaldoDisponible);
+            transaccionBancariaDAO.update(transaccionBancariaPosterior);
+        }        
     }
 
     private void extornarTransferenciaBancaria(BigInteger idTransaccion) throws RollbackFailureException {
