@@ -1390,7 +1390,10 @@ public class SessionServiceBeanTS implements SessionServiceTS {
                 transaccionCheque.setEstado(false);
             } else {
                 throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Saldo insuficiente en caja");   
-            }                
+            }      
+            
+            cheque.setEstado(EstadoCheque.POR_COBRAR);
+            chequeDAO.update(cheque);
         } else {
             throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");   
         }            
