@@ -1393,6 +1393,11 @@ public class SessionServiceBeanTS implements SessionServiceTS {
             }      
             
             cheque.setEstado(EstadoCheque.POR_COBRAR);
+            //cheque.setTipoDocumento(null);
+            //cheque.setNumeroDocumento(null);
+            //cheque.setPersona(null);
+            //cheque.setMonto(null);
+            cheque.setFechaCambioEstado(Calendar.getInstance().getTime());
             chequeDAO.update(cheque);
         } else {
             throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");   
