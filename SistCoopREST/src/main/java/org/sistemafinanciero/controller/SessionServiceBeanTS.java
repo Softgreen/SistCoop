@@ -1122,7 +1122,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         transaccionCheque.setFecha(calendar.getTime());
         transaccionCheque.setHora(calendar.getTime());
         transaccionCheque.setHistorialCaja(historialCaja);
-        transaccionCheque.setMonto(monto);
+        transaccionCheque.setMonto(monto.abs().negate());
         transaccionCheque.setNumeroDocumento(numeroDocumento);
         transaccionCheque.setTipoDocumento(tipoDocumento);
         transaccionCheque.setPersona(persona);
@@ -1136,7 +1136,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
         cheque.setEstado(EstadoCheque.COBRADO);
         cheque.setFechaCambioEstado(calendar.getTime());
-        cheque.setMonto(monto);
+        cheque.setMonto(monto.abs().negate());
         cheque.setNumeroDocumento(cheque.getNumeroDocumento() == null ? numeroDocumento : cheque
                 .getNumeroDocumento());
         cheque.setTipoDocumento(cheque.getTipoDocumento() == null ? tipoDocumento : cheque.getTipoDocumento());

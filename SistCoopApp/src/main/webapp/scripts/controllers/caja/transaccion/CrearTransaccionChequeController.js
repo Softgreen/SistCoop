@@ -149,7 +149,7 @@ define(['../../module'], function (controllers) {
           $scope.control.inProcess = true;
           var transaccion = {
             "numeroChequeUnico": $scope.view.numeroCheque,
-            "monto": (Math.abs(parseFloat($scope.view.monto.toString()))),
+            "monto": (-1) * (Math.abs(parseFloat($scope.view.monto.toString()))),
             "observacion": $scope.view.observacion,
             "tipoDocumento": $scope.view.tipoDocumento.abreviatura,
             "numeroDocumento": $scope.view.numeroDocumento,
