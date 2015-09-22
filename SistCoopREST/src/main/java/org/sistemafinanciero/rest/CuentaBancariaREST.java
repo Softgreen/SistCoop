@@ -54,7 +54,7 @@ public interface CuentaBancariaREST {
 
 	@GET
 	@Path("/{id}/estadoCuenta")
-	public Response getEstadoCuenta(@PathParam("id") BigInteger id, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta);
+	public Response getEstadoCuenta(@PathParam("id") BigInteger id, @QueryParam("desde") Long desde, @QueryParam("hasta") Long hasta, @QueryParam("estado") Boolean estado);
 
 	@POST
 	@Path("/{id}/congelar")

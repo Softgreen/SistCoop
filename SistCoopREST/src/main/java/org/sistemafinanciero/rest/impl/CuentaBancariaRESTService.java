@@ -946,10 +946,10 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 	}
 
 	@Override
-	public Response getEstadoCuenta(BigInteger id, Long desde, Long hasta) {
+	public Response getEstadoCuenta(BigInteger id, Long desde, Long hasta, Boolean estado) {
 		Date dateDesde = (desde != null ? new Date(desde) : null);
 		Date dateHasta = (desde != null ? new Date(hasta) : null);
-		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(id, dateDesde, dateHasta);
+		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(id, dateDesde, dateHasta, estado);
 		return Response.status(Response.Status.OK).entity(list).build();
 	}
 
@@ -1328,7 +1328,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		}
 		
 		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
-		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
+		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta, true);
 		
 		emailSessionBean.sendMailPdf(cuentaBancariaView, list, emails, dateDesde, dateHasta);
 		
@@ -1349,7 +1349,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 		}
 		
 		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
-		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
+		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta, true);
 		
 		emailSessionBean.sendMailExcel(cuentaBancariaView, list, emails, dateDesde, dateHasta);
 		
@@ -1375,7 +1375,7 @@ public class CuentaBancariaRESTService implements CuentaBancariaREST {
 				emails.add(email);			
 		}	
 		CuentaBancariaView cuentaBancariaView = cuentaBancariaServiceNT.findById(idCuentaBancaria);
-		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta);
+		List<EstadocuentaBancariaView> list = cuentaBancariaServiceNT.getEstadoCuenta(idCuentaBancaria, dateDesde, dateHasta, true);
 		
 		/**obteniendo la moneda y dando formato**/
 		Moneda moneda = monedaServiceNT.findById(cuentaBancariaView.getIdMoneda());

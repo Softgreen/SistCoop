@@ -91,8 +91,8 @@ define(['./module'], function (services) {
                 getVoucherTransferenciaBancaria: function(idTransferencia){
                     return Restangular.one("cuentaBancaria/"+idTransferencia+"/voucherTransferenciaBancaria").get();
                 },
-                getEstadoCuenta: function(id, desde, hasta) {
-                    return Restangular.all(baseUrl+"/"+id+"/estadoCuenta").getList({"desde":desde,"hasta":hasta},{});
+                getEstadoCuenta: function(id, desde, hasta, estado) {
+                    return Restangular.all(baseUrl+"/"+id+"/estadoCuenta").getList({"desde":desde,"hasta":hasta, "estado": estado},{});
                 },
                 congelarCuentaBancaria: function(id){
                     return Restangular.one(baseUrl+"/"+id+"/congelar").customPOST({},'',{},{});

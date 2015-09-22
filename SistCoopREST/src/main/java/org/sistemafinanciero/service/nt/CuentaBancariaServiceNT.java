@@ -42,7 +42,7 @@ public interface CuentaBancariaServiceNT extends AbstractServiceNT<CuentaBancari
 
 	public Set<Beneficiario> getBeneficiarios(BigInteger idCuentaBancaria);
 
-	public List<EstadocuentaBancariaView> getEstadoCuenta(BigInteger idCuenta, Date dateDesde, Date dateHasta);
+	public List<EstadocuentaBancariaView> getEstadoCuenta(BigInteger idCuenta, Date dateDesde, Date dateHasta, Boolean estado);
 
 	/**
 	 * Chequera*/	

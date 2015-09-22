@@ -181,7 +181,7 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 	}
 
 	@Override
-	public List<EstadocuentaBancariaView> getEstadoCuenta(BigInteger idCuenta, Date dateDesde, Date dateHasta) {
+	public List<EstadocuentaBancariaView> getEstadoCuenta(BigInteger idCuenta, Date dateDesde, Date dateHasta, Boolean estado) {
 		CuentaBancaria cuenta = cuentaBancariaDAO.find(idCuenta);
 		if (cuenta == null)
 			return null;
@@ -201,9 +201,15 @@ public class CuentaBancariaBeanNT implements CuentaBancariaServiceNT {
 			hastaQuery = dateHasta;
 		}
 
-		QueryParameter queryParameter = QueryParameter.with("numeroCuenta", cuenta.getNumeroCuenta()).and("desde", desdeQuery).and("hasta", hastaQuery);
-		List<EstadocuentaBancariaView> list = estadocuentaBancariaViewDAO.findByNamedQuery(EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta, queryParameter.parameters());		
-
+		List<EstadocuentaBancariaView> list = null;
+		if(estado != null) {
+			QueryParameter queryParameter = QueryParameter.with("numeroCuenta", cuenta.getNumeroCuenta()).and("desde", desdeQuery).and("hasta", hastaQuery).and("estado", estado ? 1 : 0);
+			list = estadocuentaBancariaViewDAO.findByNamedQuery(EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHastaEstado, queryParameter.parameters());
+		} else {
+			QueryParameter queryParameter = QueryParameter.with("numeroCuenta", cuenta.getNumeroCuenta()).and("desde", desdeQuery).and("hasta", hastaQuery);
+			list = estadocuentaBancariaViewDAO.findByNamedQuery(EstadocuentaBancariaView.findByNumeroCuentaAndDesdeHasta, queryParameter.parameters());			
+		}
+		
 		return list;
 	}
 

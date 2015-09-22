@@ -101,7 +101,7 @@ define(['../module'], function (controllers) {
             $scope.transacciones = [];
             $scope.loadEstadoCuenta = function(){
                 if(!angular.isUndefined($scope.id)){
-                    CuentaBancariaService.getEstadoCuenta($scope.id).then(
+                    CuentaBancariaService.getEstadoCuenta($scope.id, null, null, true).then(
                         function(data){
                             $scope.transacciones = data;
                         }, function error(error){
@@ -124,8 +124,8 @@ define(['../module'], function (controllers) {
                     {field:"numeroOperacion", displayName:'Nº OP.', width:50},
                     {field:"referencia", displayName:'REFERENCIA'},
                     {displayName: 'MONEDA', width:60, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span>{{cuentaBancaria.moneda}}</span></div>'},
-                    {field:"monto", cellFilter: "number: 2", displayName:'MONTO', width:70},
-                    {field:"saldoDisponible", cellFilter: "number: 2", displayName:'DISPONIBLE', width:90},
+                    {field:"monto", displayName:'MONTO', width:70, cellTemplate: '<div ng-class="{green: row.getProperty(col.field) > 30}"><div style="text-align:right;"  class="ngCellText">{{row.getProperty(col.field) | number:2}}</div></div>'},
+                    {field:"saldoDisponible", displayName:'DISPONIBLE', width:90, cellTemplate: '<div ng-class="{green: row.getProperty(col.field) > 30}"><div style="text-align:right;"  class="ngCellText">{{row.getProperty(col.field) | number:2}}</div></div>'},
                     {displayName:'ESTADO', width: 80, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6"><span ng-show="row.entity.estado" style="color: blue; font-weight: bold;">ACTIVO</span><span ng-hide="row.entity.estado" style="color: red; font-weight: bold;">EXTORNADO</span></div>'}
                 ]
             };
@@ -156,7 +156,7 @@ define(['../module'], function (controllers) {
                 $scope.estadoCuentaSearcher = !$scope.estadoCuentaSearcher;
             };
             $scope.buscarEstadoCuenta = function(){
-                CuentaBancariaService.getEstadoCuenta($scope.id, $scope.desde.getTime(),$scope.hasta.getTime()).then(
+                CuentaBancariaService.getEstadoCuenta($scope.id, $scope.desde.getTime(),$scope.hasta.getTime(),true).then(
                     function(data){
                         $scope.transacciones = data;
                     }, function error(error){
