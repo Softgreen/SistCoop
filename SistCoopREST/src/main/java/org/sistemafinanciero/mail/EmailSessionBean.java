@@ -402,8 +402,10 @@ public class EmailSessionBean {
 					PdfPCell cellReferencia = new PdfPCell(new Paragraph(estadocuentaBancariaView.getReferencia(), fontTableCuerpo));
 					table.addCell(cellReferencia);
 					PdfPCell cellMonto = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getMonto()), fontTableCuerpo));
+					cellMonto.setHorizontalAlignment(Element.ALIGN_RIGHT);
 					table.addCell(cellMonto);
 					PdfPCell cellSaldoDisponible = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getSaldoDisponible()), fontTableCuerpo));
+					cellSaldoDisponible.setHorizontalAlignment(Element.ALIGN_RIGHT);
 					table.addCell(cellSaldoDisponible);
 					/*if (estadocuentaBancariaView.getEstado()) {
 						PdfPCell cellEstadoActivo = new PdfPCell(new Paragraph("Activo", fontTableCuerpo));
