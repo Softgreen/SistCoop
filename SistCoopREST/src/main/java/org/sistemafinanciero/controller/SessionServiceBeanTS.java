@@ -1153,7 +1153,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
     @AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
     @Override
     public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException {
+
     	HistorialTransaccionCaja transaccion = historialTransaccionCajaDAO.find(idTransaccion);       
+        
         if (transaccion.getTipoCuenta().equalsIgnoreCase(TipoCuentaBancaria.LIBRE.toString()) || transaccion.getTipoCuenta().equalsIgnoreCase(TipoCuentaBancaria.RECAUDADORA.toString())) {
             if(transaccion.getTipoTransaccion().equalsIgnoreCase("COBRO_CHEQUE")) {
                 extornarCobroCheque(idTransaccion);
@@ -1376,7 +1378,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         Chequera chequera = cheque.getChequera();              
         CuentaBancaria cuentaBancaria = chequera.getCuentaBancaria();                      
        
-        HistorialCaja historialCajaActivo = this.getHistorialActivo();       
+        HistorialCaja historialCajaActivo = this.getHistorialActivo();                                    
+
         if (transaccionCheque.getEstado() == true && cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.ACTIVO) && transaccionCheque.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {           
             Caja caja = this.getCaja();
             BigDecimal saldoActualBovedaCaja = new BigDecimal(0.00);
@@ -1388,7 +1391,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
                     break;
                 }
             }
-
+            
             if (saldoActualBovedaCaja.compareTo(transaccionCheque.getMonto().abs()) != -1) {
                 cuentaBancaria.setSaldo(cuentaBancaria.getSaldo().add(transaccionCheque.getMonto().abs()));
                 actualizarSaldoCaja(transaccionCheque.getMonto().abs(), cuentaBancaria.getMoneda().getIdMoneda());
@@ -1396,14 +1399,14 @@ public class SessionServiceBeanTS implements SessionServiceTS {
             } else {
                 throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Saldo insuficiente en caja");   
             }      
-            
+                       
             cheque.setEstado(EstadoCheque.POR_COBRAR);
             cheque.setFechaCambioEstado(Calendar.getInstance().getTime());
             chequeDAO.update(cheque);
         } else {
             throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");   
         }            
-
+                
         // despues de extornar se debe de recalcular los saldos disponibles de
         // la cuenta bancaria
         QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", cuentaBancaria.getIdCuentaBancaria()).and("fecha",transaccionCheque.getHora());
@@ -1413,7 +1416,9 @@ public class SessionServiceBeanTS implements SessionServiceTS {
             BigDecimal nuevoSaldoDisponible = transaccionBancariaPosterior.getSaldoDisponible().subtract(transaccionCheque.getMonto().abs());
             transaccionBancariaPosterior.setSaldoDisponible(nuevoSaldoDisponible);
             transaccionBancariaDAO.update(transaccionBancariaPosterior);
-        }          
+
+        }                
+
     }
 
     private void extornarTransferenciaBancaria(BigInteger idTransaccion) throws RollbackFailureException {
