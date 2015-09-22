@@ -367,7 +367,8 @@ public class EmailSessionBean {
 			Font fontTableCabecera = new Font(FontFamily.UNDEFINED, 9, Font.BOLD);
 			Font fontTableCuerpo = new Font(FontFamily.UNDEFINED, 9, Font.NORMAL);
 			
-			float[] columnWidths = { 5f, 4f, 2.8f, 10f, 3.5f, 4f, 2.8f};
+			//float[] columnWidths = { 5f, 4f, 2.8f, 10f, 3.5f, 4f, 2.8f};
+			float[] columnWidths = { 5f, 4f, 2.8f, 10f, 3.5f, 4f};
 			PdfPTable table = new PdfPTable(columnWidths);
 			table.setWidthPercentage(100);
 
@@ -377,7 +378,7 @@ public class EmailSessionBean {
 			PdfPCell cellReferenciaCabecera = new PdfPCell(new Paragraph("REFERENCIA", fontTableCabecera));
 			PdfPCell cellMontoCabecera = new PdfPCell(new Paragraph("MONTO", fontTableCabecera));
 			PdfPCell cellSaldoDisponibleCabecera = new PdfPCell(new Paragraph("DISPONIBLE", fontTableCabecera));
-			PdfPCell cellEstado = new PdfPCell(new Paragraph("ESTADO", fontTableCabecera));
+			//PdfPCell cellEstado = new PdfPCell(new Paragraph("ESTADO", fontTableCabecera));
 
 			table.addCell(cellFechaHoraCabecera);
 			table.addCell(cellTransaccionCabecera);
@@ -385,7 +386,7 @@ public class EmailSessionBean {
 			table.addCell(cellReferenciaCabecera);
 			table.addCell(cellMontoCabecera);
 			table.addCell(cellSaldoDisponibleCabecera);
-			table.addCell(cellEstado);
+			//table.addCell(cellEstado);
 
 			for (EstadocuentaBancariaView estadocuentaBancariaView : list) {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -404,13 +405,13 @@ public class EmailSessionBean {
 					table.addCell(cellMonto);
 					PdfPCell cellSaldoDisponible = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getSaldoDisponible()), fontTableCuerpo));
 					table.addCell(cellSaldoDisponible);
-					if (estadocuentaBancariaView.getEstado()) {
+					/*if (estadocuentaBancariaView.getEstado()) {
 						PdfPCell cellEstadoActivo = new PdfPCell(new Paragraph("Activo", fontTableCuerpo));
 						table.addCell(cellEstadoActivo);
 					} else {
 						PdfPCell cellEstadoExtornado = new PdfPCell(new Paragraph("Extornado", fontTableCuerpo));
 						table.addCell(cellEstadoExtornado);
-					}
+					}*/
 				}
 			}
 			
