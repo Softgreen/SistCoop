@@ -391,24 +391,26 @@ public class EmailSessionBean {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 				String fecHoraFormat = sdf.format(estadocuentaBancariaView.getHora());
 				
-				PdfPCell cellFechaHora = new PdfPCell(new Paragraph(fecHoraFormat, fontTableCuerpo));
-				table.addCell(cellFechaHora);
-				PdfPCell cellTipoTrasaccion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getTipoTransaccionTransferencia(), fontTableCuerpo));
-				table.addCell(cellTipoTrasaccion);
-				PdfPCell cellNumOperacion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getNumeroOperacion().toString(), fontTableCuerpo));
-				table.addCell(cellNumOperacion);
-				PdfPCell cellReferencia = new PdfPCell(new Paragraph(estadocuentaBancariaView.getReferencia(), fontTableCuerpo));
-				table.addCell(cellReferencia);
-				PdfPCell cellMonto = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getMonto()), fontTableCuerpo));
-				table.addCell(cellMonto);
-				PdfPCell cellSaldoDisponible = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getSaldoDisponible()), fontTableCuerpo));
-				table.addCell(cellSaldoDisponible);
-				if (estadocuentaBancariaView.getEstado()) {
-					PdfPCell cellEstadoActivo = new PdfPCell(new Paragraph("Activo", fontTableCuerpo));
-					table.addCell(cellEstadoActivo);
-				} else {
-					PdfPCell cellEstadoExtornado = new PdfPCell(new Paragraph("Extornado", fontTableCuerpo));
-					table.addCell(cellEstadoExtornado);
+				if(estadocuentaBancariaView.getEstado()){
+					PdfPCell cellFechaHora = new PdfPCell(new Paragraph(fecHoraFormat, fontTableCuerpo));
+					table.addCell(cellFechaHora);
+					PdfPCell cellTipoTrasaccion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getTipoTransaccionTransferencia(), fontTableCuerpo));
+					table.addCell(cellTipoTrasaccion);
+					PdfPCell cellNumOperacion = new PdfPCell(new Paragraph(estadocuentaBancariaView.getNumeroOperacion().toString(), fontTableCuerpo));
+					table.addCell(cellNumOperacion);
+					PdfPCell cellReferencia = new PdfPCell(new Paragraph(estadocuentaBancariaView.getReferencia(), fontTableCuerpo));
+					table.addCell(cellReferencia);
+					PdfPCell cellMonto = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getMonto()), fontTableCuerpo));
+					table.addCell(cellMonto);
+					PdfPCell cellSaldoDisponible = new PdfPCell(new Paragraph(df1.format(estadocuentaBancariaView.getSaldoDisponible()), fontTableCuerpo));
+					table.addCell(cellSaldoDisponible);
+					if (estadocuentaBancariaView.getEstado()) {
+						PdfPCell cellEstadoActivo = new PdfPCell(new Paragraph("Activo", fontTableCuerpo));
+						table.addCell(cellEstadoActivo);
+					} else {
+						PdfPCell cellEstadoExtornado = new PdfPCell(new Paragraph("Extornado", fontTableCuerpo));
+						table.addCell(cellEstadoExtornado);
+					}
 				}
 			}
 			

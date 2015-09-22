@@ -1122,11 +1122,11 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         transaccionCheque.setFecha(calendar.getTime());
         transaccionCheque.setHora(calendar.getTime());
         transaccionCheque.setHistorialCaja(historialCaja);
-        transaccionCheque.setMonto(monto);
+        transaccionCheque.setMonto(monto.abs().negate());
         transaccionCheque.setNumeroDocumento(numeroDocumento);
         transaccionCheque.setTipoDocumento(tipoDocumento);
         transaccionCheque.setPersona(persona);
-        transaccionCheque.setObservacion("COBRADO por "+ persona + " con documento N°: " + numeroDocumento + " , fecha: " +  " y monto: " + monto);
+        transaccionCheque.setObservacion(numeroDocumento +"/"+ persona);
         transaccionCheque.setSaldoDisponible(saldoDisponible);
         transaccionCheque.setNumeroOperacion(this.getNumeroOperacion());
         transaccionCheque.setTrabajador("Doc:" + natural.getTipoDocumento().getAbreviatura() + "/"
@@ -1136,7 +1136,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
         cheque.setEstado(EstadoCheque.COBRADO);
         cheque.setFechaCambioEstado(calendar.getTime());
-        cheque.setMonto(monto);
+        cheque.setMonto(monto.abs().negate());
         cheque.setNumeroDocumento(cheque.getNumeroDocumento() == null ? numeroDocumento : cheque
                 .getNumeroDocumento());
         cheque.setTipoDocumento(cheque.getTipoDocumento() == null ? tipoDocumento : cheque.getTipoDocumento());
@@ -1153,28 +1153,35 @@ public class SessionServiceBeanTS implements SessionServiceTS {
     @AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
     @Override
     public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException {
-        HistorialTransaccionCaja transaccion = historialTransaccionCajaDAO.find(idTransaccion);
-        if (transaccion.getTipoCuenta().equalsIgnoreCase(TipoCuentaBancaria.LIBRE.toString())
-                || transaccion.getTipoCuenta().equalsIgnoreCase(TipoCuentaBancaria.RECAUDADORA.toString()))
-            extornarTransaccionBancaria(transaccion.getIdTransaccion());
+    	HistorialTransaccionCaja transaccion = historialTransaccionCajaDAO.find(idTransaccion);       
+        if (transaccion.getTipoCuenta().equalsIgnoreCase(TipoCuentaBancaria.LIBRE.toString()) || transaccion.getTipoCuenta().equalsIgnoreCase(TipoCuentaBancaria.RECAUDADORA.toString())) {
+            if(transaccion.getTipoTransaccion().equalsIgnoreCase("COBRO_CHEQUE")) {
+                extornarCobroCheque(idTransaccion);
+            } else if( transaccion.getTipoTransaccion().equalsIgnoreCase(Tipotransaccionbancaria.DEPOSITO.toString()) || transaccion.getTipoTransaccion().equalsIgnoreCase(Tipotransaccionbancaria.RETIRO.toString()) ) {
+                extornarTransaccionBancaria(transaccion.getIdTransaccion());   
+            } else {
+                throw new RollbackFailureException("Tipo de operacion no valida");
+            }
+        } 
         else if (transaccion.getTipoCuenta().equalsIgnoreCase("APORTE"))
             extornarTransaccionCuentaAporte(transaccion.getIdTransaccion());
         else if (transaccion.getTipoCuenta().equalsIgnoreCase("COMPRA_VENTA"))
             extornarTransaccionCompraVenta(transaccion.getIdTransaccion());
         else if (transaccion.getTipoCuenta().equalsIgnoreCase("TRANSFERENCIA"))
-            extornarTransferenciaBancaria(transaccion.getIdTransaccion());
-        else if (transaccion.getTipoCuenta().equalsIgnoreCase("COBRO CHEQUE"))
-            extornarCobroCheque(transaccion.getIdTransaccion());
+            extornarTransferenciaBancaria(transaccion.getIdTransaccion());        
         else
             throw new RollbackFailureException("Tipo de cuenta no encontrada");
     }
 
     private void extornarTransaccionBancaria(BigInteger idTransaccion) throws RollbackFailureException {
         TransaccionBancaria transaccionBancaria = transaccionBancariaDAO.find(idTransaccion);
-        if (transaccionBancaria.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO))
-            extornarCuentaBancariaDeposito(transaccionBancaria);
-        else
-            extornarCuentaBancariaRetiro(transaccionBancaria);
+        if (transaccionBancaria.getTipoTransaccion().equals(Tipotransaccionbancaria.DEPOSITO)) {
+            extornarCuentaBancariaDeposito(transaccionBancaria);   
+        } else if (transaccionBancaria.getTipoTransaccion().equals(Tipotransaccionbancaria.RETIRO)) {
+            extornarCuentaBancariaRetiro(transaccionBancaria);   
+        } else {
+            throw new RollbackFailureException("Operacion no valida");
+        }
 
         // despues de extornar se debe de recalcular los saldos disponibles de
         // la cuenta bancaria
@@ -1364,14 +1371,12 @@ public class SessionServiceBeanTS implements SessionServiceTS {
     }
 
     private void extornarCobroCheque(BigInteger idTransaccion) throws RollbackFailureException {
-        TransaccionCheque transaccionCheque = transaccionChequeDAO.find(idTransaccion);
-
-        Cheque cheque = transaccionCheque.getCheque();
-        Chequera chequera = cheque.getChequera();
-        CuentaBancaria cuentaBancaria = chequera.getCuentaBancaria();
-                
-        HistorialCaja historialCajaActivo = this.getHistorialActivo();
-
+    	TransaccionCheque transaccionCheque = transaccionChequeDAO.find(idTransaccion);       
+        Cheque cheque = transaccionCheque.getCheque();             
+        Chequera chequera = cheque.getChequera();              
+        CuentaBancaria cuentaBancaria = chequera.getCuentaBancaria();                      
+       
+        HistorialCaja historialCajaActivo = this.getHistorialActivo();       
         if (transaccionCheque.getEstado() == true && cuentaBancaria.getEstado().equals(EstadoCuentaBancaria.ACTIVO) && transaccionCheque.getHistorialCaja().getIdHistorialCaja() == historialCajaActivo.getIdHistorialCaja()) {           
             Caja caja = this.getCaja();
             BigDecimal saldoActualBovedaCaja = new BigDecimal(0.00);
@@ -1393,6 +1398,7 @@ public class SessionServiceBeanTS implements SessionServiceTS {
             }      
             
             cheque.setEstado(EstadoCheque.POR_COBRAR);
+            cheque.setFechaCambioEstado(Calendar.getInstance().getTime());
             chequeDAO.update(cheque);
         } else {
             throw new RollbackFailureException("Error al Extornar Transacci&oacute;n: Transacci&oacute;n o cuenta bancaria no activa");   
@@ -1400,18 +1406,14 @@ public class SessionServiceBeanTS implements SessionServiceTS {
 
         // despues de extornar se debe de recalcular los saldos disponibles de
         // la cuenta bancaria
-        QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria",
-                cuentaBancaria.getIdCuentaBancaria()).and("fecha",
-                transaccionCheque.getHora());
+        QueryParameter queryParameter = QueryParameter.with("idCuentaBancaria", cuentaBancaria.getIdCuentaBancaria()).and("fecha",transaccionCheque.getHora());
 
-        List<TransaccionBancaria> transaccionesBancarias = transaccionBancariaDAO.findByNamedQuery(
-                TransaccionBancaria.findByIdCuentaAndFecha, queryParameter.parameters());
+        List<TransaccionBancaria> transaccionesBancarias = transaccionBancariaDAO.findByNamedQuery(TransaccionBancaria.findByIdCuentaAndFecha, queryParameter.parameters());
         for (TransaccionBancaria transaccionBancariaPosterior : transaccionesBancarias) {
-            BigDecimal nuevoSaldoDisponible = transaccionBancariaPosterior.getSaldoDisponible().subtract(
-                    transaccionCheque.getMonto());
+            BigDecimal nuevoSaldoDisponible = transaccionBancariaPosterior.getSaldoDisponible().subtract(transaccionCheque.getMonto().abs());
             transaccionBancariaPosterior.setSaldoDisponible(nuevoSaldoDisponible);
             transaccionBancariaDAO.update(transaccionBancariaPosterior);
-        }        
+        }          
     }
 
     private void extornarTransferenciaBancaria(BigInteger idTransaccion) throws RollbackFailureException {
