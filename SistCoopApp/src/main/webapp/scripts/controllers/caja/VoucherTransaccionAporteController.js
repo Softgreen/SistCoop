@@ -81,6 +81,7 @@ define(['../module'], function (controllers) {
 	                qz.append("Firma Socio" + "\r\n");
 	                qz.append("\r\n");
 	                qz.append(String.fromCharCode(27) + "\x61" + "\x31");
+	                qz.append("Gracias por su preferencia" + "\r\n");
                 	qz.append("Verifique su dinero antes de retirarse  de ventanilla" + "\r\n");
 				}
                 qz.append("\x1D\x56\x41");														//cortar papel
