@@ -74,8 +74,10 @@ public class HistorialCaja implements java.io.Serializable {
     private Set transaccionBancarias = new HashSet(0);
     private Set detalleHistorialCajas = new HashSet(0);
     private Set transferenciaBancarias = new HashSet(0);
-
+    
     private Set pendientes = new HashSet(0);
+    
+    private Set transaccionCheque = new HashSet(0);
 
     public HistorialCaja() {
     }
@@ -264,6 +266,16 @@ public class HistorialCaja implements java.io.Serializable {
     public void setPendientes(Set pendientes) {
         this.pendientes = pendientes;
     }
+    
+    @XmlTransient
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "historialCaja")
+    public Set<TransaccionCheque> getTransaccionCheque() {
+		return transaccionCheque;
+	}
+
+	public void setTransaccionCheque(Set transaccionCheque) {
+		this.transaccionCheque = transaccionCheque;
+	}
 
     @Override
     public String toString() {

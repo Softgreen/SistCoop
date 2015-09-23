@@ -68,6 +68,18 @@ public class ResumenOperacionesCaja implements java.io.Serializable {
 	private int venta;
 
 	@XmlElement
+	private int transExtornadoDepositoRetiro;
+	
+	@XmlElement
+	private int transExtornadoCompraVenta;
+	
+	@XmlElement
+	private int transExtornadoAporte;
+	
+	@XmlElement
+	private int transExtornadoCheque;
+
+	@XmlElement
 	private int depositoMayorCuantia;
 
 	@XmlElement
@@ -99,6 +111,9 @@ public class ResumenOperacionesCaja implements java.io.Serializable {
 
 	@XmlElement
 	private int pendienteFaltante;
+	
+	@XmlElement
+	private int transaccionCheque;
 
 	public String getAgencia() {
 		return agencia;
@@ -235,6 +250,30 @@ public class ResumenOperacionesCaja implements java.io.Serializable {
 	public void setVenta(int venta) {
 		this.venta = venta;
 	}
+	
+	public int getTransExtornadoDepositoRetiro() {
+		return transExtornadoDepositoRetiro;
+	}
+
+	public void setTransExtornadoDepositoRetiro(int transExtornadoDepositoRetiro) {
+		this.transExtornadoDepositoRetiro = transExtornadoDepositoRetiro;
+	}
+
+	public int getTransExtornadoCompraVenta() {
+		return transExtornadoCompraVenta;
+	}
+
+	public void setTransExtornadoCompraVenta(int transExtornadoCompraVenta) {
+		this.transExtornadoCompraVenta = transExtornadoCompraVenta;
+	}
+
+	public int getTransExtornadoAporte() {
+		return transExtornadoAporte;
+	}
+
+	public void setTransExtornadoAporte(int transExtornadoAporte) {
+		this.transExtornadoAporte = transExtornadoAporte;
+	}
 
 	public int getDepositoMayorCuantia() {
 		return depositoMayorCuantia;
@@ -324,4 +363,19 @@ public class ResumenOperacionesCaja implements java.io.Serializable {
 		this.pendienteFaltante = pendienteFaltante;
 	}
 
+	public int getTransaccionCheque() {
+		return transaccionCheque;
+	}
+
+	public void setTransaccionCheque(int transaccionCheque) {
+		this.transaccionCheque = transaccionCheque;
+	}
+
+	public int getTransExtornadoCheque() {
+		return transExtornadoCheque;
+	}
+
+	public void setTransExtornadoCheque(int transExtornadoCheque) {
+		this.transExtornadoCheque = transExtornadoCheque;
+	}
 }

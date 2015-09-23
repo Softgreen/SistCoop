@@ -675,6 +675,13 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
         int pendienteFaltante = 0;
         int pendienteSobrante = 0;
+        
+        int transCheque = 0;
+        
+        int transExtornadoDepositoRetiro = 0;
+        int transExtornadoCompraVenta = 0;
+        int transExtornadoAporte = 0;
+        int transExtornadoCheque = 0;
 
         // recuperando las operaciones del dia
         Set<TransaccionBancaria> transBancarias = historialCaja.getTransaccionBancarias();
@@ -688,6 +695,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
         Set<TransaccionBovedaCaja> transBovedaCaja = historialCaja.getTransaccionBovedaCajas();
 
         Set<PendienteCaja> transPendiente = historialCaja.getPendientes();
+        
+        Set<TransaccionCheque> transaccionCheque = historialCaja.getTransaccionCheque();
 
         VariableSistema varSoles = variableSistemaServiceNT
                 .getVariable(Variable.TRANSACCION_MAYOR_CUANTIA_NUEVOS_SOLES);
@@ -741,6 +750,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
                         else
                             retirosMayorCuantia++;
                 }
+            }else {
+            	transExtornadoDepositoRetiro++;
             }
         }
         for (TransaccionCompraVenta transCompraVenta : transComVent) {
@@ -749,6 +760,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
                     compra++;
                 else
                     venta++;
+            } else {
+            	transExtornadoCompraVenta++; 
             }
         }
         for (TransaccionCuentaAporte trans : transCtaAport) {
@@ -758,6 +771,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
                 } else {
                     retirosAporte++;
                 }
+            } else {
+            	transExtornadoAporte++;
             }
         }
 
@@ -790,6 +805,13 @@ public class CajaServiceBeanNT implements CajaServiceNT {
             else
                 pendienteSobrante++;
         }
+        
+        for (TransaccionCheque trans : transaccionCheque) {
+            if (trans.getEstado())
+            	transCheque++;
+            else
+                transExtornadoCheque++;
+        }
 
         result.setAgencia(agencia.getDenominacion());
         result.setCaja(caja.getDenominacion());
@@ -810,7 +832,12 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
         result.setCompra(compra);
         result.setVenta(venta);
-
+        
+        result.setTransExtornadoDepositoRetiro(transExtornadoDepositoRetiro);
+        result.setTransExtornadoCompraVenta(transExtornadoCompraVenta);
+        result.setTransExtornadoAporte(transExtornadoAporte);
+        result.setTransExtornadoCheque(transExtornadoCheque);
+        
         result.setDepositoMayorCuantia(depositosMayorCuantia);
         result.setRetiroMayorCuantia(retirosMayorCuantia);
         result.setCompraVentaMayorCuantia(compraVentaMayorCuantia);
@@ -822,6 +849,8 @@ public class CajaServiceBeanNT implements CajaServiceNT {
 
         result.setPendienteFaltante(pendienteFaltante);
         result.setPendienteSobrante(pendienteSobrante);
+        
+        result.setTransaccionCheque(transCheque);
 
         return result;
     }
