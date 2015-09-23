@@ -126,7 +126,7 @@ define(['../module'], function (controllers) {
                     {displayName: 'MONEDA', width:60, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6" style="text-align: center;"><span>{{cuentaBancaria.moneda}}</span></div>'},
                     {field:"monto", displayName:'MONTO', width:70, cellTemplate: '<div ng-class="{green: row.getProperty(col.field) > 30}"><div style="text-align:right;"  class="ngCellText">{{row.getProperty(col.field) | number:2}}</div></div>'},
                     {field:"saldoDisponible", displayName:'DISPONIBLE', width:90, cellTemplate: '<div ng-class="{green: row.getProperty(col.field) > 30}"><div style="text-align:right;"  class="ngCellText">{{row.getProperty(col.field) | number:2}}</div></div>'},
-                    {displayName:'ESTADO', width: 80, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6"><span ng-show="row.entity.estado" style="color: blue; font-weight: bold;">ACTIVO</span><span ng-hide="row.entity.estado" style="color: red; font-weight: bold;">EXTORNADO</span></div>'}
+                    //{displayName:'ESTADO', width: 80, cellTemplate: '<div ng-class="col.colIndex()" class="ngCellText ng-scope col6 colt6"><span ng-show="row.entity.estado" style="color: blue; font-weight: bold;">ACTIVO</span><span ng-hide="row.entity.estado" style="color: red; font-weight: bold;">EXTORNADO</span></div>'}
                 ]
             };
 
