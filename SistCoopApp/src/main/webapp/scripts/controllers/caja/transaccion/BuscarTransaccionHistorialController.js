@@ -131,7 +131,7 @@ define(['../../module'], function (controllers) {
             		$state.transitionTo("app.transaccion.compraVentaVoucher", { id: transaccion.idTransaccion});
             	else if(transaccion.tipoTransaccion == "TRANSFERENCIA")
             		$state.transitionTo("app.transaccion.transferenciaVoucher", { id: transaccion.idTransaccion});
-            	else if(transaccion.tipoTransaccion == "COBRO CHEQUE")
+            	else if(transaccion.tipoTransaccion == "COBRO_CHEQUE")
             		$state.transitionTo("app.transaccion.chequeVoucher", { id: transaccion.idTransaccion});
             	else
                 	alert("Tipo de transacción no encontrado");
