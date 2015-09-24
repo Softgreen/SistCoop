@@ -73,7 +73,7 @@ define(['../module'], function (controllers) {
                 
                 qz.append("\x1B\x40"); // 1
                 qz.append("\x1B\x21\x08"); // 2
-                qz.append("TRANS. EXTORNADOS (TOTAL): "+($scope.resumenCaja.transExtornadoDepositoRetiro + $scope.resumenCaja.transExtornadoCompraVenta + $scope.resumenCaja.transExtornadoAporte) + "\n");
+                qz.append("TRANS. EXTORNADOS (TOTAL): "+($scope.resumenCaja.transExtornadoDepositoRetiro + $scope.resumenCaja.transExtornadoCompraVenta + $scope.resumenCaja.transExtornadoAporte + transExtornadoCheque) + "\n");
                 qz.append("\x1B\x21\x01"); // 3
                 qz.append("DEPOSITO/RETIRO:" + $scope.resumenCaja.transExtornadoDepositoRetiro + "\t");
                 qz.append("COMPRA/VENTA:"+$scope.resumenCaja.transExtornadoCompraVenta + "\r\n");
