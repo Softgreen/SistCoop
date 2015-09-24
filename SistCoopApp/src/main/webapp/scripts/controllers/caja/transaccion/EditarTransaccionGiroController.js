@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
   'use strict';
-  controllers.controller('EditarTransaccionGiroController', ["$scope","$state","$filter","PersonaNaturalService", "AgenciaService", "SessionService", "GiroService",
-    function ($scope, $state, $filter, PersonaNaturalService, AgenciaService, SessionService, GiroService) {
+  controllers.controller('EditarTransaccionGiroController', ["$scope", "$state", "$filter", "PersonaNaturalService", "AgenciaService", "SessionService", "GiroService", "NumLetrasJ",
+    function ($scope, $state, $filter, PersonaNaturalService, AgenciaService, SessionService, GiroService, NumLetrasJ) {
 
       $scope.giro = {};
 
@@ -71,12 +71,12 @@ define(['../../module'], function (controllers) {
         qz.append("MULTIVALORES DEL SUR\r\n");										// \r\n salto de linea
 
         if (($scope.giro.estado) == "ENVIADO") {
-        	qz.append("GIRO EN EFECTIVO" + "\r\n");
+          qz.append("GIRO EN EFECTIVO" + "\r\n");
         } else if (($scope.giro.estado) == "COBRADO") {
-        	qz.append("COBRO DE GIRO" + "\r\n");
+          qz.append("COBRO DE GIRO" + "\r\n");
         }
         //qz.append(" OPERACION EN EFECTIVO: GIRO " + "\r\n");
-        																				// \t tabulador
+        // \t tabulador
         qz.append("\x1B\x21\x01");														//texto normal (no negrita)
         qz.append(String.fromCharCode(27) + "\x61" + "\x30");							//texto a la izquierda
 
@@ -92,23 +92,38 @@ define(['../../module'], function (controllers) {
           qz.append("MONTO:" + "\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
           qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
           qz.append("TOTAL A PAGAR:" + ($filter('currency')($scope.giro.comision + $scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
+
+
+          var total = $scope.giro.comision + $scope.giro.monto;
+          var decimal = Math.floor((total - Math.floor(total)) * 100);
+          qz.append(NumLetrasJ.Convierte(parseInt(total).toString()).toUpperCase() + " Y " + decimal + "/100 " + "\r\n");
+
           qz.append("\r\n");
           qz.append(String.fromCharCode(27) + "\x61" + "\x31");
           qz.append("Gracias por su preferencia" + "\r\n");
           qz.append("Verifique su dinero antes  de retirarse de ventanilla" + "\r\n");
-          
+
         } else if (($scope.giro.estado) == "COBRADO") {
-          
-        	if(($scope.giro.lugarPagoComision) == "AL_ENVIAR"){
-        	  qz.append("MONTO:" + "\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
-              //qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
-              //qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
-              //qz.append("TOTAL:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
-          }else if(($scope.giro.lugarPagoComision) == "AL_COBRAR"){
-        	  qz.append("MONTO:" + "\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
-        	  qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
+
+          if (($scope.giro.lugarPagoComision) == "AL_ENVIAR") {
+            qz.append("MONTO:" + "\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
+            //qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
+            //qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
+            //qz.append("TOTAL:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
+
+            var total = $scope.giro.monto;
+            var decimal = Math.floor((total - Math.floor(total)) * 100);
+            qz.append(NumLetrasJ.Convierte(parseInt(total).toString()).toUpperCase() + " Y " + decimal + "/100 " + "\r\n");
+
+          } else if (($scope.giro.lugarPagoComision) == "AL_COBRAR") {
+            qz.append("MONTO:" + "\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
+            qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
+
+            var total = $scope.giro.monto;
+            var decimal = Math.floor((total - Math.floor(total)) * 100);
+            qz.append(NumLetrasJ.Convierte(parseInt(total).toString()).toUpperCase() + " Y " + decimal + "/100 " + "\r\n");
           }
-          
+
           qz.append("\r\n");
           qz.append("\r\n");
           qz.append("\r\n");
