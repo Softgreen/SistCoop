@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<job version="1.0" restartable="false" id="SistcoopJob"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/jobXML_1_0.xsd"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+	<step allow-start-if-complete="false" id="EnviarEstadoCuentaEmailChunk">
+		<chunk>
+			<reader ref="org.sistemafinanciero.jobs.Reader_EnviarEstadoCuentaEmailChunk">
+				<properties>
+					<property name="beanType" value="org.jberet.support.io.StockTrade" />
+					<property name="sql"
+						value="SELECT CB.NUMERO_CUENTA, PN.EMAIL FROM CUENTA_BANCARIA CB INNER JOIN SOCIO SO ON SO.ID_SOCIO = CB.ID_SOCIO INNER JOIN PERSONA_NATURAL PN ON PN.ID_PERSONA_NATURAL = SO.ID_PERSONA_NATURAL WHERE PN.EMAIL IS NOT NULL UNION SELECT CB.NUMERO_CUENTA, PJ.EMAIL FROM CUENTA_BANCARIA CB INNER JOIN SOCIO SO ON SO.ID_SOCIO = CB.ID_SOCIO INNER JOIN PERSONA_JURIDICA PJ ON PJ.ID_PERSONA_JURIDICA = SO.ID_PERSONA_JURIDICA WHERE PJ.EMAIL IS NOT NULL" />
+					<property name="url"
+						value="jdbc:oracle:thin:@//192.168.1.100:1521/cdb1.localdomain" />
+					<property name="columnMapping" value="NUMERO_CUENTA, EMAIL" />
+					<property name="columnTypes" value="String, String" />
+					<property name="start" value="1" />
+					<property name="end" value="10" />
+					<property name="resultSetProperties"
+						value="fetchSize=1000, resultSetConcurrency=CONCUR_UPDATABLE, fetchDirection=FETCH_REVERSE, resultSetType=TYPE_SCROLL_SENSITIVE, resultSetHoldability=HOLD_CURSORS_OVER_COMMIT" />
+				</properties>
+			</reader>
+			<processor ref="org.sistemafinanciero.jobs.Processor_EnviarEstadoCuentaEmailChunk" />
+			<writer ref="org.sistemafinanciero.jobs.Writer_EnviarEstadoCuentaEmailChunk"></writer>
+		</chunk>
+	</step>
+</job>
