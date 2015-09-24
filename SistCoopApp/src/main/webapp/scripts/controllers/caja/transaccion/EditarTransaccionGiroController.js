@@ -98,7 +98,8 @@ define(['../../module'], function (controllers) {
           qz.append("Verifique su dinero antes  de retirarse de ventanilla" + "\r\n");
           
         } else if (($scope.giro.estado) == "COBRADO") {
-          if(($scope.giro.lugarPagoComision) == "AL_ENVIAR"){
+          
+        	if(($scope.giro.lugarPagoComision) == "AL_ENVIAR"){
         	  qz.append("MONTO:" + "\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
               //qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
               //qz.append("COMISION:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
