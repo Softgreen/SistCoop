@@ -28,6 +28,8 @@ define([
     './GiroService',
     './SobreGiroService',
 
+    './NumLetrasJ',
+
     './HotKeysFunctionsService',
     './VariablesService'
 ], function () {
