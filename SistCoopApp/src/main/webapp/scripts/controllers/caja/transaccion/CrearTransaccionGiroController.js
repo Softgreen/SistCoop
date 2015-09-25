@@ -57,11 +57,22 @@ define(['../../module'], function (controllers) {
           monto = Math.round(monto * 10) / 10;
         } else {
           if ($scope.view.tipoComision == 'PORCENTURAL') {
-            monto = (100 * parseFloat($scope.view.monto)) / (100 + parseFloat($scope.view.comision));
-            //redondeo a un decimal y hacia abajo
-            monto = Math.floor(monto * 10) / 10;
+            if ($scope.view.lugarPagoComision == 'AL_ENVIAR') {
+              //monto = (100 * parseFloat($scope.view.monto)) / (100 + parseFloat($scope.view.comision));
+              monto = ( (100 - parseFloat($scope.view.comision)) *  parseFloat($scope.view.monto) ) / 100 ;
+              //redondeo a un decimal y hacia abajo
+              monto = Math.floor(monto * 10) / 10;
+            } else {
+              monto = parseFloat($scope.view.monto);
+              //redondeo a un decimal y hacia abajo
+              monto = Math.floor(monto * 10) / 10;
+            }
           } else {
-            monto = parseFloat($scope.view.monto) - parseFloat($scope.view.comision);
+            if ($scope.view.lugarPagoComision == 'AL_ENVIAR') {
+              monto = parseFloat($scope.view.monto) - parseFloat($scope.view.comision);
+            } else {
+              monto = parseFloat($scope.view.monto);
+            }
           }
         }
 
@@ -75,8 +86,19 @@ define(['../../module'], function (controllers) {
             comision = parseFloat($scope.view.comision);
           }
         } else {
-          comision = parseFloat($scope.view.monto).toFixed(2) - parseFloat(monto).toFixed(2);
-          comision = comision.toFixed(2);
+          //  QUITAR
+          if ($scope.view.tipoComision == 'PORCENTURAL') {
+            if ($scope.view.lugarPagoComision == 'AL_ENVIAR') {
+              comision = parseFloat($scope.view.monto).toFixed(2) - parseFloat(monto).toFixed(2);
+              comision = comision.toFixed(2);
+            } else {
+              comision  = ( parseFloat($scope.view.comision) *  parseFloat($scope.view.monto) ) / 100 ;
+              //redondeo a un decimal y hacia arriba
+              comision = Math.ceil(comision * 10) / 10;
+            }
+          } else {
+            comision = parseFloat($scope.view.comision);
+          }
         }
 
         //estado de pago comision
