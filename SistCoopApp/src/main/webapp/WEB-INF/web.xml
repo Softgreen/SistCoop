@@ -17,7 +17,7 @@
 		<web-resource-collection>
 			<web-resource-name>Logout</web-resource-name>
 			<url-pattern>/logout</url-pattern>
-		</web-resource-collection>		
+		</web-resource-collection>
 	</security-constraint>
 	<login-config>
 		<auth-method>KEYCLOAK</auth-method>
@@ -50,5 +50,9 @@
 		<error-code>404</error-code>
 		<location>/404.html</location>
 	</error-page>
+
+	<session-config>
+		<session-timeout>300</session-timeout>
+	</session-config>
 
 </web-app>
