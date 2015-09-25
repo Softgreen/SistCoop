@@ -138,6 +138,7 @@ define(['../../module'], function (controllers) {
         qz.append("\x1B\x40");
         qz.print();
 
+        
       };
 
       $scope.cancelar = function () {
