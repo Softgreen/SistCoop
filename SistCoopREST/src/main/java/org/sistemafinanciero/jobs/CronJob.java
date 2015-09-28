@@ -70,7 +70,6 @@ public class CronJob {
                     List<EstadocuentaBancariaView> list = ctaBancServiceNT.getEstadoCuenta(idCtaBanc, desde,
                             hasta, true);
                     emailSessionBean.sendMailPdf(ctaBancView, list, emails, desde, hasta);
-
                 }
             }
         }

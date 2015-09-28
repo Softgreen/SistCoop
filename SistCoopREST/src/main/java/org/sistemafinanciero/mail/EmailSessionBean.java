@@ -82,7 +82,7 @@ public class EmailSessionBean {
     private String subject = "EE.CC. ";
 
     public void writePdf(OutputStream outputStream, List<EstadocuentaBancariaView> list,
-            CuentaBancariaView cuentaBancaria) throws Exception {
+            CuentaBancariaView cuentaBancaria, Date desde, Date hasta) throws Exception {
         Document document = new Document();
         PdfWriter.getInstance(document, outputStream);
 
@@ -216,8 +216,10 @@ public class EmailSessionBean {
         } else {
 
             // Dando formato a las fechas desde hasta
-            Date desde = list.get(0).getFecha();
-            Date hasta = list.get(list.size() - 1).getFecha();
+            if(desde == null && hasta == null){
+                desde = list.get(0).getFecha();
+                hasta = list.get(list.size() - 1).getFecha();
+            }           
             SimpleDateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
             String fechaDesde = fechaFormato.format(desde);
             String fechaHasta = fechaFormato.format(hasta);
@@ -608,7 +610,7 @@ public class EmailSessionBean {
             outputStream = new ByteArrayOutputStream();
 
             // enviando para crear el archivo a enviar
-            writePdf(outputStream, list, cuentaBancariaView);
+            writePdf(outputStream, list, cuentaBancariaView, desde, hasta);
 
             byte[] bytes = outputStream.toByteArray();
 
