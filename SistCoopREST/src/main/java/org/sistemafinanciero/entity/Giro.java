@@ -41,235 +41,239 @@ import org.sistemafinanciero.entity.type.LugarPagoComision;
 @Table(name = "GIRO", schema = "C##BDSISTEMAFINANCIERO")
 @XmlRootElement(name = "giro")
 @XmlAccessorType(XmlAccessType.NONE)
-@NamedQueries({ 
-	@NamedQuery(name = Giro.findEnviadosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor"),
-	@NamedQuery(name = Giro.findRecibidosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor")})
+@NamedQueries({
+        @NamedQuery(name = Giro.findEnviadosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor"),
+        @NamedQuery(name = Giro.findRecibidosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor"),
+        @NamedQuery(name = Giro.findEnviadosByIdAgenciaEstadoFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia AND g.estado = :estado AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor"),
+        @NamedQuery(name = Giro.findRecibidosByIdAgenciaEstadoFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia AND g.estado = :estado AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor") })
 public class Giro implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public final static String findEnviadosByIdAgenciaFilterText = "Giro.findEnviadosByIdAgenciaFilterText";
-	public final static String findRecibidosByIdAgenciaFilterText = "Giro.findRecibidosByIdAgenciaFilterText";
-	
-	private BigInteger idGiro;
-	
-	private Agencia agenciaOrigen;
-	private Agencia agenciaDestino;
-	
-	private String numeroDocumentoEmisor;
-	private String clienteEmisor;
+    public final static String findEnviadosByIdAgenciaFilterText = "Giro.findEnviadosByIdAgenciaFilterText";
+    public final static String findRecibidosByIdAgenciaFilterText = "Giro.findRecibidosByIdAgenciaFilterText";
+    public final static String findEnviadosByIdAgenciaEstadoFilterText = "Giro.findEnviadosByIdAgenciaEstadoFilterText";
+    public final static String findRecibidosByIdAgenciaEstadoFilterText = "Giro.findRecibidosByIdAgenciaEstadoFilterText";
 
-	private String numeroDocumentoReceptor;
-	private String clienteReceptor;
-	
-	private Moneda moneda;
-	private BigDecimal monto;
-	private BigDecimal comision;
-	private LugarPagoComision lugarPagoComision;
-	private int estadoPagoComision;
-	
-	private Date fechaEnvio;
-	private Date fechaDesembolso;
-	
-	private EstadoGiro estado;
+    private BigInteger idGiro;
 
-	public Giro() {
+    private Agencia agenciaOrigen;
+    private Agencia agenciaDestino;
 
-	}
+    private String numeroDocumentoEmisor;
+    private String clienteEmisor;
 
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GIRO_SEQ")
-	@SequenceGenerator(name="GIRO_SEQ", initialValue=1, allocationSize=1, sequenceName="GIRO_SEQ")
-	@XmlElement(name = "id")	
-	@Id
-	@Column(name = "ID_GIRO", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigInteger getIdGiro() {
-		return this.idGiro;
-	}
+    private String numeroDocumentoReceptor;
+    private String clienteReceptor;
 
-	public void setIdGiro(BigInteger idGiro) {
-		this.idGiro = idGiro;
-	}
+    private Moneda moneda;
+    private BigDecimal monto;
+    private BigDecimal comision;
+    private LugarPagoComision lugarPagoComision;
+    private int estadoPagoComision;
 
-	@XmlElement(name = "agenciaOrigen")
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_AGENCIA_ORIGEN", nullable = false)
-	public Agencia getAgenciaOrigen() {
-		return agenciaOrigen;
-	}
+    private Date fechaEnvio;
+    private Date fechaDesembolso;
 
-	public void setAgenciaOrigen(Agencia agenciaOrigen) {
-		this.agenciaOrigen = agenciaOrigen;
-	}
+    private EstadoGiro estado;
 
-	@XmlElement(name = "agenciaDestino")
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_AGENCIA_DESTINO", nullable = false)
-	public Agencia getAgenciaDestino() {
-		return agenciaDestino;
-	}
+    public Giro() {
 
-	public void setAgenciaDestino(Agencia agenciaDestino) {
-		this.agenciaDestino = agenciaDestino;
-	}
+    }
 
-	@XmlAttribute(name = "numeroDocumentoEmisor")
-	@Size(min = 0, max = 20)
-	@Column(name = "NUMERO_DOCUMENTO_EMISOR", nullable = false, length = 40, columnDefinition = "nvarchar2")
-	public String getNumeroDocumentoEmisor() {
-		return numeroDocumentoEmisor;
-	}
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GIRO_SEQ")
+    @SequenceGenerator(name = "GIRO_SEQ", initialValue = 1, allocationSize = 1, sequenceName = "GIRO_SEQ")
+    @XmlElement(name = "id")
+    @Id
+    @Column(name = "ID_GIRO", unique = true, nullable = false, precision = 22, scale = 0)
+    public BigInteger getIdGiro() {
+        return this.idGiro;
+    }
 
-	public void setNumeroDocumentoEmisor(String numeroDocumentoEmisor) {
-		this.numeroDocumentoEmisor = numeroDocumentoEmisor;
-	}
+    public void setIdGiro(BigInteger idGiro) {
+        this.idGiro = idGiro;
+    }
 
-	@XmlAttribute(name = "numeroDocumentoReceptor")
-	@Size(min = 0, max = 20)
-	@Column(name = "NUMERO_DOCUMENTO_RECEPTOR", nullable = false, length = 40, columnDefinition = "nvarchar2")
-	public String getNumeroDocumentoReceptor() {
-		return numeroDocumentoReceptor;
-	}
+    @XmlElement(name = "agenciaOrigen")
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_AGENCIA_ORIGEN", nullable = false)
+    public Agencia getAgenciaOrigen() {
+        return agenciaOrigen;
+    }
 
-	public void setNumeroDocumentoReceptor(String numeroDocumentoReceptor) {
-		this.numeroDocumentoReceptor = numeroDocumentoReceptor;
-	}
-	
-	@XmlAttribute(name = "clienteEmisor")
-	@NotNull
-	@NotBlank
-	@Size(min = 1, max = 200)
-	@Column(name = "CLIENTE_EMISOR", nullable = false, length = 200, columnDefinition = "nvarchar2")
-	public String getClienteEmisor() {
-		return clienteEmisor;
-	}
+    public void setAgenciaOrigen(Agencia agenciaOrigen) {
+        this.agenciaOrigen = agenciaOrigen;
+    }
 
-	public void setClienteEmisor(String clienteEmisor) {
-		this.clienteEmisor = clienteEmisor;
-	}
-	
-	@XmlAttribute(name = "clienteReceptor")
-	@NotNull
-	@NotBlank
-	@Size(min = 1, max = 200)
-	@Column(name = "CLIENTE_RECEPTOR", nullable = false, length = 200, columnDefinition = "nvarchar2")
-	public String getClienteReceptor() {
-		return clienteReceptor;
-	}
+    @XmlElement(name = "agenciaDestino")
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_AGENCIA_DESTINO", nullable = false)
+    public Agencia getAgenciaDestino() {
+        return agenciaDestino;
+    }
 
-	public void setClienteReceptor(String clienteReceptor) {
-		this.clienteReceptor = clienteReceptor;
-	}
+    public void setAgenciaDestino(Agencia agenciaDestino) {
+        this.agenciaDestino = agenciaDestino;
+    }
 
-	@XmlElement
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_MONEDA", nullable = false)
-	public Moneda getMoneda() {
-		return moneda;
-	}
+    @XmlAttribute(name = "numeroDocumentoEmisor")
+    @Size(min = 0, max = 20)
+    @Column(name = "NUMERO_DOCUMENTO_EMISOR", nullable = false, length = 40, columnDefinition = "nvarchar2")
+    public String getNumeroDocumentoEmisor() {
+        return numeroDocumentoEmisor;
+    }
 
-	public void setMoneda(Moneda moneda) {
-		this.moneda = moneda;
-	}
+    public void setNumeroDocumentoEmisor(String numeroDocumentoEmisor) {
+        this.numeroDocumentoEmisor = numeroDocumentoEmisor;
+    }
 
-	@XmlElement
-	@Column(name = "MONTO", nullable = false, precision = 18)
-	public BigDecimal getMonto() {
-		return monto;
-	}
+    @XmlAttribute(name = "numeroDocumentoReceptor")
+    @Size(min = 0, max = 20)
+    @Column(name = "NUMERO_DOCUMENTO_RECEPTOR", nullable = false, length = 40, columnDefinition = "nvarchar2")
+    public String getNumeroDocumentoReceptor() {
+        return numeroDocumentoReceptor;
+    }
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    public void setNumeroDocumentoReceptor(String numeroDocumentoReceptor) {
+        this.numeroDocumentoReceptor = numeroDocumentoReceptor;
+    }
 
-	@XmlElement
-	@Column(name = "COMISION", nullable = false, precision = 18)
-	public BigDecimal getComision() {
-		return comision;
-	}
+    @XmlAttribute(name = "clienteEmisor")
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 200)
+    @Column(name = "CLIENTE_EMISOR", nullable = false, length = 200, columnDefinition = "nvarchar2")
+    public String getClienteEmisor() {
+        return clienteEmisor;
+    }
 
-	public void setComision(BigDecimal comision) {
-		this.comision = comision;
-	}
+    public void setClienteEmisor(String clienteEmisor) {
+        this.clienteEmisor = clienteEmisor;
+    }
 
-	@XmlElement
-	@Enumerated(EnumType.STRING)
-	@Column(name = "LUGAR_PAGO_COMISION", nullable = false, length = 20, columnDefinition = "nvarchar2")
-	public LugarPagoComision getLugarPagoComision() {
-		return lugarPagoComision;
-	}
+    @XmlAttribute(name = "clienteReceptor")
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 200)
+    @Column(name = "CLIENTE_RECEPTOR", nullable = false, length = 200, columnDefinition = "nvarchar2")
+    public String getClienteReceptor() {
+        return clienteReceptor;
+    }
 
-	public void setLugarPagoComision(LugarPagoComision lugarPagoComision) {
-		this.lugarPagoComision = lugarPagoComision;
-	}
+    public void setClienteReceptor(String clienteReceptor) {
+        this.clienteReceptor = clienteReceptor;
+    }
 
-	@XmlElement
-	@Column(name = "ESTADO_PAGO_COMISION", nullable = false, precision = 22, scale = 0)
-	public boolean getEstadoPagoComision() {
-		return (this.estadoPagoComision == 1 ? true : false);
-	}
+    @XmlElement
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_MONEDA", nullable = false)
+    public Moneda getMoneda() {
+        return moneda;
+    }
 
-	public void setEstadoPagoComision(boolean estadoPagoComision) {
-		this.estadoPagoComision = (estadoPagoComision ? 1 : 0);
-	}
+    public void setMoneda(Moneda moneda) {
+        this.moneda = moneda;
+    }
 
-	@XmlElement
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "FECHA_ENVIO", nullable = false, length = 7)
-	public Date getFechaEnvio() {
-		return fechaEnvio;
-	}
+    @XmlElement
+    @Column(name = "MONTO", nullable = false, precision = 18)
+    public BigDecimal getMonto() {
+        return monto;
+    }
 
-	public void setFechaEnvio(Date fechaEnvio) {
-		this.fechaEnvio = fechaEnvio;
-	}
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
 
-	@XmlElement
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "FECHA_DESEMBOLSO", nullable = false, length = 7)
-	public Date getFechaDesembolso() {
-		return fechaDesembolso;
-	}
+    @XmlElement
+    @Column(name = "COMISION", nullable = false, precision = 18)
+    public BigDecimal getComision() {
+        return comision;
+    }
 
-	public void setFechaDesembolso(Date fechaDesembolso) {
-		this.fechaDesembolso = fechaDesembolso;
-	}
+    public void setComision(BigDecimal comision) {
+        this.comision = comision;
+    }
 
-	@XmlElement
-	@Enumerated(EnumType.STRING)
-	@Column(name = "ESTADO", nullable = false, length = 20, columnDefinition = "nvarchar2")
-	public EstadoGiro getEstado() {
-		return this.estado;
-	}
+    @XmlElement
+    @Enumerated(EnumType.STRING)
+    @Column(name = "LUGAR_PAGO_COMISION", nullable = false, length = 20, columnDefinition = "nvarchar2")
+    public LugarPagoComision getLugarPagoComision() {
+        return lugarPagoComision;
+    }
 
-	public void setEstado(EstadoGiro estado) {
-		this.estado = estado;
-	}
+    public void setLugarPagoComision(LugarPagoComision lugarPagoComision) {
+        this.lugarPagoComision = lugarPagoComision;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((idGiro == null) ? 0 : idGiro.hashCode());
-		return result;
-	}
+    @XmlElement
+    @Column(name = "ESTADO_PAGO_COMISION", nullable = false, precision = 22, scale = 0)
+    public boolean getEstadoPagoComision() {
+        return (this.estadoPagoComision == 1 ? true : false);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Giro other = (Giro) obj;
-		if (idGiro == null) {
-			if (other.idGiro != null)
-				return false;
-		} else if (!idGiro.equals(other.idGiro))
-			return false;
-		return true;
-	}
+    public void setEstadoPagoComision(boolean estadoPagoComision) {
+        this.estadoPagoComision = (estadoPagoComision ? 1 : 0);
+    }
+
+    @XmlElement
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_ENVIO", nullable = false, length = 7)
+    public Date getFechaEnvio() {
+        return fechaEnvio;
+    }
+
+    public void setFechaEnvio(Date fechaEnvio) {
+        this.fechaEnvio = fechaEnvio;
+    }
+
+    @XmlElement
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_DESEMBOLSO", nullable = false, length = 7)
+    public Date getFechaDesembolso() {
+        return fechaDesembolso;
+    }
+
+    public void setFechaDesembolso(Date fechaDesembolso) {
+        this.fechaDesembolso = fechaDesembolso;
+    }
+
+    @XmlElement
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ESTADO", nullable = false, length = 20, columnDefinition = "nvarchar2")
+    public EstadoGiro getEstado() {
+        return this.estado;
+    }
+
+    public void setEstado(EstadoGiro estado) {
+        this.estado = estado;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((idGiro == null) ? 0 : idGiro.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Giro other = (Giro) obj;
+        if (idGiro == null) {
+            if (other.idGiro != null)
+                return false;
+        } else if (!idGiro.equals(other.idGiro))
+            return false;
+        return true;
+    }
 
 }

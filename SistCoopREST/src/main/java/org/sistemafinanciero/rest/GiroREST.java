@@ -17,40 +17,36 @@ import org.sistemafinanciero.entity.type.EstadoGiro;
 @Path("/giros")
 public interface GiroREST {
 
-	@GET
-	@Produces({ "application/xml", "application/json" })
-	public Response findAll(@QueryParam("estado") EstadoGiro[] estadosGiro);
+    @GET
+    @Produces({ "application/xml", "application/json" })
+    public Response findAll(@QueryParam("estado") EstadoGiro[] estadosGiro);
 
-	@GET
-	@Path("/{id}")
-	@Produces({ "application/xml", "application/json" })
-	public Response findById(@PathParam("id") BigInteger id);
+    @GET
+    @Path("/{id}")
+    @Produces({ "application/xml", "application/json" })
+    public Response findById(@PathParam("id") BigInteger id);
 
-	@POST
-	@Produces({ "application/xml", "application/json" })
-	public Response create(Giro giro);
+    @POST
+    @Produces({ "application/xml", "application/json" })
+    public Response create(Giro giro);
 
-	@PUT
-	@Path("/{id}")
-	@Produces({ "application/xml", "application/json" })
-	public Response update(@PathParam("id") BigInteger id, Giro giro);
+    @PUT
+    @Path("/{id}")
+    @Produces({ "application/xml", "application/json" })
+    public Response update(@PathParam("id") BigInteger id, Giro giro);
 
-	@GET
-	@Path("/enviados")
-	@Produces({ "application/json" })
-	public Response getGirosEnviados(
-			@QueryParam("idAgencia") BigInteger idAgencia,
-			@QueryParam("filterText") String filterText,
-			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+    @GET
+    @Path("/enviados")
+    @Produces({ "application/json" })
+    public Response getGirosEnviados(@QueryParam("idAgencia") BigInteger idAgencia,
+            @QueryParam("estado") String estadoGiro, @QueryParam("filterText") String filterText,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
-	@GET
-	@Path("/recibidos")
-	@Produces({ "application/json" })
-	public Response getGirosRecibidos(
-			@QueryParam("idAgencia") BigInteger idAgencia,
-			@QueryParam("filterText") String filterText,
-			@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit);
+    @GET
+    @Path("/recibidos")
+    @Produces({ "application/json" })
+    public Response getGirosRecibidos(@QueryParam("idAgencia") BigInteger idAgencia,
+            @QueryParam("estado") String estadoGiro, @QueryParam("filterText") String filterText,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
 }
