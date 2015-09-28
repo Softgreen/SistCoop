@@ -1,5 +1,5 @@
 package org.sistemafinanciero.entity.type;
 
 public enum EstadoGiro {
-	ENVIADO, COBRADO, EXTORNADO
+	ENVIADO, COBRADO, CANCELADO
 }

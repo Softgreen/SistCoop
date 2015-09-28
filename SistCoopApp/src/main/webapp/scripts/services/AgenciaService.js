@@ -13,11 +13,11 @@ define(['./module'], function (services) {
                 getCajas: function(idAgencia){
                     return Restangular.all(baseUrl+"/"+idAgencia+"/cajas").getList();
                 },
-                getGirosEnviados: function(idAgencia){
-                  return Restangular.all(baseUrl+"/"+idAgencia+"/giros/enviados").getList();
+                getGirosEnviados: function(idAgencia, estado){
+                  return Restangular.all(baseUrl+"/"+idAgencia+"/giros/enviados").getList({estado: estado});
                 },
-                getGirosRecibidos: function(idAgencia){
-                  return Restangular.all(baseUrl+"/"+idAgencia+"/giros/recibidos").getList();
+                getGirosRecibidos: function(idAgencia, estado){
+                  return Restangular.all(baseUrl+"/"+idAgencia+"/giros/recibidos").getList({estado: estado});
                 }
             }
         }])

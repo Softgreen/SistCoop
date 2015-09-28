@@ -48,7 +48,8 @@ public interface AgenciaREST {
 	@Path("/{id}/giros/enviados")
 	@Produces({ "application/json" })
 	public Response getGirosEnviados(@PathParam("id") BigInteger id,
-			@QueryParam("filterText") String filterText,
+	        @QueryParam("estado") String estadoGiro,
+	        @QueryParam("filterText") String filterText,
 			@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit);
 
@@ -56,6 +57,7 @@ public interface AgenciaREST {
 	@Path("/{id}/giros/recibidos")
 	@Produces({ "application/json" })
 	public Response getGirosRecibidos(@PathParam("id") BigInteger id,
+	        @QueryParam("estado") String estadoGiro,
 			@QueryParam("filterText") String filterText,
 			@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit);

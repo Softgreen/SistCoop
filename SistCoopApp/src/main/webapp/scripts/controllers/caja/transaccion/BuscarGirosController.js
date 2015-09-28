@@ -3,23 +3,32 @@ define(['../../module'], function (controllers) {
   controllers.controller('BuscarGirosController', ['$scope', '$state', '$filter', '$modal', 'CajaService', 'AgenciaService', 'SessionService',
     function ($scope, $state, $filter, $modal, CajaService, AgenciaService, SessionService) {
 
+      $scope.estadoGiro = "ENVIADO";
+
       $scope.nuevo = function () {
         $state.transitionTo('app.transaccion.crearGiro');
       };
 
       $scope.loadGirosEnviados = function () {
-        AgenciaService.getGirosEnviados($scope.agenciaSession.id).then(function (enviados) {
+        AgenciaService.getGirosEnviados($scope.agenciaSession.id, $scope.estadoGiro).then(function (enviados) {
           $scope.transaccionesEnviadas = enviados;
         });
       };
       $scope.loadGirosRecibidos = function () {
-        AgenciaService.getGirosRecibidos($scope.agenciaSession.id).then(function (recibidos) {
+        AgenciaService.getGirosRecibidos($scope.agenciaSession.id, $scope.estadoGiro).then(function (recibidos) {
           $scope.transaccionesRecibidas = recibidos;
         });
       };
 
       $scope.loadGirosEnviados();
       $scope.loadGirosRecibidos();
+
+      $scope.$watch("estadoGiro", function(newValue, oldValue){
+        if(newValue != oldValue){
+          $scope.loadGirosEnviados();
+          $scope.loadGirosRecibidos();
+        }
+      }, true);
 
       //cobro de giros
       $scope.gridOptionsRecibidos = {

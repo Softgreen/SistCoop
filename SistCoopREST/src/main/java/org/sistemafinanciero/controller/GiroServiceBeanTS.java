@@ -54,7 +54,7 @@ public class GiroServiceBeanTS implements GiroServiceTS {
 		    if(giro.getEstado().equals(EstadoGiro.COBRADO)){
 	            throw new RollbackFailureException("Giro ya fue desembolsado, no se puede modificar");
 	        }
-	        if(giro.getEstado().equals(EstadoGiro.EXTORNADO)){
+	        if(giro.getEstado().equals(EstadoGiro.CANCELADO)){
 	            throw new RollbackFailureException("Giro fue extornado, no se puede modificar");
 	        }
 	        
