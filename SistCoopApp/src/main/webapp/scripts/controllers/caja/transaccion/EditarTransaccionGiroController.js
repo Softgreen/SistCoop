@@ -93,19 +93,19 @@ define(['../../module'], function (controllers) {
 
           if($scope.giro.lugarPagoComision == 'AL_ENVIAR'){
         	//qz.append("COMISION  :" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + " LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
-        	  qz.append("COMISION  :" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
+        	qz.append("COMISION  :" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
           }else{
         	//qz.append("COMISION A COBRAR:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + " LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
-        	  qz.append("COMISION A COBRAR:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
+        	qz.append("COMISION A COBRAR:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
           }
 
           qz.append("\x1B\x21\x08");
           var total = 0;
           if ($scope.giro.estadoPagoComision) {
-            qz.append("TOTAL     :" + ($filter('currency')($scope.giro.comision + $scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
+            qz.append("TOTAL   :" + ($filter('currency')($scope.giro.comision + $scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
             total = $scope.giro.comision + $scope.giro.monto;
           } else {
-            qz.append("TOTAL     :" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
+            qz.append("TOTAL   :" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
             total = $scope.giro.monto;
           }
 
@@ -119,15 +119,16 @@ define(['../../module'], function (controllers) {
 
           var total = 0;
           if ($scope.giro.lugarPagoComision == 'AL_ENVIAR') {
-        	  //qz.append("\x1B\x21\x08");
-        	  //qz.append("COMISION:" + "\t" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + " LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
-        	  //qz.append("MONTO:" + "\t\t" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
-        	  total = $scope.giro.monto;
+        	//qz.append("COMISION:" + "\t" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + " LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
+        	qz.append("COMISION  :" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
+        	qz.append("\x1B\x21\x08");
+        	qz.append("MONTO   :" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
+        	total = $scope.giro.monto;
           } else {
         	//qz.append("COMISION  :" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + " LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
         	qz.append("COMISION  :" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
         	qz.append("\x1B\x21\x08");
-        	qz.append("MONTO     :" + ($filter('currency')($scope.giro.monto - $scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
+        	qz.append("MONTO   :" + ($filter('currency')($scope.giro.monto - $scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
         	total = $scope.giro.monto - $scope.giro.comision;
           }
 
