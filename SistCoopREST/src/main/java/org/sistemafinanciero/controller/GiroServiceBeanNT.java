@@ -106,14 +106,14 @@ public class GiroServiceBeanNT implements GiroServiceNT {
 
         List<Giro> list = null;
         if (estado != null) {
-            QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia).and("filterText",
-                    '%' + filterText + '%');
-            list = giroDAO.findByNamedQuery(Giro.findRecibidosByIdAgenciaFilterText,
+            QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia).and("estado", estado)
+                    .and("filterText", '%' + filterText + '%');
+            list = giroDAO.findByNamedQuery(Giro.findRecibidosByIdAgenciaEstadoFilterText,
                     queryParameter.parameters(), offset, limit);
         } else {
             QueryParameter queryParameter = QueryParameter.with("idAgencia", idAgencia).and("filterText",
                     '%' + filterText + '%');
-            list = giroDAO.findByNamedQuery(Giro.findRecibidosByIdAgenciaEstadoFilterText,
+            list = giroDAO.findByNamedQuery(Giro.findRecibidosByIdAgenciaFilterText,
                     queryParameter.parameters(), offset, limit);
         }
 
