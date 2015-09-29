@@ -90,7 +90,7 @@ define(['../../module'], function (controllers) {
 
         if (($scope.giro.estado) == "ENVIADO") {
         	qz.append("MONTO GIRO:" + ($filter('currency')($scope.giro.monto, $scope.giro.moneda.simbolo)) + "\r\n");
-          
+
           if($scope.giro.lugarPagoComision == 'AL_ENVIAR'){
         	//qz.append("COMISION  :" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + " LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
         	  qz.append("COMISION  :" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
@@ -98,7 +98,7 @@ define(['../../module'], function (controllers) {
         	//qz.append("COMISION A COBRAR:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + " LUGAR PAGO:" + $scope.giro.lugarPagoComision + "\r\n");
         	  qz.append("COMISION A COBRAR:" + ($filter('currency')($scope.giro.comision, $scope.giro.moneda.simbolo)) + "\r\n");
           }
-          
+
           qz.append("\x1B\x21\x08");
           var total = 0;
           if ($scope.giro.estadoPagoComision) {
@@ -151,7 +151,7 @@ define(['../../module'], function (controllers) {
         qz.append("\x1B\x40");
         qz.print();
 
-        
+
       };
 
       $scope.cancelar = function () {
