@@ -119,4 +119,18 @@ public class AgenciaRESTService implements AgenciaREST {
         return response;
     }
 
+    @Override
+    public Response countGirosEnviados(BigInteger id) {
+        int count = giroServiceNT.countEnviados(id);
+        Response response = Response.status(Response.Status.OK).entity(count).build();
+        return response;
+    }
+
+    @Override
+    public Response countGirosRecibidos(BigInteger id) {
+        int count = giroServiceNT.countRecibidos(id);
+        Response response = Response.status(Response.Status.OK).entity(count).build();
+        return response;
+    }
+
 }

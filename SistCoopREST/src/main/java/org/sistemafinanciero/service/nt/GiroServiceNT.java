@@ -17,4 +17,8 @@ public interface GiroServiceNT extends AbstractServiceNT<Giro> {
     public List<Giro> getGirosRecibidos(BigInteger idAgencia, EstadoGiro estado, String filterText,
             Integer offset, Integer limit);
 
+    public int countEnviados(BigInteger idAgencia);
+
+    public int countRecibidos(BigInteger idAgencia);
+
 }

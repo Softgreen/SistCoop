@@ -42,10 +42,12 @@ import org.sistemafinanciero.entity.type.LugarPagoComision;
 @XmlRootElement(name = "giro")
 @XmlAccessorType(XmlAccessType.NONE)
 @NamedQueries({
-        @NamedQuery(name = Giro.findEnviadosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor"),
-        @NamedQuery(name = Giro.findRecibidosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor"),
-        @NamedQuery(name = Giro.findEnviadosByIdAgenciaEstadoFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia AND g.estado = :estado AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor"),
-        @NamedQuery(name = Giro.findRecibidosByIdAgenciaEstadoFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia AND g.estado = :estado AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.numeroDocumentoReceptor, g.clienteReceptor") })
+        @NamedQuery(name = Giro.findEnviadosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.fechaEnvio, g.numeroDocumentoReceptor, g.clienteReceptor"),
+        @NamedQuery(name = Giro.findRecibidosByIdAgenciaFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.fechaEnvio, g.numeroDocumentoReceptor, g.clienteReceptor"),
+        @NamedQuery(name = Giro.findEnviadosByIdAgenciaEstadoFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia AND g.estado = :estado AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.fechaEnvio, g.numeroDocumentoReceptor, g.clienteReceptor"),
+        @NamedQuery(name = Giro.findRecibidosByIdAgenciaEstadoFilterText, query = "SELECT g FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia AND g.estado = :estado AND (g.numeroDocumentoEmisor LIKE :filterText OR g.clienteEmisor LIKE :filterText OR g.numeroDocumentoReceptor LIKE :filterText OR g.clienteReceptor LIKE :filterText) ORDER BY g.fechaEnvio, g.numeroDocumentoReceptor, g.clienteReceptor"),
+        @NamedQuery(name = Giro.countEnviadosByIdAgencia, query = "SELECT COUNT(g) FROM Giro g WHERE g.agenciaOrigen.idAgencia =:idAgencia"),
+        @NamedQuery(name = Giro.countRecibidosByIdAgencia, query = "SELECT COUNT(g) FROM Giro g WHERE g.agenciaDestino.idAgencia =:idAgencia") })
 public class Giro implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +56,9 @@ public class Giro implements java.io.Serializable {
     public final static String findRecibidosByIdAgenciaFilterText = "Giro.findRecibidosByIdAgenciaFilterText";
     public final static String findEnviadosByIdAgenciaEstadoFilterText = "Giro.findEnviadosByIdAgenciaEstadoFilterText";
     public final static String findRecibidosByIdAgenciaEstadoFilterText = "Giro.findRecibidosByIdAgenciaEstadoFilterText";
+
+    public final static String countEnviadosByIdAgencia = "Giro.countEnviadosByIdAgencia";
+    public final static String countRecibidosByIdAgencia = "Giro.countRecibidosByIdAgencia";
 
     private BigInteger idGiro;
 

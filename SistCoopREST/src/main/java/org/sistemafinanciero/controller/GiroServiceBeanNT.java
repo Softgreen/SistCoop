@@ -9,6 +9,9 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.hibernate.Hibernate;
 import org.sistemafinanciero.dao.DAO;
@@ -27,6 +30,9 @@ public class GiroServiceBeanNT implements GiroServiceNT {
 
     @Inject
     private DAO<Object, Giro> giroDAO;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public Giro findById(BigInteger id) {
@@ -126,6 +132,22 @@ public class GiroServiceBeanNT implements GiroServiceNT {
             Hibernate.initialize(agenciaDestino);
         }
         return list;
+    }
+
+    @Override
+    public int countEnviados(BigInteger idAgencia) {
+        Query q = em.createNamedQuery(Giro.countEnviadosByIdAgencia);
+        q.setParameter("idAgencia", idAgencia);
+        int count = ((Long) q.getSingleResult()).intValue();
+        return count;
+    }
+
+    @Override
+    public int countRecibidos(BigInteger idAgencia) {
+        Query q = em.createNamedQuery(Giro.countRecibidosByIdAgencia);
+        q.setParameter("idAgencia", idAgencia);
+        int count = ((Long) q.getSingleResult()).intValue();
+        return count;
     }
 
 }
