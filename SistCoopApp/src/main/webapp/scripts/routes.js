@@ -3,7 +3,7 @@ define(['./app'], function (app) {
   return app.config(['$httpProvider', '$stateProvider', '$urlRouterProvider', 'RestangularProvider', 'localStorageServiceProvider',
     function ($httpProvider, $stateProvider, $urlRouterProvider, RestangularProvider, localStorageServiceProvider) {
 
-      RestangularProvider.setBaseUrl('http://192.168.1.100:8080/SistCoopREST/rest');
+      RestangularProvider.setBaseUrl('http://multivadelsur.ddns.net:8080/SistCoopREST/rest');
       //RestangularProvider.setBaseUrl('http://localhost:8080/SistCoopREST/rest');
 
       $urlRouterProvider.when('', '/app/home');
