@@ -51,6 +51,7 @@ public class CronJob {
 
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(Calendar.DAY_OF_MONTH, 1);
+                    calendar.add(Calendar.MONTH, -1);
                     Date systemDate = Calendar.getInstance().getTime();
                     Date desde = DateUtils.getDateIn00Time(calendar.getTime());
                     Date hasta = systemDate;
