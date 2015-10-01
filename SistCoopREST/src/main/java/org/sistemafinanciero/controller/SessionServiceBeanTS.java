@@ -1995,8 +1995,8 @@ public class SessionServiceBeanTS implements SessionServiceTS {
         transaccionCajaCajaDAO.update(transaccion);
     }
 
-    @AllowedTo(Permission.ABIERTO)
-    @AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
+    //@AllowedTo(Permission.ABIERTO)
+    //@AllowedToEstadoMovimiento(EstadoMovimiento.DESCONGELADO)
     @Override
     public BigInteger crearTransaccionGiro(BigInteger idAgenciaOrigen, BigInteger idAgenciaDestino,
             String numeroDocumentoEmisor, String clienteEmisor, String numeroDocumentoReceptor,
