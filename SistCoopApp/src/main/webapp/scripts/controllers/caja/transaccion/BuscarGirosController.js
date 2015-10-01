@@ -146,6 +146,12 @@ define(['../../module'], function (controllers) {
       $scope.gridOptionsRecibidos = {
         data: 'transaccionesRecibidas',
         multiSelect: false,
+        enablePaging: true,
+        showFooter: true,
+        totalServerItems: 'totalServerItemsRecibidos',
+        pagingOptions: $scope.pagingOptionsRecibidos,
+        filterOptions: $scope.filterOptionsRecibidos,
+
         columnDefs: [
           {field: "fechaEnvio", cellFilter: "date : 'dd/MM/yyyy HH:mm:ss'", displayName: 'FECHA ENVIO', width: 115},
           {
