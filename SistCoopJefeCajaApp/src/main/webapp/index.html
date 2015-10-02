@@ -24,12 +24,18 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
 
-    <script type="text/javascript" src="scripts/deployJava.js"></script>
-    <script type="text/javascript" src="scripts/qz.js"></script>
+    <!--<script type="text/javascript" src="scripts/deployJava.js"></script>
+    <script type="text/javascript" src="scripts/qz.js"></script>-->
+    <script type="text/javascript" src="js/3rdparty/deployJava.js"></script>
+    <script type="text/javascript" src="js/3rdparty/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/qz-websocket.js"></script>
+    <script type="text/javascript" src="js/printer.js"></script>
+    <script type="text/javascript" src="js/3rdparty/html2canvas.js"></script>
+    <script type="text/javascript" src="js/3rdparty/jquery.plugin.html2canvas.js"></script>
 
     <!-- endbuild -->
 </head>
-<body ng-app="cajaApp">
+<body id="qz-status" ng-app="cajaApp">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
@@ -125,4 +131,5 @@
 
 <script src="scripts/require.js" data-main="scripts/main.js"></script>
 </body>
+<canvas id="hidden_screenshot" style="display:none;"></canvas>
 </html>

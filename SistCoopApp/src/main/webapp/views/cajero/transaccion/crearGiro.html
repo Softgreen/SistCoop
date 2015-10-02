@@ -187,7 +187,7 @@
                     <div class="form-group" ng-class="{ 'has-error' : form.modoPagoComision.$invalid && (control.submitted || form.modoPagoComision.$dirty)}">
                       <label>Modo de Pago Comisi&oacute;n</label>
                       <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="ANADIR" ng-hide="view.lugarPagoComision == 'AL_ENVIAR'">Agregar al Monto</label>
+                        <label class="radio-inline" ng-show="view.lugarPagoComision == 'AL_ENVIAR'"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="ANADIR">Agregar al Monto</label>
                         <label class="radio-inline"><input type="radio" name="modoPagoComision" ng-model="view.modoPagoComision" value="REDUCIR">Quitar del Monto</label>
                       </div>
                       <div ng-show="form.modoPagoComision.$invalid && (control.submitted || form.modoPagoComision.$dirty)">
