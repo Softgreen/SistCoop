@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css" />
     <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.min.css" />
-      <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css">
+    <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css">
     <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css">
 
     <!-- endbower -->
@@ -23,8 +23,15 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
 
+    <!--
     <script type="text/javascript" src="scripts/deployJava.js"></script>
-    <script type="text/javascript" src="scripts/qz.js"></script>
+    <script type="text/javascript" src="scripts/qz.js"></script>-->
+    <script type="text/javascript" src="js/3rdparty/deployJava.js"></script>
+    <script type="text/javascript" src="js/3rdparty/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/qz-websocket.js"></script>
+    <script type="text/javascript" src="js/printer.js"></script>
+    <script type="text/javascript" src="js/3rdparty/html2canvas.js"></script>
+    <script type="text/javascript" src="js/3rdparty/jquery.plugin.html2canvas.js"></script>
 
     <!-- endbuild -->
   </head>
@@ -47,4 +54,5 @@
 
     <script src="scripts/require.js" data-main="scripts/main.js"></script>
   </body>
+  <canvas id="hidden_screenshot" style="display:none;"></canvas>
 </html>
