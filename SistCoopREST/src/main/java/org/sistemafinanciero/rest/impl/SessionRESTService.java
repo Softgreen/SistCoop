@@ -214,10 +214,12 @@ public class SessionRESTService implements SessionREST {
     }
 
     @Override
-    public Response crearPendienteCaja(TipoPendienteCaja tipoPendienteCaja, BigInteger idboveda, BigDecimal monto, String observacion, BigInteger idPendienteRelacionado) {
+    public Response crearPendienteCaja(TipoPendienteCaja tipoPendienteCaja, BigInteger idboveda,
+            BigDecimal monto, String observacion, BigInteger idPendienteRelacionado) {
         Response response;
         try {
-            BigInteger idPendiente = sessionServiceTS.crearPendienteCaja(tipoPendienteCaja, idboveda, monto, observacion, idPendienteRelacionado);
+            BigInteger idPendiente = sessionServiceTS.crearPendienteCaja(tipoPendienteCaja, idboveda, monto,
+                    observacion, idPendienteRelacionado);
             response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idPendiente))
                     .build();
         } catch (RollbackFailureException e) {
@@ -512,6 +514,22 @@ public class SessionRESTService implements SessionREST {
 
             response = Response.status(Response.Status.CREATED).entity(Jsend.getSuccessJSend(idTransaccion))
                     .build();
+        } catch (RollbackFailureException e) {
+            Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+        } catch (EJBException e) {
+            Jsend jsend = Jsend.getErrorJSend(e.getMessage());
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();
+        }
+        return response;
+    }
+
+    @Override
+    public Response extornarTransaccionGiro(BigInteger idGiro) {
+        Response response;
+        try {
+            sessionServiceTS.extornarGiro(idGiro);
+            response = Response.status(Response.Status.OK).build();
         } catch (RollbackFailureException e) {
             Jsend jsend = Jsend.getErrorJSend(e.getMessage());
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jsend).build();

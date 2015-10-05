@@ -111,6 +111,12 @@ public interface SessionREST {
 	public Response crearTransaccionGiro(TransaccionGiroDTO tansaccion);
 	
 	@POST
+    @Path("/transaccionGiro/{idGiro}/extornar")
+    @Consumes({ "application/xml", "application/json" })
+    @Produces({ "application/xml", "application/json" })
+    public Response extornarTransaccionGiro(@PathParam("idGiro") BigInteger idGiro);
+	
+	@POST
     @Path("/transaccionSobreGiro")
     @Consumes({ "application/xml", "application/json" })
     @Produces({ "application/xml", "application/json" })

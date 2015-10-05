@@ -121,6 +121,9 @@ define(['./module'], function (services) {
                 },
                 extornarTransaccion: function(idTransaccion){
                     return Restangular.all(baseUrl+"/transaccion/"+idTransaccion+"/extornar").post();
+                },
+                extornarGiro: function(idTransaccion){
+                  return Restangular.all(baseUrl+"/transaccionGiro/"+idTransaccion+"/extornar").post();
                 }
             };
         }]);

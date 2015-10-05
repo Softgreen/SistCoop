@@ -49,6 +49,8 @@ public interface SessionServiceTS {
 	public BigInteger crearTransaccionHistorialSobreGiro(BigInteger idSobreGiro, BigDecimal monto) throws RollbackFailureException;
 	  
 	public void extornarTransaccion(BigInteger idTransaccion) throws RollbackFailureException;
+	
+	public void extornarGiro(BigInteger idGiro) throws RollbackFailureException;
 
 	public BigInteger[] crearCuentaBancariaPlazoFijoConDeposito(TipoCuentaBancaria tipoCuentaBancaria, String codigoAgencia, BigInteger idMoneda, BigDecimal monto, BigDecimal tasaInteres, TipoPersona tipoPersona, BigInteger idPersona, Integer periodo, int cantRetirantes, List<BigInteger> titulares, List<Beneficiario> beneficiarios) throws RollbackFailureException;
 

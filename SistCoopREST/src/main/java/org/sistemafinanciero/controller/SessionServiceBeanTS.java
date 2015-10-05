@@ -2,6 +2,7 @@ package org.sistemafinanciero.controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,6 +28,8 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.hibernate.Hibernate;
+import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 import org.sistemafinanciero.dao.DAO;
 import org.sistemafinanciero.dao.QueryParameter;
 import org.sistemafinanciero.entity.Agencia;
@@ -87,6 +90,7 @@ import org.sistemafinanciero.service.ts.SessionServiceTS;
 import org.sistemafinanciero.service.ts.SocioServiceTS;
 import org.sistemafinanciero.util.AllowedTo;
 import org.sistemafinanciero.util.AllowedToEstadoMovimiento;
+import org.sistemafinanciero.util.DateUtils;
 import org.sistemafinanciero.util.EntityManagerProducer;
 import org.sistemafinanciero.util.EstadoMovimiento;
 import org.sistemafinanciero.util.Guard;
@@ -1173,6 +1177,34 @@ public class SessionServiceBeanTS implements SessionServiceTS {
             extornarTransferenciaBancaria(transaccion.getIdTransaccion());        
         else
             throw new RollbackFailureException("Tipo de cuenta no encontrada");
+    }
+    
+    @Override
+    public void extornarGiro(BigInteger idGiro) throws RollbackFailureException {
+        Giro giro = giroDAO.find(idGiro);
+        
+        if(giro.getEstado().equals(EstadoGiro.ENVIADO)){
+            //extornar cualquier fecha
+            giro.setEstado(EstadoGiro.CANCELADO);
+            giroDAO.update(giro);
+        } else if(giro.getEstado().equals(EstadoGiro.COBRADO)) {
+            //extornar en el dia            
+            DateTime startDate = new DateTime(giro.getFechaDesembolso());
+            DateTime endDate = new DateTime(DateUtils.sumarRestarMinutosFecha(Calendar.getInstance().getTime(), 30));
+
+            if(Minutes.minutesBetween(startDate, endDate).getMinutes() < 30){
+                giro.setEstado(EstadoGiro.ENVIADO);
+                giroDAO.update(giro);
+            } else {
+                throw new RollbackFailureException("Un giro cobrado solo puede ser extornado dentro de la media hora despues de retirar el dinero");
+            }                       
+        } else if (giro.getEstado().equals(EstadoGiro.CANCELADO)){
+            //no se puede extornar
+            throw new RollbackFailureException("Giro cancelado, no se puede realizar modificaciones");
+        } else {
+            //operacion no valida
+            throw new RollbackFailureException("Estado de giro no valido");
+        }        
     }
 
     private void extornarTransaccionBancaria(BigInteger idTransaccion) throws RollbackFailureException {

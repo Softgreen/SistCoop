@@ -37,21 +37,16 @@ define(['../../module'], function (controllers) {
       };
 
       $scope.extornar = function () {
-        var giro = angular.copy($scope.giro);
-        giro.estadoPagoComision = false;
-        giro.estado = "EXTORNADO";
-
-        GiroService.update(giro.id, giro).then(
+        SessionService.extornarGiro($scope.giro.id).then(
           function (data) {
-            $scope.alerts = [{type: "success", msg: "Giro Extornado..."}];
+            $scope.alerts = [{type: "success", msg: "Giro Extornado."}];
             $scope.closeAlert = function (index) {
               $scope.alerts.splice(index, 1);
             };
-
             $scope.loadGiro();
           },
           function error(error) {
-            $scope.alerts = [{type: "danger", msg: "Error: No se pudo extornar..."}];
+            $scope.alerts = [{type: "danger", msg: "Error:" + error.data.message + "."}];
             $scope.closeAlert = function (index) {
               $scope.alerts.splice(index, 1);
             };

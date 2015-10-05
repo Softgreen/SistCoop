@@ -13,6 +13,24 @@ public class DateUtils {
         return calendar.getTime(); // Devuelve el objeto Date con los nuevos
                                    // días añadidos
     }
+    
+    public static Date sumarRestarHorasFecha(Date fecha, int horas) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha); // Configuramos la fecha que se recibe
+        calendar.add(Calendar.HOUR_OF_DAY, horas); // numero de días a añadir, o
+                                                  // restar en caso de días<0
+        return calendar.getTime(); // Devuelve el objeto Date con los nuevos
+                                   // días añadidos
+    }
+    
+    public static Date sumarRestarMinutosFecha(Date fecha, int minutos) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha); // Configuramos la fecha que se recibe
+        calendar.add(Calendar.MINUTE, minutos); // numero de días a añadir, o
+                                                  // restar en caso de días<0
+        return calendar.getTime(); // Devuelve el objeto Date con los nuevos
+                                   // días añadidos
+    }
 
     public static Date getDateIn00Time(Date fecha) {
         Calendar cal = Calendar.getInstance();
