@@ -56,25 +56,25 @@ define(['../module'], function (controllers) {
         }
 
         if ($scope.compraVentaMoneda.tipoTransaccion == 'COMPRA') {
-          if ($scope.compraVentaMoneda.monedaRecibida.simbolo == "â‚¬") {
+          if ($scope.compraVentaMoneda.monedaRecibida.simbolo == "€") {
             qz.append("RECIBIDO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoRecibido, chr(238))) + "\r\n");
           } else {
             qz.append("RECIBIDO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoRecibido, $scope.compraVentaMoneda.monedaRecibida.simbolo)) + "\r\n");
           }
           qz.append("TIPO DE CAMBIO:\t" + ($filter('number')($scope.compraVentaMoneda.tipoCambio, 3)) + "\r\n");
-          if ($scope.compraVentaMoneda.monedaEntregada.simbolo == "â‚¬") {
+          if ($scope.compraVentaMoneda.monedaEntregada.simbolo == "€") {
             qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, chr(238))) + "\r\n");
           } else {
             qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, $scope.compraVentaMoneda.monedaEntregada.simbolo)) + "\r\n");
           }
         } else {
-          if ($scope.compraVentaMoneda.monedaEntregada.simbolo == "â‚¬") {
+          if ($scope.compraVentaMoneda.monedaEntregada.simbolo == "€") {
             qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, chr(238))) + "\r\n");
           } else {
             qz.append("ENTREGADO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoEntregado, $scope.compraVentaMoneda.monedaEntregada.simbolo)) + "\r\n");
           }
           qz.append("TIPO DE CAMBIO:\t" + ($filter('number')($scope.compraVentaMoneda.tipoCambio, 3)) + "\r\n");
-          if ($scope.compraVentaMoneda.monedaRecibida.simbolo == "â‚¬") {
+          if ($scope.compraVentaMoneda.monedaRecibida.simbolo == "€") {
             qz.append("RECIBIDO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoRecibido, chr(238))) + "\r\n");
           } else {
             qz.append("RECIBIDO:\t" + ($filter('currency')($scope.compraVentaMoneda.montoRecibido, $scope.compraVentaMoneda.monedaRecibida.simbolo)) + "\r\n");
