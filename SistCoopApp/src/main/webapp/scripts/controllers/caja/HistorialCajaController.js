@@ -7,16 +7,20 @@ define(['../module'], function (controllers) {
                 $scope.desde = new Date();
                 $scope.hasta = new Date();
             };
+            
             $scope.today();
+            
             $scope.clear = function () {
                 $scope.desde = null;
                 $scope.hasta = null;
             };
+            
             $scope.openDesde = function($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.openedDesde = true;
             };
+            
             $scope.openHasta = function($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
