@@ -49,12 +49,15 @@ public class CronJob {
             if (!cuentaBancariaView.getEstadoCuenta().equals(EstadoCuentaBancaria.INACTIVO)) {
                 if (!cuentaBancariaView.getTipoCuenta().equals(TipoCuentaBancaria.PLAZO_FIJO)) {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.DAY_OF_MONTH, 1);
-                    calendar.add(Calendar.MONTH, -1);
-                    Date systemDate = Calendar.getInstance().getTime();
-                    Date desde = DateUtils.getDateIn00Time(calendar.getTime());
-                    Date hasta = systemDate;
+                    Calendar calendarDesde = Calendar.getInstance();
+                    calendarDesde.set(Calendar.DAY_OF_MONTH, 1);
+                    calendarDesde.add(Calendar.MONTH, -1);
+                    
+                    Calendar calendarHasta = Calendar.getInstance();
+                    calendarHasta.set(Calendar.DAY_OF_MONTH, 1);                    
+                    
+                    Date desde = DateUtils.getDateIn00Time(calendarDesde.getTime());
+                    Date hasta = DateUtils.getDateIn00Time(calendarHasta.getTime());
 
                     CuentaBancariaView ctaBancView = ctaBancServiceNT.findById(cuentaBancariaView
                             .getIdCuentaBancaria());
