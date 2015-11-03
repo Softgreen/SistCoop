@@ -564,7 +564,7 @@ public class EmailSessionBean {
         if (desde == null || hasta == null)
             mailMessage = mailMessage + " los ultimos 30 dias.";
         else
-            mailMessage = mailMessage + " al perido desde: " + fechaDesde + " hasta: " + fechaHasta;
+            mailMessage = mailMessage + " al periodo desde: " + fechaDesde + " hasta: " + fechaHasta;
 
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
@@ -635,7 +635,9 @@ public class EmailSessionBean {
                 mimeMessage.setSender(iaSender);
 
                 SimpleDateFormat format = new SimpleDateFormat("MMMM 'del' yyyy", new Locale("es", "ES"));
-                Date fecha = Calendar.getInstance().getTime();
+                //Date fecha = Calendar.getInstance().getTime();
+                Calendar fecha = Calendar.getInstance();
+                fecha.add(Calendar.MONTH, -1);
                 mimeMessage.setSubject(subject + format.format(fecha));
 
                 mimeMessage.setRecipient(Message.RecipientType.TO, iaRecipient);
@@ -672,7 +674,7 @@ public class EmailSessionBean {
         if (desde == null || hasta == null)
             mailMessage = mailMessage + " los ultimos 30 dias.";
         else
-            mailMessage = mailMessage + " al perido desde: " + fechaDesde + " hasta: " + fechaHasta;
+            mailMessage = mailMessage + " al periodo desde: " + fechaDesde + " hasta: " + fechaHasta;
 
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
