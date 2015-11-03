@@ -32,7 +32,7 @@ public class CronJob {
     @EJB
     private EmailSessionBean emailSessionBean;
 
-    @Schedule(dayOfMonth = "3", hour = "15", minute = "50", second = "0", persistent = false)
+    @Schedule(dayOfMonth = "1", hour = "3", minute = "0", second = "0", persistent = false)
     public void run() {
         // JobOperator jobOperator = BatchRuntime.getJobOperator();
         // Long executionId = jobOperator.start("SistcoopJob", new
