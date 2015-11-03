@@ -638,8 +638,7 @@ public class EmailSessionBean {
                 //Date fecha = Calendar.getInstance().getTime();
                 Calendar fecha = Calendar.getInstance();
                 fecha.add(Calendar.MONTH, -1);
-                mimeMessage.setSubject(subject + format.format(fecha));
-
+                mimeMessage.setSubject(subject + format.format(fecha.getTime()));
                 mimeMessage.setRecipient(Message.RecipientType.TO, iaRecipient);
                 mimeMessage.setContent(mimeMultipart);
 
