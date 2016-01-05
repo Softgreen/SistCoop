@@ -49,8 +49,10 @@ define(['../module'], function (controllers) {
         qz.append("CAJA:\t\t" + ($scope.compraVentaMoneda.cajaDenominacion) + "\t" + "Nro OP:" + "\t" + ($scope.compraVentaMoneda.numeroOperacion) + "\r\n");
         qz.append("FECHA:\t\t" + ($filter('date')($scope.compraVentaMoneda.fecha, 'dd/MM/yyyy')) + " " + ($filter('date')($scope.compraVentaMoneda.hora, 'HH:mm:ss')) + "\r\n");
 
-        if ($scope.compraVentaMoneda.referencia) {
-          qz.append("CLIENTE:\t" + ($scope.compraVentaMoneda.referencia) + "\r\n");
+        if ($scope.compraVentaMoneda.referencia) {          
+          var array = $scope.compraVentaMoneda.referencia.split("/");
+          qz.append("CLIENTE:\t" + array[0] + "\r\n");
+          qz.append("\t" + array[1] + "\r\n");
         } else {
           qz.append("CLIENTE:\t" + ' ' + "\r\n");
         }
