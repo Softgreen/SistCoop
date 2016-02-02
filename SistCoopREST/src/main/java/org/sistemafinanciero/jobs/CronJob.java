@@ -40,7 +40,8 @@ public class CronJob {
         // JobExecution jobExecution = jobOperator.getJobExecution(executionId);
         // System.out.println("BatchStatus : " + jobExecution.getBatchStatus());
         // System.out.println("Enviando emails a los clientes");
-        sendEmail();
+        System.out.println("Envio de mensajes de SISTCOOPREST antiguo cancelado");
+    	//sendEmail();
     }
 
     private void sendEmail() {
